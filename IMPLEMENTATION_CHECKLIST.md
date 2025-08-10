@@ -4,23 +4,32 @@
 - [x] Create new folder structure
 - [x] Write system design document
 - [x] Create implementation checklist
-- [ ] Set up basic file structure
-- [ ] Create minimal automation.py with status checking
-- [ ] Write Claude instructions for basic workflow
-- [ ] Create config.json template
-- [ ] Initialize git repository
+- [x] Set up basic file structure
+- [x] Create minimal automation.py with status checking
+- [x] Write Claude instructions for basic workflow
+- [x] Create config.json template
+- [x] Initialize git repository
+
+## PRIORITY 1: Automatic1111 Setup (LARGEST DOWNLOAD)
+- [ ] Install Automatic1111 WebUI
+  - [ ] Clone repository
+  - [ ] Download base models (several GB)
+  - [ ] Install Quentin Blake LoRA/embedding
+  - [ ] Configure for API access
+  - [ ] Test on port 7860
 
 ## Phase 2: Core Automation
 - [ ] Implement Automatic1111 API integration
   - [ ] Test connection to WebUI
   - [ ] Basic text2img generation
   - [ ] Add Quentin Blake style embedding
-  - [ ] Implement batch generation
+  - [ ] Implement batch generation (5 at once)
 - [ ] Implement Forvo API integration
   - [ ] API authentication
   - [ ] Search for pronunciations
   - [ ] Download and save audio
   - [ ] Colombian/Mexican preference filter
+  - [ ] User approval interface for audio
 - [ ] Create TTS fallback system
   - [ ] ElevenLabs integration
   - [ ] Local TTS option
@@ -51,9 +60,11 @@
   - [ ] Daily goals
 
 ## Phase 5: Character System (LoRA)
-- [ ] Document LoRA training process
-- [ ] Create character training datasets
-- [ ] Train character models
+- [x] Document LoRA training process
+- [x] Create comprehensive training guide
+- [x] Set up folder structure for datasets
+- [x] Test first character training (Peter - in progress)
+- [ ] Train remaining friend characters
 - [ ] Integrate character triggers into prompts
 - [ ] Test character consistency
 

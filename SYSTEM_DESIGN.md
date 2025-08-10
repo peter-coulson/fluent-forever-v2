@@ -47,13 +47,21 @@ System continues working even if APIs are down. Local fallbacks for everything. 
 3. **config.json**: API keys, preferences, and settings
 4. **vocabulary.json**: Word database with meanings and media references
 5. **word_queue.txt**: Simple text list of words to process
+6. **card_format.md**: Exact Anki card structure and field mappings
 
 ### Data Flow
 ```
-word_queue.txt → Claude analyzes meanings → User writes prompts →
-→ automation.py generates images → automation.py downloads audio →
-→ Creates Anki cards → Updates vocabulary.json → Git commit
+word_queue.txt (batch of 5) → Claude analyzes meanings → User writes prompts →
+→ User approves audio selections → automation.py generates all media →
+→ Creates Anki cards in batch → Updates vocabulary.json → Git commit
 ```
+
+### Batch Processing (Token Efficient)
+- Process 5 words at once
+- User writes all prompts in one session
+- User reviews/approves all audio files
+- System generates all media in batch
+- Single Anki sync for efficiency
 
 ### API Integrations
 - **Automatic1111 WebUI**: Local image generation (port 7860)
