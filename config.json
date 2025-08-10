@@ -1,0 +1,44 @@
+{
+  "apis": {
+    "automatic1111": {
+      "url": "http://localhost:7860",
+      "enabled": true,
+      "timeout": 30
+    },
+    "forvo": {
+      "api_key": "YOUR_FORVO_API_KEY_HERE",
+      "enabled": false,
+      "preferred_accents": ["Colombian", "Mexican", "Latin American"]
+    },
+    "elevenlabs": {
+      "api_key": "YOUR_ELEVENLABS_API_KEY_HERE",
+      "enabled": false,
+      "voice_id": "spanish_male"
+    },
+    "anki": {
+      "url": "http://localhost:8765",
+      "deck_name": "Spanish::Fluent Forever V2",
+      "note_type": "Fluent Forever Spanish"
+    }
+  },
+  "image_generation": {
+    "style_prompt": "Quentin Blake illustration style, watercolor, whimsical",
+    "negative_prompt": "realistic, photo, 3d render, dark, scary",
+    "width": 512,
+    "height": 512,
+    "steps": 20,
+    "cfg_scale": 7,
+    "sampler": "DPM++ 2M Karras"
+  },
+  "paths": {
+    "media_folder": "media",
+    "vocabulary_db": "vocabulary.json",
+    "word_queue": "word_queue.txt",
+    "downloads": "/Users/peter_coulson/Downloads"
+  },
+  "preferences": {
+    "batch_size": 5,
+    "auto_commit": true,
+    "console_colors": true
+  }
+}

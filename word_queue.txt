@@ -1,0 +1,104 @@
+# Spanish Word Queue - Top 100 Most Frequent Words
+# Source: Mark Davies Latin American Spanish Corpus
+# Format: One word per line, # for comments
+
+# Already completed in V1 (will redo with new system)
+# ser
+# estar  
+# que
+# de
+# a
+# en
+# un
+# el
+
+# Next words to process
+y
+haber
+por
+con
+su
+para
+como
+tener
+le
+lo
+todo
+pero
+más
+hacer
+o
+poder
+decir
+este
+ir
+otro
+ese
+la
+si
+me
+ya
+ver
+porque
+dar
+cuando
+él
+muy
+sin
+vez
+mucho
+saber
+qué
+sobre
+mi
+alguno
+mismo
+yo
+también
+hasta
+año
+dos
+querer
+entre
+así
+primero
+desde
+grande
+eso
+ni
+nos
+llegar
+pasar
+tiempo
+ella
+sí
+día
+uno
+bien
+poco
+deber
+entonces
+poner
+cosa
+tanto
+hombre
+parecer
+nuestro
+tan
+donde
+ahora
+parte
+después
+vida
+quedar
+siempre
+creer
+hablar
+llevar
+dejar
+nada
+cada
+seguir
+menos
+nuevo
+encontrar
