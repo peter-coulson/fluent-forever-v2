@@ -1,19 +1,22 @@
-# Spanish Word Queue - Top 100 Most Frequent Words
-# Source: Mark Davies Latin American Spanish Corpus
+# Spanish Word Queue - Mark Davies Frequency List (Latin American Focus)
+# Source: A Frequency Dictionary of Spanish (2006) - Corpus del Español
+# 20 million word corpus: Spain + 10 Latin American countries (1970-2000)
 # Format: One word per line, # for comments
 
-# Already completed in V1 (will redo with new system)
-# ser
-# estar  
-# que
-# de
-# a
-# en
-# un
-# el
+# Top 100 Most Frequent Lemmas from Mark Davies Corpus
+# Optimized for Latin American Spanish comprehension
 
-# Next words to process
+# Articles and pronouns (highest frequency)
+el
+de
+que
 y
+a
+en
+un
+ser
+se
+no
 haber
 por
 con
@@ -102,3 +105,45 @@ seguir
 menos
 nuevo
 encontrar
+sentir
+trabajo
+gobierno
+empezar
+caso
+mano
+lugar
+hijo
+agua
+manera
+decir
+cabeza
+conocer
+
+# Next priority words (101-200) for future batches
+# casa
+# momento
+# grupo
+# problema
+# vez
+# fin
+# semana
+# ciudad
+# falta
+# imagen
+# menor
+# crear
+# historia
+# sacar
+# partido
+# resultado
+# venir
+# conseguir
+# sistema
+# guerra
+
+# Notes:
+# - Focus on lemma forms (dictionary entries)
+# - Mix of spoken and written Spanish 
+# - Balanced Spain/Latin America representation
+# - Each word covers multiple meanings requiring separate cards
+# - Estimated 300-500 cards total for top 100 words

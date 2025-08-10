@@ -4,7 +4,9 @@
     "last_updated": "2025-08-10",
     "total_words": 0,
     "total_cards": 0,
-    "system_version": "2.0"
+    "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
+    "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
+    "reset_reason": "Fresh start with proper frequency-based word list for V2 system"
   },
   "words": []
 }

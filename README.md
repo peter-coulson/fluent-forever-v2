@@ -1,26 +1,31 @@
 # Fluent Forever V2 - Spanish Learning System
 
-## Quick Start
+## Quick Start ✅ SYSTEM READY
 
-1. **Setup System**
+**Current Status:** Foundation complete, Automatic1111 installed, 89 words queued
+
+1. **Start Services** (both are installed)
    ```bash
-   chmod +x setup.sh
-   ./setup.sh
+   # Start Automatic1111 WebUI
+   cd ~/stable-diffusion-webui
+   ./launch_api.sh
+   
+   # Start Anki with AnkiConnect addon (already running)
    ```
 
-2. **Configure APIs**
-   - Edit `config.json`
-   - Add Forvo API key (get from https://forvo.com/api)
-   - Optionally add ElevenLabs key for TTS fallback
+2. **Configure Forvo API** (optional but recommended)
+   - Edit `config.json` 
+   - Add Forvo API key from https://forvo.com/api
+   - Enables native speaker pronunciation downloads
 
-3. **Start Services**
-   - Start Automatic1111 WebUI (port 7860)
-   - Start Anki with AnkiConnect addon (port 8765)
-
-4. **Check Status**
+3. **Check System Status**
    ```bash
    python3 automation.py status
    ```
+
+4. **Ready to Process Words!**
+   - Ask Claude to analyze a word from the queue
+   - System will guide you through the workflow
 
 ## Workflow
 

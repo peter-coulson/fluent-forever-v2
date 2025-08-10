@@ -6,8 +6,8 @@
       "timeout": 30
     },
     "forvo": {
-      "api_key": "YOUR_FORVO_API_KEY_HERE",
-      "enabled": false,
+      "api_key": "***REMOVED***",
+      "enabled": true,
       "preferred_accents": ["Colombian", "Mexican", "Latin American"]
     },
     "elevenlabs": {
@@ -18,7 +18,7 @@
     "anki": {
       "url": "http://localhost:8765",
       "deck_name": "Spanish::Fluent Forever V2",
-      "note_type": "Fluent Forever Spanish"
+      "note_type": "Fluent Forever Spanish V2"
     }
   },
   "image_generation": {
