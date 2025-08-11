@@ -202,10 +202,45 @@ class FluentForeverAutomation:
         
         return None
     
+    def validate_anki_setup(self) -> bool:
+        """Validate AnkiConnect connection and V4 note type"""
+        try:
+            # Test connection
+            response = requests.post(self.config["apis"]["anki"]["url"], json={
+                "action": "version",
+                "version": 6
+            })
+            if response.status_code != 200:
+                logger.error("AnkiConnect not responding")
+                return False
+            
+            # Verify V4 note type exists
+            response = requests.post(self.config["apis"]["anki"]["url"], json={
+                "action": "modelNames", 
+                "version": 6
+            })
+            if response.status_code == 200:
+                note_types = response.json()["result"]
+                if self.config["apis"]["anki"]["note_type"] not in note_types:
+                    logger.error(f"Note type '{self.config['apis']['anki']['note_type']}' not found")
+                    logger.info(f"Available note types: {note_types}")
+                    return False
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"AnkiConnect validation error: {e}")
+            return False
+    
     def create_anki_card(self, card_data: Dict) -> bool:
         """Create Anki card using AnkiConnect API with V4 format"""
         if not self.config["apis"]["anki"]["url"]:
             logger.error("AnkiConnect not configured")
+            return False
+        
+        # Validate setup before creating cards
+        if not self.validate_anki_setup():
+            logger.error("Anki setup validation failed")
             return False
         
         try:
@@ -236,7 +271,7 @@ class FluentForeverAutomation:
                 })
                 card_data["audio_field"] = f"[sound:{audio_filename}]"
             
-            # Store media files first
+            # Store media files first with enhanced error checking
             for media_file in media_files:
                 store_request = {
                     "action": "storeMediaFile",
@@ -249,8 +284,33 @@ class FluentForeverAutomation:
                 
                 response = requests.post(self.config["apis"]["anki"]["url"], json=store_request)
                 if response.status_code != 200:
-                    logger.error(f"Failed to store media file: {media_file['filename']}")
+                    logger.error(f"HTTP error storing media file {media_file['filename']}: {response.status_code}")
                     return False
+                
+                # Check if AnkiConnect returned an error
+                result = response.json()
+                if result.get("error"):
+                    logger.error(f"AnkiConnect error storing {media_file['filename']}: {result['error']}")
+                    return False
+                
+                # Verify file was actually stored
+                verify_request = {
+                    "action": "getMediaFilesNames",
+                    "version": 6,
+                    "params": {
+                        "pattern": media_file["filename"]
+                    }
+                }
+                verify_response = requests.post(self.config["apis"]["anki"]["url"], json=verify_request)
+                if verify_response.status_code == 200:
+                    files = verify_response.json().get("result", [])
+                    if media_file["filename"] not in files:
+                        logger.error(f"Media file {media_file['filename']} not found after storage")
+                        return False
+                    else:
+                        logger.info(f"Successfully stored and verified: {media_file['filename']}")
+                else:
+                    logger.warning(f"Could not verify storage of {media_file['filename']}")
             
             # Create the note with V4 format
             note_request = {
@@ -261,6 +321,7 @@ class FluentForeverAutomation:
                         "deckName": self.config["apis"]["anki"]["deck_name"],
                         "modelName": self.config["apis"]["anki"]["note_type"],
                         "fields": {
+                            "CardID": f"{card_data['spanish_word']}_{card_data['meaning_id']}",
                             "SpanishWord": card_data["spanish_word"],
                             "IPA": card_data.get("ipa", ""),
                             "MeaningContext": card_data["meaning_context"],
@@ -284,8 +345,14 @@ class FluentForeverAutomation:
             if response.status_code == 200:
                 result = response.json()
                 if result.get("error"):
-                    logger.error(f"AnkiConnect error: {result['error']}")
-                    return False
+                    # Handle duplicate cards by updating instead of failing
+                    if "duplicate" in result["error"].lower():
+                        logger.warning(f"Duplicate card detected for {card_data['spanish_word']} ({card_data['meaning_id']}), attempting to update existing card")
+                        # Try to find and update the existing card
+                        return self.update_existing_card(card_data)
+                    else:
+                        logger.error(f"AnkiConnect error: {result['error']}")
+                        return False
                 else:
                     logger.info(f"Created Anki card: {card_data['spanish_word']} ({card_data['meaning_id']})")
                     return True
@@ -296,6 +363,155 @@ class FluentForeverAutomation:
         except Exception as e:
             logger.error(f"Anki card creation error: {e}")
             return False
+    
+    def update_existing_card(self, card_data: Dict) -> bool:
+        """Update existing card with new media and data"""
+        try:
+            # Find existing notes by CardID field content
+            find_request = {
+                "action": "findNotes",
+                "version": 6,
+                "params": {
+                    "query": f'CardID:"{card_data["spanish_word"]}_{card_data["meaning_id"]}"'
+                }
+            }
+            
+            response = requests.post(self.config["apis"]["anki"]["url"], json=find_request)
+            if response.status_code != 200:
+                logger.error("Failed to find existing note for update")
+                return False
+                
+            notes = response.json().get("result", [])
+            if not notes:
+                logger.error("No existing note found to update")
+                return False
+            
+            # Update the first matching note
+            note_id = notes[0]
+            update_request = {
+                "action": "updateNoteFields",
+                "version": 6,
+                "params": {
+                    "note": {
+                        "id": note_id,
+                        "fields": {
+                            "CardID": f"{card_data['spanish_word']}_{card_data['meaning_id']}",
+                            "SpanishWord": card_data["spanish_word"],
+                            "IPA": card_data.get("ipa", ""),
+                            "MeaningContext": card_data["meaning_context"],
+                            "MonolingualDef": card_data["monolingual_def"],
+                            "ExampleSentence": card_data["example_sentence"],
+                            "GappedSentence": card_data["gapped_sentence"],
+                            "ImageFile": card_data.get("image_field", ""),
+                            "WordAudio": card_data.get("audio_field", ""),
+                            "WordAudioAlt": "",
+                            "UsageNote": card_data.get("usage_note", ""),
+                            "PersonalMnemonic": card_data.get("personal_mnemonic", ""),
+                            "MeaningID": card_data["meaning_id"]
+                        }
+                    }
+                }
+            }
+            
+            response = requests.post(self.config["apis"]["anki"]["url"], json=update_request)
+            if response.status_code == 200:
+                result = response.json()
+                if result.get("error"):
+                    logger.error(f"Error updating card: {result['error']}")
+                    return False
+                else:
+                    logger.info(f"Updated existing card: {card_data['spanish_word']} ({card_data['meaning_id']})")
+                    return True
+            else:
+                logger.error(f"Failed to update card: {response.status_code}")
+                return False
+                
+        except Exception as e:
+            logger.error(f"Card update error: {e}")
+            return False
+    
+    def generate_contextual_sentences(self, word: str, meaning_context: str, user_prompt: str) -> Dict[str, str]:
+        """Generate example and gapped sentences that match the user's image prompt"""
+        # This function creates sentences that align with the visual scene described by the user
+        
+        # Basic sentence templates based on the word and meaning context
+        sentence_templates = {
+            'ser': {
+                'identity': {
+                    'doctor': ('Soy médico en el hospital.', '_____ médico en el hospital.'),
+                    'professional': ('Es profesional de la medicina.', '_____ profesional de la medicina.'),
+                    'default': ('Soy médico.', '_____ médico.')
+                },
+                'qualities': {
+                    'intelligent': ('Ella es muy inteligente.', 'Ella _____ muy inteligente.'),
+                    'strong': ('Él es fuerte y capaz.', 'Él _____ fuerte y capaz.'),
+                    'skilled': ('Es una persona muy hábil.', '_____ una persona muy hábil.'),
+                    'default': ('Es inteligente.', '_____ inteligente.')
+                },
+                'time': {
+                    'clock': ('Son las tres de la tarde.', '_____ las tres de la tarde.'),
+                    'day': ('Hoy es lunes.', 'Hoy _____ lunes.'),
+                    'calendar': ('Es el primer día del mes.', '_____ el primer día del mes.'),
+                    'default': ('Son las tres.', '_____ las tres.')
+                },
+                'origin': {
+                    'wales': ('Es de Gales.', '_____ de Gales.'),
+                    'welsh': ('Es de origen galés.', '_____ de origen galés.'),
+                    'map': ('Es de ese país.', '_____ de ese país.'),
+                    'flag': ('Es de la región galesa.', '_____ de la región galesa.'),
+                    'default': ('Es de allí.', '_____ de allí.')
+                }
+            }
+        }
+        
+        # Analyze the user prompt to select appropriate sentence
+        prompt_lower = user_prompt.lower()
+        
+        if word in sentence_templates:
+            meaning_templates = sentence_templates[word].get(meaning_context, {})
+            
+            # Match prompt keywords to sentence templates
+            for keyword, (example, gapped) in meaning_templates.items():
+                if keyword in prompt_lower and keyword != 'default':
+                    return {'example': example, 'gapped': gapped}
+            
+            # Use default if no specific match
+            default_template = meaning_templates.get('default', ('Es ejemplo.', '_____ ejemplo.'))
+            return {'example': default_template[0], 'gapped': default_template[1]}
+        
+        # Fallback for unknown words
+        return {
+            'example': f'Es un ejemplo de {word}.',
+            'gapped': f'_____ un ejemplo de {word}.'
+        }
+    
+    def create_card_with_prompt_context(self, word: str, meaning_data: Dict, user_prompt: str, 
+                                       image_path: str, audio_path: str) -> bool:
+        """Create a card with sentences that match the user's visual prompt"""
+        
+        # Generate contextual sentences based on the prompt
+        sentences = self.generate_contextual_sentences(
+            word, 
+            meaning_data['context_key'], 
+            user_prompt
+        )
+        
+        # Create comprehensive card data
+        card_data = {
+            'spanish_word': word,
+            'meaning_id': meaning_data['id'],
+            'meaning_context': meaning_data['context'],
+            'monolingual_def': meaning_data['definition'],
+            'example_sentence': sentences['example'],
+            'gapped_sentence': sentences['gapped'],
+            'ipa': f'[{word}]',
+            'usage_note': meaning_data.get('usage_note', ''),
+            'personal_mnemonic': f"Imagen: {user_prompt}",
+            'image_path': image_path,
+            'audio_path': audio_path
+        }
+        
+        return self.create_anki_card(card_data)
     
     def process_batch(self):
         """Main processing function - to be called by Claude"""
