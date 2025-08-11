@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-11T16:52:46.000000",
-    "total_words": 1,
-    "total_cards": 4,
+    "last_updated": "2025-08-11T17:50:20.925257",
+    "total_words": 4,
+    "total_cards": 17,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Fresh start with proper frequency-based word list for V2 system"
@@ -22,7 +22,7 @@
           "audio_file": "ser.mp3"
         },
         {
-          "id": "qualities", 
+          "id": "qualities",
           "context": "características permanentes",
           "definition": "tener cualidades o características inherentes",
           "example": "Ella es muy inteligente y fuerte.",
@@ -31,7 +31,7 @@
         },
         {
           "id": "time",
-          "context": "tiempo/fechas", 
+          "context": "tiempo/fechas",
           "definition": "indicar la hora, día de la semana, o fecha",
           "example": "Son las tres de la tarde.",
           "image_file": "ser_time.png",
@@ -40,7 +40,7 @@
         {
           "id": "origin",
           "context": "origen/material",
-          "definition": "indicar procedencia geográfica o material de composición", 
+          "definition": "indicar procedencia geográfica o material de composición",
           "example": "Es de Gales, de origen galés.",
           "image_file": "ser_origin.png",
           "audio_file": "ser.mp3"
@@ -48,6 +48,134 @@
       ],
       "cards_created": 4,
       "batch_id": 1
+    },
+    "estar": {
+      "word": "estar",
+      "processed_date": "2025-08-11T17:16:12.122498",
+      "meanings": [
+        {
+          "id": "location",
+          "context": "ubicación física",
+          "definition": "indicar la posición o lugar donde se encuentra algo o alguien",
+          "example": "Estoy en la oficina trabajando.",
+          "image_file": "estar_location.png",
+          "audio_file": "estar.mp3"
+        },
+        {
+          "id": "states",
+          "context": "estados temporales",
+          "definition": "expresar emociones, condiciones o estados temporales",
+          "example": "Está muy feliz con la noticia.",
+          "image_file": "estar_states.png",
+          "audio_file": "estar.mp3"
+        },
+        {
+          "id": "actions",
+          "context": "acciones continuas",
+          "definition": "formar tiempos progresivos con gerundio",
+          "example": "Estoy trabajando en un proyecto importante.",
+          "image_file": "estar_actions.png",
+          "audio_file": "estar.mp3"
+        },
+        {
+          "id": "presence",
+          "context": "disponibilidad/presencia",
+          "definition": "indicar si alguien está disponible o presente",
+          "example": "¿Está María en casa?",
+          "image_file": "estar_presence.png",
+          "audio_file": "estar.mp3"
+        }
+      ],
+      "cards_created": 4,
+      "batch_id": 2
+    },
+    "que": {
+      "word": "que",
+      "processed_date": "2025-08-11T17:31:51.244952",
+      "meanings": [
+        {
+          "id": "conjunction",
+          "context": "conjunción/conectar",
+          "definition": "conectar dos oraciones o ideas, equivale a \"that\" en inglés",
+          "example": "Creo que es verdad.",
+          "image_file": "que_conjunction.png",
+          "audio_file": "que.mp3"
+        },
+        {
+          "id": "interrogative",
+          "context": "pregunta/interrogativo",
+          "definition": "palabra interrogativa para preguntar sobre cosas o información",
+          "example": "¿Qué quieres comer?",
+          "image_file": "que_interrogative.png",
+          "audio_file": "que.mp3"
+        },
+        {
+          "id": "relative",
+          "context": "pronombre relativo",
+          "definition": "introduce cláusula relativa, equivale a \"who/which/that\"",
+          "example": "El libro que leí es bueno.",
+          "image_file": "que_relative.png",
+          "audio_file": "que.mp3"
+        },
+        {
+          "id": "exclamatory",
+          "context": "exclamación/énfasis",
+          "definition": "expresar sorpresa, admiración o énfasis",
+          "example": "¡Qué bonito día\\!",
+          "image_file": "que_exclamatory.png",
+          "audio_file": "que.mp3"
+        }
+      ],
+      "cards_created": 4,
+      "batch_id": 3
+    },
+    "de": {
+      "word": "de",
+      "processed_date": "2025-08-11T17:50:20.925252",
+      "meanings": [
+        {
+          "id": "possession",
+          "context": "posesión/pertenencia",
+          "definition": "indicar que algo pertenece a alguien",
+          "example": "El coche de María es rojo.",
+          "image_file": "de_possession.png",
+          "audio_file": "de.mp3"
+        },
+        {
+          "id": "origin",
+          "context": "origen/procedencia",
+          "definition": "indicar lugar o punto de origen",
+          "example": "Soy de Colombia.",
+          "image_file": "de_origin.png",
+          "audio_file": "de.mp3"
+        },
+        {
+          "id": "material",
+          "context": "material/composición",
+          "definition": "indicar el material del que está hecho algo",
+          "example": "Una mesa de madera.",
+          "image_file": "de_material.png",
+          "audio_file": "de.mp3"
+        },
+        {
+          "id": "time",
+          "context": "tiempo/momento",
+          "definition": "indicar momento del día o período temporal",
+          "example": "De noche trabajo mejor.",
+          "image_file": "de_time.png",
+          "audio_file": "de.mp3"
+        },
+        {
+          "id": "about",
+          "context": "tema/asunto",
+          "definition": "indicar el tema o asunto de conversación",
+          "example": "Hablamos de política.",
+          "image_file": "de_about.png",
+          "audio_file": "de.mp3"
+        }
+      ],
+      "cards_created": 5,
+      "batch_id": 4
     }
   }
 }
