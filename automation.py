@@ -109,7 +109,7 @@ def upload_media_to_anki(filepath: Path, filename: str) -> bool:
 
 def validate_card_fields(fields: dict) -> dict:
     """Ensure all fields are properly formatted for Anki"""
-    required = ['SpanishWord', 'IPA', 'MonolingualDef', 'ExampleSentence']
+    required = ['CardID', 'SpanishWord', 'MonolingualDef', 'ExampleSentence']
     
     for field in required:
         if not fields.get(field) or str(fields[field]).strip() == '':
@@ -122,13 +122,13 @@ def validate_card_fields(fields: dict) -> dict:
     if fields.get('WordAudioAlt') and not fields['WordAudioAlt'].startswith('[sound:'):
         fields['WordAudioAlt'] = f"[sound:{fields['WordAudioAlt']}]"
     
-    # Ensure image format
+    # Ensure image format - keep filename only for V4
     if fields.get('ImageFile') and not fields['ImageFile'].startswith('<img'):
-        fields['ImageFile'] = f"<img src='{fields['ImageFile']}'>"
+        fields['ImageFile'] = fields['ImageFile']  # Use filename directly for V4
     
     return fields
 
-def create_anki_card(word_data: dict, meaning: dict) -> bool:
+def create_anki_card(word_data: dict, meaning: dict, config: dict) -> bool:
     """Create a single Anki card with bulletproof validation"""
     # First upload media files
     if meaning.get('image_file'):
@@ -148,9 +148,11 @@ def create_anki_card(word_data: dict, meaning: dict) -> bool:
         audio_alt_name = audio_alt_path.name
         upload_media_to_anki(audio_alt_path, audio_alt_name)
     
-    # Build and validate fields
+    # Build and validate fields (V4 format with CardID primary key)
+    card_id = f"{word_data['base_word']}_{meaning.get('id', 'default')}"
     fields = {
-        'SpanishWord': word_data['base_word'],
+        'CardID': card_id,  # Primary key for uniqueness
+        'SpanishWord': word_data['base_word'],  # Clean word
         'IPA': word_data.get('ipa', ''),
         'MeaningContext': meaning.get('context', ''),
         'MonolingualDef': meaning.get('definition', ''),
@@ -160,6 +162,7 @@ def create_anki_card(word_data: dict, meaning: dict) -> bool:
         'WordAudio': Path(word_data['audio_file']).name if word_data.get('audio_file') else '',
         'WordAudioAlt': Path(word_data['audio_file_alt']).name if word_data.get('audio_file_alt') else '',
         'UsageNote': meaning.get('usage_note', ''),
+        'PersonalMnemonic': '',  # Empty for now
         'MeaningID': meaning.get('id', '')
     }
     
@@ -169,10 +172,10 @@ def create_anki_card(word_data: dict, meaning: dict) -> bool:
         print(f"❌ Field validation failed: {e}")
         return False
     
-    # Create the note
+    # Create the note using config values
     note_data = {
-        "deckName": "Spanish::Fluent Forever V2",
-        "modelName": "Fluent Forever Spanish V2",
+        "deckName": config['apis']['anki']['deck_name'],
+        "modelName": config['apis']['anki']['note_type'],
         "fields": fields,
         "tags": ["fluent-forever-v2", f"meaning:{meaning.get('id', 'default')}"]
     }
@@ -358,7 +361,7 @@ def process_batch(batch_data: dict, config: dict) -> dict:
                     results['images_generated'] += 1
                     
                     # Create Anki card
-                    if test_anki_connection() and create_anki_card(word_entry, meaning):
+                    if test_anki_connection() and create_anki_card(word_entry, meaning, config):
                         results['cards_created'] += 1
                     else:
                         results['errors'].append(f"Card failed: {base_word}_{meaning['id']}")
