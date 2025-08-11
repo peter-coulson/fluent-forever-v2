@@ -154,7 +154,7 @@ Each distinct meaning or usage gets its own card with unique image but shared au
 ### Image Files  
 - **Format**: PNG or JPEG, 512x512px
 - **Naming**: `[word]_[meaning_id].png`
-- **Style**: Quentin Blake watercolor with personal characters
+- **Style**: Studio Ghibli animation style for consistent visual learning
 - **One per meaning**: Never share images between meanings
 
 ## Gendered Words Special Handling
