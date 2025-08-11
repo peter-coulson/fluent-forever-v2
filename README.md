@@ -1,84 +1,119 @@
-# Fluent Forever V2 - Spanish Learning System
+# Fluent Forever V3 - Ghibli Style Spanish Learning
 
-## Quick Start ✅ SYSTEM READY
+## 🎌 Overview
 
-**Current Status:** Foundation complete, Automatic1111 installed, 89 words queued
+A streamlined Spanish vocabulary learning system that generates memorable Anki cards using **Studio Ghibli-style** images. Process 5 words at a time with consistent artistic style and personal memory hooks.
 
-1. **Start Services** (both are installed)
-   ```bash
-   # Start Automatic1111 WebUI
-   cd ~/stable-diffusion-webui
-   ./launch_api.sh
-   
-   # Start Anki with AnkiConnect addon (already running)
-   ```
+## ✨ Features
 
-2. **Configure Forvo API** (optional but recommended)
-   - Edit `config.json` 
-   - Add Forvo API key from https://forvo.com/api
-   - Enables native speaker pronunciation downloads
+- **Batch Processing**: 5 words at a time for efficiency
+- **Ghibli-Style Images**: Consistent Studio Ghibli/Miyazaki aesthetic
+- **User-Driven Prompts**: You provide image descriptions, system formats them
+- **Memory-Focused**: Personal scene associations for better retention
+- **OpenAI Integration**: DALL-E 3 for high-quality image generation
+- **Progress Tracking**: Automatic vocabulary database management
 
-3. **Check System Status**
-   ```bash
-   python3 automation.py status
-   ```
+## 🚀 Quick Start
 
-4. **Ready to Process Words!**
-   - Ask Claude to analyze a word from the queue
-   - System will guide you through the workflow
+### 1. Prerequisites
+- OpenAI API account with credits
+- Python 3.7+
+- Internet connection
 
-## Workflow
+### 2. Setup
+```bash
+cd fluent-forever-v2
+pip3 install requests
+```
 
-1. **Ask Claude to process a word**
-   - Claude analyzes meanings
-   - You write custom prompts with friends as characters
+### 3. Run a Batch
+```bash
+python3 ghibli_spanish_generator.py
+```
 
-2. **System generates media**
-   - Creates Quentin Blake style images
-   - Downloads native pronunciation
+The system will prompt you for:
+- 5 Spanish words
+- English meanings
+- Image scene descriptions
+- Example sentences
 
-3. **Cards created in Anki**
-   - One card per meaning
-   - Personal imagery for deep memory encoding
+## 💡 Example Workflow
 
-## File Structure
+```
+Word 1/5
+Spanish word: libro
+English meaning: book
+Image prompt: person reading by window in cozy room
+Example sentence: Leo un libro interesante
+
+→ Generated: "person reading by window in cozy room, Studio Ghibli animation style, Hayao Miyazaki art style, anime illustration, soft colors, detailed background"
+```
+
+## 📁 File Structure
 
 ```
 fluent-forever-v2/
-├── automation.py           # Main automation script
-├── config.json            # Configuration and API keys
-├── vocabulary.json        # Word database
-├── word_queue.txt         # Words to process
-├── CLAUDE_INSTRUCTIONS.md # System behavior guide
-├── SYSTEM_DESIGN.md       # Design principles
-├── CARD_FORMAT.md         # Anki card specifications
-├── docs/
-│   └── LORA_TRAINING_GUIDE.md  # Character LoRA training
-├── media/
-│   ├── images/           # Generated images
-│   └── audio/            # Downloaded pronunciations
-└── setup.sh              # Installation script
+├── ghibli_spanish_generator.py  # Main batch processor
+├── config.json                 # API keys and settings
+├── vocabulary.json             # Your vocabulary database
+├── media/                      # Generated images
+└── README.md                   # This file
 ```
 
-## Commands
+## ⚙️ Configuration
 
-- `python3 automation.py status` - Show system status
-- `python3 automation.py test` - Test connections
-- `python3 automation.py generate [prompt] [word] [meaning]` - Generate image
-- `python3 automation.py audio [word]` - Download pronunciation
+Edit `config.json`:
+- Update OpenAI API key
+- Modify Ghibli style prompt if needed
+- Adjust file paths
 
-## Key Features
+## 💰 Costs
 
-- **Personal Character System**: Friends as cartoon characters in images
-- **One Card Per Meaning**: Complex words split into multiple cards
-- **Quentin Blake Style**: Consistent whimsical illustration style
-- **Native Audio**: Colombian/Mexican pronunciation preference
-- **Simple Architecture**: One script, clear code, easy to modify
+- **Per batch**: ~$0.20 (5 images × $0.04)
+- **Per image**: $0.04 (OpenAI DALL-E 3 standard)
+- **Efficient**: Process exactly what you need
 
-## Philosophy
+## 🎯 Memory System
 
-This system automates the tedious parts (image generation, audio download) while preserving the valuable creative work (writing prompts with personal connections). The act of crafting prompts with friends as characters IS the learning process.
+Each card creates a **Ghibli-style memory hook**:
+1. **Spanish word** → **Your scene description** → **Ghibli aesthetic**
+2. **Consistent artistic style** aids memory formation
+3. **Personal scene associations** enhance recall
+
+## 📊 Progress Tracking
+
+The system automatically tracks:
+- Total cards created
+- Batch history
+- Image/audio file associations
+- Creation timestamps
+
+## 🔧 Troubleshooting
+
+**API Errors:**
+- Check OpenAI API key in config.json
+- Verify account has credits
+- Check internet connection
+
+**Image Generation Issues:**
+- Simplify scene descriptions
+- Avoid overly complex prompts
+- Check DALL-E 3 content policies
+
+## 🎌 Why Ghibli Style?
+
+- **Consistent aesthetic** across all cards
+- **Well-defined artistic style** for reliable generation
+- **Memorable and distinctive** visual style
+- **Emotionally engaging** for better retention
+
+## 📚 Next Steps
+
+1. **Process your first batch** of 5 words
+2. **Review generated images** for quality
+3. **Import cards to Anki** (manual for now)
+4. **Repeat batches** as needed for vocabulary building
 
 ---
 
-*Version 2.0 - Complete rewrite for enhanced memory encoding*
+**🎨 Transform your Spanish learning with memorable Ghibli-style visual associations!**

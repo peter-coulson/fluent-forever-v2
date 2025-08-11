@@ -1,3 +1,2 @@
-# Fluent Forever V2 - Python Requirements
+# Fluent Forever V3 - API Dependencies
 requests>=2.31.0
-pillow>=10.0.0

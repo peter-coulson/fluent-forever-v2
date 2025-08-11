@@ -1,9 +1,21 @@
 {
   "apis": {
-    "automatic1111": {
-      "url": "http://localhost:7860",
+    "runware": {
+      "api_key": "YOUR_RUNWARE_API_KEY_HERE",
       "enabled": true,
+      "model": "flux-dev",
       "timeout": 30
+    },
+    "openai": {
+      "api_key": "***REMOVED***", 
+      "enabled": true,
+      "model": "dall-e-3",
+      "timeout": 60
+    },
+    "replicate": {
+      "api_key": "YOUR_REPLICATE_API_KEY_HERE",
+      "enabled": false,
+      "timeout": 120
     },
     "forvo": {
       "api_key": "***REMOVED***",
@@ -22,13 +34,18 @@
     }
   },
   "image_generation": {
-    "style_prompt": "Quentin Blake illustration style, watercolor, whimsical",
-    "negative_prompt": "realistic, photo, 3d render, dark, scary",
-    "width": 512,
-    "height": 512,
-    "steps": 20,
-    "cfg_scale": 7,
-    "sampler": "DPM++ 2M Karras"
+    "primary_provider": "openai",
+    "style": "Studio Ghibli animation style, Hayao Miyazaki art style, anime illustration, soft colors, detailed background, consistent Ghibli aesthetic",
+    "negative_prompt": "realistic, photo, 3d render, dark, scary, multiple people, extra limbs, distorted face, blurry, low quality, watermark, text, adult content, violence",
+    "width": 1024,
+    "height": 1024,
+    "steps": 25,
+    "guidance_scale": 7.0
+  },
+  "character_system": {
+    "use_text_descriptions": true,
+    "default_characters": ["peter", "maria", "zach", "sarah"],
+    "consistency_prompt_additions": "consistent character design, same person throughout"
   },
   "paths": {
     "media_folder": "media",
