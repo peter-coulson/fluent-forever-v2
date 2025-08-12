@@ -2,6 +2,11 @@
 """
 Fluent Forever V2 - End-to-End Spanish Learning Card Generator
 Complete pipeline: word_queue.txt → meaning analysis → user prompts → Anki cards
+
+API Usage:
+- Forvo: Native Spanish pronunciations (Colombian/Mexican preferred)  
+- OpenAI DALL-E 3: Ghibli-style image generation (~$0.04/image)
+- AnkiConnect: Direct card creation in Anki
 """
 
 import json
@@ -36,6 +41,7 @@ class FluentForeverAutomation:
         self.vocabulary = self.load_vocabulary()
         
         self.word_queue_path = Path(self.config["paths"]["word_queue"])
+        
         
     def load_config(self, config_path: str) -> Dict:
         """Load configuration from JSON file"""
@@ -75,6 +81,7 @@ class FluentForeverAutomation:
             logger.info("Vocabulary database saved")
         except Exception as e:
             logger.error(f"Failed to save vocabulary: {e}")
+    
     
     def get_next_words_from_queue(self, max_meanings: int = 5) -> List[str]:
         """Get next words from queue that will create ≤5 meanings total"""
@@ -353,8 +360,8 @@ class FluentForeverAutomation:
                             "MonolingualDef": card_data["monolingual_def"],
                             "ExampleSentence": card_data["example_sentence"],
                             "GappedSentence": card_data["gapped_sentence"],
-                            "ImageFile": card_data.get("image_field", ""),
-                            "WordAudio": card_data.get("audio_field", ""),
+                            "ImageFile": f"{card_data['spanish_word']}_{card_data['meaning_id']}.png",
+                            "WordAudio": f"[sound:{card_data['spanish_word']}.mp3]",
                             "WordAudioAlt": "",
                             "UsageNote": card_data.get("usage_note", ""),
                             "PersonalMnemonic": card_data.get("personal_mnemonic", ""),
@@ -427,8 +434,8 @@ class FluentForeverAutomation:
                             "MonolingualDef": card_data["monolingual_def"],
                             "ExampleSentence": card_data["example_sentence"],
                             "GappedSentence": card_data["gapped_sentence"],
-                            "ImageFile": card_data.get("image_field", ""),
-                            "WordAudio": card_data.get("audio_field", ""),
+                            "ImageFile": f"{card_data['spanish_word']}_{card_data['meaning_id']}.png",
+                            "WordAudio": f"[sound:{card_data['spanish_word']}.mp3]",
                             "WordAudioAlt": "",
                             "UsageNote": card_data.get("usage_note", ""),
                             "PersonalMnemonic": card_data.get("personal_mnemonic", ""),

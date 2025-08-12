@@ -233,7 +233,7 @@
           "id": "location",
           "context": "ubicación/lugar",
           "definition": "indica estar dentro o en un lugar específico",
-          "example": "Estoy en casa con la familia.",
+          "example": "La familia está en el coche.",
           "image_file": "en_location.png",
           "audio_file": "en.mp3"
         },

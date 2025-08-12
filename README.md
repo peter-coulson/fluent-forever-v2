@@ -37,9 +37,9 @@
 ### Setup
 ```bash
 cd fluent-forever-v2
-pip3 install requests
+pip3 install -r requirements.txt    # Install dependencies
 # Update API keys in config.json
-# Ensure Anki is running with AnkiConnect
+# Ensure Anki is running with AnkiConnect addon
 ```
 
 ### Usage with Claude
@@ -72,13 +72,15 @@ Claude: "Perfect! Generating your cards..."
 ```
 fluent-forever-v2/
 ├── fluent_forever_automation.py    # Main automation engine
-├── word_queue.txt                  # Spanish words to process
+├── word_queue.txt                  # Spanish words to process (Mark Davies frequency list)
 ├── config.json                     # API keys and settings
 ├── vocabulary.json                 # Complete learning database
+├── requirements.txt                # Python dependencies
 ├── media/
 │   ├── images/                     # Generated Ghibli artwork
-│   └── audio/                      # Native pronunciations
-└── CARD_FORMAT.md                  # V4 Anki card specification
+│   └── audio/                      # Native pronunciations (Forvo API)
+├── CARD_FORMAT.md                  # V4 Anki card specification
+└── docs/                          # Technical documentation
 ```
 
 ## 🎌 Ghibli Memory System
