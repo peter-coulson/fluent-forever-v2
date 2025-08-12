@@ -12,6 +12,7 @@ import base64
 from pathlib import Path
 from typing import Dict, List, Optional
 import logging
+from dotenv import load_dotenv
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -22,6 +23,8 @@ class FluentForeverAutomation:
     
     def __init__(self, config_path: str = "config.json"):
         """Initialize the automation system"""
+        # Load environment variables from .env if present
+        load_dotenv()
         self.config = self.load_config(config_path)
         self.media_folder = Path(self.config["paths"]["media_folder"])
         self.media_folder.mkdir(exist_ok=True)
@@ -111,7 +114,11 @@ class FluentForeverAutomation:
             return str(audio_path)
             
         try:
-            api_key = self.config["apis"]["forvo"]["api_key"]
+            # Prefer environment variable, fallback to config for backwards compatibility
+            api_key = os.getenv("FORVO_API_KEY") or self.config["apis"]["forvo"].get("api_key")
+            if not api_key:
+                logger.error("FORVO_API_KEY not set. Set the environment variable or provide it in config.")
+                return None
             url = f"https://apifree.forvo.com/key/{api_key}/format/json/action/word-pronunciations/word/{word}/language/es"
             
             response = requests.get(url, timeout=10)
@@ -176,8 +183,13 @@ class FluentForeverAutomation:
             full_prompt = f"{prompt}, {self.config['image_generation']['style']}"
             
             # OpenAI API call
+            api_key = os.getenv("OPENAI_API_KEY") or self.config["apis"]["openai"].get("api_key")
+            if not api_key:
+                logger.error("OPENAI_API_KEY not set. Set the environment variable or provide it in config.")
+                return None
+
             headers = {
-                "Authorization": f"Bearer {self.config['apis']['openai']['api_key']}",
+                "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json"
             }
             

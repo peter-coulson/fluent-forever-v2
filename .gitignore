@@ -1,0 +1,14 @@
+# Environment files
+.env
+.env.*
+
+# Local config overrides
+config.local.json
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store
+

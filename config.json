@@ -7,7 +7,8 @@
       "timeout": 30
     },
     "openai": {
-      "api_key": "***REMOVED***", 
+      "api_key": "",
+      "env_var": "OPENAI_API_KEY",
       "enabled": true,
       "model": "dall-e-3",
       "timeout": 60
@@ -18,7 +19,8 @@
       "timeout": 120
     },
     "forvo": {
-      "api_key": "***REMOVED***",
+      "api_key": "",
+      "env_var": "FORVO_API_KEY",
       "enabled": true,
       "preferred_accents": ["Colombian", "Mexican", "Latin American"]
     },
