@@ -1,11 +1,5 @@
 {
   "apis": {
-    "runware": {
-      "api_key": "YOUR_RUNWARE_API_KEY_HERE",
-      "enabled": true,
-      "model": "flux-dev",
-      "timeout": 30
-    },
     "openai": {
       "api_key": "",
       "env_var": "OPENAI_API_KEY",
@@ -13,21 +7,11 @@
       "model": "dall-e-3",
       "timeout": 60
     },
-    "replicate": {
-      "api_key": "YOUR_REPLICATE_API_KEY_HERE",
-      "enabled": false,
-      "timeout": 120
-    },
     "forvo": {
       "api_key": "",
       "env_var": "FORVO_API_KEY",
       "enabled": true,
       "preferred_accents": ["Colombian", "Mexican", "Latin American"]
-    },
-    "elevenlabs": {
-      "api_key": "YOUR_ELEVENLABS_API_KEY_HERE",
-      "enabled": false,
-      "voice_id": "spanish_male"
     },
     "anki": {
       "url": "http://localhost:8765",
