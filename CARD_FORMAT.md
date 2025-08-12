@@ -3,7 +3,7 @@
 ## Core Principle: One Card Per Meaning
 Each distinct meaning or usage gets its own card with unique image but shared audio.
 
-## Anki Note Type: "Fluent Forever Spanish V2"
+## Anki Note Type: "Fluent Forever"
 
 ### Fields Structure
 ```
@@ -43,6 +43,11 @@ Each distinct meaning or usage gets its own card with unique image but shared au
   <div class="word-main">
     <span class="spanish">{{SpanishWord}}</span>
     <span class="ipa">{{IPA}}</span>
+  </div>
+  
+  <div class="audio-back">
+    {{WordAudio}}
+    {{#WordAudioAlt}}{{WordAudioAlt}}{{/WordAudioAlt}}
   </div>
   
   <div class="meaning-context">
@@ -93,6 +98,10 @@ Each distinct meaning or usage gets its own card with unique image but shared au
 }
 
 .word-main {
+  margin-bottom: 15px;
+}
+
+.audio-back {
   margin-bottom: 15px;
 }
 
