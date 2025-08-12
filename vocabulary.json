@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-11T17:50:20.925257",
-    "total_words": 4,
-    "total_cards": 17,
+    "last_updated": "2025-08-11T19:06:57.020053",
+    "total_words": 6,
+    "total_cards": 26,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Fresh start with proper frequency-based word list for V2 system"
@@ -176,6 +176,94 @@
       ],
       "cards_created": 5,
       "batch_id": 4
+    },
+    "a": {
+      "word": "a",
+      "processed_date": "2025-08-11T18:46:40.881387",
+      "meanings": [
+        {
+          "id": "direction",
+          "context": "dirección/hacia",
+          "definition": "indica movimiento o dirección hacia un lugar",
+          "example": "Voy a la tienda.",
+          "image_file": "a_direction.png",
+          "audio_file": "a.mp3"
+        },
+        {
+          "id": "indirect",
+          "context": "objeto indirecto",
+          "definition": "indica la persona que recibe algo",
+          "example": "Le doy la navaja a Kyran.",
+          "image_file": "a_indirect.png",
+          "audio_file": "a.mp3"
+        },
+        {
+          "id": "time",
+          "context": "tiempo específico",
+          "definition": "indica la hora exacta cuando algo sucede",
+          "example": "La escuela empieza a las ocho.",
+          "image_file": "a_time.png",
+          "audio_file": "a.mp3"
+        },
+        {
+          "id": "personal",
+          "context": "a personal",
+          "definition": "se usa antes de objeto directo que es persona",
+          "example": "Veo a mi hermana.",
+          "image_file": "a_personal.png",
+          "audio_file": "a.mp3"
+        },
+        {
+          "id": "manner",
+          "context": "manera/modo",
+          "definition": "indica la forma o método de hacer algo",
+          "example": "Hecho a mano por mi padre.",
+          "image_file": "a_manner.png",
+          "audio_file": "a.mp3"
+        }
+      ],
+      "cards_created": 5,
+      "batch_id": 5
+    },
+    "en": {
+      "word": "en",
+      "processed_date": "2025-08-11T19:06:57.020047",
+      "meanings": [
+        {
+          "id": "location",
+          "context": "ubicación/lugar",
+          "definition": "indica estar dentro o en un lugar específico",
+          "example": "Estoy en casa con la familia.",
+          "image_file": "en_location.png",
+          "audio_file": "en.mp3"
+        },
+        {
+          "id": "time",
+          "context": "tiempo/período",
+          "definition": "indica un período de tiempo específico",
+          "example": "En diciembre hace mucho frío.",
+          "image_file": "en_time.png",
+          "audio_file": "en.mp3"
+        },
+        {
+          "id": "means",
+          "context": "medio de transporte",
+          "definition": "indica el método de transporte usado",
+          "example": "Viajamos en avión.",
+          "image_file": "en_means.png",
+          "audio_file": "en.mp3"
+        },
+        {
+          "id": "state",
+          "context": "estado/condición",
+          "definition": "indica estar en una condición particular",
+          "example": "Está en peligro.",
+          "image_file": "en_state.png",
+          "audio_file": "en.mp3"
+        }
+      ],
+      "cards_created": 4,
+      "batch_id": 6
     }
   }
 }

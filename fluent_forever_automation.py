@@ -101,6 +101,14 @@ class FluentForeverAutomation:
         if not self.config["apis"]["forvo"]["enabled"]:
             logger.info("Forvo API disabled")
             return None
+        
+        # Check if audio already exists to prevent API waste
+        audio_filename = f"{word}.mp3"
+        audio_path = self.media_folder / "audio" / audio_filename
+        
+        if audio_path.exists():
+            logger.info(f"Audio already exists, skipping download: {audio_filename}")
+            return str(audio_path)
             
         try:
             api_key = self.config["apis"]["forvo"]["api_key"]
@@ -155,6 +163,14 @@ class FluentForeverAutomation:
             logger.error("OpenAI API disabled")
             return None
         
+        # Check if image already exists to prevent API waste
+        image_filename = f"{word}_{meaning_id}.png"
+        image_path = self.media_folder / "images" / image_filename
+        
+        if image_path.exists():
+            logger.info(f"Image already exists, skipping generation: {image_filename}")
+            return str(image_path)
+        
         try:
             # Build full prompt with Ghibli style
             full_prompt = f"{prompt}, {self.config['image_generation']['style']}"
@@ -185,9 +201,6 @@ class FluentForeverAutomation:
                 
                 # Download the image
                 image_response = requests.get(image_url)
-                
-                image_filename = f"{word}_{meaning_id}.png"
-                image_path = self.media_folder / "images" / image_filename
                 
                 with open(image_path, 'wb') as f:
                     f.write(image_response.content)
