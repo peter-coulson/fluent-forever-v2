@@ -3,7 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-como
 tener
 le
 lo
@@ -94,6 +93,7 @@ y - conjunction "and" (user request)
 
 ## COMPLETED WORDS (Cards created successfully)
 # Format: word - meanings (number of cards) - completion date
+como - comparison/manner/interrogative/since (4 cards) - 2025-08-13
 ser - identity/qualities/time/origin (4 cards) - 2025-08-11
 estar - location/states/actions/presence (4 cards) - 2025-08-11  
 que - conjunction/interrogative/relative/exclamatory (4 cards) - 2025-08-11
