@@ -294,7 +294,8 @@
           "audio_file": "haber.mp3"
         }
       ],
-      "cards_created": 3
+      "cards_created": 3,
+      "batch_id": 7
     },
     "con": {
       "word": "con",
@@ -317,7 +318,8 @@
           "audio_file": "con.mp3"
         }
       ],
-      "cards_created": 2
+      "cards_created": 2,
+      "batch_id": 8
     }
   }
 }
