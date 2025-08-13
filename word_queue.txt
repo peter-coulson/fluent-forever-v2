@@ -3,8 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-su
-para
 como
 tener
 le
@@ -105,3 +103,5 @@ en - location/time/means/state (4 cards) - 2025-08-11
 haber - auxiliary/existential/necessity (3 cards) - 2025-08-13
 con - accompaniment/instrument (2 cards) - 2025-08-13
 por - through/by_means/because/exchange/behalf (5 cards) - 2025-08-13
+su - possession (1 card) - 2025-08-13
+para - purpose/deadline/destination/recipient (4 cards) - 2025-08-13

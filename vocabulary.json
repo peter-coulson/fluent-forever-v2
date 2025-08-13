@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-13T13:53:39.261856",
-    "total_words": 13,
-    "total_cards": 51,
+    "last_updated": "2025-08-13T14:21:37.663633",
+    "total_words": 15,
+    "total_cards": 56,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Fresh start with proper frequency-based word list for V2 system"
@@ -359,6 +359,60 @@
         }
       ],
       "cards_created": 5
+    },
+    "su": {
+      "word": "su",
+      "processed_date": "2025-08-13T14:21:37.663614",
+      "meanings": [
+        {
+          "id": "possession",
+          "context": "possession",
+          "definition": "Third-person possessive - his/her/its/your(formal)/their",
+          "example": "Es un ejemplo de su.",
+          "image_file": "su_possession.png",
+          "audio_file": "su.mp3"
+        }
+      ],
+      "cards_created": 1
+    },
+    "para": {
+      "word": "para",
+      "processed_date": "2025-08-13T14:21:37.663627",
+      "meanings": [
+        {
+          "id": "purpose",
+          "context": "purpose",
+          "definition": "Expresses intention or goal of an action",
+          "example": "Es un ejemplo de para.",
+          "image_file": "para_purpose.png",
+          "audio_file": "para.mp3"
+        },
+        {
+          "id": "deadline",
+          "context": "deadline",
+          "definition": "Indicates a time limit or due date",
+          "example": "Es un ejemplo de para.",
+          "image_file": "para_deadline.png",
+          "audio_file": "para.mp3"
+        },
+        {
+          "id": "destination",
+          "context": "destination",
+          "definition": "Shows direction toward a place",
+          "example": "Es un ejemplo de para.",
+          "image_file": "para_destination.png",
+          "audio_file": "para.mp3"
+        },
+        {
+          "id": "recipient",
+          "context": "recipient",
+          "definition": "Indicates who something is intended for",
+          "example": "Es un ejemplo de para.",
+          "image_file": "para_recipient.png",
+          "audio_file": "para.mp3"
+        }
+      ],
+      "cards_created": 4
     }
   }
 }

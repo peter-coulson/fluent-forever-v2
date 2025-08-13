@@ -247,44 +247,44 @@ def get_ipa_pronunciation(word):
 # Our batch data
 batch_data = [
     {
-        'word': 'por',
-        'meaning': 'through_via',
-        'definition': 'Movement through or via a place',
-        'example': 'La familia va por el túnel',
-        'gapped': 'La familia va _____ el túnel',
-        'prompt': 'An estate car filled with a family, the father brown hair driving, the mother with short black hair in the passenger seat, a blonde boy and ginger girl in the back seats in a massive trafic jam on the motorway approaching a tunnel.'
+        'word': 'su',
+        'meaning': 'possession',
+        'definition': 'Third-person possessive - his/her/its/your(formal)/their',
+        'example': 'Su casa tiene un jardín verde',
+        'gapped': '_____ casa tiene un jardín verde',
+        'prompt': 'A large brick house with a green front and back garden and an old lady with gold hair and her dog sitting on the step going into the house waving goodbye.'
     },
     {
-        'word': 'por', 
-        'meaning': 'by_means_of',
-        'definition': 'Using an instrument or method to do something',
-        'example': 'El chico llama por teléfono',
-        'gapped': 'El chico llama _____ teléfono',
-        'prompt': 'A blond guy about 18 years old on the phone with his girlfriend, they\'re both crying'
+        'word': 'para', 
+        'meaning': 'purpose',
+        'definition': 'Expresses intention or goal of an action',
+        'example': 'Aprende salsa para impresionar chicas',
+        'gapped': 'Aprende salsa _____ impresionar chicas',
+        'prompt': 'A bald guy 25 with blue eyes and small round glasses learning to dance salsa with a chinese girl of the same age.'
     },
     {
-        'word': 'por',
-        'meaning': 'because_of', 
-        'definition': 'Expressing cause or reason',
-        'example': 'Llego tarde por dormir demasiado',
-        'gapped': 'Llego tarde _____ dormir demasiado',
-        'prompt': 'blond boy with blue eyes and glasses at desk in school dreaming about his bed whilst the teacher shouts at him'
+        'word': 'para',
+        'meaning': 'deadline', 
+        'definition': 'Indicates a time limit or due date',
+        'example': 'La tarea es para mañana',
+        'gapped': 'La tarea es _____ mañana',
+        'prompt': 'Three students, two blonde, and one asian in class with a tall bald white maths teacher handing out homework.'
     },
     {
-        'word': 'por',
-        'meaning': 'in_exchange_for',
-        'definition': 'Trading or paying a price for something',
-        'example': 'Paga dinero por la laptop',
-        'gapped': 'Paga dinero _____ la laptop',
-        'prompt': 'A bald 23 year old guy with blue eyes and round glasses opening a box with a laptop.'
+        'word': 'para',
+        'meaning': 'destination',
+        'definition': 'Shows direction toward a place',
+        'example': 'El tren va para casa',
+        'gapped': 'El tren va _____ casa',
+        'prompt': 'A blond boy on a green train through the countryside with lots of sheep around.'
     },
     {
-        'word': 'por',
-        'meaning': 'on_behalf_of',
-        'definition': 'Acting for someone else\'s benefit or sake',
-        'example': 'Lava los platos por su amigo',
-        'gapped': 'Lava los platos _____ su amigo',
-        'prompt': 'A bald 25 year old with blue eyes and round glasses doing the washing up whilst another blond guy plays video games.'
+        'word': 'para',
+        'meaning': 'recipient',
+        'definition': 'Indicates who something is intended for',
+        'example': 'La vela es para ti',
+        'gapped': 'La vela es _____ ti',
+        'prompt': 'A blond 18 year old giving a blond 16 year old girl a candle in a bed room.'
     }
 ]
 
@@ -485,7 +485,7 @@ def create_anki_card(card_data):
     return response.status_code == 200
 
 if __name__ == "__main__":
-    print("🚀 Generating batch: por")
+    print("🚀 Generating batch: su + para")
     
     # Setup AnkiConnect first
     if not setup_anki_connect():
