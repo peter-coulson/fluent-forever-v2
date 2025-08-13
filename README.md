@@ -8,12 +8,12 @@
 ### 1. **Intelligent Word Analysis** (Claude)
 - Analyzes Spanish words from queue
 - Identifies multiple meanings per word
-- Creates batches of ≤5 cards maximum
+- Creates batches of exactly 5 cards
 - Handles meaning overflow between batches
 
 ### 2. **User Input Collection** (Once per batch)
 - Claude presents all meanings needing prompts
-- User provides image descriptions for each meaning
+- User provides character-specific image descriptions
 - System automatically formats with Ghibli style
 
 ### 3. **Automated Media Generation**
@@ -112,7 +112,8 @@ Edit `config.json`:
 
 ## 🔄 Smart Batch Management
 
-- **Automatic overflow**: If word has >5 meanings, completes current batch first
+- **Exactly 5 cards per batch**: Combines multiple words as needed
+- **Automatic overflow**: If word exceeds batch limit, defer entire word to next batch
 - **Queue processing**: Works through word_queue.txt systematically  
 - **State persistence**: Never lose progress if interrupted
 - **One prompt session**: Collect all descriptions upfront, then automate everything
@@ -133,7 +134,7 @@ Edit `config.json`:
 4. **Spaced repetition** - Direct Anki integration
 5. **No translation** - Spanish definitions where possible
 
-### V4 Card Format
+### Fluent Forever Card Format
 - **Front**: Image + Spanish definition + Audio
 - **Back**: Word + IPA + Example + Context
 - **Fields**: 12 specialized fields for optimal learning

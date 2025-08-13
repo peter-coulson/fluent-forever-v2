@@ -1,4 +1,4 @@
-# Anki Card Format Specification V2
+# Anki Card Format Specification
 
 ## Core Principle: One Card Per Meaning
 Each distinct meaning or usage gets its own card with unique image but shared audio.
