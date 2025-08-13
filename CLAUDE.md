@@ -10,10 +10,11 @@
 1. **Launch**: Always ask user intent first
 2. **Analyze**: Identify ALL distinct semantic meanings of Spanish word  
 3. **Batch Planning**: Always exactly 5 cards per batch
-4. **Collect**: User provides character-specific image prompts
-5. **Review**: Validate prompts follow memory-formation guidelines
-6. **Generate**: Create images + download audio + make Anki cards
-7. **Update**: Save progress to vocabulary.json
+4. **Explain**: Provide clear descriptions and examples for each meaning
+5. **Collect**: User provides character-specific image prompts
+6. **Review**: Validate prompts follow memory-formation guidelines
+7. **Generate**: Create images + download audio + make Anki cards
+8. **Update**: Save progress to vocabulary.json
 
 ## MEANING ANALYSIS METHODOLOGY - SYSTEMATIC ANALYSIS REQUIRED
 
@@ -49,6 +50,23 @@
 - **casa**: dwelling, **comer**: to eat, **rojo**: red color
 
 **WARNING: Do NOT use these examples as rigid templates. Every word requires independent analysis.**
+
+## MEANING EXPLANATION REQUIREMENT
+
+### ALWAYS PROVIDE BEFORE COLLECTING PROMPTS
+**For each meaning in the batch, provide:**
+- **Clear description** - Simple explanation of what the meaning expresses
+- **Example sentence** - Spanish sentence demonstrating the meaning in context  
+- **Context note** - When/how this meaning is typically used
+
+**Format Example:**
+```
+**1. Auxiliary verb** - Creates past tenses like "I have eaten"
+- Example: "He comido tacos" (I have eaten tacos)
+- Context: Used with past participle to show completed actions
+```
+
+**Purpose**: Helps user understand each meaning clearly before creating memory-forming prompts
 
 ## BATCH COMPOSITION RULES - ALWAYS 5 CARDS
 
