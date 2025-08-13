@@ -268,7 +268,7 @@ batch_data = [
         'definition': 'Expressing cause or reason',
         'example': 'Llego tarde por dormir demasiado',
         'gapped': 'Llego tarde _____ dormir demasiado',
-        'prompt': 'Teacher getting annoyed with a blond boy because he is late to class whist he\'s thinking about sleeping.'
+        'prompt': 'blond boy with blue eyes and glasses at desk in school dreaming about his bed whilst the teacher shouts at him'
     },
     {
         'word': 'por',
