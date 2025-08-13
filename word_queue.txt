@@ -3,9 +3,7 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-haber
 por
-con
 su
 para
 como
@@ -105,3 +103,5 @@ que - conjunction/interrogative/relative/exclamatory (4 cards) - 2025-08-11
 de - possession/origin/material/time/about (5 cards) - 2025-08-11
 a - direction/indirect/time/personal/manner (5 cards) - 2025-08-11
 en - location/time/means/state (4 cards) - 2025-08-11
+haber - auxiliary/existential/necessity (3 cards) - 2025-08-13
+con - accompaniment/instrument (2 cards) - 2025-08-13

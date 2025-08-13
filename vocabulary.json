@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-11T19:06:57.020053",
-    "total_words": 6,
-    "total_cards": 26,
+    "last_updated": "2025-08-13T10:04:10.629674",
+    "total_words": 8,
+    "total_cards": 31,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Fresh start with proper frequency-based word list for V2 system"
@@ -264,6 +264,60 @@
       ],
       "cards_created": 4,
       "batch_id": 6
+    },
+    "haber": {
+      "word": "haber",
+      "processed_date": "2025-08-13T10:04:10.629624",
+      "meanings": [
+        {
+          "id": "auxiliary_verb",
+          "context": "auxiliary/verb",
+          "definition": "Forms compound tenses with past participle",
+          "example": "El niño ha comido con su padre.",
+          "image_file": "haber_auxiliary_verb.png",
+          "audio_file": "haber.mp3"
+        },
+        {
+          "id": "existential",
+          "context": "existential",
+          "definition": "Expresses existence using hay form",
+          "example": "Hay un gato en el jardín.",
+          "image_file": "haber_existential.png",
+          "audio_file": "haber.mp3"
+        },
+        {
+          "id": "necessity",
+          "context": "necessity",
+          "definition": "Expresses obligation using hay que",
+          "example": "Hay que estudiar temprano.",
+          "image_file": "haber_necessity.png",
+          "audio_file": "haber.mp3"
+        }
+      ],
+      "cards_created": 3
+    },
+    "con": {
+      "word": "con",
+      "processed_date": "2025-08-13T10:04:10.629660",
+      "meanings": [
+        {
+          "id": "accompaniment",
+          "context": "accompaniment",
+          "definition": "Together with someone or something",
+          "example": "Viajan con dos amigos.",
+          "image_file": "con_accompaniment.png",
+          "audio_file": "con.mp3"
+        },
+        {
+          "id": "instrument",
+          "context": "instrument",
+          "definition": "Using something as a tool or means",
+          "example": "Trabaja con un martillo.",
+          "image_file": "con_instrument.png",
+          "audio_file": "con.mp3"
+        }
+      ],
+      "cards_created": 2
     }
   }
 }

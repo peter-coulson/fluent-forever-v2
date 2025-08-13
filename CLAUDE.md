@@ -115,6 +115,19 @@ ls media/audio/word.mp3
 - Sentence: "El niño está nervioso en el avión con su madre"
 - Gapped: "El niño _____ nervioso en el avión con su madre"
 
+## PYTHON ENVIRONMENT SETUP
+
+**ALWAYS use virtual environment to avoid dependency issues:**
+```bash
+# If venv doesn't exist, create it:
+python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
+
+# If venv exists, just activate:
+source venv/bin/activate
+```
+
+**Critical**: Never use system Python3 directly - always activate venv first.
+
 ## CRITICAL ERROR HANDLING
 
 **Before API Calls**: Check existing media files first
