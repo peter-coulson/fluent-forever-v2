@@ -2,15 +2,7 @@
 # Source: Mark Davies Latin American Spanish Corpus
 # Format: One word per line, # for comments
 
-ser
-estar  
-que
-de
-a
-en
-un
-el
-y
+## PENDING WORDS (Next to process)
 haber
 por
 con
@@ -99,3 +91,17 @@ seguir
 menos
 nuevo
 encontrar
+
+## SKIPPED WORDS (User already knows)
+un - indefinite article & number one (user request)
+el - definite article (user request)  
+y - conjunction "and" (user request)
+
+## COMPLETED WORDS (Cards created successfully)
+# Format: word - meanings (number of cards) - completion date
+ser - identity/qualities/time/origin (4 cards) - 2025-08-11
+estar - location/states/actions/presence (4 cards) - 2025-08-11  
+que - conjunction/interrogative/relative/exclamatory (4 cards) - 2025-08-11
+de - possession/origin/material/time/about (5 cards) - 2025-08-11
+a - direction/indirect/time/personal/manner (5 cards) - 2025-08-11
+en - location/time/means/state (4 cards) - 2025-08-11
