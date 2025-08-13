@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Manual batch generation for haber + con
+Claude-coordinated batch generation for haber + con
+
+This script is coordinated by Claude - Claude analyzes meanings, requests prompts,
+then runs this script to generate media and create Anki cards.
 
 IMPORTANT: Always run with virtual environment:
 source venv/bin/activate && python generate_batch.py

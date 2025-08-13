@@ -1,25 +1,29 @@
-# Anki Card Format Specification
+# Anki Card Format Specification - V2.7
 
 ## Core Principle: One Card Per Meaning
-Each distinct meaning or usage gets its own card with unique image but shared audio.
+Each distinct meaning gets its own card with unique Studio Ghibli image and contextually-generated sentences.
 
 ## Anki Note Type: "Fluent Forever"
 
-### Fields Structure
+### Current Field Structure (V2.7)
 ```
-1. SpanishWord       - The base word (e.g., "que")
-2. IPA              - Phonetic transcription [ke]
-3. MeaningContext   - Specific usage (e.g., "pronombre relativo")
+1. SpanishWord       - Base word (e.g., "con")
+2. IPA              - Latin American contextual fricative pronunciation [kon]
+3. MeaningContext   - Specific usage context (e.g., "instrument")
 4. MonolingualDef   - Spanish definition for THIS meaning only
-5. ExampleSentence  - ONE example showing this specific usage
-6. GappedSentence   - Same sentence with word blanked out
-7. ImageFile        - Single image for this meaning
-8. WordAudio        - Primary pronunciation [sound:que_audio.mp3]
-9. WordAudioAlt     - Alternative pronunciation for gendered words [sound:que_audio_fem.mp3]
-10. UsageNote       - Brief grammatical/usage note
-11. PersonalMnemonic - Optional memory aid
-12. MeaningID       - Semantic identifier (e.g., "relative_pronoun")
+5. ExampleSentence  - LLM-generated sentence matching user's image prompt
+6. GappedSentence   - Same sentence with word replaced by "______"
+7. ImageFile        - Studio Ghibli image generated from user prompt
+8. WordAudio        - Native Latin American pronunciation [sound:con.mp3]
+9. UsageNote        - Generated from user prompt context for memory aid
+10. PersonalMnemonic - Empty field for user's personal memory connections
 ```
+
+### Key Improvements in V2.7:
+- ✅ **Contextual IPA**: Fricatives applied contextually for optimal pronunciation
+- ✅ **LLM-Generated Sentences**: Perfect alignment with user's visual scene
+- ✅ **Studio Ghibli Imagery**: Consistent artistic style for memory formation
+- ✅ **Latin American Audio**: Priority given to clear regional accents
 
 ## Card Templates
 
@@ -184,33 +188,40 @@ For words with masculine/feminine forms:
 }
 ```
 
-## Bulletproof Anki Integration
+## Autonomous System Integration
 
-### Pre-Creation Checks
-1. Verify all media files exist locally
-2. Upload media to Anki before card creation
-3. Validate field content (no null values)
-4. Escape HTML in user content
+### Automatic Processing (V2.7)
+1. **Virtual environment verification** - Ensures proper Python setup
+2. **AnkiConnect availability** - Auto-launches Anki if needed
+3. **API key validation** - Verifies OpenAI and Forvo access
+4. **Media generation** - Creates images and downloads audio
+5. **Contextual sentence generation** - LLM creates examples matching prompts
+6. **Card creation** - Uploads media and creates formatted cards
+7. **Progress tracking** - Updates vocabulary.json database
 
-### Field Validation Rules
+### Built-in Validation
 ```python
-def validate_card_fields(fields):
-    """Ensure all fields are properly formatted"""
-    required = ['SpanishWord', 'IPA', 'MonolingualDef', 'ExampleSentence']
+# Automatic validation in generate_batch.py:
+def create_anki_card(card_data):
+    """Create card with complete validation"""
+    # Media file verification
+    media_folder = config["paths"]["media_folder"]
+    image_path = f"{media_folder}/images/{card_data['word']}_{card_data['meaning']}.png"
+    audio_path = f"{media_folder}/audio/{card_data['word']}.mp3"
     
-    for field in required:
-        if not fields.get(field) or fields[field].strip() == '':
-            raise ValueError(f"Required field {field} is empty")
-    
-    # Ensure audio format
-    if fields.get('WordAudio') and not fields['WordAudio'].startswith('[sound:'):
-        fields['WordAudio'] = f"[sound:{fields['WordAudio']}]"
-    
-    # Ensure image format
-    if fields.get('ImageFile') and not fields['ImageFile'].startswith('<img'):
-        fields['ImageFile'] = f"<img src='{fields['ImageFile']}'>"
-    
-    return fields
+    # Field population
+    fields = {
+        "SpanishWord": card_data['word'],
+        "IPA": get_ipa_pronunciation(card_data['word']),  # Contextual fricatives
+        "MeaningContext": card_data['meaning'].replace('_', ' '),
+        "MonolingualDef": card_data['definition'],
+        "ExampleSentence": card_data['example'],  # LLM-generated
+        "GappedSentence": card_data['gapped'],    # LLM-generated
+        "ImageFile": f"<img src='{card_data['word']}_{card_data['meaning']}.png'>",
+        "WordAudio": f"[sound:{card_data['word']}.mp3]",
+        "UsageNote": f"Generated from user prompt: {card_data.get('prompt', '')[:100]}...",
+        "PersonalMnemonic": ""
+    }
 ```
 
 ### Error Recovery
@@ -219,33 +230,32 @@ def validate_card_fields(fields):
 - Store failed cards for manual recovery
 - Never lose user work
 
-## Batch Processing Workflow
+## Autonomous Batch Processing (V2.7)
 
-### 5-Word Batch Structure
+### Current Batch Example: `haber` + `con` (5 cards)
 ```json
 {
-  "batch_id": "2025-08-10-001",
-  "words": [
-    {
-      "base_word": "que",
-      "meanings": [
-        {"id": "relative", "prompt": "Zach pointing at book"},
-        {"id": "conjunction", "prompt": "Maria connecting thoughts"}
-      ]
-    },
-    // ... 4 more words
-  ],
-  "status": "pending_prompts"
+  "haber": {
+    "auxiliary_verb": "Boy and father eating fish and chips",
+    "existential": "Man chasing cat from garden", 
+    "necessity": "Boy jumping out of bed to study"
+  },
+  "con": {
+    "accompaniment": "Two guys driving through Italy",
+    "instrument": "Boy with hammer working in basement"
+  }
 }
 ```
 
-### Batch States
-1. **analyzing** - Claude processing meanings
-2. **pending_prompts** - Awaiting user prompts
-3. **pending_audio_approval** - User reviewing audio options
-4. **generating_media** - Creating images/downloading audio
-5. **creating_cards** - Adding to Anki
-6. **completed** - Batch fully processed
+### Autonomous Processing States
+1. **pre-configured** - User prompts defined in advance
+2. **executing** - Single command: `python generate_batch.py`
+3. **generating_media** - OpenAI + Forvo API calls
+4. **creating_sentences** - LLM contextual generation
+5. **building_cards** - AnkiConnect integration
+6. **completed** - All 5 cards created + database updated
+
+**Execution Time**: 2-3 minutes for complete 5-card batch
 
 ## Quality Assurance
 
@@ -292,4 +302,8 @@ def test_card_creation(card_data):
 
 ---
 
-*Card format designed for maximum retention through focused, meaning-specific practice*
+*Card format V2.7: Autonomous system with contextual pronunciation, LLM sentences, and Studio Ghibli imagery*
+
+**Current Status**: Production-ready autonomous processing  
+**Execution**: `source venv/bin/activate && python generate_batch.py`  
+**Result**: 5 perfectly-formatted Anki cards in 2-3 minutes

@@ -1,25 +1,37 @@
 # FLUENT FOREVER V2 - CLAUDE OPERATIONAL GUIDE
 
 ## SYSTEM OVERVIEW
-**Purpose**: Automated Spanish Anki cards with Studio Ghibli imagery following Fluent Forever methodology
-**Default Action**: Ask user "Process next word from queue or other action?" 
-**Current Status**: 6 words processed (26 cards), next word: `un`
+**Purpose**: Claude-managed Spanish Anki cards with Studio Ghibli imagery following Fluent Forever methodology
+**Architecture**: Claude initiates workflow, manages analysis, requests user prompts, coordinates automation
+**Current Status**: 8 words processed (33 cards), next word: `por`
 **Core Principle**: One card per distinct meaning = one unique memory anchor
 
-## PRIMARY WORKFLOW
-1. **Launch**: Always ask user intent first
-2. **Analyze**: Identify ALL distinct semantic meanings of Spanish word  
-3. **Batch Planning**: Always exactly 5 cards per batch
-4. **Explain**: Provide clear descriptions and examples for each meaning
-5. **Collect**: User provides character-specific image prompts
-6. **Review**: Validate prompts follow memory-formation guidelines
-7. **Generate**: Create images + download audio + make Anki cards
-8. **Update**: Save progress to vocabulary.json
+## CLAUDE-MANAGED WORKFLOW
+**Claude controls the entire process** from the Claude Code terminal:
 
-## MEANING ANALYSIS METHODOLOGY - SYSTEMATIC ANALYSIS REQUIRED
+1. **Claude Initiates**: Claude asks user intent and manages entire workflow
+2. **Claude Analyzes**: Claude identifies ALL distinct semantic meanings of Spanish word
+3. **Claude Plans Batches**: Claude creates exactly 5 cards per batch with intelligent grouping
+4. **Claude Requests Prompts**: Claude tells user which specific image prompts are needed
+5. **Claude Coordinates**: Claude manages automation script to generate media + create cards
+6. **Claude Updates**: Claude saves progress and manages all tracking through automation
+
+## BATCH COMPOSITION RULES - ALWAYS 5 CARDS
+
+**Claude-Managed Batch System:**
+- **Claude determines**: Exactly 5 cards per batch (combines multiple words as needed)
+- **Claude handles overflow**: If word exceeds 5 cards, Claude defers entire word to next batch
+- **Claude requests prompts**: Claude tells user which specific prompts are needed for the batch
+
+**Example Batch Compositions (Claude decides):**
+- **Batch A**: "haber" (3 meanings) + "con" (2 meanings) = 5 cards
+- **Batch B**: "por" (5 meanings) = 5 cards (Claude would defer if would exceed)
+- **Batch C**: 5 single-meaning words = 5 cards
+
+## MEANING ANALYSIS METHODOLOGY
 
 ### MANDATORY ANALYSIS CHECKLIST FOR EVERY WORD
-**NEVER assume a word is simple - analyze systematically:**
+**Claude NEVER assumes a word is simple - analyzes systematically:**
 
 **1. Grammatical Category Check:**
 - **Prepositions** (por, para, de, en, con, desde, hasta, etc.) → Usually multi-meaning
@@ -53,8 +65,8 @@
 
 ## MEANING EXPLANATION REQUIREMENT
 
-### ALWAYS PROVIDE BEFORE COLLECTING PROMPTS
-**For each meaning in the batch, provide:**
+### CLAUDE ALWAYS PROVIDES BEFORE COLLECTING PROMPTS
+**For each meaning in the batch, Claude provides:**
 - **Clear description** - Simple explanation of what the meaning expresses
 - **Example sentence** - Spanish sentence demonstrating the meaning in context  
 - **Context note** - When/how this meaning is typically used
@@ -68,14 +80,6 @@
 
 **Purpose**: Helps user understand each meaning clearly before creating memory-forming prompts
 
-## BATCH COMPOSITION RULES - ALWAYS 5 CARDS
-
-**Examples**:
-- **Batch A**: "tener" (4 meanings) + "casa" (1 meaning) = 5 cards
-- **Batch B**: "para" (2 meanings) + "comer" (1) + "dormir" (1) + "rojo" (1) = 5 cards  
-- **Batch C**: 5 single-meaning words = 5 cards
-- **Overflow**: If next word exceeds 5 cards, defer entire word to next batch
-
 ## PROMPT CREATION & MEMORY FORMATION
 
 ### CHARACTER-SPECIFIC REQUIREMENTS
@@ -85,7 +89,7 @@
 - "Middle-aged man, gray beard, kind eyes, brown leather apron, crafting at wooden workbench with warm window light"
 
 ### PROMPT REVIEW CHECKLIST
-**ALWAYS validate each prompt has**:
+**Claude ALWAYS validates each prompt has**:
 - ✅ Specific age range and physical description
 - ✅ Clear emotional state or activity  
 - ✅ Detailed setting/environment
@@ -94,7 +98,7 @@
 - ❌ Avoid: generic people, abstract concepts, modern technology, complex scenes
 
 ### MEMORY CONNECTION PROCESS
-**Critical**: Connect each prompt to meaning through character details
+**Critical**: Claude connects each prompt to meaning through character details
 - **Word**: estudiar (to study)
 - **Prompt**: "Teenage girl, brown braids, blue uniform, focused at desk"
 - **Memory Link**: User creates specific visual anchor for "studying" concept
@@ -102,18 +106,67 @@
 
 ## API COST PROTECTION - ESSENTIAL
 
-**Before ANY generation, check existing files**:
+**Before ANY generation, Claude checks existing files**:
 ```bash
 ls media/images/word_meaning.png
 ls media/audio/word.mp3
 ```
 **Skip generation if files exist - APIs are expensive**
 
-## CONTEXTUAL SENTENCE CREATION
-**Match sentences to user's image prompt**:
-- Prompt: "boy nervous on airplane with mother" 
-- Sentence: "El niño está nervioso en el avión con su madre"
-- Gapped: "El niño _____ nervioso en el avión con su madre"
+## CONTEXTUAL SENTENCE GENERATION
+
+### CLAUDE-POWERED SENTENCE CREATION
+**Claude generates** contextual sentences matching user image prompts:
+
+**Process:**
+1. **Claude requests specific prompt**: Claude tells user "I need a visual prompt for 'con' meaning instrument"
+2. **User provides visual prompt**: "boy with hammer driving nails"
+3. **Claude analyzes**: word + meaning + visual context
+4. **Claude generates**: Perfect Spanish sentence matching scene
+5. **Result**: "El niño trabaja con un martillo" + "El niño trabaja _____ un martillo"
+
+**Quality Standards:**
+- Sentences match visual scene exactly
+- Use simple, clear Spanish appropriate for learning
+- Make word-meaning connection obvious
+- Natural, authentic Spanish construction
+
+## PRONUNCIATION SYSTEM - CONTEXTUAL FRICATIVES
+
+### LATIN AMERICAN SPANISH IPA
+**Optimal pronunciation strategy**: "Neutral Latin American"
+- **Sounds native in**: Colombia, Mexico, Venezuela, Costa Rica
+- **Understood everywhere**: No problematic regional markers
+- **Perceived as**: Educated, sophisticated, formal
+
+### KEY FEATURES:
+- ✅ **Seseo**: 'c/z' → [s] (universal LA feature)
+- ✅ **Yeísmo**: 'll/y' → [ʝ] (modern standard)
+- ✅ **Contextual fricatives**: Stops word-initially, fricatives intervocalically
+- ✅ **Clear vowels**: No reduction like Spain
+
+### CONTEXTUAL FRICATIVE RULES:
+- **Word-initial consonants**: Clear stops [b,d,g] for clarity
+- **Intervocalic consonants**: Natural fricatives [β,ð,ɣ] for fluency
+- **Examples**: 
+  - bueno [ˈbweno] - word-initial b = stop
+  - trabajo [traˈβaxo] - intervocalic b = fricative β
+  - cada [ˈkaða] - intervocalic d = fricative ð
+
+## FORVO AUDIO PRIORITIES
+
+### LATIN AMERICAN COUNTRIES PRIORITIZED:
+1. **CO** (Colombia) - Very clear, neutral accent
+2. **MX** (Mexico) - Most common globally
+3. **PE** (Peru) - Clear pronunciation
+4. **VE** (Venezuela) - Clear pronunciation
+5. **AR** (Argentina) - Distinct but understandable
+6. **EC** (Ecuador) - Clear pronunciation
+7. **UY** (Uruguay) - Clear pronunciation
+8. **CR** (Costa Rica) - Clear pronunciation
+9. **ES** (Spain) - BACKUP ONLY (different pronunciation)
+
+**Excluded**: Countries with challenging pronunciation patterns (Chile avoided)
 
 ## PYTHON ENVIRONMENT SETUP
 
@@ -128,9 +181,32 @@ source venv/bin/activate
 
 **Critical**: Never use system Python3 directly - always activate venv first.
 
+## CLAUDE-COORDINATED EXECUTION
+
+**Claude manages the workflow:**
+1. **Claude initiates**: "Process next word from queue or other action?"
+2. **Claude analyzes**: Word meanings and creates batch plan
+3. **Claude requests**: Specific image prompts from user
+4. **Claude coordinates**: Runs automation script with collected data
+5. **Claude validates**: Results and updates progress
+
+```bash
+# Claude runs when ready:
+source venv/bin/activate && python generate_batch.py
+```
+
+**Automation script handles (under Claude's coordination):**
+- ✅ AnkiConnect availability checking + Anki launch
+- ✅ API key validation and error handling  
+- ✅ Media file generation (images + audio)
+- ✅ IPA pronunciation with contextual fricatives
+- ✅ Anki card creation with all fields
+- ✅ Vocabulary database updates
+- ✅ Word queue progression management
+
 ## CRITICAL ERROR HANDLING
 
-**Before API Calls**: Check existing media files first
+**Before API Calls**: Claude checks existing media files first
 **Common Failures & Actions**:
 - **AnkiConnect not responding**: Verify Anki open + restart AnkiConnect addon
 - **OpenAI rate limit**: Wait 60s, retry once, defer batch if still failing
@@ -138,7 +214,7 @@ source venv/bin/activate
 - **Duplicate card**: Update existing instead of creating new
 - **Media upload failed**: Verify local file exists, check Anki permissions
 
-**Mid-Batch Recovery**:
+**Mid-Batch Recovery:**
 - Save progress after each successful card
 - Never regenerate existing media
 - Preserve user prompts immediately after collection
@@ -155,14 +231,48 @@ source venv/bin/activate
 2. **Completion**: Move word from PENDING → COMPLETED only after successful Anki card creation
 3. **Format**: `word - meanings (X cards) - completion date`
 
+## VOCABULARY DATABASE MANAGEMENT
+
+**vocabulary.json** automatically maintains:
+- **Complete word records**: All meanings with examples and context
+- **Progress metadata**: Total words/cards, last update timestamps
+- **Generated content**: LLM-created sentences matching user prompts
+- **Media associations**: File paths for images and audio
+- **Processing dates**: When each word was completed
+
+## CARD CREATION FIELDS (Fluent Forever Format)
+
+**Each meaning → card with:**
+- SpanishWord, IPA, MeaningContext, MonolingualDef
+- ExampleSentence, GappedSentence, ImageFile, WordAudio  
+- Generated from: word + meaning_context + user_prompt + memory connection
+
+## CURRENT BATCH CONFIGURATION
+
+**Active Batch**: haber (3) + con (2) = 5 cards
+**Next Batch**: por (5) = 5 cards  
+**Status**: System ready for autonomous processing
+
+**Pre-configured prompts available for immediate processing.**
+
 ## SYSTEM FILES
-- `fluent_forever_automation.py`: Call `automation.process_batch()`
+- `generate_batch.py`: Claude coordinates this automation script
 - `vocabulary.json`: Progress tracking + meaning examples
 - `word_queue.txt`: Queue management with PENDING/SKIPPED/COMPLETED sections
 - `config.json`: API settings verification
 
-## CARD CREATION FIELDS (Fluent Forever Format)
-Each meaning → card with:
-- SpanishWord, IPA, MeaningContext, MonolingualDef
-- ExampleSentence, GappedSentence, ImageFile, WordAudio  
-- Generated from: word + meaning_context + user_prompt + memory connection
+## QUALITY ASSURANCE BUILT-IN
+
+**Automatic Validation:**
+- ✅ Virtual environment verification
+- ✅ API key availability checking
+- ✅ Anki/AnkiConnect connectivity
+- ✅ Media file existence before card creation
+- ✅ Complete field population validation
+- ✅ Vocabulary database integrity maintenance
+
+---
+
+**CURRENT STATUS**: Production-ready Claude-managed processing system. Claude controls entire workflow from analysis through card creation, using automation for media generation only.
+
+**WORKFLOW**: Claude initiates → requests prompts → coordinates automation → validates results
