@@ -161,30 +161,67 @@ GAPPED: [sentence with ______ replacing {word}]"""
         }
 
 def get_ipa_pronunciation(word):
-    """Get IPA pronunciation for Spanish word"""
-    # Basic IPA mappings for common Spanish words
-    # In a full implementation, this could use an API or comprehensive dictionary
-    ipa_dict = {
-        'haber': 'aˈβeɾ',
-        'con': 'kon',
-        'ser': 'seɾ',
-        'estar': 'esˈtaɾ',
-        'que': 'ke',
-        'de': 'de',
-        'a': 'a',
-        'en': 'en',
-        'por': 'poɾ',
-        'para': 'ˈpaɾa',
-        'su': 'su'
+    """Get Latin American Spanish IPA pronunciation with contextual fricatives"""
+    # OPTIMAL PRONUNCIATION STRATEGY: "Neutral Latin American"
+    # Sounds native in Colombia/Mexico/Venezuela, understood everywhere
+    # Key features:
+    # - Seseo: 'c/z' → [s] (universal LA feature)
+    # - Yeísmo: 'll/y' → [ʝ] (modern standard)
+    # - Contextual fricatives: stops word-initially, fricatives intervocalically
+    # - Clear vowels (no reduction like Spain)
+    
+    latin_american_ipa = {
+        'haber': 'aˈβeɾ',     # Intervocalic β (natural)
+        'con': 'kon',         # Word-initial consonant (clear)
+        'ser': 'seɾ',         # Simple consonants
+        'estar': 'esˈtaɾ',    # Standard
+        'que': 'ke',          # Standard
+        'de': 'de',           # Standard  
+        'a': 'a',             # Standard
+        'en': 'en',           # Standard
+        'por': 'poɾ',         # Standard
+        'para': 'ˈpaɾa',      # Standard
+        'su': 'su',           # Standard
+        # Contextual fricative examples
+        'casa': 'ˈkasa',      # Seseo [s] not [θ]
+        'hacer': 'aˈseɾ',     # Seseo [s] not [θ]  
+        'cinco': 'ˈsinko',    # Seseo [s] not [θ]
+        'llamar': 'ʝaˈmaɾ',   # Yeísmo [ʝ] not [ʎ]
+        'bueno': 'ˈbweno',    # Word-initial stop [b] not fricative
+        'trabajo': 'traˈβaxo', # Intervocalic fricative [β]
+        'cada': 'ˈkaða',      # Intervocalic fricative [ð]
+        'lugar': 'luˈɣaɾ'     # Intervocalic fricative [ɣ]
     }
     
-    # Return IPA if available, otherwise generate basic phonetic approximation
-    if word in ipa_dict:
-        return f"[{ipa_dict[word]}]"
+    # Return LA IPA if available, otherwise generate basic phonetic approximation
+    if word in latin_american_ipa:
+        return f"[{latin_american_ipa[word]}]"
     else:
-        # Basic phonetic conversion rules for Spanish
-        # This is simplified - a full implementation would be more comprehensive
-        phonetic = word.replace('rr', 'r').replace('ll', 'ʎ').replace('ñ', 'ɲ')
+        # Contextual fricative system for unknown words
+        phonetic = word
+        
+        # 1. Apply universal LA features first
+        phonetic = (phonetic.replace('rr', 'r')
+                           .replace('ll', 'ʝ')    # Yeísmo
+                           .replace('ñ', 'ɲ')
+                           .replace('ce', 'se')   # Seseo
+                           .replace('ci', 'si')   # Seseo  
+                           .replace('za', 'sa')   # Seseo
+                           .replace('zo', 'so')   # Seseo
+                           .replace('zu', 'su'))  # Seseo
+        
+        # 2. Apply contextual fricatives (simplified approach)
+        # This is basic - full implementation would need phonological analysis
+        import re
+        
+        # Word-initial consonants stay as stops (clear pronunciation)
+        # Intervocalic consonants become fricatives (natural)
+        
+        # Simple pattern: vowel + consonant + vowel = fricative context
+        phonetic = re.sub(r'([aeiou])b([aeiou])', r'\1β\2', phonetic)  # aba → aβa
+        phonetic = re.sub(r'([aeiou])d([aeiou])', r'\1ð\2', phonetic)  # ada → aða  
+        phonetic = re.sub(r'([aeiou])g([aeiou])', r'\1ɣ\2', phonetic)  # aga → aɣa
+        
         return f"[{phonetic}]"
 
 # Our batch data
@@ -276,8 +313,21 @@ def download_audio(word, filename):
             print(f"❌ Missing Forvo API key: {config['apis']['forvo']['env_var']}")
             return False
         
-        # Try preferred accents from config
-        for country in ["CO", "MX", "ES"]:  # Colombian, Mexican, Spanish
+        # Try Latin American countries first, then Spain as backup
+        # Prioritize clear, neutral accents; avoid difficult ones like Chile (CL)
+        latin_american_countries = [
+            "CO",  # Colombia - Very clear, neutral accent
+            "MX",  # Mexico - Most common Spanish globally
+            "PE",  # Peru - Clear pronunciation
+            "VE",  # Venezuela - Clear pronunciation
+            "AR",  # Argentina - Distinct but understandable
+            "EC",  # Ecuador - Clear pronunciation
+            "UY",  # Uruguay - Clear pronunciation
+            "CR",  # Costa Rica - Clear pronunciation
+            "ES"   # Spain - BACKUP ONLY (different pronunciation)
+        ]
+        
+        for country in latin_american_countries:
             url = f"https://apifree.forvo.com/key/{forvo_key}/format/json/action/word-pronunciations/word/{word}/language/es/country/{country}"
             response = requests.get(url)
             if response.status_code == 200:

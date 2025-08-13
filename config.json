@@ -11,7 +11,7 @@
       "api_key": "",
       "env_var": "FORVO_API_KEY",
       "enabled": true,
-      "preferred_accents": ["Colombian", "Mexican", "Latin American"]
+      "preferred_accents": ["Colombian", "Mexican", "Peruvian", "Venezuelan", "Argentinian", "Ecuadorian", "Uruguayan", "Costa Rican", "Spanish"]
     },
     "anki": {
       "url": "http://localhost:8765",
