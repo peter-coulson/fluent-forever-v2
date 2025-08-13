@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-13T10:04:10.629674",
-    "total_words": 8,
-    "total_cards": 31,
+    "last_updated": "2025-08-13T13:53:39.261856",
+    "total_words": 13,
+    "total_cards": 51,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Fresh start with proper frequency-based word list for V2 system"
@@ -46,8 +46,7 @@
           "audio_file": "ser.mp3"
         }
       ],
-      "cards_created": 4,
-      "batch_id": 1
+      "cards_created": 4
     },
     "estar": {
       "word": "estar",
@@ -86,8 +85,7 @@
           "audio_file": "estar.mp3"
         }
       ],
-      "cards_created": 4,
-      "batch_id": 2
+      "cards_created": 4
     },
     "que": {
       "word": "que",
@@ -126,8 +124,7 @@
           "audio_file": "que.mp3"
         }
       ],
-      "cards_created": 4,
-      "batch_id": 3
+      "cards_created": 4
     },
     "de": {
       "word": "de",
@@ -174,8 +171,7 @@
           "audio_file": "de.mp3"
         }
       ],
-      "cards_created": 5,
-      "batch_id": 4
+      "cards_created": 5
     },
     "a": {
       "word": "a",
@@ -222,8 +218,7 @@
           "audio_file": "a.mp3"
         }
       ],
-      "cards_created": 5,
-      "batch_id": 5
+      "cards_created": 5
     },
     "en": {
       "word": "en",
@@ -262,12 +257,11 @@
           "audio_file": "en.mp3"
         }
       ],
-      "cards_created": 4,
-      "batch_id": 6
+      "cards_created": 4
     },
     "haber": {
       "word": "haber",
-      "processed_date": "2025-08-13T10:04:10.629624",
+      "processed_date": "2025-08-13T13:46:26.994261",
       "meanings": [
         {
           "id": "auxiliary_verb",
@@ -294,12 +288,11 @@
           "audio_file": "haber.mp3"
         }
       ],
-      "cards_created": 3,
-      "batch_id": 7
+      "cards_created": 3
     },
     "con": {
       "word": "con",
-      "processed_date": "2025-08-13T10:04:10.629660",
+      "processed_date": "2025-08-13T13:46:26.994300",
       "meanings": [
         {
           "id": "accompaniment",
@@ -318,8 +311,54 @@
           "audio_file": "con.mp3"
         }
       ],
-      "cards_created": 2,
-      "batch_id": 8
+      "cards_created": 2
+    },
+    "por": {
+      "word": "por",
+      "processed_date": "2025-08-13T13:53:39.261841",
+      "meanings": [
+        {
+          "id": "through_via",
+          "context": "through/via",
+          "definition": "Movement through or via a place",
+          "example": "Es un ejemplo de por.",
+          "image_file": "por_through_via.png",
+          "audio_file": "por.mp3"
+        },
+        {
+          "id": "by_means_of",
+          "context": "by/means/of",
+          "definition": "Using an instrument or method to do something",
+          "example": "Es un ejemplo de por.",
+          "image_file": "por_by_means_of.png",
+          "audio_file": "por.mp3"
+        },
+        {
+          "id": "because_of",
+          "context": "because/of",
+          "definition": "Expressing cause or reason",
+          "example": "Es un ejemplo de por.",
+          "image_file": "por_because_of.png",
+          "audio_file": "por.mp3"
+        },
+        {
+          "id": "in_exchange_for",
+          "context": "in/exchange/for",
+          "definition": "Trading or paying a price for something",
+          "example": "Es un ejemplo de por.",
+          "image_file": "por_in_exchange_for.png",
+          "audio_file": "por.mp3"
+        },
+        {
+          "id": "on_behalf_of",
+          "context": "on/behalf/of",
+          "definition": "Acting for someone else's benefit or sake",
+          "example": "Es un ejemplo de por.",
+          "image_file": "por_on_behalf_of.png",
+          "audio_file": "por.mp3"
+        }
+      ],
+      "cards_created": 5
     }
   }
 }

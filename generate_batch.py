@@ -85,16 +85,33 @@ def add_word_to_vocabulary(vocab_data, word_data):
     from datetime import datetime
     
     word = word_data["word"]
+    
+    # Check if word already exists to preserve original timestamp
+    if word in vocab_data["words"]:
+        # Word exists - preserve original processed_date
+        original_date = vocab_data["words"][word]["processed_date"]
+        print(f"  Preserving original timestamp for {word}: {original_date}")
+        processed_date = original_date
+        # Don't increment counters for existing words
+        word_count_increment = 0
+        card_count_increment = 0
+    else:
+        # New word - use current timestamp
+        processed_date = datetime.now().isoformat()
+        print(f"  New word {word} - adding timestamp: {processed_date}")
+        word_count_increment = 1
+        card_count_increment = len(word_data["meanings"])
+    
     vocab_data["words"][word] = {
         "word": word,
-        "processed_date": datetime.now().isoformat(),
+        "processed_date": processed_date,
         "meanings": word_data["meanings"],
         "cards_created": len(word_data["meanings"])
     }
     
-    # Update metadata
-    vocab_data["metadata"]["total_words"] += 1
-    vocab_data["metadata"]["total_cards"] += len(word_data["meanings"])
+    # Update metadata only for new words
+    vocab_data["metadata"]["total_words"] += word_count_increment
+    vocab_data["metadata"]["total_cards"] += card_count_increment
     
     return vocab_data
 
@@ -230,44 +247,44 @@ def get_ipa_pronunciation(word):
 # Our batch data
 batch_data = [
     {
-        'word': 'haber',
-        'meaning': 'auxiliary_verb',
-        'definition': 'Forms compound tenses with past participle',
-        'example': 'He comido tacos',
-        'gapped': 'He _____ tacos',
-        'prompt': 'A boy of 13 with blond hair and blue eyes sitting on a man made embankment at the edge of the beach with grass on top and a town behind. His father with dark hair sits next to him and they are both eating fish and chips.'
+        'word': 'por',
+        'meaning': 'through_via',
+        'definition': 'Movement through or via a place',
+        'example': 'La familia va por el túnel',
+        'gapped': 'La familia va _____ el túnel',
+        'prompt': 'An estate car filled with a family, the father brown hair driving, the mother with short black hair in the passenger seat, a blonde boy and ginger girl in the back seats in a massive trafic jam on the motorway approaching a tunnel.'
     },
     {
-        'word': 'haber', 
-        'meaning': 'existential',
-        'definition': 'Expresses existence using hay form',
-        'example': 'Hay un gato en el jardín',
-        'gapped': '_____ un gato en el jardín',
-        'prompt': 'A man with dark hair and fair skin chasing a cat out the garden with a hose. The garden has grass in the middle, lined with 4 azalea bushes and trees on the perimeter.'
+        'word': 'por', 
+        'meaning': 'by_means_of',
+        'definition': 'Using an instrument or method to do something',
+        'example': 'El chico llama por teléfono',
+        'gapped': 'El chico llama _____ teléfono',
+        'prompt': 'A blond guy about 18 years old on the phone with his girlfriend, they\'re both crying'
     },
     {
-        'word': 'haber',
-        'meaning': 'necessity', 
-        'definition': 'Expresses obligation using hay que',
-        'example': 'Hay que estudiar para el examen',
-        'gapped': '_____ que estudiar para el examen',
-        'prompt': 'The alarm is ringing at 5:30am, it is dark outside as a boy of 16 with blond hair and blue eyes jumps out of bed towards a desk piled with paper and books.'
+        'word': 'por',
+        'meaning': 'because_of', 
+        'definition': 'Expressing cause or reason',
+        'example': 'Llego tarde por dormir demasiado',
+        'gapped': 'Llego tarde _____ dormir demasiado',
+        'prompt': 'Teacher getting annoyed with a blond boy because he is late to class whist he\'s thinking about sleeping.'
     },
     {
-        'word': 'con',
-        'meaning': 'accompaniment',
-        'definition': 'Together with someone or something',
-        'example': 'Voy al cine con mi hermana',
-        'gapped': 'Voy al cine _____ mi hermana',
-        'prompt': 'Two guys in their early twenties in a little white car driving through italy, one bald with small round specticals that is driving and another blonde in the passenger seat. Both have blue eyes.'
+        'word': 'por',
+        'meaning': 'in_exchange_for',
+        'definition': 'Trading or paying a price for something',
+        'example': 'Paga dinero por la laptop',
+        'gapped': 'Paga dinero _____ la laptop',
+        'prompt': 'A bald 23 year old guy with blue eyes and round glasses opening a box with a laptop.'
     },
     {
-        'word': 'con',
-        'meaning': 'instrument',
-        'definition': 'Using something as a tool or means',
-        'example': 'Escribir con un lápiz',
-        'gapped': 'Escribir _____ un lápiz',
-        'prompt': 'A boy of 11 with blond hair and blue eyes with a very sore neck working in a basement with a hammer driving some nails into a small flat piece of wood.'
+        'word': 'por',
+        'meaning': 'on_behalf_of',
+        'definition': 'Acting for someone else\'s benefit or sake',
+        'example': 'Lava los platos por su amigo',
+        'gapped': 'Lava los platos _____ su amigo',
+        'prompt': 'A bald 25 year old with blue eyes and round glasses doing the washing up whilst another blond guy plays video games.'
     }
 ]
 
@@ -445,6 +462,7 @@ def create_anki_card(card_data):
                 "deckName": config["apis"]["anki"]["deck_name"],
                 "modelName": config["apis"]["anki"]["note_type"],
                 "fields": {
+                    "CardID": f"{card_data['word']}_{card_data['meaning']}",
                     "SpanishWord": card_data['word'],
                     "IPA": get_ipa_pronunciation(card_data['word']), 
                     "MeaningContext": card_data['meaning'].replace('_', ' '),
@@ -453,8 +471,10 @@ def create_anki_card(card_data):
                     "GappedSentence": card_data['gapped'],
                     "ImageFile": f"<img src='{card_data['word']}_{card_data['meaning']}.png'>",
                     "WordAudio": f"[sound:{card_data['word']}.mp3]",
+                    "WordAudioAlt": "",
                     "UsageNote": f"Generated from user prompt: {card_data.get('prompt', '')[:100]}...",
-                    "PersonalMnemonic": ""
+                    "PersonalMnemonic": "",
+                    "MeaningID": card_data['meaning']
                 },
                 "tags": ["fluent-forever", "auto-generated"]
             }
@@ -465,7 +485,7 @@ def create_anki_card(card_data):
     return response.status_code == 200
 
 if __name__ == "__main__":
-    print("🚀 Generating batch: haber + con")
+    print("🚀 Generating batch: por")
     
     # Setup AnkiConnect first
     if not setup_anki_connect():
