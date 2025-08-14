@@ -69,7 +69,7 @@ def upsert_cards(anki: AnkiClient, vocab: Dict, force_media: bool = False) -> Di
             # ensure media stored if present in fields (best-effort)
             # ImageFile is filename; WordAudio is [sound:filename]
             # media already handled by media sync; here we simply add note
-            resp = anki.create_card(local)
+            resp = anki.create_card(anki.normalize_card_fields(local))
             if resp.success:
                 summary["created"] += 1
             else:
@@ -77,16 +77,60 @@ def upsert_cards(anki: AnkiClient, vocab: Dict, force_media: bool = False) -> Di
                 summary["errors"] += 1
             continue
         # compare and update
-        diffs = compare_fields(local, anki_fields)
+        normalized = anki.normalize_card_fields(local)
+        diffs = compare_fields(normalized, anki_fields)
         if not diffs:
             summary["skipped"] += 1
             continue
-        upd = anki.update_note_fields(note_id, local)
+        upd = anki.update_note_fields(note_id, normalized)
         if upd.success:
             summary["updated"] += 1
         else:
             logger.error(f"{ICONS['cross']} Failed to update {card_id}: {upd.error_message}")
             summary["errors"] += 1
     return summary
+
+
+def compute_extras_in_deck(anki: AnkiClient, vocab: Dict) -> Tuple[list[int], list[Tuple[int, str]]]:
+    """Return note IDs in deck that are not present in vocabulary.json by CardID.
+    Also returns a list of (note_id, card_id) for logging.
+    """
+    deck = anki.deck_name
+    # Build allowed CardID set from vocab
+    allowed: set[str] = set()
+    for word, wdata in vocab.get('words', {}).items():
+        for m in wdata.get('meanings', []):
+            cid = str(m.get('CardID', '')).strip()
+            if cid:
+                allowed.add(cid)
+
+    # Fetch all notes in deck
+    found = anki.find_notes(f'deck:"{deck}"')
+    if not found.success:
+        return [], []
+    ids = found.data or []
+    if not ids:
+        return [], []
+    info = anki.notes_info(ids)
+    if not info.success:
+        return [], []
+
+    extras: list[int] = []
+    extras_pairs: list[Tuple[int, str]] = []
+    for note in info.data:
+        note_id = note['noteId']
+        fields = {k: v['value'] for k, v in note['fields'].items()}
+        card_id = str(fields.get('CardID', '')).strip()
+        if not card_id or card_id not in allowed:
+            extras.append(note_id)
+            extras_pairs.append((note_id, card_id))
+    return extras, extras_pairs
+
+
+def delete_extras(anki: AnkiClient, note_ids: list[int]) -> bool:
+    if not note_ids:
+        return True
+    resp = anki.delete_notes(note_ids)
+    return resp.success
 
 

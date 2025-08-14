@@ -171,9 +171,18 @@ def validate_templates_and_fields(project_root: Path | None = None) -> bool:
     cfg_only = cfg_anki_fields - model_fields  # will be empty by construction
 
     if model_only:
-        logger.warning(f"{ICONS['warning']} Fields present in Anki model but not listed in config required_fields: {sorted(model_only)}")
+        all_ok = False
+        logger.error(
+            f"{ICONS['cross']} Anki model has extra fields not allowed by config: {sorted(model_only)}\n"
+            "   Please remove these fields manually in Anki: Tools → Manage Note Types → Fluent Forever → Fields…\n"
+            "   Then re-run this validator."
+        )
     if cfg_only:
-        logger.warning(f"{ICONS['warning']} Fields listed in config but not present in Anki model: {sorted(cfg_only)}")
+        all_ok = False
+        logger.error(
+            f"{ICONS['cross']} Config lists fields not present in Anki model: {sorted(cfg_only)}\n"
+            "   Please add these fields to the note type in Anki or update the config to match."
+        )
 
     return all_ok
 

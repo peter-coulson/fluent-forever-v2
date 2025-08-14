@@ -1,7 +1,7 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-13T16:41:07.967174",
+    "last_updated": "2025-08-14T12:30:27.935078",
     "total_words": 12,
     "total_cards": 45,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
@@ -25,7 +25,6 @@
           "WordAudio": "[sound:ser.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: identidad/profesión",
-          "PersonalMnemonic": "Imagen: A woman in a medical uniform, she has short black hair, looks about 50 years old, and has glasses",
           "MeaningID": "identity",
           "prompt": ""
         },
@@ -41,7 +40,6 @@
           "WordAudio": "[sound:ser.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: características permanentes",
-          "PersonalMnemonic": "Imagen: A man reading a book, another lifting heavy weights, another playing guitar",
           "MeaningID": "qualities",
           "prompt": ""
         },
@@ -57,7 +55,6 @@
           "WordAudio": "[sound:ser.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: tiempo/fechas",
-          "PersonalMnemonic": "Imagen: Big ben from london with a calendar on it",
           "MeaningID": "time",
           "prompt": ""
         },
@@ -73,7 +70,6 @@
           "WordAudio": "[sound:ser.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: origen/material",
-          "PersonalMnemonic": "Imagen: A map of wales seen from above, with a large welsh flag coming out of it",
           "MeaningID": "origin",
           "prompt": ""
         }
@@ -96,7 +92,6 @@
           "WordAudio": "[sound:estar.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: ubicación física",
-          "PersonalMnemonic": "",
           "MeaningID": "location",
           "prompt": ""
         },
@@ -112,7 +107,6 @@
           "WordAudio": "[sound:estar.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: estados temporales",
-          "PersonalMnemonic": "",
           "MeaningID": "states",
           "prompt": ""
         },
@@ -128,7 +122,6 @@
           "WordAudio": "[sound:estar.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: acciones continuas",
-          "PersonalMnemonic": "",
           "MeaningID": "actions",
           "prompt": ""
         },
@@ -144,7 +137,6 @@
           "WordAudio": "[sound:estar.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: disponibilidad/presencia",
-          "PersonalMnemonic": "",
           "MeaningID": "presence",
           "prompt": ""
         }
@@ -167,7 +159,6 @@
           "WordAudio": "[sound:que.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: conjunción/conectar",
-          "PersonalMnemonic": "",
           "MeaningID": "conjunction",
           "prompt": ""
         },
@@ -183,7 +174,6 @@
           "WordAudio": "[sound:que.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: pregunta/interrogativo",
-          "PersonalMnemonic": "",
           "MeaningID": "interrogative",
           "prompt": ""
         },
@@ -199,7 +189,6 @@
           "WordAudio": "[sound:que.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: pronombre relativo",
-          "PersonalMnemonic": "",
           "MeaningID": "relative",
           "prompt": ""
         },
@@ -215,7 +204,6 @@
           "WordAudio": "[sound:que.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: exclamación/énfasis",
-          "PersonalMnemonic": "",
           "MeaningID": "exclamatory",
           "prompt": ""
         }
@@ -238,7 +226,6 @@
           "WordAudio": "[sound:de.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: posesión/pertenencia",
-          "PersonalMnemonic": "",
           "MeaningID": "possession",
           "prompt": ""
         },
@@ -254,7 +241,6 @@
           "WordAudio": "[sound:de.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: origen/procedencia",
-          "PersonalMnemonic": "",
           "MeaningID": "origin",
           "prompt": ""
         },
@@ -270,7 +256,6 @@
           "WordAudio": "[sound:de.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: material/composición",
-          "PersonalMnemonic": "",
           "MeaningID": "material",
           "prompt": ""
         },
@@ -286,7 +271,6 @@
           "WordAudio": "[sound:de.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: tiempo/momento",
-          "PersonalMnemonic": "",
           "MeaningID": "time",
           "prompt": ""
         },
@@ -302,7 +286,6 @@
           "WordAudio": "[sound:de.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: tema/asunto",
-          "PersonalMnemonic": "",
           "MeaningID": "about",
           "prompt": ""
         }
@@ -325,7 +308,6 @@
           "WordAudio": "[sound:a.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: dirección/hacia",
-          "PersonalMnemonic": "",
           "MeaningID": "direction",
           "prompt": ""
         },
@@ -341,7 +323,6 @@
           "WordAudio": "[sound:a.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: objeto indirecto",
-          "PersonalMnemonic": "Giving penknife to Kyran",
           "MeaningID": "indirect",
           "prompt": ""
         },
@@ -357,7 +338,6 @@
           "WordAudio": "[sound:a.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: tiempo específico",
-          "PersonalMnemonic": "School start time",
           "MeaningID": "time",
           "prompt": ""
         },
@@ -373,7 +353,6 @@
           "WordAudio": "[sound:a.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: a personal",
-          "PersonalMnemonic": "",
           "MeaningID": "personal",
           "prompt": ""
         },
@@ -389,7 +368,6 @@
           "WordAudio": "[sound:a.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: manera/modo",
-          "PersonalMnemonic": "Father doing woodwork",
           "MeaningID": "manner",
           "prompt": ""
         }
@@ -412,7 +390,6 @@
           "WordAudio": "[sound:en.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: ubicación/lugar",
-          "PersonalMnemonic": "",
           "MeaningID": "location",
           "prompt": ""
         },
@@ -428,7 +405,6 @@
           "WordAudio": "[sound:en.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: tiempo/período",
-          "PersonalMnemonic": "",
           "MeaningID": "time",
           "prompt": ""
         },
@@ -444,7 +420,6 @@
           "WordAudio": "[sound:en.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: medio de transporte",
-          "PersonalMnemonic": "",
           "MeaningID": "means",
           "prompt": ""
         },
@@ -460,7 +435,6 @@
           "WordAudio": "[sound:en.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Uso: estado/condición",
-          "PersonalMnemonic": "",
           "MeaningID": "state",
           "prompt": ""
         }
@@ -483,7 +457,6 @@
           "WordAudio": "[sound:haber.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "auxiliary_verb",
           "prompt": ""
         },
@@ -499,7 +472,6 @@
           "WordAudio": "[sound:haber.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "existential",
           "prompt": ""
         },
@@ -515,7 +487,6 @@
           "WordAudio": "[sound:haber.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "necessity",
           "prompt": ""
         }
@@ -538,7 +509,6 @@
           "WordAudio": "[sound:con.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "accompaniment",
           "prompt": ""
         },
@@ -554,7 +524,6 @@
           "WordAudio": "[sound:con.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "instrument",
           "prompt": ""
         }
@@ -577,7 +546,6 @@
           "WordAudio": "[sound:por.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: An estate car filled with a family, the father brown hair driving, the mother with short black hair ...",
-          "PersonalMnemonic": "",
           "MeaningID": "through_via",
           "prompt": ""
         },
@@ -593,7 +561,6 @@
           "WordAudio": "[sound:por.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: A blond guy about 18 years old on the phone with his girlfriend, they're both crying...",
-          "PersonalMnemonic": "",
           "MeaningID": "by_means_of",
           "prompt": ""
         },
@@ -609,7 +576,6 @@
           "WordAudio": "[sound:por.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: Teacher getting annoyed with a blond boy because he is late to class whist he's thinking about sleep...",
-          "PersonalMnemonic": "",
           "MeaningID": "because_of",
           "prompt": ""
         },
@@ -625,7 +591,6 @@
           "WordAudio": "[sound:por.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: A bald 23 year old guy with blue eyes and round glasses opening a box with a laptop....",
-          "PersonalMnemonic": "",
           "MeaningID": "in_exchange_for",
           "prompt": ""
         },
@@ -641,7 +606,6 @@
           "WordAudio": "[sound:por.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: A bald 25 year old with blue eyes and round glasses doing the washing up whilst another blond guy pl...",
-          "PersonalMnemonic": "",
           "MeaningID": "on_behalf_of",
           "prompt": ""
         }
@@ -664,7 +628,6 @@
           "WordAudio": "[sound:su.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: A large brick house with a green front and back garden and an old lady with gold hair and her dog si...",
-          "PersonalMnemonic": "",
           "MeaningID": "possession",
           "prompt": ""
         }
@@ -687,7 +650,6 @@
           "WordAudio": "[sound:para.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: A bald guy 25 with blue eyes and small round glasses learning to dance salsa with a chinese girl of ...",
-          "PersonalMnemonic": "",
           "MeaningID": "purpose",
           "prompt": ""
         },
@@ -703,7 +665,6 @@
           "WordAudio": "[sound:para.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: Three students, two blonde, and one asian in class with a tall bald white maths teacher handing out ...",
-          "PersonalMnemonic": "",
           "MeaningID": "deadline",
           "prompt": ""
         },
@@ -719,7 +680,6 @@
           "WordAudio": "[sound:para.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: A blond boy on a green train through the countryside with lots of sheep around....",
-          "PersonalMnemonic": "",
           "MeaningID": "destination",
           "prompt": ""
         },
@@ -735,7 +695,6 @@
           "WordAudio": "[sound:para.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "Generated from user prompt: A blond 18 year old giving a blond 16 year old girl a candle in a bed room....",
-          "PersonalMnemonic": "",
           "MeaningID": "recipient",
           "prompt": ""
         }
@@ -758,7 +717,6 @@
           "WordAudio": "[sound:como.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "comparison",
           "prompt": ""
         },
@@ -774,7 +732,6 @@
           "WordAudio": "[sound:como.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "manner",
           "prompt": ""
         },
@@ -790,7 +747,6 @@
           "WordAudio": "[sound:como.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "interrogative",
           "prompt": ""
         },
@@ -806,7 +762,6 @@
           "WordAudio": "[sound:como.mp3]",
           "WordAudioAlt": "",
           "UsageNote": "",
-          "PersonalMnemonic": "",
           "MeaningID": "since",
           "prompt": ""
         }

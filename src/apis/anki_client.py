@@ -309,7 +309,6 @@ class AnkiClient(BaseAPIClient):
             "WordAudio": "",
             "WordAudioAlt": "",
             "UsageNote": "",
-            "PersonalMnemonic": "",
             "MeaningID": ""
         }
         
@@ -319,6 +318,10 @@ class AnkiClient(BaseAPIClient):
                 anki_fields[field] = str(card_data[field])
         
         return anki_fields
+
+    def normalize_card_fields(self, card_data: Dict[str, Any]) -> Dict[str, str]:
+        """Public wrapper to normalize an arbitrary card dict to Anki fields only."""
+        return self._prepare_card_fields(card_data)
     
     def get_deck_cards(self, deck_name: Optional[str] = None) -> APIResponse:
         """Get all cards from a deck"""
@@ -469,18 +472,31 @@ class AnkiClient(BaseAPIClient):
             self.logger.error(f"{ICONS['cross']} {error_msg}")
             return APIResponse(success=False, error_message=error_msg)
 
-    def update_model_templates(self, templates: list[Dict[str, str]], model_name: Optional[str] = None) -> APIResponse:
+    def update_model_templates(self, templates: list[Dict[str, str]] | Dict[str, Dict[str, str]], model_name: Optional[str] = None) -> APIResponse:
         """Push updated templates to the model"""
         try:
             if model_name is None:
                 model_name = self.note_type
+            # AnkiConnect expects a mapping of template name -> {Front, Back}
+            if isinstance(templates, list):
+                templates_map: Dict[str, Dict[str, str]] = {}
+                for t in templates:
+                    name = t.get('Name') or t.get('name')
+                    if not name:
+                        continue
+                    templates_map[name] = {
+                        'Front': t.get('Front', ''),
+                        'Back': t.get('Back', '')
+                    }
+            else:
+                templates_map = templates
             payload = {
                 "action": "updateModelTemplates",
                 "version": 6,
                 "params": {
                     "model": {
                         "name": model_name,
-                        "templates": templates
+                        "templates": templates_map
                     }
                 }
             }
@@ -510,5 +526,25 @@ class AnkiClient(BaseAPIClient):
             return self._unwrap_result(response)
         except Exception as e:
             error_msg = f"Failed to update model styling: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def remove_model_field(self, field_name: str, model_name: Optional[str] = None) -> APIResponse:
+        """Remove a field from the note type (model)"""
+        try:
+            if model_name is None:
+                model_name = self.note_type
+            payload = {
+                "action": "removeModelField",
+                "version": 6,
+                "params": {
+                    "model": model_name,
+                    "field": field_name
+                }
+            }
+            response = self._make_request("POST", self.base_url, json=payload)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to remove model field '{field_name}': {e}"
             self.logger.error(f"{ICONS['cross']} {error_msg}")
             return APIResponse(success=False, error_message=error_msg)
