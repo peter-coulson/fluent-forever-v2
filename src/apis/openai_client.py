@@ -136,36 +136,7 @@ class OpenAIClient(BaseAPIClient):
             self.logger.error(f"{ICONS['cross']} {error_msg}")
             return APIResponse(success=False, error_message=error_msg)
     
-    def validate_prompt(self, prompt: str) -> tuple[bool, str]:
-        """
-        Validate image prompt for content policy compliance
-        
-        Args:
-            prompt: Text prompt to validate
-            
-        Returns:
-            (is_valid, error_message)
-        """
-        # Basic validation checks
-        if not prompt or len(prompt.strip()) == 0:
-            return False, "Prompt cannot be empty"
-        
-        if len(prompt) > 1000:  # DALL-E limit is 1000 characters
-            return False, f"Prompt too long ({len(prompt)} chars, max 1000)"
-        
-        # Check for prohibited content keywords
-        prohibited_words = [
-            'nude', 'naked', 'sexual', 'violent', 'blood', 'weapon', 'gun', 
-            'knife', 'death', 'suicide', 'drug', 'alcohol', 'cigarette',
-            'politics', 'politician', 'celebrity'
-        ]
-        
-        prompt_lower = prompt.lower()
-        for word in prohibited_words:
-            if word in prompt_lower:
-                return False, f"Prompt contains prohibited content: {word}"
-        
-        return True, ""
+    # Removed unused validate_prompt utility
     
     def estimate_cost(self, num_images: int = 1) -> Dict[str, Any]:
         """

@@ -77,35 +77,13 @@ class AnkiClient(BaseAPIClient):
             return False
     
     def get_service_info(self) -> Dict[str, Any]:
-        """Get AnkiConnect service information"""
-        try:
-            response = self._make_request(
-                "POST",
-                self.base_url, 
-                json={"action": "version", "version": 6}
-            )
-            
-            if response.success:
-                return {
-                    "service": "AnkiConnect",
-                    "version": response.data,
-                    "deck_name": self.deck_name,
-                    "note_type": self.note_type,
-                    "url": self.base_url
-                }
-            else:
-                return {
-                    "service": "AnkiConnect",
-                    "status": "unavailable",
-                    "error": response.error_message
-                }
-                
-        except Exception as e:
-            return {
-                "service": "AnkiConnect", 
-                "status": "error",
-                "error": str(e)
-            }
+        """Deprecated: service info not used by new flow"""
+        return {
+            "service": "AnkiConnect",
+            "deck_name": self.deck_name,
+            "note_type": self.note_type,
+            "url": self.base_url
+        }
     
     def create_card(self, card_data: Dict[str, Any]) -> APIResponse:
         """
