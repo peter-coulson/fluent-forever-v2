@@ -8,6 +8,9 @@ import json
 from pathlib import Path
 from typing import Dict, List, Any
 from anki.connection import AnkiConnection
+from utils.logging_config import get_logger, ICONS
+
+logger = get_logger('validation.sync')
 
 def load_config() -> dict:
     """Load configuration"""
@@ -16,7 +19,7 @@ def load_config() -> dict:
         with open(config_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
-        print(f"❌ Failed to load config.json: {e}")
+        logger.error(f"{ICONS['cross']} Failed to load config.json: {e}")
         raise
 
 def load_vocabulary() -> dict:
@@ -26,7 +29,7 @@ def load_vocabulary() -> dict:
         with open(vocab_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception as e:
-        print(f"❌ Failed to load vocabulary.json: {e}")
+        logger.error(f"{ICONS['cross']} Failed to load vocabulary.json: {e}")
         raise
 
 def compare_card_fields(vocab_card: dict, anki_card: dict, word: str, meaning: str) -> list:

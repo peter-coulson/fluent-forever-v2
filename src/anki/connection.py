@@ -9,6 +9,9 @@ import time
 import os
 import sys
 from typing import Dict, List, Any, Optional
+from utils.logging_config import get_logger, ICONS
+
+logger = get_logger('anki.connection')
 
 class AnkiConnection:
     """Manages connection to AnkiConnect"""
@@ -34,36 +37,36 @@ class AnkiConnection:
     
     def launch_anki(self) -> bool:
         """Launch Anki application in background"""
-        print("🚀 Launching Anki in background...")
+        logger.info("🚀 Launching Anki in background...")
         
         # Launch Anki (macOS specific)
         os.system("open -a Anki --background")
         
         # Wait for startup
-        print("⏳ Waiting for Anki to start...")
+        logger.info("⏳ Waiting for Anki to start...")
         time.sleep(8)
         
         return self.is_available()
     
     def ensure_connection(self) -> bool:
         """Ensure AnkiConnect is available, launching Anki if needed"""
-        print("🔧 Checking AnkiConnect setup...")
+        logger.info(f"{ICONS['gear']} Checking AnkiConnect setup...")
         
         if self.is_available():
-            print("✅ AnkiConnect is running")
+            logger.info(f"{ICONS['check']} AnkiConnect is running")
             return True
         
         # Try launching Anki
         if self.launch_anki():
-            print("✅ AnkiConnect is now running")
+            logger.info(f"{ICONS['check']} AnkiConnect is now running")
             return True
         
         # Failed to connect
-        print("❌ CRITICAL: AnkiConnect unavailable!")
-        print("Please ensure:")
-        print("1. Anki is running")
-        print("2. AnkiConnect addon is installed")
-        print("3. AnkiConnect addon is enabled")
+        logger.error(f"{ICONS['cross']} CRITICAL: AnkiConnect unavailable!")
+        logger.error("Please ensure:")
+        logger.error("1. Anki is running")
+        logger.error("2. AnkiConnect addon is installed")
+        logger.error("3. AnkiConnect addon is enabled")
         return False
     
     def request(self, action: str, params: Optional[Dict] = None) -> Dict[str, Any]:
