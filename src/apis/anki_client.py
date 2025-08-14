@@ -281,6 +281,18 @@ class AnkiClient(BaseAPIClient):
         except Exception as e:
             self.logger.error(f"{ICONS['cross']} Error storing {filename}: {e}")
             return False
+
+    def store_media_file(self, file_path: Path, filename: str) -> APIResponse:
+        """Public wrapper to store a media file in Anki."""
+        try:
+            ok = self._store_media_file(file_path, filename)
+            if ok:
+                return APIResponse(success=True, data={"filename": filename})
+            return APIResponse(success=False, error_message=f"Failed to store {filename}")
+        except Exception as e:
+            error_msg = f"Failed to store {filename}: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
     
     def _prepare_card_fields(self, card_data: Dict[str, Any]) -> Dict[str, str]:
         """Prepare card fields for Anki note creation"""
@@ -324,7 +336,8 @@ class AnkiClient(BaseAPIClient):
             }
             
             response = self._make_request("POST", self.base_url, json=find_request)
-            
+            response = self._unwrap_result(response)
+
             if not response.success:
                 return response
                 
@@ -341,9 +354,9 @@ class AnkiClient(BaseAPIClient):
                     "notes": note_ids
                 }
             }
-            
             response = self._make_request("POST", self.base_url, json=info_request)
-            
+            response = self._unwrap_result(response)
+
             if response.success:
                 # Organize cards by word/meaning
                 cards = {}
@@ -378,7 +391,8 @@ class AnkiClient(BaseAPIClient):
             }
             
             response = self._make_request("POST", self.base_url, json=request_data)
-            
+            response = self._unwrap_result(response)
+
             if response.success:
                 files = response.data if response.data else []
                 return APIResponse(success=True, data=files)
@@ -387,5 +401,114 @@ class AnkiClient(BaseAPIClient):
                 
         except Exception as e:
             error_msg = f"Failed to get media files: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def find_notes(self, query: str) -> APIResponse:
+        """Find notes by search query"""
+        try:
+            request_data = {
+                "action": "findNotes",
+                "version": 6,
+                "params": {"query": query}
+            }
+            response = self._make_request("POST", self.base_url, json=request_data)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to find notes: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def notes_info(self, note_ids: list[int]) -> APIResponse:
+        """Get notesInfo for given note IDs"""
+        try:
+            request_data = {
+                "action": "notesInfo",
+                "version": 6,
+                "params": {"notes": note_ids}
+            }
+            response = self._make_request("POST", self.base_url, json=request_data)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to get notes info: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def update_note_fields(self, note_id: int, fields: Dict[str, str]) -> APIResponse:
+        """Update fields for a single note"""
+        try:
+            request_data = {
+                "action": "updateNoteFields",
+                "version": 6,
+                "params": {
+                    "note": {
+                        "id": note_id,
+                        "fields": fields
+                    }
+                }
+            }
+            response = self._make_request("POST", self.base_url, json=request_data)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to update note fields: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def delete_notes(self, note_ids: list[int]) -> APIResponse:
+        """Delete notes by ID"""
+        try:
+            request_data = {
+                "action": "deleteNotes",
+                "version": 6,
+                "params": {"notes": note_ids}
+            }
+            response = self._make_request("POST", self.base_url, json=request_data)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to delete notes: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def update_model_templates(self, templates: list[Dict[str, str]], model_name: Optional[str] = None) -> APIResponse:
+        """Push updated templates to the model"""
+        try:
+            if model_name is None:
+                model_name = self.note_type
+            payload = {
+                "action": "updateModelTemplates",
+                "version": 6,
+                "params": {
+                    "model": {
+                        "name": model_name,
+                        "templates": templates
+                    }
+                }
+            }
+            response = self._make_request("POST", self.base_url, json=payload)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to update model templates: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def update_model_styling(self, css: str, model_name: Optional[str] = None) -> APIResponse:
+        """Push CSS styling to the model"""
+        try:
+            if model_name is None:
+                model_name = self.note_type
+            payload = {
+                "action": "updateModelStyling",
+                "version": 6,
+                "params": {
+                    "model": {
+                        "name": model_name,
+                        "css": css
+                    }
+                }
+            }
+            response = self._make_request("POST", self.base_url, json=payload)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to update model styling: {e}"
             self.logger.error(f"{ICONS['cross']} {error_msg}")
             return APIResponse(success=False, error_message=error_msg)

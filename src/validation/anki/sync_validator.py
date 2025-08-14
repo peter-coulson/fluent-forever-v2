@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Dict, List, Any
 from apis.anki_client import AnkiClient
 from utils.logging_config import get_logger, ICONS
+from .sync_result import SyncValidationResult, FieldDifference
 
 logger = get_logger('validation.anki.sync')
 
@@ -79,6 +80,67 @@ def validate_sync() -> bool:
         print("\n❌ VALIDATION FAILED")
         print("   Cannot connect to Anki")
         return False
+
+
+def validate_sync_structured() -> SyncValidationResult:
+    """Return a structured diff for consumption by sync scripts."""
+    anki_client = AnkiClient()
+    if not anki_client.test_connection():
+        return SyncValidationResult([], [], {}, {}, [])
+
+    vocab_data = load_vocabulary()
+    response = anki_client.get_deck_cards()
+    anki_cards = response.data if response.success else {}
+
+    missing_words_in_anki = []
+    missing_words_in_vocab = []
+    missing_meanings_in_anki: dict[str, list[str]] = {}
+    missing_meanings_in_vocab: dict[str, list[str]] = {}
+    field_differences: list[FieldDifference] = []
+
+    vocab_words = set(vocab_data['words'].keys())
+    anki_words = set(anki_cards.keys())
+
+    missing_words_in_anki = sorted(vocab_words - anki_words)
+    missing_words_in_vocab = sorted(anki_words - vocab_words)
+
+    for word in sorted(vocab_words & anki_words):
+        vocab_meanings = {m['MeaningID']: m for m in vocab_data['words'][word]['meanings']}
+        anki_meanings = anki_cards[word]
+
+        vocab_meaning_ids = set(vocab_meanings.keys())
+        anki_meaning_ids = set(anki_meanings.keys())
+
+        mm_anki = sorted(vocab_meaning_ids - anki_meaning_ids)
+        if mm_anki:
+            missing_meanings_in_anki[word] = mm_anki
+
+        mm_vocab = sorted(anki_meaning_ids - vocab_meaning_ids)
+        if mm_vocab:
+            missing_meanings_in_vocab[word] = mm_vocab
+
+        for meaning_id in sorted(vocab_meaning_ids & anki_meaning_ids):
+            vocab_card = vocab_meanings[meaning_id]
+            anki_card = anki_meanings[meaning_id]
+            diffs = compare_card_fields(vocab_card, anki_card, word, meaning_id)
+            for d in diffs:
+                field_differences.append(
+                    FieldDifference(
+                        word=word,
+                        meaning_id=meaning_id,
+                        field=d['field'],
+                        vocab_value=d['vocab_value'],
+                        anki_value=d['anki_value'],
+                    )
+                )
+
+    return SyncValidationResult(
+        missing_words_in_anki=missing_words_in_anki,
+        missing_words_in_vocab=missing_words_in_vocab,
+        missing_meanings_in_anki=missing_meanings_in_anki,
+        missing_meanings_in_vocab=missing_meanings_in_vocab,
+        field_differences=field_differences,
+    )
     
     # Load data
     vocab_data = load_vocabulary()
