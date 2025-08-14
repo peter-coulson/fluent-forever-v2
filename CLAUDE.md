@@ -1,20 +1,50 @@
 # FLUENT FOREVER V2 - CLAUDE OPERATIONAL GUIDE
 
 ## SYSTEM OVERVIEW
-**Purpose**: Claude-managed Spanish Anki cards with Studio Ghibli imagery following Fluent Forever methodology
-**Architecture**: Claude initiates workflow, manages analysis, requests user prompts, coordinates automation
-**Current Status**: 8 words processed (33 cards), next word: `por`
-**Core Principle**: One card per distinct meaning = one unique memory anchor
+**Purpose**: Create high-quality Spanish Anki cards with Studio Ghibli imagery, following Fluent Forever methodology.
+**Primary Priority**: Produce cards efficiently and reliably; handle errors gracefully; propose focused code edits only when needed.
+**Core Principle**: One card per distinct meaning = one unique memory anchor.
 
-## CLAUDE-MANAGED WORKFLOW
-**Claude controls the entire process** from the Claude Code terminal:
+### Operating principles (for Claude)
+- Prioritize card production. Ask only for information that unblocks the next step.
+- Make minimal, safe changes. Use dry-runs, caps, and validators before executing expensive actions.
+- Be explicit about approvals. Never bypass interactive confirmations; do not auto-approve destructive operations.
+- Prefer structured workflows and logs over ad-hoc actions.
+- No duplication rule. Never duplicate meanings, CardIDs, prompts, media, or audio:
+  - One CardID per (SpanishWord, MeaningID)
+  - Reuse audio per word; do not request multiple pronunciations for the same word
+  - Do not regenerate media if files already exist unless explicitly requested
 
-1. **Claude Initiates**: Claude asks user intent and manages entire workflow
-2. **Claude Analyzes**: Claude identifies ALL distinct semantic meanings of Spanish word
-3. **Claude Plans Batches**: Claude creates exactly 5 cards per batch with intelligent grouping
-4. **Claude Requests Prompts**: Claude tells user which specific image prompts are needed
-5. **Claude Coordinates**: Claude manages automation script to generate media + create cards
-6. **Claude Updates**: Claude saves progress and manages all tracking through automation
+## CLAUDE-MANAGED WORKFLOW (Card Creation)
+Perform the semantic work; then hand off to automation.
+
+1. Analyze meanings and request prompts
+   - Identify ALL distinct semantic meanings per word
+   - Request specific image prompts from the user for each meaning
+2. Prompt validation (must pass before proceeding)
+   - Keep prompts human-centered, Studio Ghibli style.
+   - Include: a single clearly described subject (age, hair/eyes/clothing), a specific action, and a simple setting.
+   - Avoid: multiple focal actions, modern tech, text/watermarks, violence/NSFW, ambiguous or crowded scenes.
+   - Length: concise but complete (1–3 sentences). No policy violations.
+   - Examples:
+     - PASS: "Teenage boy, messy black hair, green eyes, red striped shirt, hammering nails into wooden board on a workbench in a sunlit workshop." (clear subject + action + setting)
+     - FAIL: "people doing many things in a city" (ambiguous, crowded)
+     - FAIL: "ultra-realistic photo of celebrity" (restricted content)
+   - Prompt + comment format (for better sentence relevance):
+     - Write the visual prompt, then add a bracketed comment for sentence context, e.g.
+       - "A blond boy on a green train through the countryside with lots of sheep around [Me going home from boarding school as a child]"
+     - The bracketed comment informs sentence generation only; do not treat it as part of the image prompt.
+3. Produce sentences and IPA
+   - ExampleSentence must closely match the prompt’s action and setting; include details implied by the bracketed comment when appropriate.
+   - GappedSentence is the same sentence with the target word replaced by `_____`.
+   - IPA (Neutral Latin American):
+     - Seseo: c/z → [s]
+     - Yeísmo: ll/y → [ʝ]
+     - Contextual fricatives: intervocalic b/d/g → [β, ð, ɣ]; word‑initial b/d/g remain stops
+     - No vowel reduction; keep clear vowel quality
+     - Bracket IPA like [kon], or /.../ where appropriate; ensure one of these formats
+4. Provide the final per-meaning fields to the system
+   - Required: `SpanishWord, MeaningID, MeaningContext, MonolingualDef, ExampleSentence, GappedSentence (contains "_____"), IPA, prompt`.
 
 ## BATCH COMPOSITION RULES - ALWAYS 5 CARDS
 
@@ -104,14 +134,13 @@
 - **Memory Link**: User creates specific visual anchor for "studying" concept
 - **Card Result**: When seeing "estudiar", user recalls this exact girl studying
 
-## API COST PROTECTION - ESSENTIAL
-
-**Before ANY generation, Claude checks existing files**:
-```bash
-ls media/images/word_meaning.png
-ls media/audio/word.mp3
-```
-**Skip generation if files exist - APIs are expensive**
+## API COST PROTECTION (Claude’s checklist)
+- Always validate prompts first; do not request generation until prompts are ready.
+- Use dry-runs and caps on generation:
+  - Preview media plan: `media-generate --cards <CardID,...>` (no API calls)
+  - Cap with `--max N` (default 5); the system hard-fails if over cap when executing
+  - Skip providers: `--no-images`, `--no-audio` as needed
+- Never regenerate existing media unless explicitly requested (e.g., regenerate-images)
 
 ## CONTEXTUAL SENTENCE GENERATION
 
@@ -183,41 +212,40 @@ source venv/bin/activate
 
 ## CLAUDE-COORDINATED EXECUTION
 
-**Claude manages the workflow:**
-1. **Claude initiates**: "Process next word from queue or other action?"
-2. **Claude analyzes**: Word meanings and creates batch plan
-3. **Claude requests**: Specific image prompts from user
-4. **Claude coordinates**: Runs automation script with collected data
-5. **Claude validates**: Results and updates progress
+Main commands (use as needed; do not mention internal implementation details to users):
 
-```bash
-# Claude runs when ready:
-source venv/bin/activate && python generate_batch.py
-```
-
-**Automation script handles (under Claude's coordination):**
-- ✅ AnkiConnect availability checking + Anki launch
-- ✅ API key validation and error handling  
-- ✅ Media file generation (images + audio)
-- ✅ IPA pronunciation with contextual fricatives
-- ✅ Anki card creation with all fields
-- ✅ Vocabulary database updates
-- ✅ Word queue progression management
+- Prepare batch staging (for Claude to fill):
+  - `prepare-claude-batch --words por,para`
+- Ingest staging (validate first, then execute):
+  - `ingest-claude-batch --input staging/claude_batch_*.json --dry-run`
+  - `ingest-claude-batch --input staging/claude_batch_*.json`
+- Media & sync (fast path):
+  - `run-media-then-sync --cards <CardID,...> --execute`
+- Media only (fine-grained):
+  - `media-generate --cards <CardID,...>` (preview)
+  - `media-generate --cards <CardID,...> --execute [--max N] [--no-images] [--no-audio]`
+- Full deck sync:
+  - `sync-anki-all [--delete-extras]` (will require interactive human confirmation for deletions)
+- Templates:
+  - `validate-anki-templates` (compare HTML/CSS and placeholders)
 
 ## CRITICAL ERROR HANDLING
 
-**Before API Calls**: Claude checks existing media files first
-**Common Failures & Actions**:
-- **AnkiConnect not responding**: Verify Anki open + restart AnkiConnect addon
-- **OpenAI rate limit**: Wait 60s, retry once, defer batch if still failing
-- **Forvo no audio**: Try base word, document missing, continue batch
-- **Duplicate card**: Update existing instead of creating new
-- **Media upload failed**: Verify local file exists, check Anki permissions
+Use the smallest corrective step and keep card creation moving:
 
-**Mid-Batch Recovery:**
-- Save progress after each successful card
-- Never regenerate existing media
-- Preserve user prompts immediately after collection
+- Staging ingest fails:
+  - Fix fields; ensure `GappedSentence` contains `_____`.
+  - Re-run: `ingest-claude-batch --input ... --dry-run`, then execute.
+- Missing media after generation:
+  - Preview: `media-generate --cards <CardID,...>`; execute with `--execute` and `--max` as needed.
+- Bad image outcome:
+  - `regenerate-images --cards <CardID> --execute` (TTY required; backups stored automatically).
+- Template mismatches:
+  - `validate-anki-templates` then `sync-anki-all` to apply updates.
+- Anki inconsistencies:
+  - `sync-anki-all` prints missing words/meanings and field diffs; fix sources and re-run.
+- Anki unavailable:
+  - System auto-launches Anki; otherwise launch manually and retry.
 
 ## WORD QUEUE MANAGEMENT
 
@@ -231,14 +259,16 @@ source venv/bin/activate && python generate_batch.py
 2. **Completion**: Move word from PENDING → COMPLETED only after successful Anki card creation
 3. **Format**: `word - meanings (X cards) - completion date`
 
-## VOCABULARY DATABASE MANAGEMENT
+## SYSTEM FUNCTIONALITY (for Claude’s context)
 
-**vocabulary.json** automatically maintains:
-- **Complete word records**: All meanings with examples and context
-- **Progress metadata**: Total words/cards, last update timestamps
-- **Generated content**: LLM-created sentences matching user prompts
-- **Media associations**: File paths for images and audio
-- **Processing dates**: When each word was completed
+- Staging → Ingestion → Vocabulary
+  - You provide per-meaning fields via staging; the system derives IDs & media fields and merges into `vocabulary.json` (golden source) after validation.
+- Media generation
+  - Idempotent, capped, and validated. Cost estimation is logged. Provenance (.index.json) avoids accidental re-generation; lockfiles prevent concurrent runs.
+- Anki sync
+  - Validates templates, uploads media, upserts cards by CardID, logs precise field diffs on mismatch, and requires interactive confirmation before deletions.
+- Logging
+  - High-signal, structured logs at each step with clear summaries; use dry-run modes to preview actions.
 
 ## CARD CREATION FIELDS (Fluent Forever Format)
 
@@ -247,13 +277,15 @@ source venv/bin/activate && python generate_batch.py
 - ExampleSentence, GappedSentence, ImageFile, WordAudio  
 - Generated from: word + meaning_context + user_prompt + memory connection
 
-## CURRENT BATCH CONFIGURATION
-
-**Active Batch**: haber (3) + con (2) = 5 cards
-**Next Batch**: por (5) = 5 cards  
-**Status**: System ready for autonomous processing
-
-**Pre-configured prompts available for immediate processing.**
+## COMMANDS CHEAT SHEET (Claude)
+- Prepare staging: `prepare-claude-batch --words por,para`
+- Ingest (validate → execute):
+  - `ingest-claude-batch --input staging/claude_batch_*.json --dry-run`
+  - `ingest-claude-batch --input staging/claude_batch_*.json`
+- Media and sync (cards-only): `run-media-then-sync --cards <CardID,...> --execute`
+- Media only: `media-generate --cards <CardID,...> [--execute] [--max N] [--no-images] [--no-audio]`
+- Full sync: `sync-anki-all [--delete-extras]` (interactive TTY required for deletions)
+- Templates: `validate-anki-templates`
 
 ## SYSTEM FILES
 - `generate_batch.py`: Claude coordinates this automation script
@@ -273,6 +305,4 @@ source venv/bin/activate && python generate_batch.py
 
 ---
 
-**CURRENT STATUS**: Production-ready Claude-managed processing system. Claude controls entire workflow from analysis through card creation, using automation for media generation only.
-
-**WORKFLOW**: Claude initiates → requests prompts → coordinates automation → validates results
+**WORKFLOW**: Claude analyzes + fills staging → ingest to vocabulary → generate media → sync to Anki → validate
