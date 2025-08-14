@@ -47,6 +47,52 @@ Following Fluent Forever methodology: complex words get multiple cards with dist
 
 ## 📈 Evolution History & Decision Points
 
+### Phase 8: Automation & Safety Refactor (August 2025)
+Goal: Make the system faster to operate (card-first), safer (no accidental destructive ops), cheaper (dry-runs/caps), and easier to debug (strong validations + logs).
+
+Key changes implemented:
+- Claude staging + ingestion
+  - Added a staging workflow so Claude fills a small JSON (per-meaning fields only), and the system ingests into `vocabulary.json` with derived fields (`CardID`, `ImageFile`, `WordAudio`) and full validation.
+  - Commands: `prepare-claude-batch`, `ingest-claude-batch`.
+  - Rationale: protects golden source, reduces tokens, enables dry-run + diffable ingestion.
+
+- Media generation orchestrator
+  - New idempotent planner with provenance file (`media/.index.json`), hard caps (`--max`), dry-runs, cost estimate, and a lockfile to prevent concurrent runs.
+  - Commands: `media-generate`, `run-media-then-sync` (chains sync only on success).
+  - Rationale: prevent duplicate/expensive API calls, guarantee post-run validation.
+
+- Template export/validate/push
+  - Export current templates/CSS; validate placeholders and HTML/CSS vs Anki; push updates when needed.
+  - Removed `PersonalMnemonic` usage from templates/fields; validation now hard-fails on model/config field drift and instructs manual field removal in Anki when required.
+  - Command: `validate-anki-templates`.
+  - Rationale: ensures exact parity and safe, auditable template management.
+
+- Anki sync improvements
+  - Client unwrapping of AnkiConnect envelopes; added note find/update/delete; delete is guarded by TTY + exact human confirmation phrase (LLMs cannot auto-approve).
+  - Detailed post-sync diffs (missing words/meanings and field-level differences) for fast diagnosis.
+  - Command: `sync-anki-all`.
+  - Rationale: reliable behavior, safe deletions, actionable debug logs.
+
+- Pronunciation selection
+  - Forvo selection moved to config-driven `priority_groups` with in-group ranking by positive votes (then total votes). Reuse one audio per word. Dropped unused “preferred accents”.
+  - Rationale: predictable country grouping + quality-based choice.
+
+- “No duplication” system principle
+  - Never duplicate: meanings, CardIDs, prompts, media filenames, audio per word.
+  - Rationale: prevents ambiguity, reduces cost, keeps Anki/vocabulary in strict sync.
+
+- Repo & commands structure
+  - Moved scripts under `src/cli/`; added console entrypoints (`setup.cfg`). Root cleaned of Python scripts.
+  - Commands referenced inline in docs; removed redundant cheat sheets.
+  - Rationale: cleaner root, consistent invocation, simpler maintenance.
+
+- Tests & validation
+  - Added tests for template validator, Forvo prioritization, media generation (plan/dry-run), and Claude staging/ingestion.
+  - Full suite passing; validations promoted to hard gates with high-signal logs.
+  - Rationale: protect against regressions; ensure confidence in daily use.
+
+Outcome: Faster card creation with strict safety rails, cheaper media operations, clearer recovery paths, and more maintainable code.
+
 ### **Phase 1: Original Foundation (August 2025)**
 **Vision**: Local Stable Diffusion + Quentin Blake watercolor + Personal characters
 
@@ -133,7 +179,7 @@ word_queue.txt → Claude analyzes meanings → User provides prompts →
 
 **Technical Implementation**:
 - Latin American Spanish IPA with contextual fricative rules
-- Forvo audio priority: 8 LA countries before Spain
+- Forvo pronunciation selection via `priority_groups` + vote ranking
 - Automatic phonetic conversion for unknown words
 
 **Pronunciation Impact**: Sounds sophisticated and educated across all Spanish-speaking regions
