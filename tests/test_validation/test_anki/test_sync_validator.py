@@ -51,8 +51,11 @@ class TestSyncValidator:
         
     def test_config_file_load_error(self):
         """FAILURE CASE: config.json cannot be loaded"""
-        from validation.anki.sync_validator import load_config
+        from apis.base_client import BaseAPIClient
+        
+        # Reset the shared config to force reload
+        BaseAPIClient._shared_config = None
         
         with patch('builtins.open', side_effect=FileNotFoundError("config.json not found")):
             with pytest.raises(FileNotFoundError):
-                load_config()
+                BaseAPIClient.load_config()

@@ -1,22 +1,32 @@
 {
   "apis": {
+    "base": {
+      "user_agent": "FluentForever-v2/1.0",
+      "timeout": 30,
+      "max_retries": 3
+    },
     "openai": {
       "api_key": "",
       "env_var": "OPENAI_API_KEY",
       "enabled": true,
       "model": "dall-e-3",
-      "timeout": 60
+      "base_url": "https://api.openai.com/v1",
+      "timeout": 60,
+      "cost_per_image": 0.040
     },
     "forvo": {
       "api_key": "",
       "env_var": "FORVO_API_KEY",
       "enabled": true,
+      "base_url": "https://apifree.forvo.com",
+      "country_priorities": ["CO", "MX", "PE", "VE", "AR", "EC", "UY", "CR", "ES"],
       "preferred_accents": ["Colombian", "Mexican", "Peruvian", "Venezuelan", "Argentinian", "Ecuadorian", "Uruguayan", "Costa Rican", "Spanish"]
     },
     "anki": {
       "url": "http://localhost:8765",
       "deck_name": "Latin Spanish::1. Vocabulary",
-      "note_type": "Fluent Forever"
+      "note_type": "Fluent Forever",
+      "launch_wait_time": 8
     }
   },
   "image_generation": {

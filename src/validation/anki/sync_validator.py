@@ -7,20 +7,10 @@ Compares vocabulary.json with Anki cards field-by-field to ensure perfect synchr
 import json
 from pathlib import Path
 from typing import Dict, List, Any
-from anki.connection import AnkiConnection
+from apis.anki_client import AnkiClient
 from utils.logging_config import get_logger, ICONS
 
 logger = get_logger('validation.anki.sync')
-
-def load_config() -> dict:
-    """Load configuration"""
-    config_path = Path(__file__).parent.parent.parent.parent / 'config.json'
-    try:
-        with open(config_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as e:
-        logger.error(f"{ICONS['cross']} Failed to load config.json: {e}")
-        raise
 
 def load_vocabulary() -> dict:
     """Load vocabulary.json"""
@@ -81,14 +71,11 @@ def validate_sync() -> bool:
     print("🔍 ANKI ↔ VOCABULARY.JSON SYNC VALIDATOR")
     print("=" * 50)
     
-    # Load configuration
-    config = load_config()
-    
-    # Initialize Anki connection with config
-    anki_conn = AnkiConnection(config['apis']['anki']['url'])
+    # Initialize Anki client
+    anki_client = AnkiClient()
     
     # Ensure Anki connection
-    if not anki_conn.ensure_connection():
+    if not anki_client.test_connection():
         print("\n❌ VALIDATION FAILED")
         print("   Cannot connect to Anki")
         return False
@@ -97,7 +84,11 @@ def validate_sync() -> bool:
     vocab_data = load_vocabulary()
     
     try:
-        anki_cards = anki_conn.get_deck_cards(config['apis']['anki']['deck_name'])
+        response = anki_client.get_deck_cards()
+        if not response.success:
+            print(f"❌ Failed to get Anki cards: {response.error_message}")
+            return False
+        anki_cards = response.data
     except Exception as e:
         print(f"❌ Failed to get Anki cards: {e}")
         return False

@@ -70,11 +70,12 @@ def mock_vocabulary():
     }
 
 @pytest.fixture
-def mock_anki_connection():
-    """Mock AnkiConnection class"""
+def mock_anki_client():
+    """Mock AnkiClient class"""
     mock = Mock()
-    mock.ensure_connection.return_value = True
-    mock.request.return_value = []
+    mock.test_connection.return_value = True
+    mock.get_media_files.return_value = Mock(success=True, data=[])
+    mock.get_deck_cards.return_value = Mock(success=True, data={})
     return mock
 
 @pytest.fixture

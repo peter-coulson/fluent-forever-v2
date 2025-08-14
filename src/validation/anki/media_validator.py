@@ -8,21 +8,13 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
-from anki.connection import AnkiConnection
+from apis.anki_client import AnkiClient
 from utils.logging_config import get_logger, ICONS
 from validation.media_sync_result import MediaSyncResult
 
 logger = get_logger('validation.anki.media')
 
-def load_config() -> dict:
-    """Load configuration"""
-    config_path = Path(__file__).parent.parent.parent.parent / 'config.json'
-    try:
-        with open(config_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as e:
-        logger.error(f"{ICONS['cross']} Failed to load config.json: {e}")
-        raise
+# Config loading now handled by BaseAPIClient
 
 def get_local_media_files() -> Tuple[Set[str], Set[str]]:
     """Get sets of local image and audio files"""
@@ -42,14 +34,16 @@ def get_local_media_files() -> Tuple[Set[str], Set[str]]:
     
     return local_images, local_audio
 
-def get_anki_media_files(anki_conn: AnkiConnection) -> Tuple[Set[str], Set[str]]:
+def get_anki_media_files(anki_client: AnkiClient) -> Tuple[Set[str], Set[str]]:
     """Get sets of Anki media files"""
     try:
         # Get image files from Anki
-        anki_images = set(anki_conn.request("getMediaFilesNames", {"pattern": "*.png"}))
+        image_response = anki_client.get_media_files("*.png")
+        anki_images = set(image_response.data) if image_response.success else set()
         
         # Get audio files from Anki
-        anki_audio = set(anki_conn.request("getMediaFilesNames", {"pattern": "*.mp3"}))
+        audio_response = anki_client.get_media_files("*.mp3")
+        anki_audio = set(audio_response.data) if audio_response.success else set()
         
         return anki_images, anki_audio
         
@@ -59,18 +53,17 @@ def get_anki_media_files(anki_conn: AnkiConnection) -> Tuple[Set[str], Set[str]]
 
 def validate_anki_vs_local() -> MediaSyncResult:
     """Validate that all local media files exist in Anki (subset check)"""
-    # Load configuration and connect to Anki
-    config = load_config()
-    anki_conn = AnkiConnection(config['apis']['anki']['url'])
+    # Connect to Anki (config loaded automatically)
+    anki_client = AnkiClient()
     
-    if not anki_conn.ensure_connection():
+    if not anki_client.test_connection():
         logger.error(f"{ICONS['cross']} Cannot connect to Anki")
         # Return empty result if can't connect
         return MediaSyncResult(missing_images=[], missing_audio=[])
     
     # Get media files from both locations
     local_images, local_audio = get_local_media_files()
-    anki_images, anki_audio = get_anki_media_files(anki_conn)
+    anki_images, anki_audio = get_anki_media_files(anki_client)
     
     # Check if all local images exist in Anki (subset check)
     missing_images = list(local_images - anki_images)

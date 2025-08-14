@@ -12,12 +12,11 @@ class TestAnkiMediaValidator:
     
     def test_anki_connection_fails(self, mock_config):
         """FAILURE CASE: AnkiConnect is not available"""
-        with patch('validation.anki.media_validator.load_config', return_value=mock_config), \
-             patch('validation.anki.media_validator.AnkiConnection') as mock_anki_class:
+        with patch('validation.anki.media_validator.AnkiClient') as mock_anki_class:
             
             # Mock connection failure
             mock_conn = Mock()
-            mock_conn.ensure_connection.return_value = False
+            mock_conn.test_connection.return_value = False
             mock_anki_class.return_value = mock_conn
             
             result = validate_anki_vs_local()
@@ -30,14 +29,13 @@ class TestAnkiMediaValidator:
 
     def test_local_audio_missing_in_anki(self, mock_config, local_media_files, anki_media_files):
         """FAILURE CASE: Local audio files are missing from Anki"""
-        with patch('validation.anki.media_validator.load_config', return_value=mock_config), \
-             patch('validation.anki.media_validator.AnkiConnection') as mock_anki_class, \
+        with patch('validation.anki.media_validator.AnkiClient') as mock_anki_class, \
              patch('validation.anki.media_validator.get_local_media_files', return_value=local_media_files), \
              patch('validation.anki.media_validator.get_anki_media_files', return_value=anki_media_files):
             
             # Mock successful connection
             mock_conn = Mock()
-            mock_conn.ensure_connection.return_value = True
+            mock_conn.test_connection.return_value = True
             mock_anki_class.return_value = mock_conn
             
             result = validate_anki_vs_local()
@@ -48,14 +46,12 @@ class TestAnkiMediaValidator:
 
     def test_anki_api_error(self, mock_config, local_media_files):
         """FAILURE CASE: Anki API throws error when getting media files"""
-        with patch('validation.anki.media_validator.load_config', return_value=mock_config), \
-             patch('validation.anki.media_validator.AnkiConnection') as mock_anki_class, \
+        with patch('validation.anki.media_validator.AnkiClient') as mock_anki_class, \
              patch('validation.anki.media_validator.get_local_media_files', return_value=local_media_files):
             
             # Mock connection success but API error
             mock_conn = Mock()
-            mock_conn.ensure_connection.return_value = True
-            mock_conn.request.side_effect = Exception("API Error")
+            mock_conn.test_connection.return_value = True
             mock_anki_class.return_value = mock_conn
             
             result = validate_anki_vs_local()
