@@ -23,8 +23,8 @@ def write_minimal_project(tmp_path: Path):
             "word_entry": {"required_fields": ["word","processed_date","meanings","cards_created"], "optional_fields": []},
             "meaning_entry": {"required_fields": [
             "CardID","SpanishWord","IPA","MeaningContext","MonolingualDef","ExampleSentence","GappedSentence","ImageFile","WordAudio","WordAudioAlt","UsageNote","MeaningID","prompt"
-        ], "optional_fields": []}}
-        , "field_patterns": {"CardID": "^[a-z_0-9]+$", "SpanishWord": "^[a-záéíóúñü]+$", "ImageFile": "^.*\\.png$", "WordAudio":"^\\[sound:.*\\.mp3\\]$", "MeaningID": "^[a-z_]+$"}, "constraints": {"max_cards_per_word": 10, "min_definition_length": 1, "min_example_length": 1}}}
+        ], "optional_fields": []}},
+        "field_patterns": {"CardID": "^[a-z_0-9]+$", "SpanishWord": "^[a-záéíóúñü]+$", "IPA":"^\\[.*\\]$|^/.*/$", "ImageFile": "^.*\\.png$", "WordAudio":"^\\[sound:.*\\.mp3\\]$", "MeaningID": "^[a-z_]+$"}, "constraints": {"max_cards_per_word": 10, "min_definition_length": 1, "min_example_length": 1}}}
     (tmp_path / 'config.json').write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding='utf-8')
     # Minimal vocabulary with one card
     vocab = {

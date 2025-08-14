@@ -251,6 +251,11 @@ def run_media_generation(
     skip_audio: bool = False,
 ) -> bool:
     setup_logging()
+    # Ensure config is loaded from the provided project_root, not a previous cached location
+    try:
+        BaseAPIClient._shared_config = None  # type: ignore[attr-defined]
+    except Exception:
+        pass
     if not validate_vocabulary(project_root):
         return False
 
