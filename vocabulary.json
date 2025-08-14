@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-14T14:52:43.191168",
-    "total_words": 13,
-    "total_cards": 50,
+    "last_updated": "2025-08-14T16:00:32.802937",
+    "total_words": 17,
+    "total_cards": 55,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -849,6 +849,109 @@
         }
       ],
       "cards_created": 5
+    },
+    "le": {
+      "word": "le",
+      "processed_date": "2025-08-14T16:00:32.802916",
+      "meanings": [
+        {
+          "SpanishWord": "le",
+          "MeaningID": "indirect_object",
+          "MeaningContext": "Indirect object pronoun (to him/her/you formal)",
+          "MonolingualDef": "Pronombre de objeto indirecto que indica la persona que recibe indirectamente la acción del verbo",
+          "ExampleSentence": "El hombre calvo le da las gafas de sol a su amigo",
+          "GappedSentence": "El hombre calvo _____ da las gafas de sol a su amigo",
+          "IPA": "[le]",
+          "prompt": "A bald 25 year old with small round glasses giving a pair of sunglasses to a brown haired guy looking worse for wear.",
+          "CardID": "le_indirect_object",
+          "ImageFile": "le_indirect_object.png",
+          "WordAudio": "[sound:le.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "lo": {
+      "word": "lo",
+      "processed_date": "2025-08-14T16:00:32.802930",
+      "meanings": [
+        {
+          "SpanishWord": "lo",
+          "MeaningID": "direct_object",
+          "MeaningContext": "Direct object pronoun (him/it masculine)",
+          "MonolingualDef": "Pronombre de objeto directo que reemplaza sustantivos masculinos como complemento directo",
+          "ExampleSentence": "La maestra española lo muestra en la pizarra",
+          "GappedSentence": "La maestra española _____ muestra en la pizarra",
+          "IPA": "[lo]",
+          "prompt": "A class with a middle aged large spanish lady at the whiteboard holding up a book.",
+          "CardID": "lo_direct_object",
+          "ImageFile": "lo_direct_object.png",
+          "WordAudio": "[sound:lo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "lo",
+          "MeaningID": "neuter_article",
+          "MeaningContext": "Neuter article with adjectives (the ... thing)",
+          "MonolingualDef": "Artículo neutro que se usa con adjetivos para formar conceptos abstractos",
+          "ExampleSentence": "Lo importante es usar protector solar",
+          "GappedSentence": "_____ importante es usar protector solar",
+          "IPA": "[lo]",
+          "prompt": "A blond haired boy with blue eyes and red burnt skin at the beach looking sad. His mother with short dark hair angry above him telling him off",
+          "CardID": "lo_neuter_article",
+          "ImageFile": "lo_neuter_article.png",
+          "WordAudio": "[sound:lo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "todo": {
+      "word": "todo",
+      "processed_date": "2025-08-14T16:00:32.802934",
+      "meanings": [
+        {
+          "SpanishWord": "todo",
+          "MeaningID": "totality",
+          "MeaningContext": "Complete quantity or entirety (all/everything/whole)",
+          "MonolingualDef": "Adjetivo o pronombre que expresa la totalidad completa de algo",
+          "ExampleSentence": "Todo el universo se extiende por el espacio",
+          "GappedSentence": "_____ el universo se extiende por el espacio",
+          "IPA": "[ˈtoðo]",
+          "prompt": "The whole universe spread out in space.",
+          "CardID": "todo_totality",
+          "ImageFile": "todo_totality.png",
+          "WordAudio": "[sound:todo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "pero": {
+      "word": "pero",
+      "processed_date": "2025-08-14T16:00:32.802936",
+      "meanings": [
+        {
+          "SpanishWord": "pero",
+          "MeaningID": "contrast",
+          "MeaningContext": "Contrast/exception conjunction (but/however)",
+          "MonolingualDef": "Conjunción adversativa que expresa oposición o contraste entre ideas",
+          "ExampleSentence": "Todo antes de la palabra pero es basura",
+          "GappedSentence": "Todo antes de la palabra _____ es basura",
+          "IPA": "[ˈpeɾo]",
+          "prompt": "Ned stark in winterfell at the start of game of thrones.",
+          "CardID": "pero_contrast",
+          "ImageFile": "pero_contrast.png",
+          "WordAudio": "[sound:pero.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
     }
   }
 }

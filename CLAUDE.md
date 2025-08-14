@@ -33,7 +33,13 @@ Perform the semantic work; then hand off to automation.
    - Prompt + comment format (for better sentence relevance):
      - Write the visual prompt, then add a bracketed comment for sentence context, e.g.
        - "A blond boy on a green train through the countryside with lots of sheep around [Me going home from boarding school as a child]"
-     - The bracketed comment informs sentence generation only; do not treat it as part of the image prompt.
+     - **CRITICAL**: The bracketed comment informs sentence generation only; Claude MUST remove brackets from the image prompt
+     - **MANDATORY SENTENCE RELEVANCE**: Claude MUST create sentences that match the visual prompt AND bracketed context, regardless of how abstract, unusual, or challenging the prompt may be
+     - **PROCESS**: 
+       1. Remove bracketed content from prompt for image generation
+       2. Use bracketed context AND visual prompt details to create relevant Spanish sentences
+       3. Never include brackets in the actual image prompt field
+       4. Sentences must connect to the user's intended meaning, no exceptions
 3. Produce sentences and IPA
    - ExampleSentence must closely match the prompt’s action and setting; include details implied by the bracketed comment when appropriate.
    - GappedSentence is the same sentence with the target word replaced by `_____`.
@@ -119,6 +125,7 @@ Perform the semantic work; then hand off to automation.
 - "Middle-aged man, gray beard, kind eyes, brown leather apron, crafting at wooden workbench with warm window light"
 
 ### PROMPT REVIEW CHECKLIST
+**CRITICAL: Claude NEVER edits user prompts - only reviews and suggests improvements**
 **Claude ALWAYS validates each prompt has**:
 - ✅ Specific age range and physical description
 - ✅ Clear emotional state or activity  
@@ -126,6 +133,12 @@ Perform the semantic work; then hand off to automation.
 - ✅ Simple scene (not complex multi-action)
 - ✅ Human-centered (fits Ghibli aesthetic)
 - ❌ Avoid: generic people, abstract concepts, modern technology, complex scenes
+
+**PROMPT POLICY**:
+- Claude may CRITIQUE prompts and SUGGEST improvements
+- Claude may WARN about potential generation issues
+- Claude MUST NEVER override or edit user-provided prompts
+- If Claude suggestions are rejected, Claude MUST use user prompts exactly as provided, even if suboptimal
 
 ### MEMORY CONNECTION PROCESS
 **Critical**: Claude connects each prompt to meaning through character details
@@ -246,7 +259,9 @@ Use the smallest corrective step and keep card creation moving:
 - Missing media after generation:
   - Preview: `media-generate --cards <CardID,...>`; execute with `--execute` and `--max` as needed.
 - Bad image outcome:
-  - `regenerate-images --cards <CardID> --execute` (TTY required; backups stored automatically).
+  - **CRITICAL**: First update the prompt in vocabulary.json manually, THEN regenerate
+  - `regenerate-images --cards <CardID> --execute` (TTY required; backups stored automatically)
+  - **Process**: 1) Edit vocabulary.json prompt field, 2) Run regenerate command
 - Template mismatches:
   - `validate-anki-templates` then `sync-anki-all` to apply updates.
 - Anki inconsistencies:

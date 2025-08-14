@@ -3,10 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-le
-lo
-todo
-pero
 más
 hacer
 o
@@ -105,3 +101,7 @@ por - through/by_means/because/exchange/behalf (5 cards) - 2025-08-13
 su - possession (1 card) - 2025-08-13
 para - purpose/deadline/destination/recipient (4 cards) - 2025-08-13
 tener - possession/age/physical_sensations/emotional_states/obligation (5 cards) - 2025-08-14
+le - indirect_object (1 card) - 2025-08-14
+lo - direct_object/neuter_article (2 cards) - 2025-08-14
+todo - totality (1 card) - 2025-08-14
+pero - contrast (1 card) - 2025-08-14

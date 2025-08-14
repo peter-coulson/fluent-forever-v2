@@ -54,7 +54,7 @@
     "downloads": "/Users/peter_coulson/Downloads"
   },
   "media_generation": {
-    "max_new_items": 6,
+    "max_new_items": 7,
     "default_timeout": 60,
     "retry_attempts": 3
   },

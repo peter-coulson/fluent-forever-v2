@@ -28,5 +28,35 @@
     "prompt_hash": "c39287a65408ad78",
     "provider": "openai",
     "created_at": 1755202022.6448781
+  },
+  "le_indirect_object.png": {
+    "word": "le",
+    "prompt_hash": "5f15682095a33ebe",
+    "provider": "openai",
+    "created_at": 1755205343.630325
+  },
+  "lo_direct_object.png": {
+    "word": "lo",
+    "prompt_hash": "31d80d6786e107bc",
+    "provider": "openai",
+    "created_at": 1755205358.216917
+  },
+  "lo_neuter_article.png": {
+    "word": "lo",
+    "prompt_hash": "92dd6ad1f84f5ee9",
+    "provider": "openai",
+    "created_at": 1755205819.693093
+  },
+  "pero_contrast.png": {
+    "word": "pero",
+    "prompt_hash": "b5cb6cac1ee945b9",
+    "provider": "openai",
+    "created_at": 1755205392.03513
+  },
+  "todo_totality.png": {
+    "word": "todo",
+    "prompt_hash": "ffa45c318e142daa",
+    "provider": "openai",
+    "created_at": 1755205404.272299
   }
 }

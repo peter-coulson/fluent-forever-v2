@@ -63,4 +63,14 @@
 - Ensures deterministic batching and simple recovery paths
 - Centralizes history and statuses inside `vocabulary.json`
 
+## Additional user notes
+
+The system would work best as a single word processor, each time a word is processed, we create a staging file. The staging files are then auto-converted into vocabulary.json + generation + sync etc. This script doesn't require LLM control so it can be ran entirely without the LLM assistance. 
+
+In fact, all we need the LLM for, is processing the meanings of the words, and putting them into the json format. Eventually, we could just make a pydantic model for a word etc. 
+
+So, we would have two queues. The word queue, and the meaning queue. The word queue is automatically converted into the meaning queue as the meaning queue get's too short. This could perhaps be automatically be done by a dictionary rather than an LLM. There's probably also IPA dictionaries that one could choose from so that isn't needed. The LLM use could be put into a very small box.
+
+In this scenario, the user would never have to wait. LLM processing and image generation would always be done in the background. 
+
 
