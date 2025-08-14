@@ -5,7 +5,7 @@ Tests for vocabulary_validator.py - focused on specific failure cases
 
 import pytest
 from unittest.mock import patch
-from validation.vocabulary_validator import VocabularyValidator, ValidationError
+from validation.internal.vocabulary_validator import VocabularyValidator, ValidationError
 
 class TestVocabularyValidator:
     

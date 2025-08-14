@@ -5,14 +5,15 @@ Tests for anki_media_validator.py - focused on specific failure cases
 
 import pytest
 from unittest.mock import patch, Mock
-from validation.anki_media_validator import validate_anki_vs_local, MediaSyncResult
+from validation.anki.media_validator import validate_anki_vs_local
+from validation.media_sync_result import MediaSyncResult
 
 class TestAnkiMediaValidator:
     
     def test_anki_connection_fails(self, mock_config):
         """FAILURE CASE: AnkiConnect is not available"""
-        with patch('validation.anki_media_validator.load_config', return_value=mock_config), \
-             patch('validation.anki_media_validator.AnkiConnection') as mock_anki_class:
+        with patch('validation.anki.media_validator.load_config', return_value=mock_config), \
+             patch('validation.anki.media_validator.AnkiConnection') as mock_anki_class:
             
             # Mock connection failure
             mock_conn = Mock()
@@ -29,10 +30,10 @@ class TestAnkiMediaValidator:
 
     def test_local_audio_missing_in_anki(self, mock_config, local_media_files, anki_media_files):
         """FAILURE CASE: Local audio files are missing from Anki"""
-        with patch('validation.anki_media_validator.load_config', return_value=mock_config), \
-             patch('validation.anki_media_validator.AnkiConnection') as mock_anki_class, \
-             patch('validation.anki_media_validator.get_local_media_files', return_value=local_media_files), \
-             patch('validation.anki_media_validator.get_anki_media_files', return_value=anki_media_files):
+        with patch('validation.anki.media_validator.load_config', return_value=mock_config), \
+             patch('validation.anki.media_validator.AnkiConnection') as mock_anki_class, \
+             patch('validation.anki.media_validator.get_local_media_files', return_value=local_media_files), \
+             patch('validation.anki.media_validator.get_anki_media_files', return_value=anki_media_files):
             
             # Mock successful connection
             mock_conn = Mock()
@@ -47,9 +48,9 @@ class TestAnkiMediaValidator:
 
     def test_anki_api_error(self, mock_config, local_media_files):
         """FAILURE CASE: Anki API throws error when getting media files"""
-        with patch('validation.anki_media_validator.load_config', return_value=mock_config), \
-             patch('validation.anki_media_validator.AnkiConnection') as mock_anki_class, \
-             patch('validation.anki_media_validator.get_local_media_files', return_value=local_media_files):
+        with patch('validation.anki.media_validator.load_config', return_value=mock_config), \
+             patch('validation.anki.media_validator.AnkiConnection') as mock_anki_class, \
+             patch('validation.anki.media_validator.get_local_media_files', return_value=local_media_files):
             
             # Mock connection success but API error
             mock_conn = Mock()

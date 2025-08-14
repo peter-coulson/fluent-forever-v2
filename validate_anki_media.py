@@ -10,7 +10,7 @@ from pathlib import Path
 # Add src to Python path
 sys.path.insert(0, str(Path(__file__).parent / 'src'))
 
-from validation.anki_media_validator import validate_anki_vs_local
+from validation.anki.media_validator import validate_anki_vs_local
 from utils.logging_config import setup_logging, ICONS
 
 # Initialize logging

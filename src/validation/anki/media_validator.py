@@ -8,26 +8,15 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
-from dataclasses import dataclass
 from anki.connection import AnkiConnection
 from utils.logging_config import get_logger, ICONS
+from validation.media_sync_result import MediaSyncResult
 
-logger = get_logger('validation.anki_media')
-
-@dataclass
-class MediaSyncResult:
-    missing_images: List[str]
-    missing_audio: List[str]
-    
-    def has_missing_files(self) -> bool:
-        return len(self.missing_images) > 0 or len(self.missing_audio) > 0
-    
-    def total_missing(self) -> int:
-        return len(self.missing_images) + len(self.missing_audio)
+logger = get_logger('validation.anki.media')
 
 def load_config() -> dict:
     """Load configuration"""
-    config_path = Path(__file__).parent.parent.parent / 'config.json'
+    config_path = Path(__file__).parent.parent.parent.parent / 'config.json'
     try:
         with open(config_path, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -37,7 +26,7 @@ def load_config() -> dict:
 
 def get_local_media_files() -> Tuple[Set[str], Set[str]]:
     """Get sets of local image and audio files"""
-    project_root = Path(__file__).parent.parent.parent
+    project_root = Path(__file__).parent.parent.parent.parent
     images_dir = project_root / 'media' / 'images'
     audio_dir = project_root / 'media' / 'audio'
     

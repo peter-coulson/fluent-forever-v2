@@ -11,7 +11,7 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 from utils.logging_config import get_logger, ICONS
 
-logger = get_logger('validation.vocabulary')
+logger = get_logger('validation.internal.vocabulary')
 
 class ValidationError:
     """Represents a validation error"""

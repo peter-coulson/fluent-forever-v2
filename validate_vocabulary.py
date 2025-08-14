@@ -11,7 +11,7 @@ from pathlib import Path
 # Add src to Python path
 sys.path.insert(0, str(Path(__file__).parent / 'src'))
 
-from validation.vocabulary_validator import VocabularyValidator
+from validation.internal.vocabulary_validator import VocabularyValidator
 
 def load_config() -> dict:
     """Load configuration"""

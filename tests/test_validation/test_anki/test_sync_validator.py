@@ -5,7 +5,7 @@ Tests for sync_validator.py - focused on specific failure cases
 
 import pytest
 from unittest.mock import patch, Mock
-from validation.sync_validator import compare_card_fields
+from validation.anki.sync_validator import compare_card_fields
 
 class TestSyncValidator:
     
@@ -51,7 +51,7 @@ class TestSyncValidator:
         
     def test_config_file_load_error(self):
         """FAILURE CASE: config.json cannot be loaded"""
-        from validation.sync_validator import load_config
+        from validation.anki.sync_validator import load_config
         
         with patch('builtins.open', side_effect=FileNotFoundError("config.json not found")):
             with pytest.raises(FileNotFoundError):

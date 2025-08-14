@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Local Media Validator
+Internal Media Validator
 Validates that local media files match vocabulary.json references
 """
 
@@ -8,12 +8,13 @@ import json
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
 from utils.logging_config import get_logger, ICONS
+from validation.media_sync_result import MediaSyncResult
 
-logger = get_logger('validation.local_media')
+logger = get_logger('validation.internal.media')
 
 def load_vocabulary() -> dict:
     """Load vocabulary.json"""
-    vocab_path = Path(__file__).parent.parent.parent / 'vocabulary.json'
+    vocab_path = Path(__file__).parent.parent.parent.parent / 'vocabulary.json'
     try:
         with open(vocab_path, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -23,7 +24,7 @@ def load_vocabulary() -> dict:
 
 def get_local_media_files() -> Tuple[Set[str], Set[str]]:
     """Get sets of local image and audio files"""
-    project_root = Path(__file__).parent.parent.parent
+    project_root = Path(__file__).parent.parent.parent.parent
     images_dir = project_root / 'media' / 'images'
     audio_dir = project_root / 'media' / 'audio'
     
@@ -60,67 +61,33 @@ def get_vocabulary_media_references(vocab_data: dict) -> Tuple[Set[str], Set[str
     
     return vocab_images, vocab_audio
 
-def validate_local_vs_vocabulary() -> bool:
+def validate_local_vs_vocabulary() -> MediaSyncResult:
     """Validate local media files vs vocabulary.json references"""
-    print("🔍 LOCAL MEDIA ↔ VOCABULARY.JSON VALIDATOR")
-    print("=" * 48)
+    logger.info(f"{ICONS['search']} Validating local media vs vocabulary.json references...")
     
     # Load data
     vocab_data = load_vocabulary()
     local_images, local_audio = get_local_media_files()
     vocab_images, vocab_audio = get_vocabulary_media_references(vocab_data)
     
-    print(f"📊 SUMMARY:")
-    print(f"   Local media:      {len(local_images)} images, {len(local_audio)} audio")
-    print(f"   Vocabulary refs:  {len(vocab_images)} images, {len(vocab_audio)} audio")
-    print()
+    logger.info(f"{ICONS['chart']} Local media: {len(local_images)} images, {len(local_audio)} audio")
+    logger.info(f"{ICONS['chart']} Vocabulary refs: {len(vocab_images)} images, {len(vocab_audio)} audio")
     
-    print("🔍 Validating local media vs vocabulary.json references...\n")
+    # Check for missing files (vocabulary references but not local)
+    missing_images = list(vocab_images - local_images)
+    missing_audio = list(vocab_audio - local_audio)
     
-    differences_found = False
+    # Log unused files (local but not referenced) as warnings
+    unused_images = local_images - vocab_images  
+    unused_audio = local_audio - vocab_audio
     
-    # Check images
-    missing_local_images = vocab_images - local_images
-    unused_local_images = local_images - vocab_images
+    if unused_images:
+        logger.warning(f"{ICONS['warning']} Unused local images: {sorted(unused_images)}")
     
-    if missing_local_images:
-        differences_found = True
-        print("❌ IMAGES REFERENCED BUT MISSING LOCALLY:")
-        for image in sorted(missing_local_images):
-            print(f"   • {image}")
-        print()
+    if unused_audio:
+        logger.warning(f"{ICONS['warning']} Unused local audio: {sorted(unused_audio)}")
     
-    if unused_local_images:
-        differences_found = True
-        print("⚠️  IMAGES EXIST LOCALLY BUT NOT REFERENCED:")
-        for image in sorted(unused_local_images):
-            print(f"   • {image}")
-        print()
-    
-    # Check audio
-    missing_local_audio = vocab_audio - local_audio
-    unused_local_audio = local_audio - vocab_audio
-    
-    if missing_local_audio:
-        differences_found = True
-        print("❌ AUDIO REFERENCED BUT MISSING LOCALLY:")
-        for audio in sorted(missing_local_audio):
-            print(f"   • {audio}")
-        print()
-    
-    if unused_local_audio:
-        differences_found = True
-        print("⚠️  AUDIO EXIST LOCALLY BUT NOT REFERENCED:")
-        for audio in sorted(unused_local_audio):
-            print(f"   • {audio}")
-        print()
-    
-    # Final verdict
-    if not differences_found:
-        print("✅ VALIDATION PASSED")
-        print("   Local media and vocabulary.json references are perfectly synchronized!")
-        return True
-    else:
-        print("❌ VALIDATION FAILED")
-        print("   Differences found between local media and vocabulary.json references")
-        return False
+    return MediaSyncResult(
+        missing_images=missing_images,
+        missing_audio=missing_audio
+    )

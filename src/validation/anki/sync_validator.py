@@ -10,11 +10,11 @@ from typing import Dict, List, Any
 from anki.connection import AnkiConnection
 from utils.logging_config import get_logger, ICONS
 
-logger = get_logger('validation.sync')
+logger = get_logger('validation.anki.sync')
 
 def load_config() -> dict:
     """Load configuration"""
-    config_path = Path(__file__).parent.parent.parent / 'config.json'
+    config_path = Path(__file__).parent.parent.parent.parent / 'config.json'
     try:
         with open(config_path, 'r', encoding='utf-8') as f:
             return json.load(f)
@@ -24,7 +24,7 @@ def load_config() -> dict:
 
 def load_vocabulary() -> dict:
     """Load vocabulary.json"""
-    vocab_path = Path(__file__).parent.parent.parent / 'vocabulary.json'
+    vocab_path = Path(__file__).parent.parent.parent.parent / 'vocabulary.json'
     try:
         with open(vocab_path, 'r', encoding='utf-8') as f:
             return json.load(f)
