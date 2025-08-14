@@ -1,0 +1,19 @@
+
+<div class="card-front">
+  <!-- Main image only -->
+  <div class="image-container">
+    {{#ImageFile}}<img src="{{ImageFile}}">{{/ImageFile}}
+  </div>
+  
+  <!-- Spanish definition only -->
+  <div class="definition">
+    {{MonolingualDef}}
+  </div>
+  
+  <!-- Context hint -->
+  {{#MeaningContext}}
+  <div class="context-hint">
+    ({{MeaningContext}})
+  </div>
+  {{/MeaningContext}}
+</div>

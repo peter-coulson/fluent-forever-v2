@@ -1,0 +1,322 @@
+
+.card {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: #2c3e50;
+  background: #fafafa;
+  padding: 20px;
+  line-height: 1.4;
+}
+
+/* Audio controls */
+.audio-controls {
+  margin-bottom: 15px;
+}
+
+.audio-controls a {
+  margin: 0 5px;
+  padding: 8px 12px;
+  background: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.audio-controls a:hover {
+  background: #2980b9;
+}
+
+/* Image styling */
+.image-container {
+  margin: 20px 0;
+}
+
+.image-container img {
+  max-width: 400px;
+  max-height: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 2px solid #ecf0f1;
+}
+
+/* Definition styling */
+.definition {
+  margin: 20px 0;
+  font-size: 18px;
+  color: #34495e;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Context hint */
+.context-hint {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin-top: 10px;
+}
+
+/* Gapped sentence styling */
+.gapped-sentence {
+  margin: 20px 0;
+  padding: 15px;
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  border-radius: 8px;
+  font-size: 20px;
+  color: #856404;
+  font-weight: 500;
+}
+
+/* Back side styling */
+.word-main {
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 15px;
+}
+
+.spanish {
+  font-size: 36px;
+  font-weight: bold;
+  color: #e74c3c;
+  margin-right: 15px;
+}
+
+/* ENHANCED IPA STYLING - LARGER AND MORE READABLE */
+.ipa {
+  font-size: 26px;
+  font-weight: 600;
+  color: #2980b9;
+  font-family: 'Charis SIL', 'Doulos SIL', 'Times New Roman', serif;
+  background: #ecf0f1;
+  padding: 6px 16px;
+  border-radius: 8px;
+  margin-left: 10px;
+  border: 2px solid #bdc3c7;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.meaning-context {
+  background: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Example sentences */
+.examples {
+  margin: 25px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  border-left: 4px solid #3498db;
+}
+
+.full-sentence {
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: #2c3e50;
+}
+
+.gapped {
+  font-size: 18px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+/* Notes styling */
+.usage-note, .mnemonic {
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.usage-note {
+  background: #e8f6f3;
+  border-left: 4px solid #1abc9c;
+  color: #16a085;
+}
+
+.mnemonic {
+  background: #fef9e7;
+  border-left: 4px solid #f39c12;
+  color: #d68910;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .card {
+    padding: 15px;
+    font-size: 18px;
+  }
+  
+  .spanish {
+    font-size: 28px;
+  }
+  
+  .ipa {
+    font-size: 22px;
+    margin-left: 5px;
+    padding: 4px 12px;
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    max-height: 250px;
+  }
+  
+  .full-sentence {
+    font-size: 20px;
+  }
+  
+  .gapped-sentence {
+    font-size: 18px;
+  }
+}
+
+
+/* ENHANCED SPANISH DEFINITION READABILITY */
+
+/* Definition section with better spacing and typography */
+.definition {
+  background: #f8f9fa;
+  border-left: 4px solid #3498db;
+  padding: 15px 20px;
+  margin: 15px 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 18px;
+  line-height: 1.6;
+  text-align: left;
+  color: #2c3e50;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Spanish text styling */
+.spanish {
+  font-weight: bold;
+  font-size: 24px;
+  color: #e74c3c;
+  margin-right: 10px;
+}
+
+/* Example sentences with better visual separation */
+.example-sentence {
+  background: #ffffff;
+  border: 1px solid #bdc3c7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 10px 0;
+  font-style: italic;
+  font-size: 17px;
+  color: #34495e;
+  text-align: left;
+}
+
+/* Context and usage notes */
+.context, .usage-note {
+  background: #ecf0f1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #7f8c8d;
+  margin: 8px 0;
+  text-align: center;
+}
+
+/* Gapped sentence styling */
+.gapped-sentence {
+  font-size: 19px;
+  color: #2c3e50;
+  margin: 15px 0;
+  padding: 12px;
+  background: #fff3cd;
+  border-radius: 6px;
+  border-left: 3px solid #f39c12;
+}
+
+/* Word main section improvements */
+.word-main {
+  margin: 20px 0;
+  padding: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* IPA pronunciation */
+.ipa {
+  font-family: 'Times New Roman', serif;
+  color: #95a5a6;
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+/* Meaning context badges */
+.meaning-context {
+  display: inline-block;
+  background: #3498db;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin: 5px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Personal mnemonic section */
+.personal-mnemonic {
+  background: #e8f5e8;
+  border-left: 4px solid #27ae60;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  color: #27ae60;
+  text-align: left;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .definition, .example-sentence {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .spanish {
+    font-size: 20px;
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    max-height: 250px;
+  }
+}
+
+
+/* OVERRIDE: Center all text formatting */
+.definition {
+  text-align: center;
+}
+
+.example-sentence {
+  text-align: center;
+}
+
+.context, .usage-note {
+  text-align: center;
+}
+
+.personal-mnemonic {
+  text-align: center;
+}
+

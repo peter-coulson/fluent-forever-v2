@@ -1,0 +1,32 @@
+
+<div class="card-front">
+  <!-- Audio controls -->
+  <div class="audio-controls">
+    {{WordAudio}}
+    {{#WordAudioAlt}}<br>{{WordAudioAlt}}{{/WordAudioAlt}}
+  </div>
+  
+  <!-- Main image -->
+  <div class="image-container">
+    {{#ImageFile}}<img src="{{ImageFile}}">{{/ImageFile}}
+  </div>
+  
+  <!-- Spanish definition -->
+  <div class="definition">
+    {{MonolingualDef}}
+  </div>
+  
+  <!-- Gapped sentence for comprehension -->
+  {{#GappedSentence}}
+  <div class="gapped-sentence">
+    {{GappedSentence}}
+  </div>
+  {{/GappedSentence}}
+  
+  <!-- Context hint -->
+  {{#MeaningContext}}
+  <div class="context-hint">
+    ({{MeaningContext}})
+  </div>
+  {{/MeaningContext}}
+</div>

@@ -1,0 +1,41 @@
+
+<div class="card-back">
+  <!-- Front side -->
+  {{FrontSide}}
+  
+  <hr id="answer">
+  
+  <!-- Word and pronunciation with ENHANCED IPA -->
+  <div class="word-main">
+    <span class="spanish">{{SpanishWord}}</span>
+    {{#IPA}}<span class="ipa">{{IPA}}</span>{{/IPA}}
+  </div>
+  
+  <!-- Meaning context -->
+  {{#MeaningContext}}
+  <div class="meaning-context">
+    {{MeaningContext}}
+  </div>
+  {{/MeaningContext}}
+  
+  <!-- Full example sentence -->
+  {{#ExampleSentence}}
+  <div class="examples">
+    <div class="full-sentence">{{ExampleSentence}}</div>
+  </div>
+  {{/ExampleSentence}}
+  
+  <!-- Usage notes -->
+  {{#UsageNote}}
+  <div class="usage-note">
+    📝 {{UsageNote}}
+  </div>
+  {{/UsageNote}}
+  
+  <!-- Personal memory aid -->
+  {{#PersonalMnemonic}}
+  <div class="mnemonic">
+    💭 {{PersonalMnemonic}}
+  </div>
+  {{/PersonalMnemonic}}
+</div>

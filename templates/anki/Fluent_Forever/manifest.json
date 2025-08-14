@@ -1,0 +1,31 @@
+{
+  "note_type": "Fluent Forever",
+  "templates": [
+    {
+      "name": "Comprehension (Audio + Image + Gapped)",
+      "front": "templates/Comprehension_Audio_Image_Gapped_Front.html",
+      "back": "templates/Comprehension_Audio_Image_Gapped_Back.html"
+    },
+    {
+      "name": "Recall (Image + Definition Only)",
+      "front": "templates/Recall_Image_Definition_Only_Front.html",
+      "back": "templates/Recall_Image_Definition_Only_Back.html"
+    }
+  ],
+  "css": "styling.css",
+  "fields": [
+    "CardID",
+    "SpanishWord",
+    "IPA",
+    "MeaningContext",
+    "MonolingualDef",
+    "ExampleSentence",
+    "GappedSentence",
+    "ImageFile",
+    "WordAudio",
+    "WordAudioAlt",
+    "UsageNote",
+    "PersonalMnemonic",
+    "MeaningID"
+  ]
+}

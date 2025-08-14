@@ -1,0 +1,40 @@
+
+<div class="card-back">
+  <!-- Front side -->
+  {{FrontSide}}
+  
+  <hr id="answer">
+  
+  <!-- Word and pronunciation with ENHANCED IPA -->
+  <div class="word-main">
+    <span class="spanish">{{SpanishWord}}</span>
+    {{#IPA}}<span class="ipa">{{IPA}}</span>{{/IPA}}
+  </div>
+  
+  <!-- Audio on back -->
+  <div class="audio-back">
+    {{WordAudio}}
+    {{#WordAudioAlt}}{{WordAudioAlt}}{{/WordAudioAlt}}
+  </div>
+  
+  <!-- Meaning context -->
+  {{#MeaningContext}}
+  <div class="meaning-context">
+    {{MeaningContext}}
+  </div>
+  {{/MeaningContext}}
+  
+  <!-- Example sentence for context -->
+  {{#ExampleSentence}}
+  <div class="examples">
+    <div class="full-sentence">{{ExampleSentence}}</div>
+  </div>
+  {{/ExampleSentence}}
+  
+  <!-- Usage notes -->
+  {{#UsageNote}}
+  <div class="usage-note">
+    📝 {{UsageNote}}
+  </div>
+  {{/UsageNote}}
+</div>

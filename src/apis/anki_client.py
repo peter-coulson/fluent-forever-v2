@@ -153,6 +153,74 @@ class AnkiClient(BaseAPIClient):
             self.logger.error(f"{ICONS['cross']} {error_msg}")
             return APIResponse(success=False, error_message=error_msg)
     
+    def _unwrap_result(self, response: APIResponse) -> APIResponse:
+        """Unwrap AnkiConnect's {result, error} envelope into plain data.
+        If error is present, convert to unsuccessful APIResponse.
+        """
+        try:
+            if not response.success:
+                return response
+            data = response.data
+            if isinstance(data, dict) and 'result' in data and 'error' in data:
+                if data.get('error'):
+                    return APIResponse(success=False, error_message=str(data['error']))
+                return APIResponse(success=True, data=data.get('result'))
+            return response
+        except Exception as e:
+            self.logger.error(f"{ICONS['cross']} Failed to unwrap AnkiConnect response: {e}")
+            return APIResponse(success=False, error_message=str(e))
+
+    def get_model_field_names(self, model_name: Optional[str] = None) -> APIResponse:
+        """Get field names for the specified note type (model)"""
+        try:
+            if model_name is None:
+                model_name = self.note_type
+            request_data = {
+                "action": "modelFieldNames",
+                "version": 6,
+                "params": {"modelName": model_name}
+            }
+            response = self._make_request("POST", self.base_url, json=request_data)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to get model field names: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def get_model_templates(self, model_name: Optional[str] = None) -> APIResponse:
+        """Get templates (front/back HTML per card) for the note type"""
+        try:
+            if model_name is None:
+                model_name = self.note_type
+            request_data = {
+                "action": "modelTemplates",
+                "version": 6,
+                "params": {"modelName": model_name}
+            }
+            response = self._make_request("POST", self.base_url, json=request_data)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to get model templates: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
+    def get_model_styling(self, model_name: Optional[str] = None) -> APIResponse:
+        """Get CSS styling for the note type"""
+        try:
+            if model_name is None:
+                model_name = self.note_type
+            request_data = {
+                "action": "modelStyling",
+                "version": 6,
+                "params": {"modelName": model_name}
+            }
+            response = self._make_request("POST", self.base_url, json=request_data)
+            return self._unwrap_result(response)
+        except Exception as e:
+            error_msg = f"Failed to get model styling: {e}"
+            self.logger.error(f"{ICONS['cross']} {error_msg}")
+            return APIResponse(success=False, error_message=error_msg)
+
     def _store_media_files(self, card_data: Dict[str, Any]) -> bool:
         """Store media files in Anki"""
         try:
