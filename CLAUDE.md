@@ -134,13 +134,14 @@ Perform the semantic work; then hand off to automation.
 - **Memory Link**: User creates specific visual anchor for "studying" concept
 - **Card Result**: When seeing "estudiar", user recalls this exact girl studying
 
-## API COST PROTECTION (Claude’s checklist)
+## API COST PROTECTION (Claude's checklist)
 - Always validate prompts first; do not request generation until prompts are ready.
 - Use dry-runs and caps on generation:
-  - Preview media plan: `media-generate --cards <CardID,...>` (no API calls)
-  - Cap with `--max N` (default 5); the system hard-fails if over cap when executing
+  - Preview media plan: `python -m cli.media_generate --cards <CardID,...>` (no API calls)
+  - Max limit automatically set from config (default 6 items for 5-card batches)
   - Skip providers: `--no-images`, `--no-audio` as needed
 - Never regenerate existing media unless explicitly requested (e.g., regenerate-images)
+- **Standard batch command**: `python -m cli.run_media_then_sync --cards <CardID,...> --execute`
 
 ## CONTEXTUAL SENTENCE GENERATION
 
@@ -199,35 +200,41 @@ Perform the semantic work; then hand off to automation.
 
 ## PYTHON ENVIRONMENT SETUP
 
-**ALWAYS use virtual environment to avoid dependency issues:**
+**ALWAYS use virtual environment and PYTHONPATH to avoid dependency issues:**
 ```bash
 # If venv doesn't exist, create it:
 python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
 
-# If venv exists, just activate:
+# If venv exists, activate and set PYTHONPATH:
 source venv/bin/activate
+export PYTHONPATH=$(pwd)/src
 ```
 
-**Critical**: Never use system Python3 directly - always activate venv first.
+**Critical**: Never use system Python3 directly - always activate venv first AND set PYTHONPATH.
 
 ## CLAUDE-COORDINATED EXECUTION
 
 Main commands (use as needed; do not mention internal implementation details to users):
 
+**PREREQUISITE: Always run environment setup first:**
+```bash
+source venv/bin/activate && export PYTHONPATH=$(pwd)/src
+```
+
 - Prepare batch staging (for Claude to fill):
-  - `prepare-claude-batch --words por,para`
+  - `python -m cli.prepare_claude_batch --words por,para`
 - Ingest staging (validate first, then execute):
-  - `ingest-claude-batch --input staging/claude_batch_*.json --dry-run`
-  - `ingest-claude-batch --input staging/claude_batch_*.json`
+  - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json --dry-run`
+  - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json`
 - Media & sync (fast path):
-  - `run-media-then-sync --cards <CardID,...> --execute`
+  - `python -m cli.run_media_then_sync --cards <CardID,...> --execute`
 - Media only (fine-grained):
-  - `media-generate --cards <CardID,...>` (preview)
-  - `media-generate --cards <CardID,...> --execute [--max N] [--no-images] [--no-audio]`
+  - `python -m cli.media_generate --cards <CardID,...>` (preview)
+  - `python -m cli.media_generate --cards <CardID,...> --execute [--no-images] [--no-audio]`
 - Full deck sync:
-  - `sync-anki-all [--delete-extras]` (will require interactive human confirmation for deletions)
+  - `python -m cli.sync_anki_all [--delete-extras]` (will require interactive human confirmation for deletions)
 - Templates:
-  - `validate-anki-templates` (compare HTML/CSS and placeholders)
+  - `python -m validation.anki.template_validator` (compare HTML/CSS and placeholders)
 
 ## CRITICAL ERROR HANDLING
 
@@ -278,14 +285,20 @@ Use the smallest corrective step and keep card creation moving:
 - Generated from: word + meaning_context + user_prompt + memory connection
 
 ## COMMANDS CHEAT SHEET (Claude)
-- Prepare staging: `prepare-claude-batch --words por,para`
+**All commands require environment setup first:**
+```bash
+source venv/bin/activate && export PYTHONPATH=$(pwd)/src
+```
+
+**Then run commands with python -m:**
+- Prepare staging: `python -m cli.prepare_claude_batch --words por,para`
 - Ingest (validate → execute):
-  - `ingest-claude-batch --input staging/claude_batch_*.json --dry-run`
-  - `ingest-claude-batch --input staging/claude_batch_*.json`
-- Media and sync (cards-only): `run-media-then-sync --cards <CardID,...> --execute`
-- Media only: `media-generate --cards <CardID,...> [--execute] [--max N] [--no-images] [--no-audio]`
-- Full sync: `sync-anki-all [--delete-extras]` (interactive TTY required for deletions)
-- Templates: `validate-anki-templates`
+  - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json --dry-run`
+  - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json`
+- Media and sync (cards-only): `python -m cli.run_media_then_sync --cards <CardID,...> --execute`
+- Media only: `python -m cli.media_generate --cards <CardID,...> [--execute] [--no-images] [--no-audio]`
+- Full sync: `python -m cli.sync_anki_all [--delete-extras]` (interactive TTY required for deletions)
+- Templates: `python -m validation.anki.template_validator`
 
 ## SYSTEM FILES
 - `generate_batch.py`: Claude coordinates this automation script

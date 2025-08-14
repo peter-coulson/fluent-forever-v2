@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-14T12:30:27.935078",
-    "total_words": 12,
-    "total_cards": 45,
+    "last_updated": "2025-08-14T14:52:43.191168",
+    "total_words": 13,
+    "total_cards": 50,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -767,6 +767,88 @@
         }
       ],
       "cards_created": 4
+    },
+    "tener": {
+      "word": "tener",
+      "processed_date": "2025-08-14T14:52:43.191158",
+      "meanings": [
+        {
+          "SpanishWord": "tener",
+          "MeaningID": "possession",
+          "MeaningContext": "possession",
+          "MonolingualDef": "poseer algo físicamente, ser el propietario de un objeto",
+          "ExampleSentence": "El niño rubio tiene un perro de peluche especial",
+          "GappedSentence": "El niño rubio _____ un perro de peluche especial",
+          "IPA": "[teˈner]",
+          "prompt": "A blond boy with a black, white, and orange dog cuddly toy",
+          "CardID": "tener_possession",
+          "ImageFile": "tener_possession.png",
+          "WordAudio": "[sound:tener.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "tener",
+          "MeaningID": "age",
+          "MeaningContext": "age",
+          "MonolingualDef": "expresar la edad de una persona en años cumplidos",
+          "ExampleSentence": "El niño rubio tiene diez años en su fiesta de cumpleaños",
+          "GappedSentence": "El niño rubio _____ diez años en su fiesta de cumpleaños",
+          "IPA": "[teˈner]",
+          "prompt": "A blond boy with blue eyes at a birthday party surrounded by family and friends",
+          "CardID": "tener_age",
+          "ImageFile": "tener_age.png",
+          "WordAudio": "[sound:tener.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "tener",
+          "MeaningID": "physical_sensations",
+          "MeaningContext": "physical_sensations",
+          "MonolingualDef": "experimentar sensaciones corporales como hambre, sed, frío, calor",
+          "ExampleSentence": "El niño rubio tiene mucho frío mientras navega en kayak",
+          "GappedSentence": "El niño rubio _____ mucho frío mientras navega en kayak",
+          "IPA": "[teˈner]",
+          "prompt": "A blond boy in a surf kayak in the sea on a cold winter day",
+          "CardID": "tener_physical_sensations",
+          "ImageFile": "tener_physical_sensations.png",
+          "WordAudio": "[sound:tener.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "tener",
+          "MeaningID": "emotional_states",
+          "MeaningContext": "emotional_states",
+          "MonolingualDef": "sentir emociones como miedo, vergüenza, suerte, ira",
+          "ExampleSentence": "El hombre joven tiene miedo perdido en el bosque himalayo",
+          "GappedSentence": "El hombre joven _____ miedo perdido en el bosque himalayo",
+          "IPA": "[teˈner]",
+          "prompt": "In the forest in the himalayas, a worried bald man of 22 with round glasses alone trying to find his way",
+          "CardID": "tener_emotional_states",
+          "ImageFile": "tener_emotional_states.png",
+          "WordAudio": "[sound:tener.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "tener",
+          "MeaningID": "obligation",
+          "MeaningContext": "obligation",
+          "MonolingualDef": "expresar necesidad u obligación de realizar una acción (con 'que')",
+          "ExampleSentence": "Los dos chicos tienen que llamar a sus amigos por teléfono",
+          "GappedSentence": "Los dos chicos _____ que llamar a sus amigos por teléfono",
+          "IPA": "[teˈner ke]",
+          "prompt": "Two boys on the phone texting eachother looking sad. One french with dark hair and one with blond hair",
+          "CardID": "tener_obligation",
+          "ImageFile": "tener_obligation.png",
+          "WordAudio": "[sound:tener.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 5
     }
   }
 }

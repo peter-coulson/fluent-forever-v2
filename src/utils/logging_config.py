@@ -8,6 +8,7 @@ import logging
 import sys
 from pathlib import Path
 from typing import Optional
+from dotenv import load_dotenv
 
 class ColoredFormatter(logging.Formatter):
     """Custom formatter with colors for console output"""
@@ -52,6 +53,8 @@ def setup_logging(
     Returns:
         Configured logger
     """
+    # Load environment variables from .env file
+    load_dotenv()
     # Create logger
     logger = logging.getLogger('fluent_forever')
     logger.setLevel(level)

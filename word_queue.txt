@@ -3,7 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-tener
 le
 lo
 todo
@@ -105,3 +104,4 @@ con - accompaniment/instrument (2 cards) - 2025-08-13
 por - through/by_means/because/exchange/behalf (5 cards) - 2025-08-13
 su - possession (1 card) - 2025-08-13
 para - purpose/deadline/destination/recipient (4 cards) - 2025-08-13
+tener - possession/age/physical_sensations/emotional_states/obligation (5 cards) - 2025-08-14

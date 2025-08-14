@@ -15,7 +15,7 @@ import time
 from dataclasses import dataclass
 from types import SimpleNamespace
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 from utils.logging_config import get_logger, setup_logging, ICONS
 from apis.base_client import BaseAPIClient
@@ -244,7 +244,7 @@ def estimate_cost(plan: GenerationPlan, project_root: Path) -> float:
 def run_media_generation(
     project_root: Path,
     card_ids: List[str],
-    max_new: int = 5,
+    max_new: Optional[int] = None,
     dry_run: bool = True,
     force_regenerate: bool = False,
     skip_images: bool = False,
@@ -256,6 +256,12 @@ def run_media_generation(
         BaseAPIClient._shared_config = None  # type: ignore[attr-defined]
     except Exception:
         pass
+    
+    # Load max_new from config if not provided
+    if max_new is None:
+        config = BaseAPIClient.load_config(project_root / 'config.json')
+        max_new = config.get('media_generation', {}).get('max_new_items', 5)
+        
     if not validate_vocabulary(project_root):
         return False
 

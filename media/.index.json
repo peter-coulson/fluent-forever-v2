@@ -1,0 +1,32 @@
+{
+  "tener_age.png": {
+    "word": "tener",
+    "prompt_hash": "1be5d9c953f15195",
+    "provider": "openai",
+    "created_at": 1755201968.4080482
+  },
+  "tener_emotional_states.png": {
+    "word": "tener",
+    "prompt_hash": "64c362c89c85d3f4",
+    "provider": "openai",
+    "created_at": 1755201982.603744
+  },
+  "tener_obligation.png": {
+    "word": "tener",
+    "prompt_hash": "05375c6410b75458",
+    "provider": "openai",
+    "created_at": 1755201996.871795
+  },
+  "tener_physical_sensations.png": {
+    "word": "tener",
+    "prompt_hash": "9f09bea9a5d4b1b1",
+    "provider": "openai",
+    "created_at": 1755202008.720885
+  },
+  "tener_possession.png": {
+    "word": "tener",
+    "prompt_hash": "c39287a65408ad78",
+    "provider": "openai",
+    "created_at": 1755202022.6448781
+  }
+}

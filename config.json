@@ -53,6 +53,11 @@
     "word_queue": "word_queue.txt",
     "downloads": "/Users/peter_coulson/Downloads"
   },
+  "media_generation": {
+    "max_new_items": 6,
+    "default_timeout": 60,
+    "retry_attempts": 3
+  },
   "preferences": {
     "batch_size": 5,
     "auto_commit": true,

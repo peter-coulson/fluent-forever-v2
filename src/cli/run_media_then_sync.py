@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -9,12 +10,17 @@ sys.path.insert(0, str(PROJECT_ROOT / 'src'))
 
 from utils.logging_config import setup_logging, ICONS  # noqa: E402
 from sync.media_generation import run_media_generation  # noqa: E402
+from apis.base_client import BaseAPIClient  # noqa: E402
 
 
 def main() -> int:
+    # Load config to get default max_new_items
+    config = BaseAPIClient.load_config(PROJECT_ROOT / 'config.json')
+    default_max = config.get('media_generation', {}).get('max_new_items', 5)
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('--cards', type=str, required=True, help='Comma-separated CardIDs to process')
-    parser.add_argument('--max', dest='max_new', type=int, default=5, help='Max new media to generate (default 5)')
+    parser.add_argument('--max', dest='max_new', type=int, default=default_max, help=f'Max new media to generate (default {default_max})')
     parser.add_argument('--no-images', action='store_true', help='Skip image generation')
     parser.add_argument('--no-audio', action='store_true', help='Skip audio generation')
     parser.add_argument('--force-regenerate', action='store_true', help='Regenerate even if provenance hash differs')
@@ -44,11 +50,14 @@ def main() -> int:
         return 1
 
     # Chain to main sync script
-    cmd = [sys.executable, str(PROJECT_ROOT / 'sync_anki_all.py')]
+    cmd = [sys.executable, '-m', 'cli.sync_anki_all']
     if args.delete_extras:
         cmd.append('--delete-extras')
     print(f"{ICONS['gear']} Running: {' '.join(cmd)}")
-    res = subprocess.run(cmd)
+    # Set PYTHONPATH for the subprocess
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(PROJECT_ROOT / 'src')
+    res = subprocess.run(cmd, env=env)
     return res.returncode
 
 
