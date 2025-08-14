@@ -1,29 +1,15 @@
 #!/usr/bin/env python3
-"""
-Synchronize Anki with local sources:
- - Update templates if changed
- - Push missing media
- - Upsert cards from vocabulary.json
-
-Usage:
-  python sync_anki_all.py [--force-media] [--delete-extras]
-"""
-
 import argparse
 import sys
 from pathlib import Path
 
-# Add src
-PROJECT_ROOT = Path(__file__).parent
-sys.path.insert(0, str(PROJECT_ROOT / 'src'))
-
-from utils.logging_config import setup_logging, ICONS  # noqa: E402
-from apis.anki_client import AnkiClient  # noqa: E402
-from sync.templates_sync import load_local_templates, fetch_anki_templates, has_template_diffs, push_templates  # noqa: E402
-from sync.media_sync import load_vocabulary, referenced_media, list_anki_media, compute_missing, push_missing_media  # noqa: E402
-from sync.cards_sync import upsert_cards, compute_extras_in_deck, delete_extras  # noqa: E402
-from validation.anki.template_validator import validate_templates_and_fields  # noqa: E402
-from validation.anki.sync_validator import validate_sync_structured  # noqa: E402
+from utils.logging_config import setup_logging, ICONS
+from apis.anki_client import AnkiClient
+from sync.templates_sync import load_local_templates, fetch_anki_templates, has_template_diffs, push_templates
+from sync.media_sync import load_vocabulary, referenced_media, list_anki_media, compute_missing, push_missing_media
+from sync.cards_sync import upsert_cards, compute_extras_in_deck, delete_extras
+from validation.anki.template_validator import validate_templates_and_fields
+from validation.anki.sync_validator import validate_sync_structured
 
 
 def main() -> int:
@@ -38,9 +24,10 @@ def main() -> int:
         logger.error(f"{ICONS['cross']} Cannot connect to AnkiConnect.")
         return 1
 
+    project_root = Path(__file__).parents[2]
     note_type_folder = anki.note_type.replace(' ', '_')
-    tmpl_dir = PROJECT_ROOT / 'templates' / 'anki' / note_type_folder
-    vocab_path = PROJECT_ROOT / 'vocabulary.json'
+    tmpl_dir = project_root / 'templates' / 'anki' / note_type_folder
+    vocab_path = project_root / 'vocabulary.json'
 
     # 1) Templates
     try:
@@ -49,7 +36,7 @@ def main() -> int:
         if has_template_diffs(local_templates, anki_map, local_css, anki_css):
             push_templates(anki, local_templates, local_css)
         # Validate placeholders and exact match; hard-fail on mismatch
-        if not validate_templates_and_fields(PROJECT_ROOT):
+        if not validate_templates_and_fields(project_root):
             logger.error(f"{ICONS['cross']} Template validation failed. Please fix errors and re-run.")
             return 1
     except Exception as e:
@@ -62,11 +49,11 @@ def main() -> int:
         ref_images, ref_audio = referenced_media(vocab)
         if args.force_media:
             # Force: push all referenced media regardless of Anki state
-            push_missing_media(anki, PROJECT_ROOT, ref_images, ref_audio)
+            push_missing_media(anki, project_root, ref_images, ref_audio)
         else:
             anki_images, anki_audio = list_anki_media(anki)
             missing_images, missing_audio = compute_missing(ref_images, ref_audio, anki_images, anki_audio)
-            push_missing_media(anki, PROJECT_ROOT, missing_images, missing_audio)
+            push_missing_media(anki, project_root, missing_images, missing_audio)
     except Exception as e:
         logger.error(f"{ICONS['cross']} Media sync failed: {e}")
         return 1
@@ -108,7 +95,6 @@ def main() -> int:
                     user_input = ''
             if user_input != phrase:
                 logger.warning(f"{ICONS['warning']} Deletion aborted. No changes made to Anki.")
-                # Continue to final validation without deletion
             else:
                 logger.warning(f"{ICONS['warning']} Proceeding to delete {len(extras)} notes from '{deck}'...")
                 ok = delete_extras(anki, extras)
