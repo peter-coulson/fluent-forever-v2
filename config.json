@@ -20,7 +20,11 @@
       "enabled": true,
       "base_url": "https://apifree.forvo.com",
       "country_priorities": ["CO", "MX", "PE", "VE", "AR", "EC", "UY", "CR", "ES"],
-      "preferred_accents": ["Colombian", "Mexican", "Peruvian", "Venezuelan", "Argentinian", "Ecuadorian", "Uruguayan", "Costa Rican", "Spanish"]
+      "priority_groups": [
+        ["MX", "CO"],
+        ["PE", "VE", "AR", "EC", "UY", "CR"],
+        ["ES"]
+      ]
     },
     "anki": {
       "url": "http://localhost:8765",

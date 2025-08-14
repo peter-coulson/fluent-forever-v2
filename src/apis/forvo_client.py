@@ -24,6 +24,20 @@ class ForvoClient(BaseAPIClient):
         
         # Priority order from config
         self.country_priorities = self.api_config["country_priorities"]
+        # Grouped prioritization now comes from config['priority_groups']
+        cfg_groups = self.api_config.get("priority_groups", [])
+        # Sanitize groups to include only countries present in global priorities (preserve order)
+        priorities_set = list(dict.fromkeys(self.country_priorities))
+        def sanitize(group):
+            return [c for c in group if c in priorities_set]
+        groups = [sanitize(g) for g in cfg_groups if isinstance(g, list)]
+        # Fallback to a single group of all priorities if misconfigured
+        if not groups:
+            groups = [priorities_set]
+        # Normalize to exactly three logical groups by padding with []
+        while len(groups) < 3:
+            groups.append([])
+        self.group1, self.group2, self.group3 = groups[:3]
         
     def test_connection(self) -> bool:
         """Test Forvo API connection"""
@@ -67,27 +81,55 @@ class ForvoClient(BaseAPIClient):
         """
         try:
             self.logger.info(f"{ICONS['gear']} Downloading pronunciation: {word}")
-            
-            # Try each country in priority order
-            for country_code in self.country_priorities:
-                self.logger.debug(f"Trying pronunciation from {country_code}")
-                
-                audio_url = self._get_pronunciation_url(word, country_code)
-                if audio_url:
-                    # Download and save audio
-                    download_response = self._download_audio(audio_url, filename, save_path, country_code)
-                    if download_response.success:
-                        self.logger.info(f"{ICONS['check']} Pronunciation downloaded ({country_code}): {filename}")
-                        return download_response
-                    else:
-                        self.logger.debug(f"Download failed for {country_code}: {download_response.error_message}")
-                else:
-                    self.logger.debug(f"No pronunciation found for {word} in {country_code}")
-            
-            # No pronunciation found in any country
-            error_msg = f"No pronunciation found for '{word}' in any supported country"
-            self.logger.warning(f"{ICONS['warning']} {error_msg}")
-            return APIResponse(success=False, error_message=error_msg)
+
+            # Get full list of available pronunciations with metadata
+            info = self.get_word_info(word)
+            if not info.success or not info.data or not info.data.get('pronunciations'):
+                error_msg = f"No pronunciations available for '{word}'"
+                self.logger.warning(f"{ICONS['warning']} {error_msg}")
+                return APIResponse(success=False, error_message=error_msg)
+
+            pronunciations = info.data['pronunciations']
+
+            def select_best(group: list[str]):
+                # Filter pronunciations to those whose country in group
+                cand = [p for p in pronunciations if p.get('country') in group and p.get('audio_url')]
+                # Rank by num_positive_votes desc, then num_votes desc
+                cand.sort(key=lambda p: (int(p.get('num_positive_votes', 0)), int(p.get('num_votes', 0))), reverse=True)
+                return cand[0] if cand else None
+
+            # Try groups in order
+            best = select_best(self.group1) or select_best(self.group2) or select_best(self.group3)
+            if not best:
+                error_msg = f"No pronunciation found for '{word}' in prioritized groups"
+                self.logger.warning(f"{ICONS['warning']} {error_msg}")
+                return APIResponse(success=False, error_message=error_msg)
+
+            chosen_country = best.get('country', '')
+            audio_url = best.get('audio_url', '')
+            self.logger.info(f"{ICONS['info']} Selected pronunciation {word} from {chosen_country} (votes+={best.get('num_positive_votes',0)}/{best.get('num_votes',0)})")
+
+            download_response = self._download_audio(audio_url, filename, save_path, chosen_country)
+            if download_response.success:
+                self.logger.info(f"{ICONS['check']} Pronunciation downloaded ({chosen_country}): {filename}")
+                return download_response
+            else:
+                self.logger.debug(f"Download failed for {chosen_country}: {download_response.error_message}")
+                # Fall back to next groups if possible (simple retry across groups other than the chosen one)
+                tried_countries = {chosen_country}
+                for group in [self.group1, self.group2, self.group3]:
+                    for cand in sorted([p for p in pronunciations if p.get('country') in group and p.get('audio_url')],
+                                        key=lambda p: (int(p.get('num_positive_votes', 0)), int(p.get('num_votes', 0))), reverse=True):
+                        ctry = cand.get('country', '')
+                        if ctry in tried_countries:
+                            continue
+                        resp = self._download_audio(cand.get('audio_url',''), filename, save_path, ctry)
+                        tried_countries.add(ctry)
+                        if resp.success:
+                            self.logger.info(f"{ICONS['check']} Pronunciation downloaded ({ctry}) on fallback: {filename}")
+                            return resp
+                error_msg = f"Failed to download pronunciation for '{word}' from prioritized countries"
+                return APIResponse(success=False, error_message=error_msg)
             
         except Exception as e:
             error_msg = f"Failed to download pronunciation for {word}: {e}"
@@ -197,32 +239,3 @@ class ForvoClient(BaseAPIClient):
             self.logger.error(f"{ICONS['cross']} {error_msg}")
             return APIResponse(success=False, error_message=error_msg)
     
-    def validate_word(self, word: str) -> tuple[bool, str]:
-        """
-        Validate if word is suitable for pronunciation lookup
-        
-        Args:
-            word: Spanish word to validate
-            
-        Returns:
-            (is_valid, error_message)
-        """
-        # Basic validation
-        if not word or len(word.strip()) == 0:
-            return False, "Word cannot be empty"
-        
-        word = word.strip()
-        
-        # Check for valid Spanish characters only
-        import re
-        if not re.match(r'^[a-záéíóúñü]+$', word.lower()):
-            return False, f"Word contains invalid characters: {word}"
-        
-        # Check reasonable length
-        if len(word) > 50:
-            return False, f"Word too long ({len(word)} chars, max 50)"
-        
-        if len(word) < 1:
-            return False, "Word too short"
-        
-        return True, ""
