@@ -324,9 +324,9 @@ source venv/bin/activate && export PYTHONPATH=$(pwd)/src
   ```
 
 - **Open a card in the browser** (uses local templates, CSS, vocabulary, and media):
-  - Front: `http://localhost:8000/preview?card_id=<CardID>&side=front`
-  - Back: `http://localhost:8000/preview?card_id=<CardID>&side=back`
-  - Specific template (optional): `&template=Comprehension (Audio + Image + Gapped)`
+  - Front: `http://127.0.0.1:8000/preview?card_id=<CardID>&side=front`
+  - Back: `http://127.0.0.1:8000/preview?card_id=<CardID>&side=back`
+  - Full card: `http://127.0.0.1:8000/preview?card_id=<CardID>` (shows both front and back)
 
 - **What it renders like**:
   - Full page background is white; the card area uses a dark Anki‑like background with centered content
@@ -339,7 +339,7 @@ source venv/bin/activate && export PYTHONPATH=$(pwd)/src
   - Images and audio are served from `media/images` and `media/audio`
 
 - **Quick CardID lookup**:
-  - `http://localhost:8000/api/cards` returns a JSON list of available `CardID`s with brief metadata
+  - `http://127.0.0.1:8000/api/cards` returns a JSON list of available `CardID`s with brief metadata
 
 - **Notes/limits**:
   - Supports section tags `{{#Field}}...{{/Field}}`, simple `{{Field}}` replacements, and injects `{{FrontSide}}` when rendering the back

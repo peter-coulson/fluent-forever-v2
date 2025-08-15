@@ -27,12 +27,12 @@ def create_app() -> Flask:
 
     note_type_folder = 'Fluent_Forever'
     tmpl_dir = PROJECT_ROOT / 'templates' / 'anki' / note_type_folder
-    templates_payload, css = load_local_templates(tmpl_dir)
     vocab_path = PROJECT_ROOT / 'vocabulary.json'
-    vocab = load_vocab(vocab_path)
 
     @app.get('/api/cards')
     def list_cards() -> Response:
+        # Reload vocab on each request to avoid caching
+        vocab = load_vocab(vocab_path)
         cards: List[Dict[str, str]] = []
         for _, wdata in vocab.get('words', {}).items():
             for m in wdata.get('meanings', []):
@@ -46,6 +46,10 @@ def create_app() -> Flask:
 
     @app.get('/preview')
     def preview() -> Response:
+        # Reload templates and vocab on each request to avoid caching
+        templates_payload, css = load_local_templates(tmpl_dir)
+        vocab = load_vocab(vocab_path)
+        
         card_id = request.args.get('card_id', '').strip()
         side = request.args.get('side', 'front').strip().lower()
         template_name = request.args.get('template')
