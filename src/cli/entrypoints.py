@@ -29,3 +29,9 @@ def run_media_then_sync():
     sys.exit(_main())
 
 
+def preview_server():
+    setup_logging()
+    from cli.preview_server import main as _main  # type: ignore
+    sys.exit(_main())
+
+

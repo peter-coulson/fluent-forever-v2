@@ -315,6 +315,36 @@ source venv/bin/activate && export PYTHONPATH=$(pwd)/src
 - Full sync: `python -m cli.sync_anki_all [--delete-extras]` (interactive TTY required for deletions)
 - Templates: `python -m validation.anki.template_validator`
 
+## TEMPLATES: Local Preview and Editing
+
+- **Start local preview server** (auto-reloads on file save):
+  ```bash
+  source venv/bin/activate && export PYTHONPATH=$(pwd)/src
+  python -m cli.preview_server --port 8000
+  ```
+
+- **Open a card in the browser** (uses local templates, CSS, vocabulary, and media):
+  - Front: `http://localhost:8000/preview?card_id=<CardID>&side=front`
+  - Back: `http://localhost:8000/preview?card_id=<CardID>&side=back`
+  - Specific template (optional): `&template=Comprehension (Audio + Image + Gapped)`
+
+- **What it renders like**:
+  - Full page background is white; the card area uses a dark Anki‑like background with centered content
+  - The divider between front/back is shown via `<hr id="answer">` as in Anki
+  - Your `styling.css` is inlined after a minimal Anki‑like base so your styles take precedence
+
+- **Edit and refresh** (no extra steps):
+  - Edit `templates/anki/Fluent_Forever/templates/*.html` or `styling.css` → save → browser refresh
+  - Edit `vocabulary.json` fields (e.g., sentences, defs) → save → refresh
+  - Images and audio are served from `media/images` and `media/audio`
+
+- **Quick CardID lookup**:
+  - `http://localhost:8000/api/cards` returns a JSON list of available `CardID`s with brief metadata
+
+- **Notes/limits**:
+  - Supports section tags `{{#Field}}...{{/Field}}`, simple `{{Field}}` replacements, and injects `{{FrontSide}}` when rendering the back
+  - Audio fields like `[sound:file.mp3]` are previewed as HTML `<audio>` controls
+
 ## SYSTEM FILES
 - `generate_batch.py`: Claude coordinates this automation script
 - `vocabulary.json`: Progress tracking + meaning examples
