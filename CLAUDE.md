@@ -41,14 +41,17 @@ Perform the semantic work; then hand off to automation.
        3. Never include brackets in the actual image prompt field
        4. Sentences must connect to the user's intended meaning, no exceptions
 3. Produce sentences and IPA
-   - ExampleSentence must closely match the prompt’s action and setting; include details implied by the bracketed comment when appropriate.
+   - ExampleSentence must closely match the prompt's action and setting; include details implied by the bracketed comment when appropriate.
    - GappedSentence is the same sentence with the target word replaced by `_____`.
-   - IPA (Neutral Latin American):
+   - IPA (Neutral Latin American with Syllable Markers):
+     - **MANDATORY**: Include syllable markers (dots) in ALL IPA transcriptions: `tra.βa.xo`, `a.βeɾ`, `ˈme.ði.ko`
      - Seseo: c/z → [s]
      - Yeísmo: ll/y → [ʝ]
      - Contextual fricatives: intervocalic b/d/g → [β, ð, ɣ]; word‑initial b/d/g remain stops
+     - Stress marks: Use ˈ for primary stress, following Spanish phonological rules
      - No vowel reduction; keep clear vowel quality
-     - Bracket IPA like [kon], or /.../ where appropriate; ensure one of these formats
+     - Format: Always use bracket notation [tra.βa.xo] for consistency
+     - **CRITICAL**: All IPA will be validated against authoritative Mexican Spanish dictionary
 4. Provide the final per-meaning fields to the system
    - Required: `SpanishWord, MeaningID, MeaningContext, MonolingualDef, ExampleSentence, GappedSentence (contains "_____"), IPA, prompt`.
 
@@ -310,6 +313,7 @@ source venv/bin/activate && export PYTHONPATH=$(pwd)/src
 - Ingest (validate → execute):
   - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json --dry-run`
   - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json`
+  - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json --skip-ipa-validation` (override IPA failures)
 - Media and sync (cards-only): `python -m cli.run_media_then_sync --cards <CardID,...> --execute`
 - Media only: `python -m cli.media_generate --cards <CardID,...> [--execute] [--no-images] [--no-audio]`
 - Full sync: `python -m cli.sync_anki_all [--delete-extras]` (interactive TTY required for deletions)
@@ -351,6 +355,32 @@ source venv/bin/activate && export PYTHONPATH=$(pwd)/src
 - `word_queue.txt`: Queue management with PENDING/SKIPPED/COMPLETED sections
 - `config.json`: API settings verification
 
+## IPA VALIDATION SYSTEM
+
+**Authoritative Dictionary-Based Validation:**
+- ✅ **595,885+ Mexican Spanish dictionary entries** from open-dict-data project
+- ✅ **Automatic validation** during Claude batch ingestion
+- ✅ **Smart comparison**: Ignores syllable markers (.), handles stress intelligently
+- ✅ **Multi-word support**: Validates `tener que` by checking only `tener`
+- ✅ **Override option**: `--skip-ipa-validation` for dictionary discrepancies
+
+**Validation Process:**
+1. **Claude provides IPA** with syllable markers: `[tra.βa.xo]`
+2. **System validates** against Mexican Spanish dictionary during ingestion
+3. **Failures halt ingestion** with detailed error reporting
+4. **Override available** when certain your IPA is correct
+
+**Key Features:**
+- **Contextual fricatives**: Validates `β, ð, ɣ` vs `b, d, g` correctly
+- **Stress patterns**: Only enforces stress when dictionary has stress marks
+- **Syllable markers**: Automatically removed for comparison (`tra.βa.xo` = `traβaxo`)
+- **Latin American**: Validates seseo (s not θ) and yeísmo (ʝ not ʎ)
+
+**Commands:**
+- Validate single word: `python -m validation.ipa_validator trabajo tra.βa.xo`
+- Batch validation: Automatic during `ingest_claude_batch`
+- Override failures: `ingest_claude_batch --skip-ipa-validation`
+
 ## QUALITY ASSURANCE BUILT-IN
 
 **Automatic Validation:**
@@ -360,6 +390,7 @@ source venv/bin/activate && export PYTHONPATH=$(pwd)/src
 - ✅ Media file existence before card creation
 - ✅ Complete field population validation
 - ✅ Vocabulary database integrity maintenance
+- ✅ **IPA pronunciation validation** against authoritative dictionary
 
 ---
 

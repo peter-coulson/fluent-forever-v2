@@ -26,6 +26,7 @@ from typing import Dict, Any
 from utils.logging_config import setup_logging, ICONS
 from apis.base_client import BaseAPIClient
 from validation.internal.vocabulary_validator import VocabularyValidator
+from validation.ipa_validator import validate_spanish_ipa
 
 
 def derive_fields(m: Dict[str, Any]) -> Dict[str, Any]:
@@ -46,6 +47,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', type=str, required=True, help='Path to Claude staging JSON')
     parser.add_argument('--dry-run', action='store_true', help='Validate and preview without writing')
+    parser.add_argument('--skip-ipa-validation', action='store_true', help='Skip IPA validation (override failures)')
     args = parser.parse_args()
 
     logger = setup_logging()
@@ -82,6 +84,38 @@ def main() -> int:
             return 1
         d = derive_fields(m)
         derived.setdefault(d['SpanishWord'], []).append(d)
+    
+    # IPA Validation (unless skipped)
+    if not args.skip_ipa_validation:
+        logger.info(f"{ICONS['search']} Validating IPA pronunciations against dictionary...")
+        ipa_failures = []
+        
+        for word, meanings_list in derived.items():
+            # Get IPA from first meaning (should be same for all meanings of same word)
+            first_meaning = meanings_list[0]
+            ipa_raw = first_meaning.get('IPA', '').strip('[]/')
+            
+            if ipa_raw:
+                try:
+                    is_valid = validate_spanish_ipa(word, ipa_raw)
+                    if not is_valid:
+                        ipa_failures.append({
+                            'word': word,
+                            'predicted_ipa': ipa_raw,
+                            'meanings_count': len(meanings_list)
+                        })
+                except Exception as e:
+                    logger.warning(f"{ICONS['warning']} IPA validation error for '{word}': {e}")
+        
+        if ipa_failures:
+            logger.error(f"{ICONS['cross']} IPA validation failed for {len(ipa_failures)} words:")
+            for failure in ipa_failures:
+                logger.error(f"  - {failure['word']} → {failure['predicted_ipa']} ({failure['meanings_count']} meanings)")
+            logger.error(f"\n{ICONS['info']} To override IPA validation failures, use --skip-ipa-validation")
+            logger.error(f"Only use override if you're certain your IPA is correct and dictionary is wrong.")
+            return 1
+        
+        logger.info(f"{ICONS['check']} All IPA pronunciations validated successfully")
 
     # Load existing vocabulary
     vocab_path = project_root / 'vocabulary.json'
