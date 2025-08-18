@@ -3,9 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-o
-poder
-decir
 este
 ir
 otro
@@ -105,3 +102,6 @@ todo - totality (1 card) - 2025-08-14
 pero - contrast (1 card) - 2025-08-14
 más - comparative/additional (2 cards) - 2025-08-18  
 hacer - actions/create/weather (3 cards) - 2025-08-18
+o - alternative/choice (1 card) - 2025-08-18
+poder - ability/permission/possibility (3 cards) - 2025-08-18
+decir - to_say_tell (1 card) - 2025-08-18

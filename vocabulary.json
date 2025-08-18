@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-18T08:32:33.447746",
-    "total_words": 19,
-    "total_cards": 60,
+    "last_updated": "2025-08-18T08:47:10.297405",
+    "total_words": 22,
+    "total_cards": 65,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -1041,6 +1041,102 @@
         }
       ],
       "cards_created": 3
+    },
+    "o": {
+      "word": "o",
+      "processed_date": "2025-08-18T08:47:10.297370",
+      "meanings": [
+        {
+          "SpanishWord": "o",
+          "MeaningID": "alternative_choice",
+          "MeaningContext": "alternative/choice",
+          "MonolingualDef": "Conjunción que expresa alternativa entre dos opciones",
+          "ExampleSentence": "¿Quieres té o café en la cocina?",
+          "GappedSentence": "¿Quieres té _____ café en la cocina?",
+          "IPA": "[o]",
+          "prompt": "A bald young man with round glasses in the kitchen. A cute chinese girl holding up tea and coffee.",
+          "CardID": "o_alternative_choice",
+          "ImageFile": "o_alternative_choice.png",
+          "WordAudio": "[sound:o.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "poder": {
+      "word": "poder",
+      "processed_date": "2025-08-18T08:47:10.297398",
+      "meanings": [
+        {
+          "SpanishWord": "poder",
+          "MeaningID": "ability_capability",
+          "MeaningContext": "ability/capability",
+          "MonolingualDef": "Verbo que expresa capacidad o habilidad para realizar una acción",
+          "ExampleSentence": "El hombre puede hacer ejercicios en las anillas.",
+          "GappedSentence": "El hombre _____ hacer ejercicios en las anillas.",
+          "IPA": "[po.ˈðeɾ]",
+          "prompt": "A bald young man on gymnastic rings performing a difficult routine.",
+          "CardID": "poder_ability_capability",
+          "ImageFile": "poder_ability_capability.png",
+          "WordAudio": "[sound:poder.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "poder",
+          "MeaningID": "permission",
+          "MeaningContext": "permission",
+          "MonolingualDef": "Verbo usado para pedir o dar permiso",
+          "ExampleSentence": "¿Puedo llevar estos postres de la cocina?",
+          "GappedSentence": "¿_____ llevar estos postres de la cocina?",
+          "IPA": "[po.ˈðeɾ]",
+          "prompt": "A blond boy in the bakery area of a restaurant kitchen ready to take out the desserts.",
+          "CardID": "poder_permission",
+          "ImageFile": "poder_permission.png",
+          "WordAudio": "[sound:poder.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "poder",
+          "MeaningID": "possibility",
+          "MeaningContext": "possibility",
+          "MonolingualDef": "Verbo que expresa posibilidad o probabilidad",
+          "ExampleSentence": "Puede salir del apartamento con sus amigos.",
+          "GappedSentence": "_____ salir del apartamento con sus amigos.",
+          "IPA": "[po.ˈðeɾ]",
+          "prompt": "A blond boy of 18 looking out the door of the apartment into the building. All his friends are outside waiting for him to come out.",
+          "CardID": "poder_possibility",
+          "ImageFile": "poder_possibility.png",
+          "WordAudio": "[sound:poder.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "decir": {
+      "word": "decir",
+      "processed_date": "2025-08-18T08:47:10.297402",
+      "meanings": [
+        {
+          "SpanishWord": "decir",
+          "MeaningID": "to_say_tell",
+          "MeaningContext": "to_say_tell",
+          "MonolingualDef": "Verbo que expresa comunicación verbal o declaración",
+          "ExampleSentence": "El profesor dice palabras importantes al público.",
+          "GappedSentence": "El profesor _____ palabras importantes al público.",
+          "IPA": "[de.ˈsiɾ]",
+          "prompt": "Jordan Peterson up on a stage giving an emotive lecture to a large audience in a theater.",
+          "CardID": "decir_to_say_tell",
+          "ImageFile": "decir_to_say_tell.png",
+          "WordAudio": "[sound:decir.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
     }
   }
 }

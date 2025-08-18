@@ -88,5 +88,35 @@
     "prompt_hash": "deabaf926eadcae2",
     "provider": "openai",
     "created_at": 1755524215.146108
+  },
+  "decir_to_say_tell.png": {
+    "word": "decir",
+    "prompt_hash": "87e7309a496be265",
+    "provider": "openai",
+    "created_at": 1755524907.809899
+  },
+  "o_alternative_choice.png": {
+    "word": "o",
+    "prompt_hash": "839bebb430f563e8",
+    "provider": "openai",
+    "created_at": 1755524920.954221
+  },
+  "poder_ability_capability.png": {
+    "word": "poder",
+    "prompt_hash": "9b418d84cc0af37e",
+    "provider": "openai",
+    "created_at": 1755524941.055187
+  },
+  "poder_permission.png": {
+    "word": "poder",
+    "prompt_hash": "10df6f497c1b0ff3",
+    "provider": "openai",
+    "created_at": 1755524953.5451
+  },
+  "poder_possibility.png": {
+    "word": "poder",
+    "prompt_hash": "4990f341ea445bfe",
+    "provider": "openai",
+    "created_at": 1755524967.614905
   }
 }
