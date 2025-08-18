@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-18T08:47:10.297405",
-    "total_words": 22,
-    "total_cards": 65,
+    "last_updated": "2025-08-18T09:32:25.123586",
+    "total_words": 29,
+    "total_cards": 74,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -1132,6 +1132,190 @@
           "CardID": "decir_to_say_tell",
           "ImageFile": "decir_to_say_tell.png",
           "WordAudio": "[sound:decir.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "este": {
+      "word": "este",
+      "processed_date": "2025-08-18T09:06:42.991358",
+      "meanings": [
+        {
+          "SpanishWord": "este",
+          "MeaningID": "demonstrative",
+          "MeaningContext": "demonstrative adjective/pronoun - points to something near the speaker",
+          "MonolingualDef": "adjetivo y pronombre demostrativo que señala algo cercano al hablante en el espacio o tiempo",
+          "ExampleSentence": "Este hombre calvo con gafas redondas toca la botella metálica negra.",
+          "GappedSentence": "_____ hombre calvo con gafas redondas toca la botella metálica negra.",
+          "IPA": "[ˈes.te]",
+          "prompt": "A bald young man with small round glasses pointing at a black chilies metal water bottle.",
+          "CardID": "este_demonstrative",
+          "ImageFile": "este_demonstrative.png",
+          "WordAudio": "[sound:este.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "ir": {
+      "word": "ir",
+      "processed_date": "2025-08-18T09:06:42.991378",
+      "meanings": [
+        {
+          "SpanishWord": "ir",
+          "MeaningID": "movement",
+          "MeaningContext": "verb - movement to a destination",
+          "MonolingualDef": "verbo que indica movimiento hacia un lugar o destino",
+          "ExampleSentence": "El niño rubio va de la casa de ladrillo para jugar con sus amigos en la calle.",
+          "GappedSentence": "El niño rubio _____ de la casa de ladrillo para jugar con sus amigos en la calle.",
+          "IPA": "[ˈiɾ]",
+          "prompt": "A blonde boy leaving a brick house with his mother on the doorstep to join his friends in the street.",
+          "CardID": "ir_movement",
+          "ImageFile": "ir_movement.png",
+          "WordAudio": "[sound:ir.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "otro": {
+      "word": "otro",
+      "processed_date": "2025-08-18T09:06:42.991382",
+      "meanings": [
+        {
+          "SpanishWord": "otro",
+          "MeaningID": "different_additional",
+          "MeaningContext": "adjective/pronoun - different or additional item",
+          "MonolingualDef": "adjetivo y pronombre que indica algo distinto o adicional",
+          "ExampleSentence": "El hombre con cadena de oro levanta el dedo frente a la casa enorme pidiendo otra cosa.",
+          "GappedSentence": "El hombre con cadena de oro levanta el dedo frente a la casa enorme pidiendo _____ cosa.",
+          "IPA": "[ˈo.tɾo]",
+          "prompt": "DJ Khalid with a gold chain infront of a massive house with a pool with one hand up with one finger up.",
+          "CardID": "otro_different_additional",
+          "ImageFile": "otro_different_additional.png",
+          "WordAudio": "[sound:otro.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "ese": {
+      "word": "ese",
+      "processed_date": "2025-08-18T09:06:42.991383",
+      "meanings": [
+        {
+          "SpanishWord": "ese",
+          "MeaningID": "demonstrative",
+          "MeaningContext": "demonstrative adjective/pronoun - points to something near the listener",
+          "MonolingualDef": "adjetivo y pronombre demostrativo que señala algo cercano al oyente",
+          "ExampleSentence": "Ese edificio de tres pisos es completamente púrpura y brillante.",
+          "GappedSentence": "_____ edificio de tres pisos es completamente púrpura y brillante.",
+          "IPA": "[ˈe.se]",
+          "prompt": "A bald young man with small round glasses pointing to a large 3 story building that is bright reflective purple.",
+          "CardID": "ese_demonstrative",
+          "ImageFile": "ese_demonstrative.png",
+          "WordAudio": "[sound:ese.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "si": {
+      "word": "si",
+      "processed_date": "2025-08-18T09:32:25.123568",
+      "meanings": [
+        {
+          "SpanishWord": "si",
+          "MeaningID": "conditional",
+          "MeaningContext": "conjunction - introduces conditional/hypothetical situations",
+          "MonolingualDef": "conjunción que introduce condiciones o situaciones hipotéticas",
+          "ExampleSentence": "Si llueve, el hombre calvo y la chica china en el parque se mojarán.",
+          "GappedSentence": "_____ llueve, el hombre calvo y la chica china en el parque se mojarán.",
+          "IPA": "[ˈsi]",
+          "prompt": "A young bald man in a tshirt and a chineese girl in a green park in the hills with thunder in the distance.",
+          "CardID": "si_conditional",
+          "ImageFile": "si_conditional.png",
+          "WordAudio": "[sound:si.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "me": {
+      "word": "me",
+      "processed_date": "2025-08-18T09:32:25.123581",
+      "meanings": [
+        {
+          "SpanishWord": "me",
+          "MeaningID": "reflexive",
+          "MeaningContext": "reflexive pronoun - actions done to oneself",
+          "MonolingualDef": "pronombre reflexivo que indica acciones que el sujeto realiza sobre sí mismo",
+          "ExampleSentence": "Me lavo las manos en el lavabo con agua y jabón.",
+          "GappedSentence": "_____ lavo las manos en el lavabo con agua y jabón.",
+          "IPA": "[ˈme]",
+          "prompt": "A bald young man with blue eyes and round glasses washing his hands in the sink.",
+          "CardID": "me_reflexive",
+          "ImageFile": "me_reflexive.png",
+          "WordAudio": "[sound:me.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "me",
+          "MeaningID": "indirect_object",
+          "MeaningContext": "indirect object pronoun - to/for me (recipient)",
+          "MonolingualDef": "pronombre de objeto indirecto que indica el destinatario de una acción",
+          "ExampleSentence": "La señora me sirve la cena caliente en el plato.",
+          "GappedSentence": "La señora _____ sirve la cena caliente en el plato.",
+          "IPA": "[ˈme]",
+          "prompt": "A lady with short black hair serving an eager blond boy his steaming dinner.",
+          "CardID": "me_indirect_object",
+          "ImageFile": "me_indirect_object.png",
+          "WordAudio": "[sound:me.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "me",
+          "MeaningID": "gustar_experiencer",
+          "MeaningContext": "experiencer pronoun - with psychological verbs expressing preferences/feelings",
+          "MonolingualDef": "pronombre que indica quien experimenta sentimientos o preferencias con verbos como gustar",
+          "ExampleSentence": "Me gusta mucho la ensalada de zanahoria fresca.",
+          "GappedSentence": "_____ gusta mucho la ensalada de zanahoria fresca.",
+          "IPA": "[ˈme]",
+          "prompt": "A bald young man with blue eyes and little round glasses eager to eat his carrot salad.",
+          "CardID": "me_gustar_experiencer",
+          "ImageFile": "me_gustar_experiencer.png",
+          "WordAudio": "[sound:me.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "ya": {
+      "word": "ya",
+      "processed_date": "2025-08-18T09:32:25.123584",
+      "meanings": [
+        {
+          "SpanishWord": "ya",
+          "MeaningID": "already_now",
+          "MeaningContext": "adverb - already/now/completion",
+          "MonolingualDef": "adverbio que indica que algo ha terminado o está completo",
+          "ExampleSentence": "Ya se acabó el tiempo de jugar en la computadora.",
+          "GappedSentence": "_____ se acabó el tiempo de jugar en la computadora.",
+          "IPA": "[ˈʝa]",
+          "prompt": "A young blond boy playing computer games whilst an hour glass is nearly finished, a lady with brown hair standing behind him looking at the hourglass.",
+          "CardID": "ya_already_now",
+          "ImageFile": "ya_already_now.png",
+          "WordAudio": "[sound:ya.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }

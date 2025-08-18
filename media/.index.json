@@ -118,5 +118,59 @@
     "prompt_hash": "4990f341ea445bfe",
     "provider": "openai",
     "created_at": 1755524967.614905
+  },
+  "ese_demonstrative.png": {
+    "word": "ese",
+    "prompt_hash": "7b8bdcd09f8261fa",
+    "provider": "openai",
+    "created_at": 1755526053.8943949
+  },
+  "este_demonstrative.png": {
+    "word": "este",
+    "prompt_hash": "7152271e12dfa022",
+    "provider": "openai",
+    "created_at": 1755526067.16196
+  },
+  "ir_movement.png": {
+    "word": "ir",
+    "prompt_hash": "979ea7e45965633e",
+    "provider": "openai",
+    "created_at": 1755526080.269721
+  },
+  "otro_different_additional.png": {
+    "word": "otro",
+    "prompt_hash": "d09ab9e487e20b57",
+    "provider": "openai",
+    "created_at": 1755526099.704531
+  },
+  "me_gustar_experiencer.png": {
+    "word": "me",
+    "prompt_hash": "26b6f84a17e65174",
+    "provider": "openai",
+    "created_at": 1755527572.3653162
+  },
+  "me_indirect_object.png": {
+    "word": "me",
+    "prompt_hash": "389f6d4210d887ff",
+    "provider": "openai",
+    "created_at": 1755527587.555742
+  },
+  "me_reflexive.png": {
+    "word": "me",
+    "prompt_hash": "a5081c833ef4256c",
+    "provider": "openai",
+    "created_at": 1755527605.843977
+  },
+  "si_conditional.png": {
+    "word": "si",
+    "prompt_hash": "2ffc958c9d716477",
+    "provider": "openai",
+    "created_at": 1755527618.495882
+  },
+  "ya_already_now.png": {
+    "word": "ya",
+    "prompt_hash": "d73a9c96b47ac911",
+    "provider": "openai",
+    "created_at": 1755527636.389868
   }
 }

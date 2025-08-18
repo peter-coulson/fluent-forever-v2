@@ -3,14 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-este
-ir
-otro
-ese
-la
-si
-me
-ya
 ver
 porque
 dar
@@ -80,6 +72,7 @@ encontrar
 un - indefinite article & number one (user request)
 el - definite article (user request)  
 y - conjunction "and" (user request)
+la - definite article/pronoun (user request)
 
 ## COMPLETED WORDS (Cards created successfully)
 # Format: word - meanings (number of cards) - completion date
@@ -105,3 +98,10 @@ hacer - actions/create/weather (3 cards) - 2025-08-18
 o - alternative/choice (1 card) - 2025-08-18
 poder - ability/permission/possibility (3 cards) - 2025-08-18
 decir - to_say_tell (1 card) - 2025-08-18
+este - demonstrative (1 card) - 2025-08-18
+ir - movement (1 card) - 2025-08-18
+otro - different_additional (1 card) - 2025-08-18
+ese - demonstrative (1 card) - 2025-08-18
+si - conditional (1 card) - 2025-08-18
+me - reflexive/indirect_object/gustar_experiencer (3 cards) - 2025-08-18
+ya - already_now (1 card) - 2025-08-18
