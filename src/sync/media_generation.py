@@ -19,7 +19,7 @@ from typing import Dict, List, Optional, Set, Tuple
 
 from utils.logging_config import get_logger, setup_logging, ICONS
 from apis.base_client import BaseAPIClient
-from apis.openai_client import OpenAIClient
+from apis.image_provider_factory import create_image_client
 from apis.forvo_client import ForvoClient
 from apis.base_client import ensure_media_directories
 from validation.internal.vocabulary_validator import VocabularyValidator
@@ -175,7 +175,12 @@ def generate_images(project_root: Path, plan: GenerationPlan, dry_run: bool) -> 
     provenance = load_provenance(project_root)
     vocab = load_vocabulary(project_root)
     idx = build_meaning_index(vocab)
-    client = None if dry_run else OpenAIClient()
+    if dry_run:
+        client = None
+    else:
+        config = BaseAPIClient.load_config(project_root / 'config.json')
+        provider = config['image_generation']['primary_provider']
+        client = create_image_client(provider)
     generated = 0
     skipped = 0
     for img in sorted(plan.images_to_generate):
@@ -197,10 +202,12 @@ def generate_images(project_root: Path, plan: GenerationPlan, dry_run: bool) -> 
             continue
         resp = client.generate_image(prompt, img) if client else SimpleNamespace(success=False, error_message="dry-run")
         if resp.success:
+            config = BaseAPIClient.load_config(project_root / 'config.json')
+            provider = config['image_generation']['primary_provider']
             provenance[img] = {
                 'word': word,
                 'prompt_hash': prompt_h,
-                'provider': 'openai',
+                'provider': provider,
                 'created_at': time.time(),
             }
             generated += 1
@@ -237,7 +244,8 @@ def generate_audio(project_root: Path, plan: GenerationPlan, dry_run: bool) -> T
 def estimate_cost(plan: GenerationPlan, project_root: Path) -> float:
     # Images have cost; audio from Forvo free tier assumed $0 here
     config = BaseAPIClient.load_config(project_root / 'config.json')
-    cpi = config['apis']['openai']['cost_per_image']
+    provider = config['image_generation']['primary_provider']
+    cpi = config['apis'][provider]['cost_per_image']
     return float(cpi) * len(plan.images_to_generate)
 
 

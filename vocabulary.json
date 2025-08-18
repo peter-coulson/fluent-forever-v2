@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-18T10:13:19.184796",
-    "total_words": 39,
-    "total_cards": 84,
+    "last_updated": "2025-08-18T11:21:38.292202",
+    "total_words": 41,
+    "total_cards": 89,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -1541,6 +1541,95 @@
         }
       ],
       "cards_created": 1
+    },
+    "sobre": {
+      "word": "sobre",
+      "processed_date": "2025-08-18T11:21:38.292188",
+      "meanings": [
+        {
+          "SpanishWord": "sobre",
+          "MeaningID": "physical_position",
+          "MeaningContext": "On top of, above something",
+          "MonolingualDef": "Preposición que indica posición física encima o por encima de algo",
+          "ExampleSentence": "Los mensajes están sobre la mesa",
+          "GappedSentence": "Los mensajes están _____ la mesa",
+          "IPA": "[ˈso.βɾe]",
+          "prompt": "A woman of 50 with short black hair, writing on a little notepad next to the kettle in the corner of the kitchen",
+          "CardID": "sobre_physical_position",
+          "ImageFile": "sobre_physical_position.png",
+          "WordAudio": "[sound:sobre.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "sobre",
+          "MeaningID": "topic_subject",
+          "MeaningContext": "About, concerning a subject",
+          "MonolingualDef": "Preposición que indica el tema o asunto de conversación",
+          "ExampleSentence": "Los amigos hablan sobre el fútbol",
+          "GappedSentence": "Los amigos hablan _____ el fútbol",
+          "IPA": "[ˈso.βɾe]",
+          "prompt": "An english pub, a group of friends with pints talking and watching football",
+          "CardID": "sobre_topic_subject",
+          "ImageFile": "sobre_topic_subject.png",
+          "WordAudio": "[sound:sobre.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "sobre",
+          "MeaningID": "approximation",
+          "MeaningContext": "Around, approximately (time/quantity)",
+          "MonolingualDef": "Preposición que indica tiempo o cantidad aproximada",
+          "ExampleSentence": "Llegará sobre las cinco",
+          "GappedSentence": "Llegará _____ las cinco",
+          "IPA": "[ˈso.βɾe]",
+          "prompt": "A boy with a small red car in an english town on the phone to his friends",
+          "CardID": "sobre_approximation",
+          "ImageFile": "sobre_approximation.png",
+          "WordAudio": "[sound:sobre.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "mismo": {
+      "word": "mismo",
+      "processed_date": "2025-08-18T11:21:38.292199",
+      "meanings": [
+        {
+          "SpanishWord": "mismo",
+          "MeaningID": "identity_sameness",
+          "MeaningContext": "Same, identical thing or person",
+          "MonolingualDef": "Adjetivo que indica identidad o igualdad entre personas o cosas",
+          "ExampleSentence": "Los gemelos llevan el mismo suéter",
+          "GappedSentence": "Los gemelos llevan el _____ suéter",
+          "IPA": "[ˈmis.mo]",
+          "prompt": "Two blond twins with blue eyes, wearing red jumpers and black trousers sitting together in school",
+          "CardID": "mismo_identity_sameness",
+          "ImageFile": "mismo_identity_sameness.png",
+          "WordAudio": "[sound:mismo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "mismo",
+          "MeaningID": "emphasis_self",
+          "MeaningContext": "Myself, himself, herself (emphatic)",
+          "MonolingualDef": "Pronombre que enfatiza la acción personal del sujeto",
+          "ExampleSentence": "Yo mismo lo haré",
+          "GappedSentence": "Yo _____ lo haré",
+          "IPA": "[ˈmis.mo]",
+          "prompt": "Thanos sitting on a dark rock in space with the infinity gauntlet",
+          "CardID": "mismo_emphasis_self",
+          "ImageFile": "mismo_emphasis_self.png",
+          "WordAudio": "[sound:mismo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
     }
   }
 }

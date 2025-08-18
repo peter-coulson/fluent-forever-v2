@@ -31,16 +31,40 @@
       "deck_name": "Latin Spanish::1. Vocabulary",
       "note_type": "Fluent Forever",
       "launch_wait_time": 8
+    },
+    "runware": {
+      "api_key": "",
+      "env_var": "RUNWARE_API_KEY",
+      "enabled": true,
+      "base_url": "https://api.runware.ai",
+      "timeout": 60,
+      "cost_per_image": 0.01
     }
   },
   "image_generation": {
-    "primary_provider": "openai",
-    "style": "Studio Ghibli animation style, Hayao Miyazaki art style, anime illustration, soft colors, detailed background, consistent Ghibli aesthetic",
-    "negative_prompt": "realistic, photo, 3d render, dark, scary, multiple people, extra limbs, distorted face, blurry, low quality, watermark, text, adult content, violence",
-    "width": 1024,
-    "height": 1024,
-    "steps": 25,
-    "guidance_scale": 7.0
+    "primary_provider": "runware",
+    "providers": {
+      "openai": {
+        "model": "dall-e-3",
+        "style": "Studio Ghibli animation style, Hayao Miyazaki art style, anime illustration, soft colors, detailed background, consistent Ghibli aesthetic",
+        "width": 1024,
+        "height": 1024,
+        "quality": "standard"
+      },
+      "runware": {
+        "model": "runware:101@1",
+        "style": "Studio Ghibli animation style, Hayao Miyazaki art style, anime illustration, soft colors, detailed background, consistent Ghibli aesthetic",
+        "negative_prompt": "realistic, photo, 3d render, dark, scary, multiple people, extra limbs, distorted face, blurry, low quality, watermark, text, adult content, violence",
+        "width": 1024,
+        "height": 1024,
+        "steps": 25,
+        "guidance_scale": 7.0,
+        "sampler": "euler",
+        "output_type": "URL",
+        "output_format": "JPG",
+        "number_results": 1
+      }
+    }
   },
   "character_system": {
     "use_text_descriptions": true,

@@ -16,7 +16,12 @@ def write_minimal_project(tmp_path: Path):
             "forvo": {"env_var": "FORVO_API_KEY", "base_url": "https://apifree.forvo.com", "country_priorities": ["MX", "CO", "ES"], "priority_groups": [["MX", "CO"], ["ES"], []]},
             "anki": {"url": "http://localhost:8765", "deck_name": "Test", "note_type": "Fluent Forever", "launch_wait_time": 1}
         },
-        "image_generation": {"style": "test", "width": 1024, "height": 1024},
+        "image_generation": {
+            "primary_provider": "openai",
+            "providers": {
+                "openai": {"model": "dall-e-3", "style": "test", "width": 1024, "height": 1024, "quality": "standard"}
+            }
+        },
         "paths": {"media_folder": str(tmp_path / 'media'), "vocabulary_db": str(tmp_path / 'vocabulary.json'), "word_queue": str(tmp_path / 'word_queue.txt'), "downloads": str(tmp_path)},
         "validation": {"vocabulary_schema": {
             "metadata": {"required_fields": ["created","last_updated","total_words","total_cards","source"], "optional_fields": []},

@@ -8,18 +8,18 @@ import os
 from pathlib import Path
 from typing import Dict, Any, Optional
 import requests
-from apis.base_client import BaseAPIClient, APIResponse, APIError
+from apis.base_image_client import BaseImageClient
+from apis.base_client import APIResponse, APIError
 from utils.logging_config import get_logger, ICONS
 
 logger = get_logger('apis.openai')
 
-class OpenAIClient(BaseAPIClient):
+class OpenAIClient(BaseImageClient):
     """OpenAI API client for DALL-E image generation"""
     
     def __init__(self):
-        super().__init__("OpenAI")
-        self.api_config = self.config["apis"]["openai"]
-        self.image_config = self.config["image_generation"]
+        super().__init__("openai")
+        self.api_config = self._get_provider_config()
         self.api_key = self._load_api_key(self.api_config["env_var"])
         
         # Set up authentication
@@ -48,7 +48,7 @@ class OpenAIClient(BaseAPIClient):
         """Get OpenAI service information"""
         return {
             "service": "OpenAI DALL-E",
-            "model": self.api_config["model"],
+            "model": self.image_config["model"],
             "image_size": f"{self.image_config['width']}x{self.image_config['height']}",
             "style": self.image_config["style"][:50] + "..." if len(self.image_config["style"]) > 50 else self.image_config["style"]
         }
@@ -72,11 +72,11 @@ class OpenAIClient(BaseAPIClient):
             
             # Prepare request data
             data = {
-                "model": self.api_config["model"],
+                "model": self.image_config["model"],
                 "prompt": full_prompt,
                 "n": 1,
                 "size": f"{self.image_config['width']}x{self.image_config['height']}",
-                "quality": "standard"
+                "quality": self.image_config.get("quality", "standard")
             }
             
             self.logger.info(f"{ICONS['gear']} Generating image: {filename}")
@@ -152,7 +152,7 @@ class OpenAIClient(BaseAPIClient):
         total_cost = num_images * cost_per_image
         
         return {
-            "model": self.api_config["model"],
+            "model": self.image_config["model"],
             "images": num_images,
             "cost_per_image": f"${cost_per_image:.3f}",
             "total_cost": f"${total_cost:.3f}",

@@ -232,5 +232,35 @@
     "prompt_hash": "f36ee8b46b0a17c3",
     "provider": "openai",
     "created_at": 1755530085.792769
+  },
+  "mismo_emphasis_self.png": {
+    "word": "mismo",
+    "prompt_hash": "996af8e10f921fea",
+    "provider": "runware",
+    "created_at": 1755537327.2665029
+  },
+  "mismo_identity_sameness.png": {
+    "word": "mismo",
+    "prompt_hash": "88e3f01183b294a7",
+    "provider": "runware",
+    "created_at": 1755537331.137852
+  },
+  "sobre_approximation.png": {
+    "word": "sobre",
+    "prompt_hash": "1264b6a78899bed1",
+    "provider": "runware",
+    "created_at": 1755537335.437949
+  },
+  "sobre_physical_position.png": {
+    "word": "sobre",
+    "prompt_hash": "d8fa6ed5dc827a85",
+    "provider": "runware",
+    "created_at": 1755537339.245871
+  },
+  "sobre_topic_subject.png": {
+    "word": "sobre",
+    "prompt_hash": "53116d6b35004e15",
+    "provider": "runware",
+    "created_at": 1755537342.943778
   }
 }
