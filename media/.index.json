@@ -58,5 +58,35 @@
     "prompt_hash": "ffa45c318e142daa",
     "provider": "openai",
     "created_at": 1755205404.272299
+  },
+  "hacer_make_create.png": {
+    "word": "hacer",
+    "prompt_hash": "bfd8077c9459eed7",
+    "provider": "openai",
+    "created_at": 1755523998.149251
+  },
+  "hacer_weather_expressions.png": {
+    "word": "hacer",
+    "prompt_hash": "bd12721c2779218a",
+    "provider": "openai",
+    "created_at": 1755524025.5033758
+  },
+  "más_additional_quantity.png": {
+    "word": "más",
+    "prompt_hash": "7f758766a75b1feb",
+    "provider": "openai",
+    "created_at": 1755524039.1071842
+  },
+  "más_comparative_degree.png": {
+    "word": "más",
+    "prompt_hash": "ed5c7a785a1df9ee",
+    "provider": "openai",
+    "created_at": 1755524061.643523
+  },
+  "hacer_perform_actions.png": {
+    "word": "hacer",
+    "prompt_hash": "deabaf926eadcae2",
+    "provider": "openai",
+    "created_at": 1755524215.146108
   }
 }

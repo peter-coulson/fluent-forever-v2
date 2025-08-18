@@ -3,8 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-más
-hacer
 o
 poder
 decir
@@ -105,3 +103,5 @@ le - indirect_object (1 card) - 2025-08-14
 lo - direct_object/neuter_article (2 cards) - 2025-08-14
 todo - totality (1 card) - 2025-08-14
 pero - contrast (1 card) - 2025-08-14
+más - comparative/additional (2 cards) - 2025-08-18  
+hacer - actions/create/weather (3 cards) - 2025-08-18

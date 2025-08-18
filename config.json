@@ -93,12 +93,12 @@
       }
     },
     "field_patterns": {
-      "CardID": "^[a-z_0-9]+$",
+      "CardID": "^[a-záéíóúñü_0-9]+$",
       "SpanishWord": "^[a-záéíóúñü]+$",
       "IPA": "^\\[.*\\]$|^/.*/$",
-      "ImageFile": "^[a-z_]+\\.png$",
-      "WordAudio": "^\\[sound:[a-z_]+\\.mp3\\]$",
-      "MeaningID": "^[a-z_]+$"
+      "ImageFile": "^[a-záéíóúñü_]+\\.png$",
+      "WordAudio": "^\\[sound:[a-záéíóúñü_]+\\.mp3\\]$",
+      "MeaningID": "^[a-záéíóúñü_]+$"
     },
     "constraints": {
       "max_cards_per_word": 10,

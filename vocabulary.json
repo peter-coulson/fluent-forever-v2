@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-14T16:00:32.802937",
-    "total_words": 17,
-    "total_cards": 55,
+    "last_updated": "2025-08-18T08:32:33.447746",
+    "total_words": 19,
+    "total_cards": 60,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -952,6 +952,95 @@
         }
       ],
       "cards_created": 1
+    },
+    "más": {
+      "word": "más",
+      "processed_date": "2025-08-18T08:32:33.447726",
+      "meanings": [
+        {
+          "SpanishWord": "más",
+          "MeaningID": "comparative_degree",
+          "MeaningContext": "comparative_degree",
+          "MonolingualDef": "Adverbio comparativo que indica mayor grado, cantidad o intensidad",
+          "ExampleSentence": "La niña pelirroja es más alta que el niño rubio.",
+          "GappedSentence": "La niña pelirroja es _____ alta que el niño rubio.",
+          "IPA": "[ˈmas]",
+          "prompt": "A ginger girl with her hand on the top of the head of a shorter blond boy sticking her tongue out at him.",
+          "CardID": "más_comparative_degree",
+          "ImageFile": "más_comparative_degree.png",
+          "WordAudio": "[sound:más.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "más",
+          "MeaningID": "additional_quantity",
+          "MeaningContext": "additional_quantity",
+          "MonolingualDef": "Indica cantidad adicional o mayor de algo",
+          "ExampleSentence": "El hombre rubio quiere más hamburguesas.",
+          "GappedSentence": "El hombre rubio quiere _____ hamburguesas.",
+          "IPA": "[ˈmas]",
+          "prompt": "A blond man in his early twenties eating big macs from macdonalds whilst ordering more.",
+          "CardID": "más_additional_quantity",
+          "ImageFile": "más_additional_quantity.png",
+          "WordAudio": "[sound:más.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "hacer": {
+      "word": "hacer",
+      "processed_date": "2025-08-18T08:32:33.447743",
+      "meanings": [
+        {
+          "SpanishWord": "hacer",
+          "MeaningID": "perform_actions",
+          "MeaningContext": "perform_actions",
+          "MonolingualDef": "Realizar una actividad, tarea o acción específica",
+          "ExampleSentence": "El hombre calvo hace ejercicios por la mañana.",
+          "GappedSentence": "El hombre calvo _____ ejercicios por la mañana.",
+          "IPA": "[a.ˈseɾ]",
+          "prompt": "A bald man in early twenties with round glasses doing morning exercise.",
+          "CardID": "hacer_perform_actions",
+          "ImageFile": "hacer_perform_actions.png",
+          "WordAudio": "[sound:hacer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "hacer",
+          "MeaningID": "make_create",
+          "MeaningContext": "make_create",
+          "MonolingualDef": "Crear, fabricar o producir algo con las manos o herramientas",
+          "ExampleSentence": "El niño rubio hace una maceta pequeña en el torno.",
+          "GappedSentence": "El niño rubio _____ una maceta pequeña en el torno.",
+          "IPA": "[a.ˈseɾ]",
+          "prompt": "A young blond boy on a pottery wheel in kindergarden making a very small flower pot.",
+          "CardID": "hacer_make_create",
+          "ImageFile": "hacer_make_create.png",
+          "WordAudio": "[sound:hacer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "hacer",
+          "MeaningID": "weather_expressions",
+          "MeaningContext": "weather_expressions",
+          "MonolingualDef": "Se usa en expresiones impersonales del clima y tiempo atmosférico",
+          "ExampleSentence": "Hace lluvia torrencial en el parque de flores.",
+          "GappedSentence": "_____ lluvia torrencial en el parque de flores.",
+          "IPA": "[a.ˈse]",
+          "prompt": "A bald man in his early twenties with a chineese girl in a flower park getting soaked with torrential rain.",
+          "CardID": "hacer_weather_expressions",
+          "ImageFile": "hacer_weather_expressions.png",
+          "WordAudio": "[sound:hacer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
     }
   }
 }
