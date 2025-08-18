@@ -3,12 +3,7 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-ver
-porque
-dar
-cuando
 él
-muy
 sin
 vez
 mucho
@@ -105,3 +100,8 @@ ese - demonstrative (1 card) - 2025-08-18
 si - conditional (1 card) - 2025-08-18
 me - reflexive/indirect_object/gustar_experiencer (3 cards) - 2025-08-18
 ya - already_now (1 card) - 2025-08-18
+ver - visual_perception (1 card) - 2025-08-18
+porque - causal_explanation (1 card) - 2025-08-18
+dar - transfer_grant (1 card) - 2025-08-18
+cuando - temporal_reference (1 card) - 2025-08-18
+muy - intensifier (1 card) - 2025-08-18

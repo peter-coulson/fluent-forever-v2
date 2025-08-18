@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-18T09:32:25.123586",
-    "total_words": 29,
-    "total_cards": 74,
+    "last_updated": "2025-08-18T09:46:38.747556",
+    "total_words": 34,
+    "total_cards": 79,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -1316,6 +1316,116 @@
           "CardID": "ya_already_now",
           "ImageFile": "ya_already_now.png",
           "WordAudio": "[sound:ya.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "ver": {
+      "word": "ver",
+      "processed_date": "2025-08-18T09:46:38.747539",
+      "meanings": [
+        {
+          "SpanishWord": "ver",
+          "MeaningID": "visual_perception",
+          "MeaningContext": "Using eyes to perceive something",
+          "MonolingualDef": "Percibir algo con los ojos, tener la capacidad de visión",
+          "ExampleSentence": "El hombre ve la isla desde la colina",
+          "GappedSentence": "El hombre _____ la isla desde la colina",
+          "IPA": "[ˈbeɾ]",
+          "prompt": "A bald young man with blue eyes and small round glasses at the top of a hill with his two friends looking out over the sea at an island in the distance",
+          "CardID": "ver_visual_perception",
+          "ImageFile": "ver_visual_perception.png",
+          "WordAudio": "[sound:ver.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "porque": {
+      "word": "porque",
+      "processed_date": "2025-08-18T09:46:38.747548",
+      "meanings": [
+        {
+          "SpanishWord": "porque",
+          "MeaningID": "causal_explanation",
+          "MeaningContext": "Expressing reason or cause",
+          "MonolingualDef": "Conjunción que indica la causa o razón de algo",
+          "ExampleSentence": "El niño llora porque se lastimó",
+          "GappedSentence": "El niño llora _____ se lastimó",
+          "IPA": "[ˈpoɾ.ke]",
+          "prompt": "A little blond boy crying with his mother trying to comfort him and his ginger sister sitting nearby",
+          "CardID": "porque_causal_explanation",
+          "ImageFile": "porque_causal_explanation.png",
+          "WordAudio": "[sound:porque.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "dar": {
+      "word": "dar",
+      "processed_date": "2025-08-18T09:46:38.747551",
+      "meanings": [
+        {
+          "SpanishWord": "dar",
+          "MeaningID": "transfer_grant",
+          "MeaningContext": "Giving something to someone",
+          "MonolingualDef": "Entregar o ceder algo a otra persona voluntariamente",
+          "ExampleSentence": "El hombre da el dispositivo a su amigo",
+          "GappedSentence": "El hombre _____ el dispositivo a su amigo",
+          "IPA": "[ˈdaɾ]",
+          "prompt": "A bald young man with blue eyes and small round glasses giving a usb stick to his athletic friend with glasses",
+          "CardID": "dar_transfer_grant",
+          "ImageFile": "dar_transfer_grant.png",
+          "WordAudio": "[sound:dar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "cuando": {
+      "word": "cuando",
+      "processed_date": "2025-08-18T09:46:38.747553",
+      "meanings": [
+        {
+          "SpanishWord": "cuando",
+          "MeaningID": "temporal_reference",
+          "MeaningContext": "Referring to time or moment",
+          "MonolingualDef": "Adverbio interrogativo que se refiere al tiempo en que sucede algo",
+          "ExampleSentence": "Los niños preguntan cuándo llegan",
+          "GappedSentence": "Los niños preguntan _____ llegan",
+          "IPA": "[ˈkwan.do]",
+          "prompt": "A family of four, the dad driving, the mother with short black hair, a blond boy and a ginger girl in a car. The kids look very unhappy",
+          "CardID": "cuando_temporal_reference",
+          "ImageFile": "cuando_temporal_reference.png",
+          "WordAudio": "[sound:cuando.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "muy": {
+      "word": "muy",
+      "processed_date": "2025-08-18T09:46:38.747555",
+      "meanings": [
+        {
+          "SpanishWord": "muy",
+          "MeaningID": "intensifier",
+          "MeaningContext": "Intensifier for adjectives/adverbs",
+          "MonolingualDef": "Adverbio que intensifica el significado de adjetivos y adverbios",
+          "ExampleSentence": "El chocolate está muy caliente",
+          "GappedSentence": "El chocolate está _____ caliente",
+          "IPA": "[muj]",
+          "prompt": "A blond boy with wide surprised eyes holding a steaming mug of hot chocolate, looking amazed at how hot it is",
+          "CardID": "muy_intensifier",
+          "ImageFile": "muy_intensifier.png",
+          "WordAudio": "[sound:muy.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }

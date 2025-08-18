@@ -172,5 +172,35 @@
     "prompt_hash": "d73a9c96b47ac911",
     "provider": "openai",
     "created_at": 1755527636.389868
+  },
+  "cuando_temporal_reference.png": {
+    "word": "cuando",
+    "prompt_hash": "7f5f4d1449718d86",
+    "provider": "openai",
+    "created_at": 1755528429.62304
+  },
+  "dar_transfer_grant.png": {
+    "word": "dar",
+    "prompt_hash": "cc10add7ad88b413",
+    "provider": "openai",
+    "created_at": 1755528439.916244
+  },
+  "porque_causal_explanation.png": {
+    "word": "porque",
+    "prompt_hash": "c305a27f44db17bf",
+    "provider": "openai",
+    "created_at": 1755528474.1528692
+  },
+  "ver_visual_perception.png": {
+    "word": "ver",
+    "prompt_hash": "1be800a8af1ed6e1",
+    "provider": "openai",
+    "created_at": 1755528492.071618
+  },
+  "muy_intensifier.png": {
+    "word": "muy",
+    "prompt_hash": "a3737cf338d89503",
+    "provider": "openai",
+    "created_at": 1755528648.769112
   }
 }
