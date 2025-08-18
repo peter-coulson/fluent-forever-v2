@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-18T09:46:38.747556",
-    "total_words": 34,
-    "total_cards": 79,
+    "last_updated": "2025-08-18T10:13:19.184796",
+    "total_words": 39,
+    "total_cards": 84,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -1147,8 +1147,8 @@
           "MeaningID": "demonstrative",
           "MeaningContext": "demonstrative adjective/pronoun - points to something near the speaker",
           "MonolingualDef": "adjetivo y pronombre demostrativo que señala algo cercano al hablante en el espacio o tiempo",
-          "ExampleSentence": "Este hombre calvo con gafas redondas toca la botella metálica negra.",
-          "GappedSentence": "_____ hombre calvo con gafas redondas toca la botella metálica negra.",
+          "ExampleSentence": "Esta botella es mía.",
+          "GappedSentence": "_____ botella es mía.",
           "IPA": "[ˈes.te]",
           "prompt": "A bald young man with small round glasses pointing at a black chilies metal water bottle.",
           "CardID": "este_demonstrative",
@@ -1426,6 +1426,116 @@
           "CardID": "muy_intensifier",
           "ImageFile": "muy_intensifier.png",
           "WordAudio": "[sound:muy.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "sin": {
+      "word": "sin",
+      "processed_date": "2025-08-18T10:13:19.184773",
+      "meanings": [
+        {
+          "SpanishWord": "sin",
+          "MeaningID": "absence_lack",
+          "MeaningContext": "Indicating the absence of something",
+          "MonolingualDef": "Preposición que indica la ausencia o falta de algo",
+          "ExampleSentence": "El niño bebe café sin azúcar",
+          "GappedSentence": "El niño bebe café _____ azúcar",
+          "IPA": "[sin]",
+          "prompt": "A blonde boy has a sip of coffee and is revolted",
+          "CardID": "sin_absence_lack",
+          "ImageFile": "sin_absence_lack.png",
+          "WordAudio": "[sound:sin.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "vez": {
+      "word": "vez",
+      "processed_date": "2025-08-18T10:13:19.184788",
+      "meanings": [
+        {
+          "SpanishWord": "vez",
+          "MeaningID": "instance_occurrence",
+          "MeaningContext": "A single occurrence or time",
+          "MonolingualDef": "Sustantivo que indica una ocasión o momento específico en el tiempo",
+          "ExampleSentence": "Es la primera vez que baila salsa",
+          "GappedSentence": "Es la primera _____ que baila salsa",
+          "IPA": "[bes]",
+          "prompt": "A bald young man dancing salsa with a partner at a dance falling over",
+          "CardID": "vez_instance_occurrence",
+          "ImageFile": "vez_instance_occurrence.png",
+          "WordAudio": "[sound:vez.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "saber": {
+      "word": "saber",
+      "processed_date": "2025-08-18T10:13:19.184791",
+      "meanings": [
+        {
+          "SpanishWord": "saber",
+          "MeaningID": "knowledge_information",
+          "MeaningContext": "Having knowledge or information about something",
+          "MonolingualDef": "Verbo que indica tener conocimiento o información sobre algo",
+          "ExampleSentence": "El niño sabe hablar francés",
+          "GappedSentence": "El niño _____ hablar francés",
+          "IPA": "[sa.ˈβeɾ]",
+          "prompt": "A blond boy in paris speaking to the locals",
+          "CardID": "saber_knowledge_information",
+          "ImageFile": "saber_knowledge_information.png",
+          "WordAudio": "[sound:saber.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "mi": {
+      "word": "mi",
+      "processed_date": "2025-08-18T10:13:19.184793",
+      "meanings": [
+        {
+          "SpanishWord": "mi",
+          "MeaningID": "possessive",
+          "MeaningContext": "Indicating ownership or belonging",
+          "MonolingualDef": "Adjetivo posesivo que indica pertenencia en primera persona singular",
+          "ExampleSentence": "Esta cámara es mi tesoro",
+          "GappedSentence": "Esta cámara es _____ tesoro",
+          "IPA": "[mi]",
+          "prompt": "A bald young man with blue eyes and small round glasses pointing to his old leica camera",
+          "CardID": "mi_possessive",
+          "ImageFile": "mi_possessive.png",
+          "WordAudio": "[sound:mi.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "alguno": {
+      "word": "alguno",
+      "processed_date": "2025-08-18T10:13:19.184795",
+      "meanings": [
+        {
+          "SpanishWord": "alguno",
+          "MeaningID": "indefinite_quantity",
+          "MeaningContext": "Indicating some or indefinite quantity",
+          "MonolingualDef": "Pronombre indefinido que indica una cantidad indeterminada o imprecisa",
+          "ExampleSentence": "Algún día elegiré el camino correcto",
+          "GappedSentence": "_____ día elegiré el camino correcto",
+          "IPA": "[al.ˈgu.no]",
+          "prompt": "A bald young man with blue eyes and small round glasses at a three way fork in the path",
+          "CardID": "alguno_indefinite_quantity",
+          "ImageFile": "alguno_indefinite_quantity.png",
+          "WordAudio": "[sound:alguno.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }

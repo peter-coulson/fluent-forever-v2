@@ -72,23 +72,53 @@ Perform the semantic work; then hand off to automation.
 ### MANDATORY ANALYSIS CHECKLIST FOR EVERY WORD
 **Claude NEVER assumes a word is simple - analyzes systematically:**
 
-**1. Grammatical Category Check:**
-- **Prepositions** (por, para, de, en, con, desde, hasta, etc.) → Usually multi-meaning
-- **Verbs** → Check auxiliary uses, idiomatic expressions, different contexts
+## MANDATORY 4-STEP PROCESS FOR EVERY WORD (NO EXCEPTIONS)
+
+**STEP 1: Grammatical Category Check**
+- **Prepositions** (por, para, de, en, con, desde, hasta, sobre, etc.) → Usually multi-meaning
+- **Verbs** → Check auxiliary uses, idiomatic expressions, different contexts  
 - **Articles/Pronouns** → Usually single meaning but verify
 - **Conjunctions** → Usually single meaning but check for multiple functions
+- **Adverbs/Adjectives** → Check degree, manner, time variations
 
-**2. Contextual Usage Analysis:**
+**STEP 2: Multi-Context Analysis**
+Claude MUST ask these questions for EVERY word:
 - Can this word function in different grammatical roles?
 - Does it have literal vs figurative meanings?
 - Are there idiomatic expressions using this word?
 - Does it express different semantic concepts in different contexts?
+- Can I create example sentences where the word means something completely different?
 
-**3. Meaning Verification Process:**
+**STEP 3: Distinct Meaning Verification**
+For each potential meaning Claude identifies:
 - Create distinct example sentences for each potential meaning
-- Ensure meanings cannot be substituted for each other
-- If meanings overlap semantically, consider combining them
+- Test: Can meanings be substituted for each other? If YES → combine them
+- Test: Does each meaning create a different mental image/concept? If NO → combine them
 - Each meaning must represent a truly DISTINCT concept for memory formation
+
+**STEP 4: Final Count Verification**
+Before proceeding to batch composition:
+- List all meanings identified with clear distinctions
+- Double-check each meaning is truly distinct
+- Count total cards needed for the word
+- NEVER proceed without completing this 4-step process for EVERY word
+
+## EXAMPLES OF PROPER SYSTEMATIC ANALYSIS
+
+**sobre (preposition):**
+- STEP 1: Preposition → likely multi-meaning ✓
+- STEP 2: Check contexts: "sobre la mesa" vs "sobre el tema" vs "sobre las cinco" → Different concepts ✓
+- STEP 3: Create examples:
+  * Physical: "El libro está sobre la mesa" (on/above)
+  * Topic: "Hablamos sobre el clima" (about/concerning) 
+  * Approximation: "Llegó sobre las cinco" (around/approximately)
+- STEP 4: 3 distinct meanings → 3 cards needed
+
+**casa (noun):**
+- STEP 1: Noun → check for multiple uses ✓
+- STEP 2: Check contexts: always means dwelling/house ✓
+- STEP 3: Create examples: all refer to same concept (dwelling) ✓
+- STEP 4: 1 meaning → 1 card needed
 
 ### REFERENCE EXAMPLES (NOT EXHAUSTIVE PATTERNS)
 **Complex Multi-Meaning Examples:**

@@ -202,5 +202,35 @@
     "prompt_hash": "a3737cf338d89503",
     "provider": "openai",
     "created_at": 1755528648.769112
+  },
+  "alguno_indefinite_quantity.png": {
+    "word": "alguno",
+    "prompt_hash": "4875d81eac16f26f",
+    "provider": "openai",
+    "created_at": 1755530025.292296
+  },
+  "mi_possessive.png": {
+    "word": "mi",
+    "prompt_hash": "728200f92777c647",
+    "provider": "openai",
+    "created_at": 1755530043.381547
+  },
+  "saber_knowledge_information.png": {
+    "word": "saber",
+    "prompt_hash": "50072df1cde901ff",
+    "provider": "openai",
+    "created_at": 1755530056.900554
+  },
+  "sin_absence_lack.png": {
+    "word": "sin",
+    "prompt_hash": "2ac82cba8e3aefc4",
+    "provider": "openai",
+    "created_at": 1755530069.285064
+  },
+  "vez_instance_occurrence.png": {
+    "word": "vez",
+    "prompt_hash": "f36ee8b46b0a17c3",
+    "provider": "openai",
+    "created_at": 1755530085.792769
   }
 }

@@ -3,15 +3,7 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-él
-sin
-vez
-mucho
-saber
-qué
 sobre
-mi
-alguno
 mismo
 yo
 también
@@ -68,6 +60,8 @@ un - indefinite article & number one (user request)
 el - definite article (user request)  
 y - conjunction "and" (user request)
 la - definite article/pronoun (user request)
+él - third person masculine pronoun (user request)
+mucho - quantity/degree (user request)
 
 ## COMPLETED WORDS (Cards created successfully)
 # Format: word - meanings (number of cards) - completion date
@@ -105,3 +99,8 @@ porque - causal_explanation (1 card) - 2025-08-18
 dar - transfer_grant (1 card) - 2025-08-18
 cuando - temporal_reference (1 card) - 2025-08-18
 muy - intensifier (1 card) - 2025-08-18
+sin - absence_lack (1 card) - 2025-08-18
+vez - instance_occurrence (1 card) - 2025-08-18
+saber - knowledge_information (1 card) - 2025-08-18
+mi - possessive (1 card) - 2025-08-18
+alguno - indefinite_quantity (1 card) - 2025-08-18
