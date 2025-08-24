@@ -3,11 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-sobre
-mismo
-yo
-también
-hasta
 año
 dos
 querer
@@ -62,6 +57,7 @@ y - conjunction "and" (user request)
 la - definite article/pronoun (user request)
 él - third person masculine pronoun (user request)
 mucho - quantity/degree (user request)
+yo - first person pronoun (user request)
 
 ## COMPLETED WORDS (Cards created successfully)
 # Format: word - meanings (number of cards) - completion date
@@ -104,3 +100,5 @@ vez - instance_occurrence (1 card) - 2025-08-18
 saber - knowledge_information (1 card) - 2025-08-18
 mi - possessive (1 card) - 2025-08-18
 alguno - indefinite_quantity (1 card) - 2025-08-18
+hasta - temporal_limit/spatial_limit/extent_degree (3 cards) - 2025-08-24
+también - addition (1 card) - 2025-08-24

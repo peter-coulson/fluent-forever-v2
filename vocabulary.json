@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-18T11:21:38.292202",
-    "total_words": 41,
-    "total_cards": 89,
+    "last_updated": "2025-08-24T10:10:57.147697",
+    "total_words": 43,
+    "total_cards": 93,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -1630,6 +1630,80 @@
         }
       ],
       "cards_created": 2
+    },
+    "hasta": {
+      "word": "hasta",
+      "processed_date": "2025-08-24T10:10:57.147678",
+      "meanings": [
+        {
+          "SpanishWord": "hasta",
+          "MeaningID": "temporal_limit",
+          "MeaningContext": "Time boundary or deadline",
+          "MonolingualDef": "Preposición que expresa límite temporal o plazo",
+          "ExampleSentence": "El hombre estudia hasta terminar las cartas",
+          "GappedSentence": "El hombre estudia _____ terminar las cartas",
+          "IPA": "[ˈas.ta]",
+          "prompt": "A bald young man with small round glasses studying flashcards",
+          "CardID": "hasta_temporal_limit",
+          "ImageFile": "hasta_temporal_limit.png",
+          "WordAudio": "[sound:hasta.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "hasta",
+          "MeaningID": "spatial_limit",
+          "MeaningContext": "Physical boundary or destination",
+          "MonolingualDef": "Preposición que indica límite físico o destino",
+          "ExampleSentence": "La familia viaja hasta la frontera entre países",
+          "GappedSentence": "La familia viaja _____ la frontera entre países",
+          "IPA": "[ˈas.ta]",
+          "prompt": "A family of 4 with a blond boy and ginger girl in the car approaching a large bridge over a river",
+          "CardID": "hasta_spatial_limit",
+          "ImageFile": "hasta_spatial_limit.png",
+          "WordAudio": "[sound:hasta.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "hasta",
+          "MeaningID": "extent_degree",
+          "MeaningContext": "Extreme degree, even/including",
+          "MonolingualDef": "Adverbio que enfatiza inclusión inesperada o grado extremo",
+          "ExampleSentence": "El hombre durmió hasta en el tren",
+          "GappedSentence": "El hombre durmió _____ en el tren",
+          "IPA": "[ˈas.ta]",
+          "prompt": "A bald young man with blue eyes and small round glasses crammed under a bed bunk sleeping in a rail car",
+          "CardID": "hasta_extent_degree",
+          "ImageFile": "hasta_extent_degree.png",
+          "WordAudio": "[sound:hasta.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "también": {
+      "word": "también",
+      "processed_date": "2025-08-24T10:10:57.147693",
+      "meanings": [
+        {
+          "SpanishWord": "también",
+          "MeaningID": "addition",
+          "MeaningContext": "Addition, inclusion, also/too",
+          "MonolingualDef": "Adverbio que expresa adición o inclusión",
+          "ExampleSentence": "El niño de pelo castaño también quiere venir",
+          "GappedSentence": "El niño de pelo castaño _____ quiere venir",
+          "IPA": "[tamˈbi.en]",
+          "prompt": "A blonde boy leaving his house with friends when a boy with brown hair calls towards him",
+          "CardID": "también_addition",
+          "ImageFile": "también_addition.png",
+          "WordAudio": "[sound:también.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
     }
   }
 }

@@ -18,6 +18,12 @@
 ## CLAUDE-MANAGED WORKFLOW (Card Creation)
 Perform the semantic work; then hand off to automation.
 
+**PRE-STEP: Word Selection and Validation**
+   - **MANDATORY**: Check vocabulary.json first for any words already processed
+   - **MANDATORY**: Check word queue for any words marked as SKIPPED  
+   - **CRITICAL**: Skip entire words if they are already completed or user has skipped them
+   - Never process words that are already in vocabulary.json or marked SKIPPED in word queue
+
 1. Analyze meanings and request prompts
    - Identify ALL distinct semantic meanings per word
    - Request specific image prompts from the user for each meaning
@@ -58,6 +64,7 @@ Perform the semantic work; then hand off to automation.
 ## BATCH COMPOSITION RULES - ALWAYS 5 CARDS
 
 **Claude-Managed Batch System:**
+- **MANDATORY PRE-CHECK**: Before analyzing any word, Claude MUST verify it's not already processed or skipped
 - **Claude determines**: Exactly 5 cards per batch (combines multiple words as needed)
 - **Claude handles overflow**: If word exceeds 5 cards, Claude defers entire word to next batch
 - **Claude requests prompts**: Claude tells user which specific prompts are needed for the batch
@@ -246,25 +253,40 @@ Before proceeding to batch composition:
 
 ## PYTHON ENVIRONMENT SETUP
 
-**ALWAYS use virtual environment and PYTHONPATH to avoid dependency issues:**
-```bash
-# If venv doesn't exist, create it:
-python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt
+# ⚠️ ⚠️ ⚠️ CRITICAL: ALWAYS USE THE ACTIVATION SCRIPT ⚠️ ⚠️ ⚠️
+# ⚠️ ⚠️ ⚠️ NEVER RUN COMMANDS WITHOUT IT ⚠️ ⚠️ ⚠️
 
-# If venv exists, activate and set PYTHONPATH:
-source venv/bin/activate
-export PYTHONPATH=$(pwd)/src
+**MANDATORY**: Use the activation script for ALL Python commands:
+```bash
+# ALWAYS run this first:
+source activate_env.sh
+
+# Then run your commands:
+python -m cli.prepare_claude_batch --words word1,word2
+python -m cli.ingest_claude_batch --input staging/file.json
+python -m cli.run_media_then_sync --cards CardID1,CardID2 --execute
 ```
 
-**Critical**: Never use system Python3 directly - always activate venv first AND set PYTHONPATH.
+**The activation script (`activate_env.sh`) automatically:**
+- Activates the virtual environment
+- Sets PYTHONPATH correctly
+- Changes to the project directory
+- Displays confirmation of proper setup
+
+# ⚠️ ⚠️ ⚠️ DO NOT USE MANUAL ACTIVATION COMMANDS ⚠️ ⚠️ ⚠️
+# ⚠️ ⚠️ ⚠️ ALWAYS USE: source activate_env.sh ⚠️ ⚠️ ⚠️
+
+**If you get "ModuleNotFoundError: No module named 'cli'":**
+- You forgot to run `source activate_env.sh` first
+- STOP and run the activation script before proceeding
 
 ## CLAUDE-COORDINATED EXECUTION
 
 Main commands (use as needed; do not mention internal implementation details to users):
 
-**PREREQUISITE: Always run environment setup first:**
+# ⚠️ ⚠️ ⚠️ PREREQUISITE: ALWAYS RUN ACTIVATION SCRIPT FIRST ⚠️ ⚠️ ⚠️
 ```bash
-source venv/bin/activate && export PYTHONPATH=$(pwd)/src
+source activate_env.sh
 ```
 
 - Prepare batch staging (for Claude to fill):
@@ -333,12 +355,14 @@ Use the smallest corrective step and keep card creation moving:
 - Generated from: word + meaning_context + user_prompt + memory connection
 
 ## COMMANDS CHEAT SHEET (Claude)
-**All commands require environment setup first:**
+
+# ⚠️ ⚠️ ⚠️ STEP 1: ALWAYS ACTIVATE ENVIRONMENT FIRST ⚠️ ⚠️ ⚠️
 ```bash
-source venv/bin/activate && export PYTHONPATH=$(pwd)/src
+source activate_env.sh
 ```
 
-**Then run commands with python -m:**
+# ⚠️ ⚠️ ⚠️ STEP 2: THEN RUN YOUR COMMANDS ⚠️ ⚠️ ⚠️
+
 - Prepare staging: `python -m cli.prepare_claude_batch --words por,para`
 - Ingest (validate → execute):
   - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json --dry-run`
@@ -349,11 +373,13 @@ source venv/bin/activate && export PYTHONPATH=$(pwd)/src
 - Full sync: `python -m cli.sync_anki_all [--delete-extras]` (interactive TTY required for deletions)
 - Templates: `python -m validation.anki.template_validator`
 
+# ⚠️ ⚠️ ⚠️ REMEMBER: source activate_env.sh MUST BE RUN FIRST ⚠️ ⚠️ ⚠️
+
 ## TEMPLATES: Local Preview and Editing
 
 - **Start local preview server** (auto-reloads on file save):
   ```bash
-  source venv/bin/activate && export PYTHONPATH=$(pwd)/src
+  source activate_env.sh
   python -m cli.preview_server --port 8000
   ```
 

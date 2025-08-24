@@ -262,5 +262,29 @@
     "prompt_hash": "53116d6b35004e15",
     "provider": "runware",
     "created_at": 1755537342.943778
+  },
+  "hasta_extent_degree.png": {
+    "word": "hasta",
+    "prompt_hash": "dbc74098e9acf70c",
+    "provider": "runware",
+    "created_at": 1756048280.355618
+  },
+  "hasta_spatial_limit.png": {
+    "word": "hasta",
+    "prompt_hash": "833c3a2ceedf8f15",
+    "provider": "runware",
+    "created_at": 1756048284.032212
+  },
+  "hasta_temporal_limit.png": {
+    "word": "hasta",
+    "prompt_hash": "22c13e780a1f9ff9",
+    "provider": "runware",
+    "created_at": 1756048288.3335328
+  },
+  "también_addition.png": {
+    "word": "también",
+    "prompt_hash": "718f0bc4c554f656",
+    "provider": "runware",
+    "created_at": 1756048292.5537658
   }
 }
