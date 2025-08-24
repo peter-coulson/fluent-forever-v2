@@ -3,18 +3,7 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-año
-dos
-querer
-entre
-así
-primero
-desde
-grande
-eso
-ni
 nos
-llegar
 pasar
 tiempo
 ella
@@ -58,6 +47,9 @@ la - definite article/pronoun (user request)
 él - third person masculine pronoun (user request)
 mucho - quantity/degree (user request)
 yo - first person pronoun (user request)
+año - time period (user request)
+dos - number two (user request)
+grande - large (user request)
 
 ## COMPLETED WORDS (Cards created successfully)
 # Format: word - meanings (number of cards) - completion date
@@ -102,3 +94,12 @@ mi - possessive (1 card) - 2025-08-18
 alguno - indefinite_quantity (1 card) - 2025-08-18
 hasta - temporal_limit/spatial_limit/extent_degree (3 cards) - 2025-08-24
 también - addition (1 card) - 2025-08-24
+querer - desire_want/love_affection (2 cards) - 2025-08-24
+así - in_this_manner (1 card) - 2025-08-24
+primero - first_in_order (1 card) - 2025-08-24
+mismo - identity_sameness/emphasis_self (2 cards) - 2025-08-24
+sobre - physical_position/topic_subject/approximation (3 cards) - 2025-08-24
+desde - spatial_origin/temporal_starting_point (2 cards) - 2025-08-24
+eso - distant_demonstrative (1 card) - 2025-08-24
+ni - negative_conjunction (1 card) - 2025-08-24
+llegar - to_arrive (1 card) - 2025-08-24

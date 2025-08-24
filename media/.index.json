@@ -286,5 +286,59 @@
     "prompt_hash": "718f0bc4c554f656",
     "provider": "runware",
     "created_at": 1756048292.5537658
+  },
+  "así_in_this_manner.png": {
+    "word": "así",
+    "prompt_hash": "26afe9f83c324fa8",
+    "provider": "runware",
+    "created_at": 1756049007.642466
+  },
+  "primero_first_in_order.png": {
+    "word": "primero",
+    "prompt_hash": "c3817df7f78745b0",
+    "provider": "runware",
+    "created_at": 1756049011.663933
+  },
+  "querer_desire_want.png": {
+    "word": "querer",
+    "prompt_hash": "007cc9ba033d6fd7",
+    "provider": "runware",
+    "created_at": 1756049016.308085
+  },
+  "querer_love_affection.png": {
+    "word": "querer",
+    "prompt_hash": "b0c30c67509304d6",
+    "provider": "runware",
+    "created_at": 1756049020.444435
+  },
+  "desde_spatial_origin.png": {
+    "word": "desde",
+    "prompt_hash": "b2399b73b6e943bf",
+    "provider": "runware",
+    "created_at": 1756050190.122165
+  },
+  "desde_temporal_starting_point.png": {
+    "word": "desde",
+    "prompt_hash": "f757c99a893a7c2a",
+    "provider": "runware",
+    "created_at": 1756050193.5829709
+  },
+  "eso_distant_demonstrative.png": {
+    "word": "eso",
+    "prompt_hash": "dfc75e511bed63e9",
+    "provider": "runware",
+    "created_at": 1756050349.445312
+  },
+  "llegar_to_arrive.png": {
+    "word": "llegar",
+    "prompt_hash": "ae2b96093582689f",
+    "provider": "runware",
+    "created_at": 1756050201.341019
+  },
+  "ni_negative_conjunction.png": {
+    "word": "ni",
+    "prompt_hash": "26c7633b67dcbe2d",
+    "provider": "runware",
+    "created_at": 1756050204.7788858
   }
 }

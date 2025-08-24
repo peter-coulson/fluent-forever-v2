@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-24T10:10:57.147697",
-    "total_words": 43,
-    "total_cards": 93,
+    "last_updated": "2025-08-24T10:42:01.190807",
+    "total_words": 50,
+    "total_cards": 102,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -1699,6 +1699,190 @@
           "CardID": "también_addition",
           "ImageFile": "también_addition.png",
           "WordAudio": "[sound:también.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "querer": {
+      "word": "querer",
+      "processed_date": "2025-08-24T10:23:15.468638",
+      "meanings": [
+        {
+          "SpanishWord": "querer",
+          "MeaningID": "desire_want",
+          "MeaningContext": "To want or desire something",
+          "MonolingualDef": "Tener deseo o necesidad de algo, sentir la necesidad de obtener algo",
+          "ExampleSentence": "El niño quiere helado cuando pasan cerca del camión",
+          "GappedSentence": "El niño _____ helado cuando pasan cerca del camión",
+          "IPA": "[keˈɾeɾ]",
+          "prompt": "A father and his blond son passing an ice cream van, the son pointing and pulling on his father's arm",
+          "CardID": "querer_desire_want",
+          "ImageFile": "querer_desire_want.png",
+          "WordAudio": "[sound:querer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "querer",
+          "MeaningID": "love_affection",
+          "MeaningContext": "To love someone (family/romantic affection)",
+          "MonolingualDef": "Sentir amor o cariño hacia una persona, amar profundamente",
+          "ExampleSentence": "La niña española quiere mucho a su familia y baila con alegría",
+          "GappedSentence": "La niña española _____ mucho a su familia y baila con alegría",
+          "IPA": "[keˈɾeɾ]",
+          "prompt": "A short spanish girl with light brown curly hair and large hazlenut eyes dancing",
+          "CardID": "querer_love_affection",
+          "ImageFile": "querer_love_affection.png",
+          "WordAudio": "[sound:querer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "así": {
+      "word": "así",
+      "processed_date": "2025-08-24T10:23:15.468652",
+      "meanings": [
+        {
+          "SpanishWord": "así",
+          "MeaningID": "in_this_manner",
+          "MeaningContext": "In this way, like this, in such a manner",
+          "MonolingualDef": "De esta manera, de este modo, de esta forma",
+          "ExampleSentence": "El joven observa así como baila la chica china",
+          "GappedSentence": "El joven observa _____ como baila la chica china",
+          "IPA": "[aˈsi]",
+          "prompt": "A bald young man with small round glasses and blue eyes watching a chineese girl dance",
+          "CardID": "así_in_this_manner",
+          "ImageFile": "así_in_this_manner.png",
+          "WordAudio": "[sound:así.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "primero": {
+      "word": "primero",
+      "processed_date": "2025-08-24T10:23:15.468655",
+      "meanings": [
+        {
+          "SpanishWord": "primero",
+          "MeaningID": "first_in_order",
+          "MeaningContext": "First in order, sequence, or priority",
+          "MonolingualDef": "Que va antes que los demás en orden, tiempo o lugar",
+          "ExampleSentence": "El niño rubio llega primero en la carrera de cien metros",
+          "GappedSentence": "El niño rubio llega _____ en la carrera de cien metros",
+          "IPA": "[pɾiˈme.ɾo]",
+          "prompt": "A race track on school sports day watching a blond boy win the 100m sprint",
+          "CardID": "primero_first_in_order",
+          "ImageFile": "primero_first_in_order.png",
+          "WordAudio": "[sound:primero.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "desde": {
+      "word": "desde",
+      "processed_date": "2025-08-24T10:42:01.190792",
+      "meanings": [
+        {
+          "SpanishWord": "desde",
+          "MeaningID": "spatial_origin",
+          "MeaningContext": "Physical starting point of movement or location",
+          "MonolingualDef": "Indica el punto de partida físico de un movimiento o ubicación",
+          "ExampleSentence": "El hombre viene desde Londres en el tren",
+          "GappedSentence": "El hombre viene _____ Londres en el tren",
+          "IPA": "[ˈdes.ðe]",
+          "prompt": "A brown guy with long hair coming off the train to greet his guy and girl friends.",
+          "CardID": "desde_spatial_origin",
+          "ImageFile": "desde_spatial_origin.png",
+          "WordAudio": "[sound:desde.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "desde",
+          "MeaningID": "temporal_starting_point",
+          "MeaningContext": "Time when something began and continues",
+          "MonolingualDef": "Marca el momento en el pasado cuando algo comenzó y continúa",
+          "ExampleSentence": "Esperamos desde las seis de la tarde",
+          "GappedSentence": "Esperamos _____ las seis de la tarde",
+          "IPA": "[ˈdes.ðe]",
+          "prompt": "It's dark outside, everyone is lying on the station floor waiting for the train with a large clock on the wall.",
+          "CardID": "desde_temporal_starting_point",
+          "ImageFile": "desde_temporal_starting_point.png",
+          "WordAudio": "[sound:desde.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "eso": {
+      "word": "eso",
+      "processed_date": "2025-08-24T10:42:01.190801",
+      "meanings": [
+        {
+          "SpanishWord": "eso",
+          "MeaningID": "distant_demonstrative",
+          "MeaningContext": "Refers to something neuter, not close to speaker",
+          "MonolingualDef": "Se refiere a algo neutro que no está cerca del hablante",
+          "ExampleSentence": "Eso fue increíble en la ceremonia",
+          "GappedSentence": "_____ fue increíble en la ceremonia",
+          "IPA": "[ˈe.so]",
+          "prompt": "A young bald guy with small round glasses in a blue suit on stage giving a speach infront of a crowd.",
+          "CardID": "eso_distant_demonstrative",
+          "ImageFile": "eso_distant_demonstrative.png",
+          "WordAudio": "[sound:eso.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "ni": {
+      "word": "ni",
+      "processed_date": "2025-08-24T10:42:01.190804",
+      "meanings": [
+        {
+          "SpanishWord": "ni",
+          "MeaningID": "negative_conjunction",
+          "MeaningContext": "Connects negative alternatives, reinforces negation",
+          "MonolingualDef": "Conecta alternativas negativas y refuerza la negación",
+          "ExampleSentence": "No puedo comer ni pasta ni pan",
+          "GappedSentence": "No puedo comer _____ pasta _____ pan",
+          "IPA": "[ni]",
+          "prompt": "On the dinner table a bowl of steaming pasta and a french bagette.",
+          "CardID": "ni_negative_conjunction",
+          "ImageFile": "ni_negative_conjunction.png",
+          "WordAudio": "[sound:ni.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "llegar": {
+      "word": "llegar",
+      "processed_date": "2025-08-24T10:42:01.190806",
+      "meanings": [
+        {
+          "SpanishWord": "llegar",
+          "MeaningID": "to_arrive",
+          "MeaningContext": "Reaching a destination or achieving something",
+          "MonolingualDef": "Alcanzar un destino o lograr algo",
+          "ExampleSentence": "El avión va a llegar a San Francisco",
+          "GappedSentence": "El avión va a _____ a San Francisco",
+          "IPA": "[ʝe.ˈɣar]",
+          "prompt": "A large plane landing at a runway in San Fransico, a bald young man with small round glasses at the window.",
+          "CardID": "llegar_to_arrive",
+          "ImageFile": "llegar_to_arrive.png",
+          "WordAudio": "[sound:llegar.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }
