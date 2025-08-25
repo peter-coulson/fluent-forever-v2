@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-24T10:42:01.190807",
-    "total_words": 50,
-    "total_cards": 102,
+    "last_updated": "2025-08-25T10:57:39.460182",
+    "total_words": 56,
+    "total_cards": 117,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -1883,6 +1883,273 @@
           "CardID": "llegar_to_arrive",
           "ImageFile": "llegar_to_arrive.png",
           "WordAudio": "[sound:llegar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "nos": {
+      "word": "nos",
+      "processed_date": "2025-08-25T09:43:27.029435",
+      "meanings": [
+        {
+          "SpanishWord": "nos",
+          "MeaningID": "direct_object",
+          "MeaningContext": "complemento directo",
+          "MonolingualDef": "pronombre personal que recibe la acción del verbo directamente",
+          "ExampleSentence": "Los guardias nos observan todo el tiempo.",
+          "GappedSentence": "Los guardias _____ observan todo el tiempo.",
+          "IPA": "[nos]",
+          "prompt": "A scene from the book 1984, where everyone is being observed with cameras",
+          "CardID": "nos_direct_object",
+          "ImageFile": "nos_direct_object.png",
+          "WordAudio": "[sound:nos.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "nos",
+          "MeaningID": "indirect_object",
+          "MeaningContext": "complemento indirecto",
+          "MonolingualDef": "pronombre personal que recibe algo indirectamente",
+          "ExampleSentence": "La maestra nos entrega los libros rojos.",
+          "GappedSentence": "La maestra _____ entrega los libros rojos.",
+          "IPA": "[nos]",
+          "prompt": "In a school, a blond boy at the front of a queue of children being given a little red book",
+          "CardID": "nos_indirect_object",
+          "ImageFile": "nos_indirect_object.png",
+          "WordAudio": "[sound:nos.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "nos",
+          "MeaningID": "reflexive",
+          "MeaningContext": "pronombre reflexivo",
+          "MonolingualDef": "pronombre que indica que la acción recae sobre el mismo sujeto",
+          "ExampleSentence": "Nos lavamos en el río después del viaje.",
+          "GappedSentence": "_____ lavamos en el río después del viaje.",
+          "IPA": "[nos]",
+          "prompt": "A scene from game of thrones where missandei and the rest of the group wash themselves in the river",
+          "CardID": "nos_reflexive",
+          "ImageFile": "nos_reflexive.png",
+          "WordAudio": "[sound:nos.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "tiempo": {
+      "word": "tiempo",
+      "processed_date": "2025-08-25T09:43:27.029456",
+      "meanings": [
+        {
+          "SpanishWord": "tiempo",
+          "MeaningID": "duration",
+          "MeaningContext": "duración/período",
+          "MonolingualDef": "medida de la duración de los eventos",
+          "ExampleSentence": "El equipo sincroniza sus relojes para controlar el tiempo.",
+          "GappedSentence": "El equipo sincroniza sus relojes para controlar el _____.",
+          "IPA": "[ˈtjem.po]",
+          "prompt": "A scene from the film inception where every member of the team, including dicaprio syncronise their watches for the mission",
+          "CardID": "tiempo_duration",
+          "ImageFile": "tiempo_duration.png",
+          "WordAudio": "[sound:tiempo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "tiempo",
+          "MeaningID": "weather",
+          "MeaningContext": "condiciones atmosféricas",
+          "MonolingualDef": "estado de la atmósfera en un lugar y momento determinados",
+          "ExampleSentence": "Revisamos el tiempo en la página web para cinco días.",
+          "GappedSentence": "Revisamos el _____ en la página web para cinco días.",
+          "IPA": "[ˈtjem.po]",
+          "prompt": "The met office website 5 day forcast on a computer screen",
+          "CardID": "tiempo_weather",
+          "ImageFile": "tiempo_weather.png",
+          "WordAudio": "[sound:tiempo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "pasar": {
+      "word": "pasar",
+      "processed_date": "2025-08-25T10:46:23.734538",
+      "meanings": [
+        {
+          "SpanishWord": "pasar",
+          "MeaningID": "physical_movement_through_space",
+          "MeaningContext": "physical_movement_through_space",
+          "MonolingualDef": "Moverse de un lugar a otro, atravesar o ir por un sitio",
+          "ExampleSentence": "Pasamos por el restaurante francés antes de ir a casa",
+          "GappedSentence": "_____ por el restaurante francés antes de ir a casa",
+          "IPA": "[pa.ˈsaɾ]",
+          "prompt": "A bald young man with blue eyes and small round glasses with his blond friend eating steak at a french restaurant",
+          "CardID": "pasar_physical_movement_through_space",
+          "ImageFile": "pasar_physical_movement_through_space.png",
+          "WordAudio": "[sound:pasar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "pasar",
+          "MeaningID": "time_passage_elapse",
+          "MeaningContext": "time_passage_elapse",
+          "MonolingualDef": "Transcurrir el tiempo, irse las horas o los días",
+          "ExampleSentence": "Pasaron las horas mientras tocaba la guitarra en las vías",
+          "GappedSentence": "_____ las horas mientras tocaba la guitarra en las vías",
+          "IPA": "[pa.ˈsaɾ]",
+          "prompt": "A young man with brown long hair sitting playing guitar on railway tracks",
+          "CardID": "pasar_time_passage_elapse",
+          "ImageFile": "pasar_time_passage_elapse.png",
+          "WordAudio": "[sound:pasar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "pasar",
+          "MeaningID": "transition_become",
+          "MeaningContext": "transition_become",
+          "MonolingualDef": "Cambiar de un estado o condición a otro",
+          "ExampleSentence": "El agua pasa de líquido a vapor cuando hierve",
+          "GappedSentence": "El agua _____ de líquido a vapor cuando hierve",
+          "IPA": "[pa.ˈsaɾ]",
+          "prompt": "A kindergarden class where the teacher is boiling water on a small stove infront of the children",
+          "CardID": "pasar_transition_become",
+          "ImageFile": "pasar_transition_become.png",
+          "WordAudio": "[sound:pasar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "pasar",
+          "MeaningID": "experience_undergo",
+          "MeaningContext": "experience_undergo",
+          "MonolingualDef": "Experimentar o sufrir algo, vivir una situación",
+          "ExampleSentence": "Pasó una enfermedad difícil con el apoyo de sus padres",
+          "GappedSentence": "_____ una enfermedad difícil con el apoyo de sus padres",
+          "IPA": "[pa.ˈsaɾ]",
+          "prompt": "A bald young man with blue eyes in bed sick with both of his parents with him",
+          "CardID": "pasar_experience_undergo",
+          "ImageFile": "pasar_experience_undergo.png",
+          "WordAudio": "[sound:pasar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "pasar",
+          "MeaningID": "transfer_hand_over",
+          "MeaningContext": "transfer_hand_over",
+          "MonolingualDef": "Dar o entregar algo a otra persona",
+          "ExampleSentence": "Le pasó el collar con el anillo a su mejor amigo",
+          "GappedSentence": "Le _____ el collar con el anillo a su mejor amigo",
+          "IPA": "[pa.ˈsaɾ]",
+          "prompt": "A bald young man with blue eyes handing over a neckless with a ring to his friend with brown long hair",
+          "CardID": "pasar_transfer_hand_over",
+          "ImageFile": "pasar_transfer_hand_over.png",
+          "WordAudio": "[sound:pasar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 5
+    },
+    "poco": {
+      "word": "poco",
+      "processed_date": "2025-08-25T10:57:39.460159",
+      "meanings": [
+        {
+          "SpanishWord": "poco",
+          "MeaningID": "small_quantity_amount",
+          "MeaningContext": "small_quantity_amount",
+          "MonolingualDef": "Cantidad pequeña o escasa de algo",
+          "ExampleSentence": "Los chicos tienen poco agua en sus botellas",
+          "GappedSentence": "Los chicos tienen _____ agua en sus botellas",
+          "IPA": "[ˈpo.ko]",
+          "prompt": "In green hills a small group of boys walking have stopped at a clearing and holding up water bottles",
+          "CardID": "poco_small_quantity_amount",
+          "ImageFile": "poco_small_quantity_amount.png",
+          "WordAudio": "[sound:poco.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "poco",
+          "MeaningID": "low_degree_not_very",
+          "MeaningContext": "low_degree_not_very",
+          "MonolingualDef": "En grado bajo o mínimo, no muy",
+          "ExampleSentence": "La música de violín es poco molesta",
+          "GappedSentence": "La música de violín es _____ molesta",
+          "IPA": "[ˈpo.ko]",
+          "prompt": "A ginger girl playing the violin downstairs in a brick house",
+          "CardID": "poco_low_degree_not_very",
+          "ImageFile": "poco_low_degree_not_very.png",
+          "WordAudio": "[sound:poco.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "deber": {
+      "word": "deber",
+      "processed_date": "2025-08-25T10:57:39.460177",
+      "meanings": [
+        {
+          "SpanishWord": "deber",
+          "MeaningID": "obligation_must",
+          "MeaningContext": "obligation_must",
+          "MonolingualDef": "Tener la obligación o necesidad de hacer algo",
+          "ExampleSentence": "El ejército debe marchar hacia el castillo",
+          "GappedSentence": "El ejército _____ marchar hacia el castillo",
+          "IPA": "[de.ˈβeɾ]",
+          "prompt": "A medival army marching south in the middle of winter snows towards a bridge with a castle guarding it",
+          "CardID": "deber_obligation_must",
+          "ImageFile": "deber_obligation_must.png",
+          "WordAudio": "[sound:deber.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "deber",
+          "MeaningID": "to_owe",
+          "MeaningContext": "to_owe",
+          "MonolingualDef": "Estar obligado a pagar o entregar algo a alguien",
+          "ExampleSentence": "Le debo una disculpa por tropezar",
+          "GappedSentence": "Le _____ una disculpa por tropezar",
+          "IPA": "[de.ˈβeɾ]",
+          "prompt": "A tall, blond, but think and gangly fellow with a charming smile about to fall over",
+          "CardID": "deber_to_owe",
+          "ImageFile": "deber_to_owe.png",
+          "WordAudio": "[sound:deber.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "entonces": {
+      "word": "entonces",
+      "processed_date": "2025-08-25T10:57:39.460180",
+      "meanings": [
+        {
+          "SpanishWord": "entonces",
+          "MeaningID": "then_at_that_time",
+          "MeaningContext": "then_at_that_time",
+          "MonolingualDef": "En aquel momento, después de eso",
+          "ExampleSentence": "Entonces pintó tres puntos en el lienzo",
+          "GappedSentence": "_____ pintó tres puntos en el lienzo",
+          "IPA": "[en.ˈton.ses]",
+          "prompt": "Three large dots horizontally aligned across a painting canvas",
+          "CardID": "entonces_then_at_that_time",
+          "ImageFile": "entonces_then_at_that_time.png",
+          "WordAudio": "[sound:entonces.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }

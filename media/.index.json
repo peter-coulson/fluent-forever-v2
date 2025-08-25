@@ -340,5 +340,95 @@
     "prompt_hash": "26c7633b67dcbe2d",
     "provider": "runware",
     "created_at": 1756050204.7788858
+  },
+  "nos_direct_object.png": {
+    "word": "nos",
+    "prompt_hash": "416abc82303e82bd",
+    "provider": "runware",
+    "created_at": 1756133017.756004
+  },
+  "nos_indirect_object.png": {
+    "word": "nos",
+    "prompt_hash": "053296b4bb0974a0",
+    "provider": "runware",
+    "created_at": 1756133024.209501
+  },
+  "nos_reflexive.png": {
+    "word": "nos",
+    "prompt_hash": "06faaeef694e4323",
+    "provider": "runware",
+    "created_at": 1756133027.8748548
+  },
+  "tiempo_duration.png": {
+    "word": "tiempo",
+    "prompt_hash": "4b8d4a39b0e0d891",
+    "provider": "runware",
+    "created_at": 1756133033.240979
+  },
+  "tiempo_weather.png": {
+    "word": "tiempo",
+    "prompt_hash": "904d09e3c2f6daa3",
+    "provider": "runware",
+    "created_at": 1756133038.397782
+  },
+  "pasar_experience_undergo.png": {
+    "word": "pasar",
+    "prompt_hash": "850ab386a9474659",
+    "provider": "runware",
+    "created_at": 1756136807.1634188
+  },
+  "pasar_physical_movement_through_space.png": {
+    "word": "pasar",
+    "prompt_hash": "72823817842f2e86",
+    "provider": "runware",
+    "created_at": 1756136811.417307
+  },
+  "pasar_time_passage_elapse.png": {
+    "word": "pasar",
+    "prompt_hash": "534698b2616055a3",
+    "provider": "runware",
+    "created_at": 1756136815.723003
+  },
+  "pasar_transfer_hand_over.png": {
+    "word": "pasar",
+    "prompt_hash": "e6a7b1bfa5974b23",
+    "provider": "runware",
+    "created_at": 1756136820.753589
+  },
+  "pasar_transition_become.png": {
+    "word": "pasar",
+    "prompt_hash": "198b5e7840ea8df8",
+    "provider": "runware",
+    "created_at": 1756136825.066498
+  },
+  "deber_obligation_must.png": {
+    "word": "deber",
+    "prompt_hash": "7418808e6632dc13",
+    "provider": "runware",
+    "created_at": 1756137478.467469
+  },
+  "deber_to_owe.png": {
+    "word": "deber",
+    "prompt_hash": "2adbdf673ddb9e9c",
+    "provider": "runware",
+    "created_at": 1756137481.881813
+  },
+  "entonces_then_at_that_time.png": {
+    "word": "entonces",
+    "prompt_hash": "d99a6f369486a30a",
+    "provider": "runware",
+    "created_at": 1756137486.002363
+  },
+  "poco_low_degree_not_very.png": {
+    "word": "poco",
+    "prompt_hash": "d9a14210a96985a8",
+    "provider": "runware",
+    "created_at": 1756137489.6961899
+  },
+  "poco_small_quantity_amount.png": {
+    "word": "poco",
+    "prompt_hash": "baa344c9028f55e3",
+    "provider": "runware",
+    "created_at": 1756137493.454775
   }
 }

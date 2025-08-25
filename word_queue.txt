@@ -3,17 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-nos
-pasar
-tiempo
-ella
-sí
-día
-uno
-bien
-poco
-deber
-entonces
 poner
 cosa
 tanto
@@ -103,3 +92,14 @@ desde - spatial_origin/temporal_starting_point (2 cards) - 2025-08-24
 eso - distant_demonstrative (1 card) - 2025-08-24
 ni - negative_conjunction (1 card) - 2025-08-24
 llegar - to_arrive (1 card) - 2025-08-24
+nos - direct_object/indirect_object/reflexive (3 cards) - 2025-08-25
+tiempo - duration/weather (2 cards) - 2025-08-25
+pasar - physical_movement/time_passage/transition/experience/transfer (5 cards) - 2025-08-25
+ella - third person feminine pronoun (user request)
+sí - affirmative response (user request)  
+día - time period (user request)
+uno - number/indefinite pronoun (user request)
+bien - adverb well/good (user request)
+poco - small_quantity/low_degree (2 cards) - 2025-08-25
+deber - obligation/to_owe (2 cards) - 2025-08-25  
+entonces - then_at_that_time (1 card) - 2025-08-25
