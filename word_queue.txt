@@ -3,13 +3,11 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-poner
-cosa
-tanto
-hombre
-parecer
-nuestro
-tan
+donde
+ahora
+parte
+después
+vida
 donde
 ahora
 parte
@@ -39,6 +37,12 @@ yo - first person pronoun (user request)
 año - time period (user request)
 dos - number two (user request)
 grande - large (user request)
+ella - third person feminine pronoun (user request)
+sí - affirmative response (user request)  
+día - time period (user request)
+uno - number/indefinite pronoun (user request)
+bien - adverb well/good (user request)
+hombre - adult male (user request)
 
 ## COMPLETED WORDS (Cards created successfully)
 # Format: word - meanings (number of cards) - completion date
@@ -95,11 +99,12 @@ llegar - to_arrive (1 card) - 2025-08-24
 nos - direct_object/indirect_object/reflexive (3 cards) - 2025-08-25
 tiempo - duration/weather (2 cards) - 2025-08-25
 pasar - physical_movement/time_passage/transition/experience/transfer (5 cards) - 2025-08-25
-ella - third person feminine pronoun (user request)
-sí - affirmative response (user request)  
-día - time period (user request)
-uno - number/indefinite pronoun (user request)
-bien - adverb well/good (user request)
 poco - small_quantity/low_degree (2 cards) - 2025-08-25
 deber - obligation/to_owe (2 cards) - 2025-08-25  
 entonces - then_at_that_time (1 card) - 2025-08-25
+poner - physical_placement/wearing_clothes/becoming_turning/setting_establishing/starting_action (5 cards) - 2025-08-25
+cosa - thing_object (1 card) - 2025-08-25
+tanto - so_much_many (1 card) - 2025-08-25
+parecer - to_seem_appear (1 card) - 2025-08-25
+nuestro - our_ours (1 card) - 2025-08-25
+tan - so_such_degree (1 card) - 2025-08-25

@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "created": "2025-08-25T11:09:48.830383",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "poner"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "poner",
+      "MeaningID": "physical_placement",
+      "MeaningContext": "Place or put objects in a location",
+      "MonolingualDef": "Colocar algo en un lugar determinado",
+      "ExampleSentence": "El chico rubio llega a casa y pone las llaves en el gancho de la pared",
+      "GappedSentence": "El chico rubio llega a casa y _____ las llaves en el gancho de la pared",
+      "IPA": "[po.ˈneɾ]",
+      "prompt": "A blond guy about twenty coming in through the door and putting the keys on the hook on the wall"
+    },
+    {
+      "SpanishWord": "poner",
+      "MeaningID": "wearing_clothes",
+      "MeaningContext": "Put on clothing or accessories",
+      "MonolingualDef": "Vestirse con una prenda de ropa",
+      "ExampleSentence": "El chico rubio se pone un suéter de lana roja suelto",
+      "GappedSentence": "El chico rubio se _____ un suéter de lana roja suelto",
+      "IPA": "[po.ˈneɾ]",
+      "prompt": "A blond guy about twenty putting on a loose red wool knit jumper"
+    },
+    {
+      "SpanishWord": "poner",
+      "MeaningID": "becoming_turning",
+      "MeaningContext": "Change to an emotional or physical state",
+      "MonolingualDef": "Adoptar cierto estado o condición",
+      "ExampleSentence": "El cantante se pone nervioso antes de subir al escenario con su micrófono",
+      "GappedSentence": "El cantante se _____ nervioso antes de subir al escenario con su micrófono",
+      "IPA": "[po.ˈneɾ]",
+      "prompt": "Kanye west dressed fully in black with a mask on and a microphone at a concert"
+    },
+    {
+      "SpanishWord": "poner",
+      "MeaningID": "setting_establishing",
+      "MeaningContext": "Establish rules, conditions, or situations",
+      "MonolingualDef": "Establecer normas, condiciones o reglas",
+      "ExampleSentence": "La familia se sienta en el suelo y el niño rubio pone las reglas del juego de mesa",
+      "GappedSentence": "La familia se sienta en el suelo y el niño rubio _____ las reglas del juego de mesa",
+      "IPA": "[po.ˈneɾ]",
+      "prompt": "A family of 4 sitting on the carpet on the floor with a board game. The blond kid is reading a large page of rules"
+    },
+    {
+      "SpanishWord": "poner",
+      "MeaningID": "starting_action",
+      "MeaningContext": "Begin doing an activity",
+      "MonolingualDef": "Empezar a realizar una actividad",
+      "ExampleSentence": "El joven calvo se pone a hacer flexiones junto a su cama desordenada",
+      "GappedSentence": "El joven calvo se _____ a hacer flexiones junto a su cama desordenada",
+      "IPA": "[po.ˈneɾ]",
+      "prompt": "A bald guy in early twenties doing press-ups next to his unmade bed"
+    }
+  ]
+}

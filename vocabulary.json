@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-25T10:57:39.460182",
-    "total_words": 56,
-    "total_cards": 117,
+    "last_updated": "2025-08-25T11:23:26.539160",
+    "total_words": 62,
+    "total_cards": 127,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -2150,6 +2150,198 @@
           "CardID": "entonces_then_at_that_time",
           "ImageFile": "entonces_then_at_that_time.png",
           "WordAudio": "[sound:entonces.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "poner": {
+      "word": "poner",
+      "processed_date": "2025-08-25T11:11:20.081059",
+      "meanings": [
+        {
+          "SpanishWord": "poner",
+          "MeaningID": "physical_placement",
+          "MeaningContext": "Place or put objects in a location",
+          "MonolingualDef": "Colocar algo en un lugar determinado",
+          "ExampleSentence": "El chico rubio llega a casa y pone las llaves en el gancho de la pared",
+          "GappedSentence": "El chico rubio llega a casa y _____ las llaves en el gancho de la pared",
+          "IPA": "[po.ˈneɾ]",
+          "prompt": "A blond guy about twenty coming in through the door and putting the keys on the hook on the wall",
+          "CardID": "poner_physical_placement",
+          "ImageFile": "poner_physical_placement.png",
+          "WordAudio": "[sound:poner.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "poner",
+          "MeaningID": "wearing_clothes",
+          "MeaningContext": "Put on clothing or accessories",
+          "MonolingualDef": "Vestirse con una prenda de ropa",
+          "ExampleSentence": "El chico rubio se pone un suéter de lana roja suelto",
+          "GappedSentence": "El chico rubio se _____ un suéter de lana roja suelto",
+          "IPA": "[po.ˈneɾ]",
+          "prompt": "A blond guy about twenty putting on a loose red wool knit jumper",
+          "CardID": "poner_wearing_clothes",
+          "ImageFile": "poner_wearing_clothes.png",
+          "WordAudio": "[sound:poner.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "poner",
+          "MeaningID": "becoming_turning",
+          "MeaningContext": "Change to an emotional or physical state",
+          "MonolingualDef": "Adoptar cierto estado o condición",
+          "ExampleSentence": "El cantante se pone nervioso antes de subir al escenario con su micrófono",
+          "GappedSentence": "El cantante se _____ nervioso antes de subir al escenario con su micrófono",
+          "IPA": "[po.ˈneɾ]",
+          "prompt": "Kanye west dressed fully in black with a mask on and a microphone at a concert",
+          "CardID": "poner_becoming_turning",
+          "ImageFile": "poner_becoming_turning.png",
+          "WordAudio": "[sound:poner.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "poner",
+          "MeaningID": "setting_establishing",
+          "MeaningContext": "Establish rules, conditions, or situations",
+          "MonolingualDef": "Establecer normas, condiciones o reglas",
+          "ExampleSentence": "La familia se sienta en el suelo y el niño rubio pone las reglas del juego de mesa",
+          "GappedSentence": "La familia se sienta en el suelo y el niño rubio _____ las reglas del juego de mesa",
+          "IPA": "[po.ˈneɾ]",
+          "prompt": "A family of 4 sitting on the carpet on the floor with a board game. The blond kid is reading a large page of rules",
+          "CardID": "poner_setting_establishing",
+          "ImageFile": "poner_setting_establishing.png",
+          "WordAudio": "[sound:poner.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "poner",
+          "MeaningID": "starting_action",
+          "MeaningContext": "Begin doing an activity",
+          "MonolingualDef": "Empezar a realizar una actividad",
+          "ExampleSentence": "El joven calvo se pone a hacer flexiones junto a su cama desordenada",
+          "GappedSentence": "El joven calvo se _____ a hacer flexiones junto a su cama desordenada",
+          "IPA": "[po.ˈneɾ]",
+          "prompt": "A bald guy in early twenties doing press-ups next to his unmade bed",
+          "CardID": "poner_starting_action",
+          "ImageFile": "poner_starting_action.png",
+          "WordAudio": "[sound:poner.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 5
+    },
+    "cosa": {
+      "word": "cosa",
+      "processed_date": "2025-08-25T11:23:26.539138",
+      "meanings": [
+        {
+          "SpanishWord": "cosa",
+          "MeaningID": "thing_object",
+          "MeaningContext": "General term for any thing, object, or matter",
+          "MonolingualDef": "Objeto, asunto o materia de la que se habla o trata",
+          "ExampleSentence": "El niño rubio señala una extraña cosa esculpida en el museo de arte moderno",
+          "GappedSentence": "El niño rubio señala una extraña _____ esculpida en el museo de arte moderno",
+          "IPA": "[ˈko.sa]",
+          "prompt": "A blonde boy in a modern art museum pointing to a blob sculpture",
+          "CardID": "cosa_thing_object",
+          "ImageFile": "cosa_thing_object.png",
+          "WordAudio": "[sound:cosa.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "tanto": {
+      "word": "tanto",
+      "processed_date": "2025-08-25T11:23:26.539153",
+      "meanings": [
+        {
+          "SpanishWord": "tanto",
+          "MeaningID": "so_much_many",
+          "MeaningContext": "Expresses large quantity or high degree",
+          "MonolingualDef": "Una cantidad o grado muy grande",
+          "ExampleSentence": "Hay tanta gente en el cruce de Shibuya que el hombre calvo con gafas redondas apenas puede moverse",
+          "GappedSentence": "Hay _____ gente en el cruce de Shibuya que el hombre calvo con gafas redondas apenas puede moverse",
+          "IPA": "[ˈtan.to]",
+          "prompt": "A group of 5 friends, one bald with blue eyes and small round glasses at shibuya crossing",
+          "CardID": "tanto_so_much_many",
+          "ImageFile": "tanto_so_much_many.png",
+          "WordAudio": "[sound:tanto.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "parecer": {
+      "word": "parecer",
+      "processed_date": "2025-08-25T11:23:26.539156",
+      "meanings": [
+        {
+          "SpanishWord": "parecer",
+          "MeaningID": "to_seem_appear",
+          "MeaningContext": "To give the impression of being something",
+          "MonolingualDef": "Dar la impresión de tener cierta cualidad o característica",
+          "ExampleSentence": "La clase parece aburrida cuando el niño rubio pone la cabeza sobre el escritorio en el aula galesa",
+          "GappedSentence": "La clase _____ aburrida cuando el niño rubio pone la cabeza sobre el escritorio en el aula galesa",
+          "IPA": "[pa.ɾeˈseɾ]",
+          "prompt": "A blond boy in a welsh class at school with his head on the desk and a very bored classroom",
+          "CardID": "parecer_to_seem_appear",
+          "ImageFile": "parecer_to_seem_appear.png",
+          "WordAudio": "[sound:parecer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "nuestro": {
+      "word": "nuestro",
+      "processed_date": "2025-08-25T11:23:26.539158",
+      "meanings": [
+        {
+          "SpanishWord": "nuestro",
+          "MeaningID": "our_ours",
+          "MeaningContext": "Possessive showing ownership by we/us",
+          "MonolingualDef": "Que nos pertenece a nosotros",
+          "ExampleSentence": "Nuestro grupo de amigos maneja por el desierto de California en un viejo Peugeot",
+          "GappedSentence": "_____ grupo de amigos maneja por el desierto de California en un viejo Peugeot",
+          "IPA": "[ˈnwes.tɾo]",
+          "prompt": "A group of 4 boys driving in california desert with an old peurgot",
+          "CardID": "nuestro_our_ours",
+          "ImageFile": "nuestro_our_ours.png",
+          "WordAudio": "[sound:nuestro.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "tan": {
+      "word": "tan",
+      "processed_date": "2025-08-25T11:23:26.539159",
+      "meanings": [
+        {
+          "SpanishWord": "tan",
+          "MeaningID": "so_such_degree",
+          "MeaningContext": "Intensifies adjectives and adverbs to show high degree",
+          "MonolingualDef": "Indica un grado alto o intenso de una cualidad",
+          "ExampleSentence": "Felipe es tan agradable cuando toca la batería con tanto ruido",
+          "GappedSentence": "Felipe es _____ agradable cuando toca la batería con tanto ruido",
+          "IPA": "[tan]",
+          "prompt": "A short guy with brown hair playing the drums loudly",
+          "CardID": "tan_so_such_degree",
+          "ImageFile": "tan_so_such_degree.png",
+          "WordAudio": "[sound:tan.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }

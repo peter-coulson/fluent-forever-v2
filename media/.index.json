@@ -430,5 +430,65 @@
     "prompt_hash": "baa344c9028f55e3",
     "provider": "runware",
     "created_at": 1756137493.454775
+  },
+  "poner_becoming_turning.png": {
+    "word": "poner",
+    "prompt_hash": "df38db88efe5b56b",
+    "provider": "runware",
+    "created_at": 1756138298.5644429
+  },
+  "poner_physical_placement.png": {
+    "word": "poner",
+    "prompt_hash": "701dbffa47a6b3df",
+    "provider": "runware",
+    "created_at": 1756138303.80781
+  },
+  "poner_setting_establishing.png": {
+    "word": "poner",
+    "prompt_hash": "a069148025f5599b",
+    "provider": "runware",
+    "created_at": 1756138307.472011
+  },
+  "poner_starting_action.png": {
+    "word": "poner",
+    "prompt_hash": "9960f7ed509e618e",
+    "provider": "runware",
+    "created_at": 1756138310.605728
+  },
+  "poner_wearing_clothes.png": {
+    "word": "poner",
+    "prompt_hash": "9f64ed554f97440f",
+    "provider": "runware",
+    "created_at": 1756138314.16206
+  },
+  "cosa_thing_object.png": {
+    "word": "cosa",
+    "prompt_hash": "ecc05de850866982",
+    "provider": "runware",
+    "created_at": 1756139029.387265
+  },
+  "nuestro_our_ours.png": {
+    "word": "nuestro",
+    "prompt_hash": "351f9b6d3715d261",
+    "provider": "runware",
+    "created_at": 1756139033.355844
+  },
+  "parecer_to_seem_appear.png": {
+    "word": "parecer",
+    "prompt_hash": "c85a264022b3abda",
+    "provider": "runware",
+    "created_at": 1756139037.209057
+  },
+  "tan_so_such_degree.png": {
+    "word": "tan",
+    "prompt_hash": "74a11b8f5424c9e8",
+    "provider": "runware",
+    "created_at": 1756139040.913871
+  },
+  "tanto_so_much_many.png": {
+    "word": "tanto",
+    "prompt_hash": "20132bce9c681415",
+    "provider": "runware",
+    "created_at": 1756139045.356854
   }
 }
