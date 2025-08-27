@@ -49,6 +49,12 @@ Perform the semantic work; then hand off to automation.
 3. Produce sentences and IPA
    - ExampleSentence must closely match the prompt's action and setting; include details implied by the bracketed comment when appropriate.
    - GappedSentence is the same sentence with the target word replaced by `_____`.
+   - **SPANISH NOUN GENDER REQUIREMENT**:
+     - **MANDATORY**: ALL Spanish nouns MUST include their grammatical gender with the appropriate article
+     - **Format**: Use definite articles (el/la/los/las) or indefinite articles (un/una/unos/unas) consistently
+     - **Examples**: "un día" (not "día"), "la casa" (not "casa"), "el problema" (not "problema")
+     - **Application**: Both ExampleSentence and GappedSentence must include the article with the noun
+     - **Memory Formation**: Articles help learners internalize noun gender from the beginning
    - IPA (Neutral Latin American with Syllable Markers):
      - **MANDATORY**: Include syllable markers (dots) in ALL IPA transcriptions: `tra.βa.xo`, `a.βeɾ`, `ˈme.ði.ko`
      - Seseo: c/z → [s]
@@ -83,7 +89,8 @@ Perform the semantic work; then hand off to automation.
 
 **STEP 1: Grammatical Category Check**
 - **Prepositions** (por, para, de, en, con, desde, hasta, sobre, etc.) → Usually multi-meaning
-- **Verbs** → Check auxiliary uses, idiomatic expressions, different contexts  
+- **Verbs** → Check auxiliary uses, idiomatic expressions, different contexts
+- **Nouns** → **CRITICAL**: MUST include grammatical gender with appropriate article (el/la/un/una)
 - **Articles/Pronouns** → Usually single meaning but verify
 - **Conjunctions** → Usually single meaning but check for multiple functions
 - **Adverbs/Adjectives** → Check degree, manner, time variations
@@ -122,9 +129,9 @@ Before proceeding to batch composition:
 - STEP 4: 3 distinct meanings → 3 cards needed
 
 **casa (noun):**
-- STEP 1: Noun → check for multiple uses ✓
+- STEP 1: Noun → check for multiple uses + MUST include gender (la casa) ✓
 - STEP 2: Check contexts: always means dwelling/house ✓
-- STEP 3: Create examples: all refer to same concept (dwelling) ✓
+- STEP 3: Create examples: "La casa tiene tres habitaciones" (all refer to same concept) ✓
 - STEP 4: 1 meaning → 1 card needed
 
 ### REFERENCE EXAMPLES (NOT EXHAUSTIVE PATTERNS)
@@ -135,7 +142,8 @@ Before proceeding to batch composition:
 - **para**: purpose, deadline, destination, recipient (4 meanings)
 
 **Single Meaning Examples:**
-- **casa**: dwelling, **comer**: to eat, **rojo**: red color
+- **la casa**: dwelling, **comer**: to eat, **rojo**: red color
+- **el día**: day, **una mesa**: table, **el problema**: problem
 
 **WARNING: Do NOT use these examples as rigid templates. Every word requires independent analysis.**
 
@@ -213,6 +221,7 @@ Before proceeding to batch composition:
 - Use simple, clear Spanish appropriate for learning
 - Make word-meaning connection obvious
 - Natural, authentic Spanish construction
+- **NOUN GENDER**: Always include articles with nouns (el/la/un/una) for gender learning
 
 ## PRONUNCIATION SYSTEM - CONTEXTUAL FRICATIVES
 
