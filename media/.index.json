@@ -490,5 +490,65 @@
     "prompt_hash": "20132bce9c681415",
     "provider": "runware",
     "created_at": 1756139045.356854
+  },
+  "ahora_present_time.png": {
+    "word": "ahora",
+    "prompt_hash": "fa1b0a00a87ee76e",
+    "provider": "runware",
+    "created_at": 1756305887.667146
+  },
+  "después_later.png": {
+    "word": "después",
+    "prompt_hash": "18d4be7814294aa9",
+    "provider": "runware",
+    "created_at": 1756305891.195322
+  },
+  "donde_location.png": {
+    "word": "donde",
+    "prompt_hash": "529108d85856b83f",
+    "provider": "runware",
+    "created_at": 1756305895.1616268
+  },
+  "parte_portion.png": {
+    "word": "parte",
+    "prompt_hash": "0cbaf9ca263bb396",
+    "provider": "runware",
+    "created_at": 1756305898.8906088
+  },
+  "vida_life.png": {
+    "word": "vida",
+    "prompt_hash": "5a65d103fcb91fe7",
+    "provider": "runware",
+    "created_at": 1756305903.305182
+  },
+  "quedar_arrange_agree.png": {
+    "word": "quedar",
+    "prompt_hash": "09377c6f3774fcfa",
+    "provider": "runware",
+    "created_at": 1756306308.138187
+  },
+  "quedar_be_located.png": {
+    "word": "quedar",
+    "prompt_hash": "08d238604e1c9930",
+    "provider": "runware",
+    "created_at": 1756306311.894058
+  },
+  "quedar_fit_suit.png": {
+    "word": "quedar",
+    "prompt_hash": "6a55e0be2ff0b757",
+    "provider": "runware",
+    "created_at": 1756306315.6923468
+  },
+  "quedar_remain_stay.png": {
+    "word": "quedar",
+    "prompt_hash": "8a3ce2be2d4b9ef0",
+    "provider": "runware",
+    "created_at": 1756306318.8051991
+  },
+  "siempre_always.png": {
+    "word": "siempre",
+    "prompt_hash": "8e53164e4b99dec7",
+    "provider": "runware",
+    "created_at": 1756306322.3595278
   }
 }

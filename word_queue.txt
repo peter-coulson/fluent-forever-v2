@@ -3,18 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-donde
-ahora
-parte
-después
-vida
-donde
-ahora
-parte
-después
-vida
-quedar
-siempre
 creer
 hablar
 llevar
@@ -108,3 +96,10 @@ tanto - so_much_many (1 card) - 2025-08-25
 parecer - to_seem_appear (1 card) - 2025-08-25
 nuestro - our_ours (1 card) - 2025-08-25
 tan - so_such_degree (1 card) - 2025-08-25
+donde - location (1 card) - 2025-08-27
+ahora - present_time (1 card) - 2025-08-27
+parte - portion (1 card) - 2025-08-27
+después - later (1 card) - 2025-08-27
+vida - life (1 card) - 2025-08-27
+quedar - remain_stay/be_located/fit_suit/arrange_agree (4 cards) - 2025-08-27
+siempre - always (1 card) - 2025-08-27

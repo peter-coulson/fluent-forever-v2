@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "created": "2025-08-27T09:51:12.336231",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "quedar",
+    "siempre"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "quedar",
+      "MeaningID": "remain_stay",
+      "MeaningContext": "remain/stay",
+      "MonolingualDef": "permanecer o continuar en un lugar o situación",
+      "ExampleSentence": "Los manifestantes se quedan en las calles de Londres con banderas británicas.",
+      "GappedSentence": "Los manifestantes se _____ en las calles de Londres con banderas británicas.",
+      "IPA": "[ke.ˈðaɾ]",
+      "prompt": "A large brexit parade in london with british flags and disputes in the streets."
+    },
+    {
+      "SpanishWord": "quedar",
+      "MeaningID": "be_located",
+      "MeaningContext": "be located",
+      "MonolingualDef": "estar situado o ubicado en un lugar específico",
+      "ExampleSentence": "El punto marcado con una X roja queda en el suroeste de Gales.",
+      "GappedSentence": "El punto marcado con una X roja _____ en el suroeste de Gales.",
+      "IPA": "[ke.ˈðaɾ]",
+      "prompt": "A large map of Wales, with a red X on a point in the south west."
+    },
+    {
+      "SpanishWord": "quedar",
+      "MeaningID": "fit_suit",
+      "MeaningContext": "fit/suit",
+      "MonolingualDef": "ajustarse bien la ropa o resultar apropiado algo",
+      "ExampleSentence": "La camiseta blanca le queda perfecta al hombre atlético.",
+      "GappedSentence": "La camiseta blanca le _____ perfecta al hombre atlético.",
+      "IPA": "[ke.ˈðaɾ]",
+      "prompt": "A bald athletic man of 20 with black trousers, black shoes, in a white vest and black sunglasses."
+    },
+    {
+      "SpanishWord": "quedar",
+      "MeaningID": "arrange_agree",
+      "MeaningContext": "arrange/agree",
+      "MonolingualDef": "acordar o ponerse de acuerdo sobre algo",
+      "ExampleSentence": "Los representantes quedan en firmar el tratado en el vagón ferroviario.",
+      "GappedSentence": "Los representantes _____ en firmar el tratado en el vagón ferroviario.",
+      "IPA": "[ke.ˈðaɾ]",
+      "prompt": "The british, german, french, and americans signing the treaty of versailles in the railway car."
+    },
+    {
+      "SpanishWord": "siempre",
+      "MeaningID": "always",
+      "MeaningContext": "always",
+      "MonolingualDef": "en todo momento, de manera continua o repetida",
+      "ExampleSentence": "El hombre atlético siempre hace ejercicio en el parque de Londres.",
+      "GappedSentence": "El hombre atlético _____ hace ejercicio en el parque de Londres.",
+      "IPA": "[ˈsjem.pɾe]",
+      "prompt": "A bald athletic man of 20 doing pull ups in a london park."
+    }
+  ]
+}

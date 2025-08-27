@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-25T11:23:26.539160",
-    "total_words": 62,
-    "total_cards": 127,
+    "last_updated": "2025-08-27T09:51:38.755149",
+    "total_words": 69,
+    "total_cards": 137,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -2342,6 +2342,205 @@
           "CardID": "tan_so_such_degree",
           "ImageFile": "tan_so_such_degree.png",
           "WordAudio": "[sound:tan.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "donde": {
+      "word": "donde",
+      "processed_date": "2025-08-27T09:44:38.923535",
+      "meanings": [
+        {
+          "SpanishWord": "donde",
+          "MeaningID": "location",
+          "MeaningContext": "location/place reference",
+          "MonolingualDef": "indica el lugar o ubicación donde algo está o sucede",
+          "ExampleSentence": "Los amigos están en los Alpes donde hay muchas direcciones en el cartel.",
+          "GappedSentence": "Los amigos están en los Alpes _____ hay muchas direcciones en el cartel.",
+          "IPA": "[ˈdon.de]",
+          "prompt": "Friends in the alps skiing stopped at a piste cross roads with a sign showing many directions in many colours.",
+          "CardID": "donde_location",
+          "ImageFile": "donde_location.png",
+          "WordAudio": "[sound:donde.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "ahora": {
+      "word": "ahora",
+      "processed_date": "2025-08-27T09:44:38.923548",
+      "meanings": [
+        {
+          "SpanishWord": "ahora",
+          "MeaningID": "present_time",
+          "MeaningContext": "present time",
+          "MonolingualDef": "indica el momento presente o actual",
+          "ExampleSentence": "El niño rubio y su hermana pelirroja ahora señalan el suelo con decisión.",
+          "GappedSentence": "El niño rubio y su hermana pelirroja _____ señalan el suelo con decisión.",
+          "IPA": "[a.ˈo.ɾa]",
+          "prompt": "A blond boy with his ginger sister pointing decisively at the ground.",
+          "CardID": "ahora_present_time",
+          "ImageFile": "ahora_present_time.png",
+          "WordAudio": "[sound:ahora.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "parte": {
+      "word": "parte",
+      "processed_date": "2025-08-27T09:44:38.923551",
+      "meanings": [
+        {
+          "SpanishWord": "parte",
+          "MeaningID": "portion",
+          "MeaningContext": "portion/section",
+          "MonolingualDef": "una porción, sección o componente de algo más grande",
+          "ExampleSentence": "El niño rubio corta una parte de su pastel de chocolate de cumpleaños.",
+          "GappedSentence": "El niño rubio corta una _____ de su pastel de chocolate de cumpleaños.",
+          "IPA": "[ˈpaɾ.te]",
+          "prompt": "A blond boy cutting his chocolate birthday cake, his family sorounding him.",
+          "CardID": "parte_portion",
+          "ImageFile": "parte_portion.png",
+          "WordAudio": "[sound:parte.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "después": {
+      "word": "después",
+      "processed_date": "2025-08-27T09:44:38.923553",
+      "meanings": [
+        {
+          "SpanishWord": "después",
+          "MeaningID": "later",
+          "MeaningContext": "later/afterward",
+          "MonolingualDef": "indica tiempo que viene tras algo más",
+          "ExampleSentence": "Después de trabajar, Bob Esponja descansa en Fondo de Bikini.",
+          "GappedSentence": "_____ de trabajar, Bob Esponja descansa en Fondo de Bikini.",
+          "IPA": "[de.ˈspwes]",
+          "prompt": "Spongebob squarepants in bikini bottom.",
+          "CardID": "después_later",
+          "ImageFile": "después_later.png",
+          "WordAudio": "[sound:después.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "vida": {
+      "word": "vida",
+      "processed_date": "2025-08-27T09:44:38.923555",
+      "meanings": [
+        {
+          "SpanishWord": "vida",
+          "MeaningID": "life",
+          "MeaningContext": "life/existence",
+          "MonolingualDef": "la condición de vivir o la existencia misma",
+          "ExampleSentence": "Adán y Eva disfrutan la vida en el jardín comiendo fruta.",
+          "GappedSentence": "Adán y Eva disfrutan la _____ en el jardín comiendo fruta.",
+          "IPA": "[ˈbi.ða]",
+          "prompt": "Adam and eve in the garden of Eden lounging and eating fruit.",
+          "CardID": "vida_life",
+          "ImageFile": "vida_life.png",
+          "WordAudio": "[sound:vida.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "quedar": {
+      "word": "quedar",
+      "processed_date": "2025-08-27T09:51:38.755133",
+      "meanings": [
+        {
+          "SpanishWord": "quedar",
+          "MeaningID": "remain_stay",
+          "MeaningContext": "remain/stay",
+          "MonolingualDef": "permanecer o continuar en un lugar o situación",
+          "ExampleSentence": "Los manifestantes se quedan en las calles de Londres con banderas británicas.",
+          "GappedSentence": "Los manifestantes se _____ en las calles de Londres con banderas británicas.",
+          "IPA": "[ke.ˈðaɾ]",
+          "prompt": "A large brexit parade in london with british flags and disputes in the streets.",
+          "CardID": "quedar_remain_stay",
+          "ImageFile": "quedar_remain_stay.png",
+          "WordAudio": "[sound:quedar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "quedar",
+          "MeaningID": "be_located",
+          "MeaningContext": "be located",
+          "MonolingualDef": "estar situado o ubicado en un lugar específico",
+          "ExampleSentence": "El punto marcado con una X roja queda en el suroeste de Gales.",
+          "GappedSentence": "El punto marcado con una X roja _____ en el suroeste de Gales.",
+          "IPA": "[ke.ˈðaɾ]",
+          "prompt": "A large map of Wales, with a red X on a point in the south west.",
+          "CardID": "quedar_be_located",
+          "ImageFile": "quedar_be_located.png",
+          "WordAudio": "[sound:quedar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "quedar",
+          "MeaningID": "fit_suit",
+          "MeaningContext": "fit/suit",
+          "MonolingualDef": "ajustarse bien la ropa o resultar apropiado algo",
+          "ExampleSentence": "La camiseta blanca le queda perfecta al hombre atlético.",
+          "GappedSentence": "La camiseta blanca le _____ perfecta al hombre atlético.",
+          "IPA": "[ke.ˈðaɾ]",
+          "prompt": "A bald athletic man of 20 with black trousers, black shoes, in a white vest and black sunglasses.",
+          "CardID": "quedar_fit_suit",
+          "ImageFile": "quedar_fit_suit.png",
+          "WordAudio": "[sound:quedar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "quedar",
+          "MeaningID": "arrange_agree",
+          "MeaningContext": "arrange/agree",
+          "MonolingualDef": "acordar o ponerse de acuerdo sobre algo",
+          "ExampleSentence": "Los representantes quedan en firmar el tratado en el vagón ferroviario.",
+          "GappedSentence": "Los representantes _____ en firmar el tratado en el vagón ferroviario.",
+          "IPA": "[ke.ˈðaɾ]",
+          "prompt": "The british, german, french, and americans signing the treaty of versailles in the railway car.",
+          "CardID": "quedar_arrange_agree",
+          "ImageFile": "quedar_arrange_agree.png",
+          "WordAudio": "[sound:quedar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 4
+    },
+    "siempre": {
+      "word": "siempre",
+      "processed_date": "2025-08-27T09:51:38.755146",
+      "meanings": [
+        {
+          "SpanishWord": "siempre",
+          "MeaningID": "always",
+          "MeaningContext": "always",
+          "MonolingualDef": "en todo momento, de manera continua o repetida",
+          "ExampleSentence": "El hombre atlético siempre hace ejercicio en el parque de Londres.",
+          "GappedSentence": "El hombre atlético _____ hace ejercicio en el parque de Londres.",
+          "IPA": "[ˈsjem.pɾe]",
+          "prompt": "A bald athletic man of 20 doing pull ups in a london park.",
+          "CardID": "siempre_always",
+          "ImageFile": "siempre_always.png",
+          "WordAudio": "[sound:siempre.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }
