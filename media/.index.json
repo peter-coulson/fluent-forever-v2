@@ -550,5 +550,65 @@
     "prompt_hash": "8e53164e4b99dec7",
     "provider": "runware",
     "created_at": 1756306322.3595278
+  },
+  "creer_to_believe.png": {
+    "word": "creer",
+    "prompt_hash": "c99f7ae02b191d9d",
+    "provider": "runware",
+    "created_at": 1756306748.8026009
+  },
+  "llevar_duration_time.png": {
+    "word": "llevar",
+    "prompt_hash": "9af936b7d992be2b",
+    "provider": "runware",
+    "created_at": 1756306752.5155
+  },
+  "llevar_physical_carrying.png": {
+    "word": "llevar",
+    "prompt_hash": "06643c9d10d645bf",
+    "provider": "runware",
+    "created_at": 1756306756.998434
+  },
+  "llevar_taking_someone.png": {
+    "word": "llevar",
+    "prompt_hash": "23eee9822b4c8202",
+    "provider": "runware",
+    "created_at": 1756306760.178654
+  },
+  "nada_nothing.png": {
+    "word": "nada",
+    "prompt_hash": "00528353c50c1add",
+    "provider": "runware",
+    "created_at": 1756306763.642129
+  },
+  "dejar_leave_abandon.png": {
+    "word": "dejar",
+    "prompt_hash": "9761cb90b6186221",
+    "provider": "runware",
+    "created_at": 1756307188.7660182
+  },
+  "dejar_let_allow.png": {
+    "word": "dejar",
+    "prompt_hash": "4df7e4a6b3728b2f",
+    "provider": "runware",
+    "created_at": 1756307193.1079192
+  },
+  "dejar_stop_quit.png": {
+    "word": "dejar",
+    "prompt_hash": "16ab9f4bbd516f71",
+    "provider": "runware",
+    "created_at": 1756307196.821132
+  },
+  "seguir_continue.png": {
+    "word": "seguir",
+    "prompt_hash": "bd0d3741059f3b6c",
+    "provider": "runware",
+    "created_at": 1756307200.695495
+  },
+  "seguir_follow.png": {
+    "word": "seguir",
+    "prompt_hash": "c8732a365d3a3488",
+    "provider": "runware",
+    "created_at": 1756307204.6703732
   }
 }

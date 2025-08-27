@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-27T09:51:38.755149",
-    "total_words": 69,
-    "total_cards": 137,
+    "last_updated": "2025-08-27T10:06:13.874796",
+    "total_words": 74,
+    "total_cards": 147,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -2546,6 +2546,191 @@
         }
       ],
       "cards_created": 1
+    },
+    "llevar": {
+      "word": "llevar",
+      "processed_date": "2025-08-27T09:58:54.091571",
+      "meanings": [
+        {
+          "SpanishWord": "llevar",
+          "MeaningID": "physical_carrying",
+          "MeaningContext": "transportar objetos/personas físicamente",
+          "MonolingualDef": "transportar o cargar algo o alguien de un lugar a otro",
+          "ExampleSentence": "El niño lleva a su hermana en la espalda por el jardín.",
+          "GappedSentence": "El niño _____ a su hermana en la espalda por el jardín.",
+          "IPA": "[ʝe.βaɾ]",
+          "prompt": "A blond boy in the garden giving his ginger sister a piggy back",
+          "CardID": "llevar_physical_carrying",
+          "ImageFile": "llevar_physical_carrying.png",
+          "WordAudio": "[sound:llevar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "llevar",
+          "MeaningID": "duration_time",
+          "MeaningContext": "expresar duración continua",
+          "MonolingualDef": "indicar el tiempo que ha transcurrido desde que comenzó una acción",
+          "ExampleSentence": "El músico lleva muchos años tocando el violín.",
+          "GappedSentence": "El músico _____ muchos años tocando el violín.",
+          "IPA": "[ʝe.βaɾ]",
+          "prompt": "A 2 part picture divided down the middle of a little blond boy playing the violin and as a man playing the violin",
+          "CardID": "llevar_duration_time",
+          "ImageFile": "llevar_duration_time.png",
+          "WordAudio": "[sound:llevar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "llevar",
+          "MeaningID": "taking_someone",
+          "MeaningContext": "acompañar/transportar personas",
+          "MonolingualDef": "acompañar o transportar a alguien a un destino",
+          "ExampleSentence": "El papá lleva al niño al partido de fútbol en el auto.",
+          "GappedSentence": "El papá _____ al niño al partido de fútbol en el auto.",
+          "IPA": "[ʝe.βaɾ]",
+          "prompt": "A man with dark hair and light skin with a boy in footbal kit getting into the small car",
+          "CardID": "llevar_taking_someone",
+          "ImageFile": "llevar_taking_someone.png",
+          "WordAudio": "[sound:llevar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "nada": {
+      "word": "nada",
+      "processed_date": "2025-08-27T09:58:54.091581",
+      "meanings": [
+        {
+          "SpanishWord": "nada",
+          "MeaningID": "nothing",
+          "MeaningContext": "ausencia total",
+          "MonolingualDef": "ausencia completa de algo, cantidad cero",
+          "ExampleSentence": "En la oscuridad no veo nada.",
+          "GappedSentence": "En la oscuridad no veo _____.",
+          "IPA": "[ˈna.ða]",
+          "prompt": "A completely black image with no colour",
+          "CardID": "nada_nothing",
+          "ImageFile": "nada_nothing.png",
+          "WordAudio": "[sound:nada.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "creer": {
+      "word": "creer",
+      "processed_date": "2025-08-27T09:58:54.091584",
+      "meanings": [
+        {
+          "SpanishWord": "creer",
+          "MeaningID": "to_believe",
+          "MeaningContext": "fe/creencia/opinión",
+          "MonolingualDef": "aceptar algo como verdadero o tener fe en algo",
+          "ExampleSentence": "La familia cree en la importancia de ir a la iglesia.",
+          "GappedSentence": "La familia _____ en la importancia de ir a la iglesia.",
+          "IPA": "[kɾe.eɾ]",
+          "prompt": "A family of 4, with a blond boy and ginger girl going to church in England",
+          "CardID": "creer_to_believe",
+          "ImageFile": "creer_to_believe.png",
+          "WordAudio": "[sound:creer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "dejar": {
+      "word": "dejar",
+      "processed_date": "2025-08-27T10:06:13.874778",
+      "meanings": [
+        {
+          "SpanishWord": "dejar",
+          "MeaningID": "leave_abandon",
+          "MeaningContext": "abandonar/dejar en un lugar",
+          "MonolingualDef": "abandonar o colocar algo o alguien en un lugar",
+          "ExampleSentence": "Los padres dejan al niño en Francia y se van en el auto.",
+          "GappedSentence": "Los padres _____ al niño en Francia y se van en el auto.",
+          "IPA": "[de.xaɾ]",
+          "prompt": "A blond boy waving goodbye to his parents in france as they leave to get into the car",
+          "CardID": "dejar_leave_abandon",
+          "ImageFile": "dejar_leave_abandon.png",
+          "WordAudio": "[sound:dejar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "dejar",
+          "MeaningID": "let_allow",
+          "MeaningContext": "permitir/dar permiso",
+          "MonolingualDef": "permitir o dar permiso para que alguien haga algo",
+          "ExampleSentence": "La maestra no deja que el niño corra por el pasillo.",
+          "GappedSentence": "La maestra no _____ que el niño corra por el pasillo.",
+          "IPA": "[de.xaɾ]",
+          "prompt": "A teacher shouting at a small blond boy running in a long school corridor",
+          "CardID": "dejar_let_allow",
+          "ImageFile": "dejar_let_allow.png",
+          "WordAudio": "[sound:dejar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "dejar",
+          "MeaningID": "stop_quit",
+          "MeaningContext": "cesar/abandonar hábitos",
+          "MonolingualDef": "cesar o abandonar una actividad o hábito",
+          "ExampleSentence": "El hombre dejó de fumar y quema los cigarrillos.",
+          "GappedSentence": "El hombre _____ de fumar y quema los cigarrillos.",
+          "IPA": "[de.xaɾ]",
+          "prompt": "A bald man of 20 burning a packet of cigarettes in a small fire in the garden",
+          "CardID": "dejar_stop_quit",
+          "ImageFile": "dejar_stop_quit.png",
+          "WordAudio": "[sound:dejar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "seguir": {
+      "word": "seguir",
+      "processed_date": "2025-08-27T10:06:13.874793",
+      "meanings": [
+        {
+          "SpanishWord": "seguir",
+          "MeaningID": "follow",
+          "MeaningContext": "ir detrás físicamente",
+          "MonolingualDef": "ir detrás de alguien o algo, moverse en la misma dirección",
+          "ExampleSentence": "El perro dorado sigue al niño y a la abuela en el bosque.",
+          "GappedSentence": "El perro dorado _____ al niño y a la abuela en el bosque.",
+          "IPA": "[se.ɣiɾ]",
+          "prompt": "A blond boy and his grandmother walking in the woods, the golden dog following behind",
+          "CardID": "seguir_follow",
+          "ImageFile": "seguir_follow.png",
+          "WordAudio": "[sound:seguir.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "seguir",
+          "MeaningID": "continue",
+          "MeaningContext": "continuar actividad",
+          "MonolingualDef": "continuar haciendo una actividad sin parar",
+          "ExampleSentence": "El hombre sigue trabajando en la computadora desde la mañana hasta la noche.",
+          "GappedSentence": "El hombre _____ trabajando en la computadora desde la mañana hasta la noche.",
+          "IPA": "[se.ɣiɾ]",
+          "prompt": "An image divided in two, a bald man of 20 in both images on a computer, one in the morning and one in the evening",
+          "CardID": "seguir_continue",
+          "ImageFile": "seguir_continue.png",
+          "WordAudio": "[sound:seguir.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
     }
   }
 }

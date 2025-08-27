@@ -3,13 +3,8 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-creer
 hablar
-llevar
-dejar
-nada
 cada
-seguir
 menos
 nuevo
 encontrar
@@ -103,3 +98,8 @@ después - later (1 card) - 2025-08-27
 vida - life (1 card) - 2025-08-27
 quedar - remain_stay/be_located/fit_suit/arrange_agree (4 cards) - 2025-08-27
 siempre - always (1 card) - 2025-08-27
+creer - to_believe (1 card) - 2025-08-27
+llevar - physical_carrying/duration_time/taking_someone (3 cards) - 2025-08-27
+nada - nothing (1 card) - 2025-08-27
+dejar - leave_abandon/let_allow/stop_quit (3 cards) - 2025-08-27
+seguir - follow/continue (2 cards) - 2025-08-27
