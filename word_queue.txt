@@ -3,11 +3,6 @@
 # Format: One word per line, # for comments
 
 ## PENDING WORDS (Next to process)
-hablar
-cada
-menos
-nuevo
-encontrar
 
 ## SKIPPED WORDS (User already knows)
 un - indefinite article & number one (user request)
@@ -103,3 +98,8 @@ llevar - physical_carrying/duration_time/taking_someone (3 cards) - 2025-08-27
 nada - nothing (1 card) - 2025-08-27
 dejar - leave_abandon/let_allow/stop_quit (3 cards) - 2025-08-27
 seguir - follow/continue (2 cards) - 2025-08-27
+hablar - speech_communication (1 card) - 2025-08-28
+cada - individual_distribution (1 card) - 2025-08-28
+menos - comparative_degree/exception/mathematical_subtraction (3 cards) - 2025-08-28
+nuevo - new (1 card) - 2025-08-28
+encontrar - to_find (1 card) - 2025-08-28

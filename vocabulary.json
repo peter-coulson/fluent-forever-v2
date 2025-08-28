@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-27T10:06:13.874796",
-    "total_words": 74,
-    "total_cards": 147,
+    "last_updated": "2025-08-28T10:24:16.324101",
+    "total_words": 79,
+    "total_cards": 154,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -2731,6 +2731,146 @@
         }
       ],
       "cards_created": 2
+    },
+    "hablar": {
+      "word": "hablar",
+      "processed_date": "2025-08-28T10:15:09.104464",
+      "meanings": [
+        {
+          "SpanishWord": "hablar",
+          "MeaningID": "speech_communication",
+          "MeaningContext": "Speech/Communication",
+          "MonolingualDef": "Expresar pensamientos mediante palabras habladas",
+          "ExampleSentence": "Los dos chicos rubios y el chico moreno hablan en la casa desordenada",
+          "GappedSentence": "Los dos chicos rubios y el chico moreno _____ en la casa desordenada",
+          "IPA": "[a.ˈβlaɾ]",
+          "prompt": "A conversation between two blond, and a brown haired guy in a messy house",
+          "CardID": "hablar_speech_communication",
+          "ImageFile": "hablar_speech_communication.png",
+          "WordAudio": "[sound:hablar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "cada": {
+      "word": "cada",
+      "processed_date": "2025-08-28T10:15:09.104476",
+      "meanings": [
+        {
+          "SpanishWord": "cada",
+          "MeaningID": "individual_distribution",
+          "MeaningContext": "Individual Distribution",
+          "MonolingualDef": "Se refiere a todos los individuos de un grupo por separado",
+          "ExampleSentence": "Cada animal asoma por las ventanas del arca de Noé mientras llega la inundación",
+          "GappedSentence": "_____ animal asoma por las ventanas del arca de Noé mientras llega la inundación",
+          "IPA": "[ˈka.ða]",
+          "prompt": "Noah and his ark as the floods come with every animal poking out of the windows",
+          "CardID": "cada_individual_distribution",
+          "ImageFile": "cada_individual_distribution.png",
+          "WordAudio": "[sound:cada.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "menos": {
+      "word": "menos",
+      "processed_date": "2025-08-28T10:15:09.104479",
+      "meanings": [
+        {
+          "SpanishWord": "menos",
+          "MeaningID": "comparative_degree",
+          "MeaningContext": "Comparative Degree",
+          "MonolingualDef": "Indica menor grado o cantidad en comparaciones",
+          "ExampleSentence": "El chico moreno tiene menos dinero que el chico calvo feliz con gafas redondas",
+          "GappedSentence": "El chico moreno tiene _____ dinero que el chico calvo feliz con gafas redondas",
+          "IPA": "[ˈme.nos]",
+          "prompt": "A happy bald guy of 20 with small round glasses holding lots of money next to a sad brown haired guy holding very little money",
+          "CardID": "menos_comparative_degree",
+          "ImageFile": "menos_comparative_degree.png",
+          "WordAudio": "[sound:menos.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "menos",
+          "MeaningID": "exception",
+          "MeaningContext": "Exception/Except",
+          "MonolingualDef": "Excluye algo de un grupo o declaración",
+          "ExampleSentence": "Todos los bailarines danzan en el jardín menos el chico calvo con gafas que se sienta afuera",
+          "GappedSentence": "Todos los bailarines danzan en el jardín _____ el chico calvo con gafas que se sienta afuera",
+          "IPA": "[ˈme.nos]",
+          "prompt": "A circle of dancers in a garden for a folk dance. One bald guy of 20 with small round glasses sitting on the outside",
+          "CardID": "menos_exception",
+          "ImageFile": "menos_exception.png",
+          "WordAudio": "[sound:menos.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "menos",
+          "MeaningID": "mathematical_subtraction",
+          "MeaningContext": "Mathematical Subtraction",
+          "MonolingualDef": "Operación aritmética de sustracción o resta",
+          "ExampleSentence": "El profesor escribe el signo menos en la pizarra del aula de matemáticas",
+          "GappedSentence": "El profesor escribe el signo _____ en la pizarra del aula de matemáticas",
+          "IPA": "[ˈme.nos]",
+          "prompt": "A large minus sign on the chalkboard in a maths classroom",
+          "CardID": "menos_mathematical_subtraction",
+          "ImageFile": "menos_mathematical_subtraction.png",
+          "WordAudio": "[sound:menos.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "nuevo": {
+      "word": "nuevo",
+      "processed_date": "2025-08-28T10:24:16.324087",
+      "meanings": [
+        {
+          "SpanishWord": "nuevo",
+          "MeaningID": "new",
+          "MeaningContext": "recently acquired, unused, or different",
+          "MonolingualDef": "que es reciente, no usado, o diferente de lo anterior",
+          "ExampleSentence": "El hombre calvo prueba unos zapatos nuevos en la tienda tradicional.",
+          "GappedSentence": "El hombre calvo prueba unos zapatos _____ en la tienda tradicional.",
+          "IPA": "[ˈnwe.βo]",
+          "prompt": "A bald guy of 20 in a traditional clothes shop in london trying on new shoes",
+          "CardID": "nuevo_new",
+          "ImageFile": "nuevo_new.png",
+          "WordAudio": "[sound:nuevo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "encontrar": {
+      "word": "encontrar",
+      "processed_date": "2025-08-28T10:24:16.324097",
+      "meanings": [
+        {
+          "SpanishWord": "encontrar",
+          "MeaningID": "to_find",
+          "MeaningContext": "locate or discover something",
+          "MonolingualDef": "hallar o descubrir algo que se busca o aparece inesperadamente",
+          "ExampleSentence": "Sméagol encuentra el anillo de poder en una cueva oscura.",
+          "GappedSentence": "Sméagol _____ el anillo de poder en una cueva oscura.",
+          "IPA": "[eŋ.kon.ˈtɾaɾ]",
+          "prompt": "Smegal finding the one ring of power in the lord of the rings series",
+          "CardID": "encontrar_to_find",
+          "ImageFile": "encontrar_to_find.png",
+          "WordAudio": "[sound:encontrar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
     }
   }
 }

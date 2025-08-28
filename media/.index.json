@@ -610,5 +610,47 @@
     "prompt_hash": "c8732a365d3a3488",
     "provider": "runware",
     "created_at": 1756307204.6703732
+  },
+  "cada_individual_distribution.png": {
+    "word": "cada",
+    "prompt_hash": "a4cabf60c93cfafe",
+    "provider": "runware",
+    "created_at": 1756394208.566575
+  },
+  "hablar_speech_communication.png": {
+    "word": "hablar",
+    "prompt_hash": "61f3a8f0275f7ef3",
+    "provider": "runware",
+    "created_at": 1756394212.714655
+  },
+  "menos_comparative_degree.png": {
+    "word": "menos",
+    "prompt_hash": "de87406a7fd15c5c",
+    "provider": "runware",
+    "created_at": 1756394218.604735
+  },
+  "menos_exception.png": {
+    "word": "menos",
+    "prompt_hash": "7bacf2a56669be3d",
+    "provider": "runware",
+    "created_at": 1756394222.68835
+  },
+  "menos_mathematical_subtraction.png": {
+    "word": "menos",
+    "prompt_hash": "4125766b8e297af9",
+    "provider": "runware",
+    "created_at": 1756394226.867976
+  },
+  "encontrar_to_find.png": {
+    "word": "encontrar",
+    "prompt_hash": "53fc7ca63c828250",
+    "provider": "runware",
+    "created_at": 1756394673.195817
+  },
+  "nuevo_new.png": {
+    "word": "nuevo",
+    "prompt_hash": "c5586671b9a3dd88",
+    "provider": "runware",
+    "created_at": 1756394677.0036879
   }
 }

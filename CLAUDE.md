@@ -299,19 +299,19 @@ source activate_env.sh
 ```
 
 - Prepare batch staging (for Claude to fill):
-  - `python -m cli.prepare_claude_batch --words por,para`
+  - `source activate_env.sh && python -m cli.prepare_claude_batch --words por,para`
 - Ingest staging (validate first, then execute):
-  - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json --dry-run`
-  - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json`
+  - `source activate_env.sh && python -m cli.ingest_claude_batch --input staging/claude_batch_*.json --dry-run`
+  - `source activate_env.sh && python -m cli.ingest_claude_batch --input staging/claude_batch_*.json`
 - Media & sync (fast path):
-  - `python -m cli.run_media_then_sync --cards <CardID,...> --execute`
+  - `source activate_env.sh && python -m cli.run_media_then_sync --cards <CardID,...> --execute`
 - Media only (fine-grained):
-  - `python -m cli.media_generate --cards <CardID,...>` (preview)
-  - `python -m cli.media_generate --cards <CardID,...> --execute [--no-images] [--no-audio]`
+  - `source activate_env.sh && python -m cli.media_generate --cards <CardID,...>` (preview)
+  - `source activate_env.sh && python -m cli.media_generate --cards <CardID,...> --execute [--no-images] [--no-audio]`
 - Full deck sync:
-  - `python -m cli.sync_anki_all [--delete-extras]` (will require interactive human confirmation for deletions)
+  - `source activate_env.sh && python -m cli.sync_anki_all [--delete-extras]` (will require interactive human confirmation for deletions)
 - Templates:
-  - `python -m validation.anki.template_validator` (compare HTML/CSS and placeholders)
+  - `source activate_env.sh && python -m validation.anki.template_validator` (compare HTML/CSS and placeholders)
 
 ## CRITICAL ERROR HANDLING
 
