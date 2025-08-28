@@ -1,13 +1,34 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-28T10:24:16.324101",
-    "total_words": 79,
-    "total_cards": 154,
+    "last_updated": "2025-08-28T12:01:07.024006",
+    "total_words": 80,
+    "total_cards": 155,
+    "total_skipped": 18,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
   },
+  "skipped_words": [
+    "un",
+    "el",
+    "y",
+    "la",
+    "él",
+    "mucho",
+    "yo",
+    "año",
+    "dos",
+    "grande",
+    "ella",
+    "sí",
+    "día",
+    "uno",
+    "bien",
+    "hombre",
+    "estar",
+    "se"
+  ],
   "words": {
     "ser": {
       "word": "ser",

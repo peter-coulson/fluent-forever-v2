@@ -19,10 +19,9 @@
 Perform the semantic work; then hand off to automation.
 
 **PRE-STEP: Word Selection and Validation**
-   - **MANDATORY**: Check vocabulary.json first for any words already processed
-   - **MANDATORY**: Check word queue for any words marked as SKIPPED  
-   - **CRITICAL**: Skip entire words if they are already completed or user has skipped them
-   - Never process words that are already in vocabulary.json or marked SKIPPED in word queue
+   - **MANDATORY**: Check vocabulary.json first for any words already processed or skipped
+   - **CRITICAL**: Skip entire words if they are already completed or in vocabulary.json "skipped_words" array
+   - Never process words that are already in vocabulary.json "words" section or "skipped_words" array
 
 1. Analyze meanings and request prompts
    - Identify ALL distinct semantic meanings per word
@@ -70,9 +69,10 @@ Perform the semantic work; then hand off to automation.
 ## BATCH COMPOSITION RULES - ALWAYS 5 CARDS
 
 **Claude-Managed Batch System:**
-- **MANDATORY PRE-CHECK**: Before analyzing any word, Claude MUST verify it's not already processed or skipped
+- **MANDATORY PRE-CHECK**: Before analyzing any word, Claude MUST verify it's not already in vocabulary.json "words" or "skipped_words" sections
 - **Claude determines**: Exactly 5 cards per batch (combines multiple words as needed)
 - **Claude handles overflow**: If word exceeds 5 cards, Claude defers entire word to next batch
+- **Claude handles skipping**: Add skipped words to "skipped_words" section in batch staging file
 - **Claude requests prompts**: Claude tells user which specific prompts are needed for the batch
 
 **Example Batch Compositions (Claude decides):**
@@ -335,15 +335,33 @@ Use the smallest corrective step and keep card creation moving:
 
 ## WORD QUEUE MANAGEMENT
 
-**word_queue.txt Structure:**
-- **PENDING WORDS**: Next words to process (top section)
-- **SKIPPED WORDS**: User already knows, moved immediately when user requests skip
-- **COMPLETED WORDS**: Successfully created cards, moved only after Anki cards generated
+**NEW SYSTEM**: Programmatic JSON-based word queue generation from spanish_dictionary.json.
 
-**Queue Update Protocol:**
-1. **Skip Request**: Immediately move word from PENDING → SKIPPED with reason
-2. **Completion**: Move word from PENDING → COMPLETED only after successful Anki card creation
-3. **Format**: `word - meanings (X cards) - completion date`
+**word_queue.json Structure:**
+- **JSON array**: Simple list of Spanish words ordered by frequency
+- **Metadata**: Creation date, source, counts of excluded words
+- **Format**: `{"metadata": {...}, "words": ["word1", "word2", ...]}`
+
+**Word Queue Generation:**
+- **Command**: `python -m cli.generate_word_queue --count N`
+- **Source**: spanish_dictionary.json (frequency-ranked Spanish dictionary)
+- **Filtering**: Automatically excludes already processed and skipped words
+- **Deduplication**: Removes duplicate entries
+- **Quality**: Filters out English words and invalid entries
+
+**Usage Examples:**
+```bash
+source activate_env.sh
+python -m cli.generate_word_queue --count 100          # Generate 100 words
+python -m cli.generate_word_queue --count 50 --dry-run # Preview without creating file
+python -m cli.generate_word_queue --output my_queue.json --count 25  # Custom output file
+```
+
+**Integration:**
+- Claude should read from word_queue.json for next words to process
+- Words are selected in order from the "words" array
+- System automatically excludes words already in vocabulary.json
+- Regenerate queue when needed with fresh words
 
 ## SYSTEM FUNCTIONALITY (for Claude’s context)
 
@@ -372,6 +390,7 @@ source activate_env.sh
 
 # ⚠️ ⚠️ ⚠️ STEP 2: THEN RUN YOUR COMMANDS ⚠️ ⚠️ ⚠️
 
+- Generate word queue: `python -m cli.generate_word_queue --count 50 [--dry-run]`
 - Prepare staging: `python -m cli.prepare_claude_batch --words por,para`
 - Ingest (validate → execute):
   - `python -m cli.ingest_claude_batch --input staging/claude_batch_*.json --dry-run`
