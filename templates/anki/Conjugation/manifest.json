@@ -1,0 +1,24 @@
+{
+  "note_type": "Conjugation",
+  "templates": [
+    {
+      "name": "Card 1",
+      "front": "templates/Card1_Front.html",
+      "back": "templates/Card1_Back.html"
+    },
+    {
+      "name": "Card 2", 
+      "front": "templates/Card2_Front.html",
+      "back": "templates/Card2_Back.html"
+    }
+  ],
+  "css": "styling.css",
+  "fields": [
+    "Front",
+    "Back", 
+    "Add Reverse",
+    "Sentence",
+    "Extra",
+    "Picture"
+  ]
+}

@@ -1,0 +1,25 @@
+<div class="card-back">
+  <!-- Show front -->
+  {{FrontSide}}
+  
+  <hr id="answer">
+  
+  <!-- Example sentence with conjugated form -->
+  {{#Sentence}}
+  <div class="full-sentence">
+    {{Sentence}}
+  </div>
+  {{/Sentence}}
+  
+  <!-- The specific conjugated form -->
+  <div class="word-main">
+    <span class="spanish">{{Front}}</span>
+  </div>
+  
+  <!-- Extra context -->
+  {{#Extra}}
+  <div class="usage-note">
+    {{Extra}}
+  </div>
+  {{/Extra}}
+</div>

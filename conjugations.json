@@ -1,0 +1,54 @@
+{
+  "conjugations": {
+    "hablar_present_yo": {
+      "CardID": "hablar_present_yo",
+      "Front": "hablo",
+      "Back": "hablar", 
+      "Add Reverse": "1",
+      "Sentence": "Yo _____ español todos los días.",
+      "Extra": "Present tense, first person singular (I speak)",
+      "Picture": ""
+    },
+    "hablar_present_tu": {
+      "CardID": "hablar_present_tu", 
+      "Front": "hablas",
+      "Back": "hablar",
+      "Add Reverse": "1", 
+      "Sentence": "Tú _____ muy bien inglés.",
+      "Extra": "Present tense, second person singular (you speak)",
+      "Picture": ""
+    },
+    "comer_preterite_el": {
+      "CardID": "comer_preterite_el",
+      "Front": "comió",
+      "Back": "comer",
+      "Add Reverse": "1",
+      "Sentence": "Él _____ una manzana ayer.",
+      "Extra": "Preterite tense, third person singular (he ate)",
+      "Picture": ""
+    },
+    "vivir_future_nosotros": {
+      "CardID": "vivir_future_nosotros",
+      "Front": "viviremos", 
+      "Back": "vivir",
+      "Add Reverse": "1",
+      "Sentence": "Nosotros _____ en Madrid el próximo año.",
+      "Extra": "Future tense, first person plural (we will live)",
+      "Picture": ""
+    },
+    "ser_imperfect_ella": {
+      "CardID": "ser_imperfect_ella",
+      "Front": "era",
+      "Back": "ser", 
+      "Add Reverse": "1",
+      "Sentence": "Ella _____ muy inteligente cuando era niña.",
+      "Extra": "Imperfect tense, third person singular (she was)",
+      "Picture": ""
+    }
+  },
+  "metadata": {
+    "created": "2024-01-01T00:00:00Z",
+    "description": "Spanish verb conjugation practice cards following Fluent Forever methodology",
+    "total_cards": 5
+  }
+}

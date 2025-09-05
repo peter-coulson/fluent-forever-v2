@@ -1,0 +1,179 @@
+/* ========================================
+   FLUENT FOREVER ANKI TEMPLATE STYLING
+   ======================================== */
+
+/* ========================================
+   GENERAL CARD STYLING
+   ======================================== */
+.card {
+  font-family: -apple-system, BlinkMacSystemFont, 'Lucida Grande', 'Segoe UI', Arial, sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  background: transparent;
+  padding: 20px;
+  line-height: 1.4;
+}
+
+/* ========================================
+   CARD STRUCTURE
+   ======================================== */
+.card-front, .card-back {
+  /* Base styling inherited from .card */
+}
+
+/* ========================================
+   AUDIO CONTROLS
+   ======================================== */
+.audio-controls {
+  margin-bottom: 15px;
+}
+
+.audio-controls a {
+  margin: 0 5px;
+  padding: 8px 12px;
+  background: rgb(64, 64, 64);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+  border: 1px solid rgb(80, 80, 80);
+  transition: background-color 0.2s ease;
+}
+
+.audio-controls a:hover {
+  background: rgb(80, 80, 80);
+}
+
+.audio-back {
+  margin: 15px 0;
+}
+
+/* ========================================
+   IMAGE STYLING
+   ======================================== */
+.image-container {
+  margin: 20px 0;
+}
+
+.image-container img {
+  max-width: 400px;
+  max-height: 300px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgb(80, 80, 80);
+}
+
+.image-description {
+  margin-top: 8px;
+  font-size: 16px;
+  color: rgb(179, 179, 179);
+  font-style: italic;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* ========================================
+   WORD AND PRONUNCIATION
+   ======================================== */
+.word-main {
+  margin: 20px 0;
+  padding: 20px;
+  background: rgb(56, 56, 56);
+  color: white;
+  border-radius: 8px;
+  font-size: 24px;
+  border: 1px solid rgb(80, 80, 80);
+  border-left: 4px solid rgb(66, 133, 244);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.spanish {
+  font-weight: 600;
+  margin-right: 15px;
+  color: rgb(255, 255, 255);
+  font-size: 28px;
+}
+
+.ipa {
+  font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+  margin-left: 10px;
+  color: rgb(200, 200, 200);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+/* ========================================
+   SENTENCE STYLING
+   ======================================== */
+.full-sentence {
+  margin: 20px 0;
+  padding: 18px;
+  background: rgb(56, 56, 56);
+  border-radius: 8px;
+  font-size: 18px;
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  font-style: italic;
+  border: 1px solid rgb(80, 80, 80);
+  border-left: 4px solid rgb(234, 67, 53);
+}
+
+.gapped-sentence {
+  margin: 20px 0;
+  padding: 18px;
+  background: rgb(56, 56, 56);
+  border-radius: 8px;
+  font-size: 18px;
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+  border: 1px solid rgb(80, 80, 80);
+  border-left: 4px solid rgb(52, 168, 83);
+}
+
+/* ========================================
+   NOTES AND CONTEXT
+   ======================================== */
+.usage-note {
+  margin: 15px 0;
+  padding: 15px;
+  background: transparent;
+  border-left: 2px solid rgb(100, 100, 100);
+  border-radius: 4px;
+  color: rgb(179, 179, 179);
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ========================================
+   MOBILE RESPONSIVENESS
+   ======================================== */
+@media (max-width: 600px) {
+  .card {
+    padding: 15px;
+    font-size: 18px;
+  }
+  
+  .spanish {
+    font-size: 24px;
+  }
+  
+  .ipa {
+    font-size: 18px;
+    margin-left: 5px;
+    padding: 4px 12px;
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    max-height: 250px;
+  }
+  
+  .full-sentence,
+  .gapped-sentence {
+    font-size: 16px;
+  }
+}
+

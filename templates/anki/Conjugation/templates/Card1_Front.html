@@ -1,0 +1,25 @@
+<div class="card-front">
+  <!-- Context sentence with conjugated verb -->
+  {{#Sentence}}
+  <div class="gapped-sentence">
+    {{Sentence}}
+  </div>
+  {{/Sentence}}
+  
+  <!-- Picture for context -->
+  {{#Picture}}
+  <div class="image-container">
+    <img src="{{Picture}}">
+  </div>
+  {{/Picture}}
+  
+  <!-- The conjugated form to identify -->
+  <div class="word-main">
+    <span class="spanish">{{Front}}</span>
+  </div>
+  
+  <!-- Instruction -->
+  <div class="usage-note">
+    What is the infinitive form of this verb?
+  </div>
+</div>
