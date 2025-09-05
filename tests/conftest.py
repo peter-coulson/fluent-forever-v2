@@ -176,3 +176,117 @@ def setup_test_templates(tmp_path):
     (conj_templates_dir / 'Card1_Back.html').write_text('<div>{{Back}}</div>')
     
     return tmp_path
+
+
+# Validation Gate Fixtures
+
+@pytest.fixture
+def mock_external_apis():
+    """Mock external APIs for validation gates"""
+    with patch('apis.openai_client.OpenAIClient') as mock_openai, \
+         patch('apis.runware_client.RunwareClient') as mock_runware, \
+         patch('apis.forvo_client.ForvoClient') as mock_forvo, \
+         patch('apis.anki_client.AnkiClient') as mock_anki:
+        
+        # Configure OpenAI mock
+        mock_openai.return_value.generate_image.return_value = {
+            "success": True,
+            "image_url": "https://example.com/image.png"
+        }
+        
+        # Configure Runware mock  
+        mock_runware.return_value.generate_image.return_value = {
+            "success": True,
+            "image_url": "https://example.com/image.png"
+        }
+        
+        # Configure Forvo mock
+        mock_forvo.return_value.get_pronunciations.return_value = {
+            "success": True,
+            "pronunciations": [{"url": "https://example.com/audio.mp3"}]
+        }
+        
+        # Configure Anki mock
+        mock_anki.return_value.test_connection.return_value = True
+        mock_anki.return_value.get_deck_cards.return_value = Mock(success=True, data={})
+        
+        yield {
+            'openai': mock_openai.return_value,
+            'runware': mock_runware.return_value, 
+            'forvo': mock_forvo.return_value,
+            'anki': mock_anki.return_value
+        }
+
+
+@pytest.fixture
+def temp_workspace():
+    """Create temporary workspace for testing"""
+    import tempfile
+    import shutil
+    
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_path = Path(temp_dir)
+        
+        # Create required directories
+        (temp_path / 'src').mkdir()
+        (temp_path / 'staging').mkdir()
+        (temp_path / 'media').mkdir()
+        (temp_path / 'media' / 'images').mkdir()
+        (temp_path / 'media' / 'audio').mkdir()
+        
+        # Copy source code if needed for integration tests
+        project_root = Path(__file__).parent.parent
+        src_dir = project_root / 'src'
+        if src_dir.exists():
+            shutil.copytree(src_dir, temp_path / 'src', dirs_exist_ok=True)
+        
+        # Create minimal test files
+        create_test_config(temp_path)
+        create_test_vocabulary(temp_path)
+        
+        yield temp_path
+
+
+def create_test_config(temp_path: Path):
+    """Create minimal test config.json"""
+    config = {
+        "apis": {
+            "base": {"user_agent": "test", "timeout": 30, "max_retries": 3},
+            "anki": {"url": "http://localhost:8765", "deck_name": "Test", "note_type": "Fluent Forever"}
+        },
+        "validation": {
+            "vocabulary_schema": {
+                "metadata": {"required_fields": ["created", "last_updated", "total_words", "total_cards", "source"]},
+                "word_entry": {"required_fields": ["word", "processed_date", "meanings", "cards_created"]},
+                "meaning_entry": {"required_fields": ["CardID", "SpanishWord", "IPA", "MeaningContext", "MonolingualDef", "ExampleSentence", "GappedSentence", "ImageFile", "WordAudio", "WordAudioAlt", "UsageNote", "MeaningID", "prompt"]}
+            },
+            "field_patterns": {
+                "CardID": "^[a-záéíóúñü_0-9]+$",
+                "SpanishWord": "^[a-záéíóúñü]+$",
+                "IPA": "^\\[.*\\]$|^/.*/$"
+            }
+        },
+        "paths": {"media_folder": "media", "vocabulary_db": "vocabulary.json"},
+        "media_generation": {"max_new_items": 5}
+    }
+    
+    with open(temp_path / 'config.json', 'w', encoding='utf-8') as f:
+        json.dump(config, f, ensure_ascii=False, indent=2)
+
+
+def create_test_vocabulary(temp_path: Path):
+    """Create minimal test vocabulary.json"""
+    vocabulary = {
+        "metadata": {
+            "created": "2025-01-01",
+            "last_updated": "2025-01-01T00:00:00.000000",
+            "total_words": 0,
+            "total_cards": 0,
+            "source": "test"
+        },
+        "skipped_words": [],
+        "words": {}
+    }
+    
+    with open(temp_path / 'vocabulary.json', 'w', encoding='utf-8') as f:
+        json.dump(vocabulary, f, ensure_ascii=False, indent=2)
