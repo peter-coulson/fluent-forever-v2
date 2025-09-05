@@ -40,10 +40,11 @@ def main() -> int:
         "metadata": {
             "created": datetime.now().isoformat(),
             "source": "claude-staging",
-            "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+            "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry). Add any words to skip to the 'skipped_words' array."
         },
         "words": words,
-        "meanings": []
+        "meanings": [],
+        "skipped_words": []
     }
 
     out_path.write_text(json.dumps(doc, ensure_ascii=False, indent=2), encoding='utf-8')

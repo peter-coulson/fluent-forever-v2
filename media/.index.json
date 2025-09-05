@@ -652,5 +652,35 @@
     "prompt_hash": "c5586671b9a3dd88",
     "provider": "runware",
     "created_at": 1756394677.0036879
+  },
+  "bueno_good_quality.png": {
+    "word": "bueno",
+    "prompt_hash": "946148ae6b64f2bb",
+    "provider": "runware",
+    "created_at": 1757097109.4124658
+  },
+  "bueno_well_okay.png": {
+    "word": "bueno",
+    "prompt_hash": "41c57c9de56bb8b6",
+    "provider": "runware",
+    "created_at": 1757097114.1201768
+  },
+  "entre_between_among.png": {
+    "word": "entre",
+    "prompt_hash": "fb85b65cf0ab0e52",
+    "provider": "runware",
+    "created_at": 1757097118.5766132
+  },
+  "sólo_alone.png": {
+    "word": "sólo",
+    "prompt_hash": "c094777001530eb0",
+    "provider": "runware",
+    "created_at": 1757097123.207338
+  },
+  "sólo_only_just.png": {
+    "word": "sólo",
+    "prompt_hash": "c34454da58bc93f1",
+    "provider": "runware",
+    "created_at": 1757097128.380279
   }
 }

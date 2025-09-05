@@ -1,10 +1,10 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-08-28T12:01:07.024006",
-    "total_words": 80,
-    "total_cards": 155,
-    "total_skipped": 18,
+    "last_updated": "2025-09-05T13:39:44.070527",
+    "total_words": 82,
+    "total_cards": 159,
+    "total_skipped": 22,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -27,7 +27,11 @@
     "bien",
     "hombre",
     "estar",
-    "se"
+    "se",
+    "ti",
+    "te",
+    "tu",
+    "eh"
   ],
   "words": {
     "ser": {
@@ -2892,6 +2896,102 @@
         }
       ],
       "cards_created": 1
+    },
+    "entre": {
+      "word": "entre",
+      "processed_date": "2025-09-05T13:31:31.614126",
+      "meanings": [
+        {
+          "SpanishWord": "entre",
+          "MeaningID": "between_among",
+          "MeaningContext": "between/among",
+          "MonolingualDef": "preposición que indica posición o relación en medio de dos o más elementos",
+          "ExampleSentence": "El niño rubio está atrapado entre la roca y el acantilado.",
+          "GappedSentence": "El niño rubio está atrapado _____ la roca y el acantilado.",
+          "IPA": "[ˈen.tɾe]",
+          "prompt": "A blond boy with blue eyes stuck between a large rock and a hard cliff.",
+          "CardID": "entre_between_among",
+          "ImageFile": "entre_between_among.png",
+          "WordAudio": "[sound:entre.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "sólo": {
+      "word": "sólo",
+      "processed_date": "2025-09-05T13:31:31.614142",
+      "meanings": [
+        {
+          "SpanishWord": "sólo",
+          "MeaningID": "only_just",
+          "MeaningContext": "only/just",
+          "MonolingualDef": "adverbio que indica limitación de cantidad o restricción de alcance",
+          "ExampleSentence": "Los niños sólo tienen un pastelito para compartir.",
+          "GappedSentence": "Los niños _____ tienen un pastelito para compartir.",
+          "IPA": "[ˈso.lo]",
+          "prompt": "A blond boy and a ginger girl both looking at a delicious cupcake sat on the table between them.",
+          "CardID": "sólo_only_just",
+          "ImageFile": "sólo_only_just.png",
+          "WordAudio": "[sound:sólo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "sólo",
+          "MeaningID": "alone",
+          "MeaningContext": "alone",
+          "MonolingualDef": "adjetivo que describe estar sin compañía o aislado de otros",
+          "ExampleSentence": "El hombre calvo está solo en el banco de la colina.",
+          "GappedSentence": "El hombre calvo está _____ en el banco de la colina.",
+          "IPA": "[ˈso.lo]",
+          "prompt": "A bald man of 20 with small round glasses, blue eyes, and a red jumper, sitting on a bench on a hill in England.",
+          "CardID": "sólo_alone",
+          "ImageFile": "sólo_alone.png",
+          "WordAudio": "[sound:sólo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "bueno": {
+      "word": "bueno",
+      "processed_date": "2025-09-05T13:31:31.614146",
+      "meanings": [
+        {
+          "SpanishWord": "bueno",
+          "MeaningID": "good_quality",
+          "MeaningContext": "good",
+          "MonolingualDef": "adjetivo que expresa cualidad positiva o evaluación favorable",
+          "ExampleSentence": "Jesús es una persona muy buena que ayuda al necesitado.",
+          "GappedSentence": "Jesús es una persona muy _____ que ayuda al necesitado.",
+          "IPA": "[ˈbwe.no]",
+          "prompt": "Jesus surrounded by his disciples as he heals a cripple in Jerusalem.",
+          "CardID": "bueno_good_quality",
+          "ImageFile": "bueno_good_quality.png",
+          "WordAudio": "[sound:bueno.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "bueno",
+          "MeaningID": "well_okay",
+          "MeaningContext": "well/okay",
+          "MonolingualDef": "interjección usada para iniciar conversación o mostrar acuerdo suave",
+          "ExampleSentence": "Bueno, los dos hombres se dan la mano como amigos.",
+          "GappedSentence": "_____, los dos hombres se dan la mano como amigos.",
+          "IPA": "[ˈbwe.no]",
+          "prompt": "A guy with long dark hair shaking hands with a guy with long blond hair in the hills in England.",
+          "CardID": "bueno_well_okay",
+          "ImageFile": "bueno_well_okay.png",
+          "WordAudio": "[sound:bueno.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
     }
   }
 }
