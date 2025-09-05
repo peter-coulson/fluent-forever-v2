@@ -2,18 +2,14 @@
   "metadata": {
     "created": "2025-09-05T14:26:50.569892",
     "source": "spanish_dictionary.json",
-    "total_words": 46,
+    "total_words": 42,
     "excluded_processed": 88,
     "excluded_skipped": 24,
-    "last_updated": "2025-09-05T14:34:10.624516",
-    "removed_batch_processing": 4
+    "last_updated": "2025-09-05T14:41:36.237068",
+    "removed_batch_processing": 8
   },
   "words": [
-    "mujer",
-    "momento",
     "llamar",
-    "mundo",
-    "claro",
     "mirar",
     "mientras",
     "conocer",

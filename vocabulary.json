@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-09-05T14:34:10.622220",
-    "total_words": 92,
-    "total_cards": 172,
+    "last_updated": "2025-09-05T14:41:36.234962",
+    "total_words": 96,
+    "total_cards": 176,
     "total_skipped": 24,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
@@ -3259,6 +3259,94 @@
         }
       ],
       "cards_created": 2
+    },
+    "mujer": {
+      "word": "mujer",
+      "processed_date": "2025-09-05T14:41:36.234939",
+      "meanings": [
+        {
+          "SpanishWord": "mujer",
+          "MeaningID": "adult_female",
+          "MeaningContext": "adult female person",
+          "MonolingualDef": "persona adulta de sexo femenino",
+          "ExampleSentence": "La mujer abraza a otra mujer en el jardín.",
+          "GappedSentence": "La _____ abraza a otra mujer en el jardín.",
+          "IPA": "[mu.ˈxeɾ]",
+          "prompt": "A woman of 50 with short dark hair, hugging another woman of 24 with long ginger hair",
+          "CardID": "mujer_adult_female",
+          "ImageFile": "mujer_adult_female.png",
+          "WordAudio": "[sound:mujer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "momento": {
+      "word": "momento",
+      "processed_date": "2025-09-05T14:41:36.234955",
+      "meanings": [
+        {
+          "SpanishWord": "momento",
+          "MeaningID": "point_in_time",
+          "MeaningContext": "point in time/instant",
+          "MonolingualDef": "período breve o punto específico en el tiempo",
+          "ExampleSentence": "En ese momento, un rayo ilumina todo el valle.",
+          "GappedSentence": "En ese _____, un rayo ilumina todo el valle.",
+          "IPA": "[mo.ˈmen.to]",
+          "prompt": "A dark stormy sky on a hill, a large flash of lighting illuminating the valley below",
+          "CardID": "momento_point_in_time",
+          "ImageFile": "momento_point_in_time.png",
+          "WordAudio": "[sound:momento.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "mundo": {
+      "word": "mundo",
+      "processed_date": "2025-09-05T14:41:36.234958",
+      "meanings": [
+        {
+          "SpanishWord": "mundo",
+          "MeaningID": "world_earth",
+          "MeaningContext": "world/Earth",
+          "MonolingualDef": "el planeta Tierra y todo lo que existe en él",
+          "ExampleSentence": "Desde el espacio, el mundo se ve mitad día y mitad noche.",
+          "GappedSentence": "Desde el espacio, el _____ se ve mitad día y mitad noche.",
+          "IPA": "[ˈmun.do]",
+          "prompt": "The view of the earth from space, half in day half in night with the moon small in the background",
+          "CardID": "mundo_world_earth",
+          "ImageFile": "mundo_world_earth.png",
+          "WordAudio": "[sound:mundo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "claro": {
+      "word": "claro",
+      "processed_date": "2025-09-05T14:41:36.234960",
+      "meanings": [
+        {
+          "SpanishWord": "claro",
+          "MeaningID": "clear_transparent",
+          "MeaningContext": "clear/light",
+          "MonolingualDef": "transparente, brillante o de color claro",
+          "ExampleSentence": "El agua del mar está muy clara y se ve todo el fondo.",
+          "GappedSentence": "El agua del mar está muy _____ y se ve todo el fondo.",
+          "IPA": "[ˈkla.ɾo]",
+          "prompt": "A birds eye view of the sea in a cove, the water perfectly clear seeing everything on the seabed",
+          "CardID": "claro_clear_transparent",
+          "ImageFile": "claro_clear_transparent.png",
+          "WordAudio": "[sound:claro.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
     }
   }
 }

@@ -760,5 +760,29 @@
     "prompt_hash": "ae029b05c4611c36",
     "provider": "runware",
     "created_at": 1757100891.595207
+  },
+  "claro_clear_transparent.png": {
+    "word": "claro",
+    "prompt_hash": "f0cd97a73cba2e14",
+    "provider": "runware",
+    "created_at": 1757101312.761912
+  },
+  "momento_point_in_time.png": {
+    "word": "momento",
+    "prompt_hash": "d07b44f5cb84c64b",
+    "provider": "runware",
+    "created_at": 1757101317.317087
+  },
+  "mujer_adult_female.png": {
+    "word": "mujer",
+    "prompt_hash": "4da3756c0a1b9245",
+    "provider": "runware",
+    "created_at": 1757101321.6900978
+  },
+  "mundo_world_earth.png": {
+    "word": "mundo",
+    "prompt_hash": "a7ea139735994a9d",
+    "provider": "runware",
+    "created_at": 1757101326.107915
   }
 }
