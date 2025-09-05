@@ -245,7 +245,7 @@ class TestMainFunction:
         # Mock the project root calculation
         with patch('cli.sync_anki_multi.Path') as mock_path_class:
             mock_path_obj = Mock()
-            mock_path_obj.parents = [tmp_path, tmp_path.parent]
+            mock_path_obj.parents = [tmp_path, tmp_path.parent, tmp_path.parent.parent]
             mock_path_class.return_value = mock_path_obj
             mock_path_class.__file__ = 'dummy'
             
@@ -294,7 +294,7 @@ class TestMainFunction:
         
         # Mock sync results: 2 success, 1 failure
         mock_sync.side_effect = [True, False, True]
-        mock_path.return_value.parents = [Mock(), Mock()]
+        mock_path.return_value.parents = [Mock(), Mock(), Mock("/fake/project/root")]
         
         result = main()
         
@@ -321,7 +321,7 @@ class TestMainFunction:
         mock_registry.return_value = mock_reg
         
         mock_sync.return_value = True  # All syncs succeed
-        mock_path.return_value.parents = [Mock(), Mock()]
+        mock_path.return_value.parents = [Mock(), Mock(), Mock("/fake/project/root")]
         
         result = main()
         
@@ -349,7 +349,7 @@ class TestMainFunction:
         
         # Mock sync to raise exception
         mock_sync.side_effect = Exception("Unexpected error")
-        mock_path.return_value.parents = [Mock(), Mock()]
+        mock_path.return_value.parents = [Mock(), Mock(), Mock("/fake/project/root")]
         
         result = main()
         

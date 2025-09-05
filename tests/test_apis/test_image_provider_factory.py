@@ -3,6 +3,7 @@
 Unit tests for ImageProviderFactory
 """
 
+import os
 import pytest
 from unittest.mock import Mock, patch, MagicMock
 from apis.image_provider_factory import ImageProviderFactory, create_image_client
@@ -34,38 +35,31 @@ class TestImageProviderFactory:
         assert ImageProviderFactory.validate_provider("") is False
         assert ImageProviderFactory.validate_provider("midjourney") is False
 
-    @patch('apis.image_provider_factory.OpenAIClient')
-    def test_create_openai_client(self, mock_openai_class):
+    def test_create_openai_client(self):
         """Test creating OpenAI client"""
         mock_client = Mock()
-        mock_openai_class.return_value = mock_client
         
-        client = ImageProviderFactory.create_client("openai")
-        
-        assert client == mock_client
-        mock_openai_class.assert_called_once()
+        with patch.dict(ImageProviderFactory._PROVIDERS, {'openai': Mock(return_value=mock_client)}):
+            client = ImageProviderFactory.create_client("openai")
+            assert client == mock_client
 
-    @patch('apis.image_provider_factory.RunwareClient')
-    def test_create_runware_client(self, mock_runware_class):
+    def test_create_runware_client(self):
         """Test creating Runware client"""
         mock_client = Mock()
-        mock_runware_class.return_value = mock_client
         
-        client = ImageProviderFactory.create_client("runware")
-        
-        assert client == mock_client
-        mock_runware_class.assert_called_once()
+        with patch.dict(ImageProviderFactory._PROVIDERS, {'runware': Mock(return_value=mock_client)}):
+            client = ImageProviderFactory.create_client("runware")
+            assert client == mock_client
 
-    @patch('apis.image_provider_factory.OpenAIClient')
-    def test_create_client_case_insensitive(self, mock_openai_class):
+    def test_create_client_case_insensitive(self):
         """Test creating client with case insensitive provider name"""
         mock_client = Mock()
-        mock_openai_class.return_value = mock_client
         
-        # Test various case combinations
-        for provider_name in ["OpenAI", "OPENAI", "openAI", "OpEnAi"]:
-            client = ImageProviderFactory.create_client(provider_name)
-            assert client == mock_client
+        with patch.dict(ImageProviderFactory._PROVIDERS, {'openai': Mock(return_value=mock_client)}):
+            # Test various case combinations
+            for provider_name in ["OpenAI", "OPENAI", "openAI", "OpEnAi"]:
+                client = ImageProviderFactory.create_client(provider_name)
+                assert client == mock_client
 
     def test_create_client_unsupported_provider(self):
         """Test creating client with unsupported provider"""
@@ -75,43 +69,42 @@ class TestImageProviderFactory:
         assert "Unsupported image provider" in str(exc_info.value)
         assert "Available:" in str(exc_info.value)
 
-    @patch('apis.image_provider_factory.OpenAIClient')
-    def test_create_client_initialization_error(self, mock_openai_class):
+    def test_create_client_initialization_error(self):
         """Test handling of client initialization errors"""
-        mock_openai_class.side_effect = Exception("API key missing")
+        mock_class = Mock(side_effect=Exception("API key missing"))
         
-        with pytest.raises(Exception) as exc_info:
-            ImageProviderFactory.create_client("openai")
-        
-        assert "API key missing" in str(exc_info.value)
+        with patch.dict(ImageProviderFactory._PROVIDERS, {'openai': mock_class}):
+            with pytest.raises(Exception) as exc_info:
+                ImageProviderFactory.create_client("openai")
+            
+            assert "API key missing" in str(exc_info.value)
 
     @patch('apis.image_provider_factory.logger')
-    @patch('apis.image_provider_factory.OpenAIClient')
-    def test_create_client_logs_success(self, mock_openai_class, mock_logger):
+    def test_create_client_logs_success(self, mock_logger):
         """Test that successful client creation is logged"""
         mock_client = Mock()
-        mock_openai_class.return_value = mock_client
         
-        client = ImageProviderFactory.create_client("openai")
-        
-        # Check that info log was called (success message)
-        mock_logger.info.assert_called()
-        log_call = mock_logger.info.call_args[0][0]
-        assert "Created openai image client" in log_call
+        with patch.dict(ImageProviderFactory._PROVIDERS, {'openai': Mock(return_value=mock_client)}):
+            client = ImageProviderFactory.create_client("openai")
+            
+            # Check that info log was called (success message)
+            mock_logger.info.assert_called()
+            log_call = mock_logger.info.call_args[0][0]
+            assert "Created openai image client" in log_call
 
     @patch('apis.image_provider_factory.logger')
-    @patch('apis.image_provider_factory.OpenAIClient')
-    def test_create_client_logs_failure(self, mock_openai_class, mock_logger):
+    def test_create_client_logs_failure(self, mock_logger):
         """Test that failed client creation is logged"""
-        mock_openai_class.side_effect = Exception("Test error")
+        mock_class = Mock(side_effect=Exception("Test error"))
         
-        with pytest.raises(Exception):
-            ImageProviderFactory.create_client("openai")
-        
-        # Check that error log was called
-        mock_logger.error.assert_called()
-        log_call = mock_logger.error.call_args[0][0]
-        assert "Failed to create openai client" in log_call
+        with patch.dict(ImageProviderFactory._PROVIDERS, {'openai': mock_class}):
+            with pytest.raises(Exception):
+                ImageProviderFactory.create_client("openai")
+            
+            # Check that error log was called
+            mock_logger.error.assert_called()
+            log_call = mock_logger.error.call_args[0][0]
+            assert "Failed to create openai client" in log_call
 
 
 class TestCreateImageClientFunction:

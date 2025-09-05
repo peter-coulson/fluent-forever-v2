@@ -57,7 +57,7 @@ def test_prepare_and_ingest(tmp_path, monkeypatch):
         }]
         s_path.write_text(json.dumps(s, ensure_ascii=False, indent=2), encoding='utf-8')
         # Ingest
-        with patch('sys.argv', ['ingest_claude_batch', '--input', str(s_path)]):
+        with patch('sys.argv', ['ingest_claude_batch', '--input', str(s_path), '--no-update-word-queue']):
             assert ingest_main() == 0
         vocab = json.loads((tmp_path / 'vocabulary.json').read_text(encoding='utf-8'))
         assert 'con' in vocab['words']

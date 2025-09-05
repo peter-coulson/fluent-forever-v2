@@ -135,12 +135,14 @@ class TestRunwareClient:
         
         client = RunwareClient()
         
-        # Mock successful API response
-        mock_response_data = [{
-            "taskType": "imageInference",
-            "taskUUID": "test-uuid",
-            "imageURL": "https://example.com/image.png"
-        }]
+        # Mock successful API response (match the expected format from implementation)
+        mock_response_data = {
+            "data": [{
+                "taskType": "imageInference",
+                "taskUUID": "test-uuid",
+                "imageURL": "https://example.com/image.png"
+            }]
+        }
         
         with patch.object(client, '_make_request') as mock_request, \
              patch.object(client, '_download_image') as mock_download, \
@@ -213,10 +215,12 @@ class TestRunwareClient:
         
         client = RunwareClient()
         
-        mock_response_data = [{
-            "taskType": "imageInference",
-            "error": "Model not available"
-        }]
+        mock_response_data = {
+            "data": [{
+                "taskType": "error", 
+                "error": "Model not available"
+            }]
+        }
         
         with patch.object(client, '_make_request') as mock_request:
             mock_request.return_value = APIResponse(success=True, data=mock_response_data)

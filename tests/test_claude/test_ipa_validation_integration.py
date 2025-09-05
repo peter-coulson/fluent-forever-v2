@@ -127,7 +127,7 @@ class TestIPAValidationIntegration:
         
         # Mock the IPA validation to return True (valid)
         with patch('cli.ingest_claude_batch.validate_spanish_ipa', return_value=True) as mock_validate:
-            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file)]):
+            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file), '--no-update-word-queue']):
                 with patch('os.getcwd', return_value=str(tmp_path)):
                     result = ingest_main()
         
@@ -153,7 +153,7 @@ class TestIPAValidationIntegration:
         
         # Mock the IPA validation to return False (invalid)
         with patch('cli.ingest_claude_batch.validate_spanish_ipa', return_value=False) as mock_validate:
-            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file)]):
+            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file), '--no-update-word-queue']):
                 with patch('os.getcwd', return_value=str(tmp_path)):
                     result = ingest_main()
         
@@ -178,7 +178,7 @@ class TestIPAValidationIntegration:
         
         # Mock the IPA validation to return False, but skip validation should bypass it
         with patch('cli.ingest_claude_batch.validate_spanish_ipa', return_value=False) as mock_validate:
-            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file), '--skip-ipa-validation']):
+            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file), '--skip-ipa-validation', '--no-update-word-queue']):
                 with patch('os.getcwd', return_value=str(tmp_path)):
                     result = ingest_main()
         
@@ -203,7 +203,7 @@ class TestIPAValidationIntegration:
         
         # Mock the IPA validation to return True
         with patch('cli.ingest_claude_batch.validate_spanish_ipa', return_value=True) as mock_validate:
-            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file)]):
+            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file), '--no-update-word-queue']):
                 with patch('os.getcwd', return_value=str(tmp_path)):
                     result = ingest_main()
         
@@ -228,7 +228,7 @@ class TestIPAValidationIntegration:
         
         # Mock the IPA validation to raise an exception
         with patch('cli.ingest_claude_batch.validate_spanish_ipa', side_effect=Exception("Dictionary error")) as mock_validate:
-            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file)]):
+            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file), '--no-update-word-queue']):
                 with patch('os.getcwd', return_value=str(tmp_path)):
                     result = ingest_main()
         
@@ -280,7 +280,7 @@ class TestIPAValidationIntegration:
         
         # Mock the IPA validation to return False for both
         with patch('cli.ingest_claude_batch.validate_spanish_ipa', return_value=False) as mock_validate:
-            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file)]):
+            with patch('sys.argv', ['ingest_claude_batch', '--input', str(staging_file), '--no-update-word-queue']):
                 with patch('os.getcwd', return_value=str(tmp_path)):
                     result = ingest_main()
         
