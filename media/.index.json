@@ -730,5 +730,35 @@
     "prompt_hash": "f5e4be561c267d8d",
     "provider": "runware",
     "created_at": 1757099984.0370119
+  },
+  "forma_method.png": {
+    "word": "forma",
+    "prompt_hash": "47f3e20433f8e0d9",
+    "provider": "runware",
+    "created_at": 1757100872.421428
+  },
+  "forma_shape.png": {
+    "word": "forma",
+    "prompt_hash": "bffa5875fe06caa6",
+    "provider": "runware",
+    "created_at": 1757100876.955536
+  },
+  "mejor_better.png": {
+    "word": "mejor",
+    "prompt_hash": "83f728aca97a80c8",
+    "provider": "runware",
+    "created_at": 1757100882.08531
+  },
+  "salir_leave.png": {
+    "word": "salir",
+    "prompt_hash": "17a24289e7cf9e36",
+    "provider": "runware",
+    "created_at": 1757100887.089801
+  },
+  "venir_arrive.png": {
+    "word": "venir",
+    "prompt_hash": "ae029b05c4611c36",
+    "provider": "runware",
+    "created_at": 1757100891.595207
   }
 }

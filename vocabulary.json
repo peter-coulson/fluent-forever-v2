@@ -1,9 +1,9 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-09-05T14:19:09.478368",
-    "total_words": 88,
-    "total_cards": 167,
+    "last_updated": "2025-09-05T14:34:10.622220",
+    "total_words": 92,
+    "total_cards": 172,
     "total_skipped": 24,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
@@ -3151,6 +3151,109 @@
           "CardID": "volver_repeat",
           "ImageFile": "volver_repeat.png",
           "WordAudio": "[sound:volver.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "salir": {
+      "word": "salir",
+      "processed_date": "2025-09-05T14:34:10.622202",
+      "meanings": [
+        {
+          "SpanishWord": "salir",
+          "MeaningID": "leave",
+          "MeaningContext": "partir/irse",
+          "MonolingualDef": "partir o irse de un lugar",
+          "ExampleSentence": "El niño rubio sale en el ferry grande de Dover a Francia mirando hacia el Reino Unido.",
+          "GappedSentence": "El niño rubio _____ en el ferry grande de Dover a Francia mirando hacia el Reino Unido.",
+          "IPA": "[sa.ˈliɾ]",
+          "prompt": "A blond boy on a large ferry from Dover to France looking back towards the UK",
+          "CardID": "salir_leave",
+          "ImageFile": "salir_leave.png",
+          "WordAudio": "[sound:salir.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "mejor": {
+      "word": "mejor",
+      "processed_date": "2025-09-05T14:34:10.622214",
+      "meanings": [
+        {
+          "SpanishWord": "mejor",
+          "MeaningID": "better",
+          "MeaningContext": "superior/comparativo",
+          "MonolingualDef": "de calidad superior, más bueno que otra cosa",
+          "ExampleSentence": "Messi con la camiseta de Argentina es el mejor jugador anotando el gol ganador en la copa del mundo.",
+          "GappedSentence": "Messi con la camiseta de Argentina es el _____ jugador anotando el gol ganador en la copa del mundo.",
+          "IPA": "[me.ˈxoɾ]",
+          "prompt": "Messi in an Argentina shirt scoring the winning goal in the world cup",
+          "CardID": "mejor_better",
+          "ImageFile": "mejor_better.png",
+          "WordAudio": "[sound:mejor.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "venir": {
+      "word": "venir",
+      "processed_date": "2025-09-05T14:34:10.622217",
+      "meanings": [
+        {
+          "SpanishWord": "venir",
+          "MeaningID": "arrive",
+          "MeaningContext": "llegar/acercarse",
+          "MonolingualDef": "llegar o acercarse hacia donde está el hablante",
+          "ExampleSentence": "Un hombre calvo de 20 años en la plataforma con un amigo más bajo y robusto de cabello negro saluda a dos amigos que vienen en el tren.",
+          "GappedSentence": "Un hombre calvo de 20 años en la plataforma con un amigo más bajo y robusto de cabello negro saluda a dos amigos que _____ en el tren.",
+          "IPA": "[be.ˈniɾ]",
+          "prompt": "A bald guy of 20 at the station platform with a shorter larger guy with black hair waving at two male friends arriving on the train",
+          "CardID": "venir_arrive",
+          "ImageFile": "venir_arrive.png",
+          "WordAudio": "[sound:venir.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "forma": {
+      "word": "forma",
+      "processed_date": "2025-09-05T14:34:10.622218",
+      "meanings": [
+        {
+          "SpanishWord": "forma",
+          "MeaningID": "shape",
+          "MeaningContext": "figura/configuración",
+          "MonolingualDef": "configuración externa de un objeto, su apariencia física",
+          "ExampleSentence": "La forma de la estatua del David de Miguel Ángel es perfecta.",
+          "GappedSentence": "La _____ de la estatua del David de Miguel Ángel es perfecta.",
+          "IPA": "[ˈfoɾ.ma]",
+          "prompt": "The statue of David by michelangelo",
+          "CardID": "forma_shape",
+          "ImageFile": "forma_shape.png",
+          "WordAudio": "[sound:forma.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "forma",
+          "MeaningID": "method",
+          "MeaningContext": "manera/método",
+          "MonolingualDef": "manera o método de hacer algo",
+          "ExampleSentence": "Un hombre calvo de 25 años aprende una forma de bailar salsa con el instructor en un salón con paredes negras y una bola de disco.",
+          "GappedSentence": "Un hombre calvo de 25 años aprende una _____ de bailar salsa con el instructor en un salón con paredes negras y una bola de disco.",
+          "IPA": "[ˈfoɾ.ma]",
+          "prompt": "A bald guy of 25 with a dance instructor learning Salsa in a room with black walls and a disco ball",
+          "CardID": "forma_method",
+          "ImageFile": "forma_method.png",
+          "WordAudio": "[sound:forma.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }
