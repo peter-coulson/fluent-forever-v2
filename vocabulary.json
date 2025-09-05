@@ -1,10 +1,10 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-09-05T13:39:44.070527",
-    "total_words": 82,
-    "total_cards": 159,
-    "total_skipped": 22,
+    "last_updated": "2025-09-05T14:19:09.478368",
+    "total_words": 88,
+    "total_cards": 167,
+    "total_skipped": 24,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -31,7 +31,9 @@
     "ti",
     "te",
     "tu",
-    "eh"
+    "eh",
+    "esto",
+    "no"
   ],
   "words": {
     "ser": {
@@ -2987,6 +2989,168 @@
           "CardID": "bueno_well_okay",
           "ImageFile": "bueno_well_okay.png",
           "WordAudio": "[sound:bueno.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "pensar": {
+      "word": "pensar",
+      "processed_date": "2025-09-05T14:08:13.265700",
+      "meanings": [
+        {
+          "SpanishWord": "pensar",
+          "MeaningID": "mental_process",
+          "MeaningContext": "proceso mental",
+          "MonolingualDef": "usar la mente para formar ideas o tomar decisiones",
+          "ExampleSentence": "El niño rubio piensa mucho durante el examen.",
+          "GappedSentence": "El niño rubio _____ mucho durante el examen.",
+          "IPA": "[pen.ˈsaɾ]",
+          "prompt": "A blond boy in a large school exam with his own desk thinking very hard.",
+          "CardID": "pensar_mental_process",
+          "ImageFile": "pensar_mental_process.png",
+          "WordAudio": "[sound:pensar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "casa": {
+      "word": "casa",
+      "processed_date": "2025-09-05T14:08:13.265713",
+      "meanings": [
+        {
+          "SpanishWord": "casa",
+          "MeaningID": "dwelling",
+          "MeaningContext": "vivienda",
+          "MonolingualDef": "edificio donde vive una familia",
+          "ExampleSentence": "La casa grande está en la colina del bosque.",
+          "GappedSentence": "La _____ grande está en la colina del bosque.",
+          "IPA": "[ˈka.sa]",
+          "prompt": "A large house on top of a hill with a forest either side and a long winding road approaching.",
+          "CardID": "casa_dwelling",
+          "ImageFile": "casa_dwelling.png",
+          "WordAudio": "[sound:casa.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "persona": {
+      "word": "persona",
+      "processed_date": "2025-09-05T14:08:13.265716",
+      "meanings": [
+        {
+          "SpanishWord": "persona",
+          "MeaningID": "individual",
+          "MeaningContext": "individuo humano",
+          "MonolingualDef": "ser humano individual",
+          "ExampleSentence": "Una persona está sola en la multitud.",
+          "GappedSentence": "Una _____ está sola en la multitud.",
+          "IPA": "[peɾ.ˈso.na]",
+          "prompt": "A stick man in a very large crowd with a small space around them on a white background.",
+          "CardID": "persona_individual",
+          "ImageFile": "persona_individual.png",
+          "WordAudio": "[sound:persona.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "país": {
+      "word": "país",
+      "processed_date": "2025-09-05T14:08:13.265718",
+      "meanings": [
+        {
+          "SpanishWord": "país",
+          "MeaningID": "nation",
+          "MeaningContext": "nación",
+          "MonolingualDef": "territorio con gobierno propio",
+          "ExampleSentence": "El país tiene su bandera en el mapa.",
+          "GappedSentence": "El _____ tiene su bandera en el mapa.",
+          "IPA": "[pa.ˈis]",
+          "prompt": "A large map of England with the English flag on the top of the country.",
+          "CardID": "país_nation",
+          "ImageFile": "país_nation.png",
+          "WordAudio": "[sound:país.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "algo": {
+      "word": "algo",
+      "processed_date": "2025-09-05T14:19:09.478351",
+      "meanings": [
+        {
+          "SpanishWord": "algo",
+          "MeaningID": "something",
+          "MeaningContext": "pronombre indefinido",
+          "MonolingualDef": "una cosa no especificada o desconocida",
+          "ExampleSentence": "El padre necesita algo de la ferretería.",
+          "GappedSentence": "El padre necesita _____ de la ferretería.",
+          "IPA": "[ˈal.go]",
+          "prompt": "A car outside of a hardware store with a blond boy waiting in the passenger whilst his father goes into the store",
+          "CardID": "algo_something",
+          "ImageFile": "algo_something.png",
+          "WordAudio": "[sound:algo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "algo",
+          "MeaningID": "somewhat",
+          "MeaningContext": "adverbio de grado",
+          "MonolingualDef": "un poco, en cierto grado",
+          "ExampleSentence": "El niño está algo frío bajo la lluvia.",
+          "GappedSentence": "El niño está _____ frío bajo la lluvia.",
+          "IPA": "[ˈal.go]",
+          "prompt": "A blond boy on the side of a grass local football pitch in the rain in football kit in the rain (somewhat cold)",
+          "CardID": "algo_somewhat",
+          "ImageFile": "algo_somewhat.png",
+          "WordAudio": "[sound:algo.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "volver": {
+      "word": "volver",
+      "processed_date": "2025-09-05T14:19:09.478365",
+      "meanings": [
+        {
+          "SpanishWord": "volver",
+          "MeaningID": "return",
+          "MeaningContext": "regresar a un lugar",
+          "MonolingualDef": "ir o venir de nuevo a un lugar donde se estuvo antes",
+          "ExampleSentence": "El niño vuelve a casa con sus maletas.",
+          "GappedSentence": "El niño _____ a casa con sus maletas.",
+          "IPA": "[bol.ˈβeɾ]",
+          "prompt": "A blond boy with many suitcases on the front step of a brick house in a street in england",
+          "CardID": "volver_return",
+          "ImageFile": "volver_return.png",
+          "WordAudio": "[sound:volver.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "volver",
+          "MeaningID": "repeat",
+          "MeaningContext": "hacer de nuevo",
+          "MonolingualDef": "hacer otra vez una acción (volver a + infinitivo)",
+          "ExampleSentence": "El niño va a volver a intentar el salto.",
+          "GappedSentence": "El niño va a _____ a intentar el salto.",
+          "IPA": "[bol.ˈβeɾ]",
+          "prompt": "A boy with skis fallen over at the bottom of a ski jump in the mountains",
+          "CardID": "volver_repeat",
+          "ImageFile": "volver_repeat.png",
+          "WordAudio": "[sound:volver.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }

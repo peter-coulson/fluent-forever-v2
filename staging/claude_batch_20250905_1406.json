@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "created": "2025-09-05T14:06:40.264924",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry). Add any words to skip to the 'skipped_words' array."
+  },
+  "words": [
+    "pensar",
+    "casa",
+    "persona",
+    "país"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "pensar",
+      "MeaningID": "mental_process",
+      "MeaningContext": "proceso mental",
+      "MonolingualDef": "usar la mente para formar ideas o tomar decisiones",
+      "ExampleSentence": "El niño rubio piensa mucho durante el examen.",
+      "GappedSentence": "El niño rubio _____ mucho durante el examen.",
+      "IPA": "[pen.ˈsaɾ]",
+      "prompt": "A blond boy in a large school exam with his own desk thinking very hard."
+    },
+    {
+      "SpanishWord": "casa",
+      "MeaningID": "dwelling",
+      "MeaningContext": "vivienda",
+      "MonolingualDef": "edificio donde vive una familia",
+      "ExampleSentence": "La casa grande está en la colina del bosque.",
+      "GappedSentence": "La _____ grande está en la colina del bosque.",
+      "IPA": "[ˈka.sa]",
+      "prompt": "A large house on top of a hill with a forest either side and a long winding road approaching."
+    },
+    {
+      "SpanishWord": "persona",
+      "MeaningID": "individual",
+      "MeaningContext": "individuo humano",
+      "MonolingualDef": "ser humano individual",
+      "ExampleSentence": "Una persona está sola en la multitud.",
+      "GappedSentence": "Una _____ está sola en la multitud.",
+      "IPA": "[peɾ.ˈso.na]",
+      "prompt": "A stick man in a very large crowd with a small space around them on a white background."
+    },
+    {
+      "SpanishWord": "país",
+      "MeaningID": "nation",
+      "MeaningContext": "nación",
+      "MonolingualDef": "territorio con gobierno propio",
+      "ExampleSentence": "El país tiene su bandera en el mapa.",
+      "GappedSentence": "El _____ tiene su bandera en el mapa.",
+      "IPA": "[pa.ˈis]",
+      "prompt": "A large map of England with the English flag on the top of the country."
+    }
+  ],
+  "skipped_words": ["esto"]
+}

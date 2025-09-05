@@ -682,5 +682,53 @@
     "prompt_hash": "c34454da58bc93f1",
     "provider": "runware",
     "created_at": 1757097128.380279
+  },
+  "casa_dwelling.png": {
+    "word": "casa",
+    "prompt_hash": "8cbad172239deaad",
+    "provider": "runware",
+    "created_at": 1757099307.2427158
+  },
+  "país_nation.png": {
+    "word": "país",
+    "prompt_hash": "bcf3ecbded74d392",
+    "provider": "runware",
+    "created_at": 1757099312.012169
+  },
+  "pensar_mental_process.png": {
+    "word": "pensar",
+    "prompt_hash": "c062e6c226d7762a",
+    "provider": "runware",
+    "created_at": 1757099316.534955
+  },
+  "persona_individual.png": {
+    "word": "persona",
+    "prompt_hash": "cc10462efe3e48e1",
+    "provider": "runware",
+    "created_at": 1757099321.167059
+  },
+  "algo_something.png": {
+    "word": "algo",
+    "prompt_hash": "a76e9aa539b1eae1",
+    "provider": "runware",
+    "created_at": 1757099968.934102
+  },
+  "algo_somewhat.png": {
+    "word": "algo",
+    "prompt_hash": "49912a07d52b5c93",
+    "provider": "runware",
+    "created_at": 1757099973.970251
+  },
+  "volver_repeat.png": {
+    "word": "volver",
+    "prompt_hash": "daca455f9ddc93e6",
+    "provider": "runware",
+    "created_at": 1757099979.1270778
+  },
+  "volver_return.png": {
+    "word": "volver",
+    "prompt_hash": "f5e4be561c267d8d",
+    "provider": "runware",
+    "created_at": 1757099984.0370119
   }
 }
