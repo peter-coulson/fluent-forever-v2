@@ -4,44 +4,44 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 ---
 
-## Session 1: E2E Test Setup
+## Session 1: Validation Gates Setup
 
 ### Prompt for Session 1
 
-**You are implementing Session 1 of the Fluent Forever V2 refactor. Your mission is to create comprehensive end-to-end tests that serve as immutable validation gates for all future refactor sessions.**
+**You are implementing Session 1 of the Fluent Forever V2 refactor. Your mission is to create focused validation gates that ensure each refactor session delivers working functionality.**
 
 #### Required Input Files:
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
-- Read `context/refactor/chunks/01_e2e_test_setup.md` - Your detailed instructions
-- Examine `src/` directory - Current system to understand existing functionality
-- Read `MULTI_CARD_SYSTEM.md` - Multi-card system documentation
+- Read `context/refactor/chunks/01_validation_gates.md` - Your detailed instructions
+- Examine `src/cli/` directory - Current CLI commands to preserve
+- Review current data files: `vocabulary.json`, `config.json`
 
 #### Your Tasks (Use TodoWrite to Track):
-1. **Create E2E test structure** for all 8 future sessions
-2. **Build mock infrastructure** for all external dependencies  
-3. **Implement comprehensive tests** covering existing and planned functionality
-4. **Create test execution framework** with pytest configuration
-5. **Document test contracts** and mock usage
+1. **Create baseline test** for current vocabulary system functionality
+2. **Create focused validation gates** (1 simple test per future session)
+3. **Set up minimal test infrastructure** with external API mocking
+4. **Create test execution framework** optimized for fast feedback
+5. **Document validation approach** and test purpose
 6. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All E2E tests execute successfully in <30 seconds
-- [ ] Mock infrastructure supports all planned functionality  
-- [ ] Test coverage includes both success and failure scenarios
-- [ ] Tests fail appropriately when contracts are broken
-- [ ] All current CLI commands have equivalent test coverage
-- [ ] Documentation explains what each test validates
+- [ ] Current system baseline test validates existing functionality
+- [ ] All validation gate tests run in <10 seconds total
+- [ ] Tests use real implementations, not mocks (where possible)
+- [ ] External APIs are mocked appropriately
+- [ ] Each session gets exactly 1 focused validation test
+- [ ] Tests will fail with incorrect implementations
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Run all E2E tests and confirm they pass
-2. Verify test suite runs in <30 seconds total
-3. Confirm mock infrastructure is comprehensive
+1. Run current system baseline test and confirm it passes
+2. Verify validation gate tests are focused and realistic  
+3. Confirm total test time is <10 seconds
 4. Complete validation checklist from instructions
 5. Create handoff document using template: `context/refactor/handoff_template.md`
-6. Save handoff as: `context/refactor/completed_handoffs/01_e2e_test_setup_handoff.md`
+6. Save handoff as: `context/refactor/completed_handoffs/01_validation_gates_handoff.md`
 
-**You cannot complete this session until all validation gates pass and the handoff document is complete.**
+**You cannot complete this session until validation gates provide meaningful quality assurance.**
 
 ---
 
@@ -54,8 +54,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 #### Required Input Files:
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan  
 - Read `context/refactor/chunks/02_core_architecture.md` - Your detailed instructions
-- Read `context/refactor/completed_handoffs/01_e2e_test_setup_handoff.md` - Previous session context
-- Examine `tests/e2e/01_core_architecture/` - Your validation gates
+- Read `context/refactor/completed_handoffs/01_validation_gates_handoff.md` - Previous session context
+- Review `tests/validation_gates/test_session2_core.py` - Your validation gate
 - Review `src/utils/card_types.py` - Current card type system to evolve
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -69,8 +69,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 8. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All Session 1 E2E tests continue to pass
-- [ ] All Session 2 E2E tests pass
+- [ ] Current system baseline test continues to pass (no regressions)
+- [ ] Session 2 validation gate passes (core architecture works)
 - [ ] Pipeline registry functionality works as specified
 - [ ] Basic pipeline execution patterns work  
 - [ ] Pipeline interface compliance is enforced
@@ -78,13 +78,13 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Verify all Session 1 + 2 E2E tests pass
+1. Verify baseline test + Session 2 validation gate pass
 2. Confirm unit test coverage meets requirements
 3. Test CLI framework can list and inspect pipelines
 4. Complete validation checklist from instructions
 5. Create handoff document: `context/refactor/completed_handoffs/02_core_architecture_handoff.md`
 
-**You cannot complete this session until all validation gates pass and the handoff document explains the architecture for the next session.**
+**You cannot complete this session until the validation gate confirms core architecture works correctly.**
 
 ---
 
@@ -98,7 +98,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/03_stage_system.md` - Your detailed instructions  
 - Read `context/refactor/completed_handoffs/02_core_architecture_handoff.md` - Core architecture context
-- Examine `tests/e2e/02_stage_system/` - Your validation gates
+- Review `tests/validation_gates/test_session3_stages.py` - Your validation gate
 - Review current processing scripts to extract common patterns
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -113,8 +113,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 9. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All previous session E2E tests continue to pass
-- [ ] All Session 3 E2E tests pass
+- [ ] Current system baseline test + all previous validation gates pass
+- [ ] Session 3 validation gate passes (stage system works)
 - [ ] Stage execution works correctly
 - [ ] Stage chaining executes in proper order
 - [ ] Error handling propagates correctly
@@ -122,7 +122,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Verify all previous + current E2E tests pass
+1. Verify baseline test + all current/previous validation gates pass
 2. Confirm stages can be chained together successfully  
 3. Test error handling works across stage boundaries
 4. Complete validation checklist from instructions
@@ -142,7 +142,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/04_provider_system.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/03_stage_system_handoff.md` - Stage system context
-- Examine `tests/e2e/03_provider_system/` - Your validation gates
+- Review `tests/validation_gates/test_session4_providers.py` - Your validation gate
 - Review current API clients: `src/apis/`
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -158,8 +158,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 10. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All previous session E2E tests continue to pass
-- [ ] All Session 4 E2E tests pass
+- [ ] Current system baseline test + all previous validation gates pass
+- [ ] Session 4 validation gate passes (provider system works)
 - [ ] All external APIs abstracted behind provider interfaces
 - [ ] Mock providers support comprehensive testing
 - [ ] Stages can use providers through context
@@ -167,7 +167,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Verify all previous + current E2E tests pass
+1. Verify baseline test + all current/previous validation gates pass
 2. Confirm all external dependencies abstracted behind providers
 3. Test mock providers enable comprehensive testing
 4. Complete validation checklist from instructions  
@@ -187,7 +187,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/05_cli_overhaul.md` - Your detailed instructions  
 - Read `context/refactor/completed_handoffs/04_provider_system_handoff.md` - Provider system context
-- Examine `tests/e2e/04_cli_system/` - Your validation gates
+- Review `tests/validation_gates/test_session5_cli.py` - Your validation gate
 - Review `src/cli/` - Current CLI scripts to replace
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -202,8 +202,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 9. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All previous session E2E tests continue to pass
-- [ ] All Session 5 E2E tests pass
+- [ ] Current system baseline test + all previous validation gates pass
+- [ ] Session 5 validation gate passes (CLI system works)
 - [ ] All existing CLI functionality accessible through new commands
 - [ ] Command system is consistent and extensible
 - [ ] Universal pipeline runner works correctly
@@ -211,7 +211,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Verify all previous + current E2E tests pass
+1. Verify baseline test + all current/previous validation gates pass
 2. Confirm all existing CLI operations can be performed with new commands
 3. Test command system provides consistent patterns
 4. Complete validation checklist from instructions
@@ -231,7 +231,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/06_configuration_refactor.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/05_cli_overhaul_handoff.md` - CLI system context  
-- Examine `tests/e2e/05_configuration/` - Your validation gates
+- Review `tests/validation_gates/test_session6_config.py` - Your validation gate
 - Review current config files: `config.json`, `.env`
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -247,8 +247,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 10. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All previous session E2E tests continue to pass
-- [ ] All Session 6 E2E tests pass
+- [ ] Current system baseline test + all previous validation gates pass
+- [ ] Session 6 validation gate passes (configuration works)
 - [ ] Hierarchical configuration loading works correctly
 - [ ] Environment variable overrides function properly  
 - [ ] All existing configuration functionality preserved
@@ -256,7 +256,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Verify all previous + current E2E tests pass
+1. Verify baseline test + all current/previous validation gates pass
 2. Confirm all existing configuration functionality preserved
 3. Test new hierarchical configuration system works
 4. Complete validation checklist from instructions
@@ -276,7 +276,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan  
 - Read `context/refactor/chunks/07_pipeline_implementation.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/06_configuration_refactor_handoff.md` - Configuration context
-- Examine `tests/e2e/06_vocabulary_pipeline/` - Your validation gates
+- Review `tests/validation_gates/test_session7_vocabulary.py` - Your validation gate
 - Review current vocabulary processing logic to migrate
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -292,8 +292,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 10. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All previous session E2E tests continue to pass
-- [ ] All Session 7 E2E tests pass
+- [ ] Current system baseline test + all previous validation gates pass
+- [ ] Session 7 validation gate passes (vocabulary pipeline works)
 - [ ] Complete vocabulary workflow functions end-to-end
 - [ ] All existing vocabulary functionality preserved
 - [ ] Pipeline uses configuration system correctly
@@ -301,7 +301,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Verify all previous + current E2E tests pass
+1. Verify baseline test + all current/previous validation gates pass
 2. Confirm complete vocabulary workflow works with new architecture
 3. Test all existing vocabulary functionality preserved
 4. Complete validation checklist from instructions
@@ -321,7 +321,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/08_multi_pipeline_support.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/07_pipeline_implementation_handoff.md` - Vocabulary pipeline context
-- Examine `tests/e2e/07_multi_pipeline/` - Your validation gates  
+- Review `tests/validation_gates/test_session8_multi.py` - Your validation gate  
 - Review `src/utils/card_types.py` and `conjugations.json`
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -337,8 +337,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 10. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All previous session E2E tests continue to pass
-- [ ] All Session 8 E2E tests pass
+- [ ] Current system baseline test + all previous validation gates pass
+- [ ] Session 8 validation gate passes (multi-pipeline works)
 - [ ] Vocabulary and conjugation pipelines work independently
 - [ ] Shared resources work correctly across pipelines
 - [ ] No conflicts between pipeline operations
@@ -346,7 +346,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Verify all previous + current E2E tests pass
+1. Verify baseline test + all current/previous validation gates pass
 2. Confirm multiple pipelines can be used simultaneously
 3. Test resource sharing works without conflicts
 4. Complete validation checklist from instructions
@@ -366,7 +366,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/09_documentation_context.md` - Your detailed instructions  
 - Read `context/refactor/completed_handoffs/08_multi_pipeline_support_handoff.md` - Multi-pipeline context
-- Examine `tests/e2e/08_documentation/` - Your validation gates
+- Review `tests/validation_gates/test_session9_docs.py` - Your validation gate
 - Review all current markdown files in project root
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -382,8 +382,8 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 10. **Complete final handoff document**
 
 #### Mandatory Validation Gates (Must Pass):
-- [ ] All previous session E2E tests continue to pass
-- [ ] All Session 9 E2E tests pass
+- [ ] Current system baseline test + all previous validation gates pass
+- [ ] Session 9 validation gate passes (documentation organized)
 - [ ] Documentation is organized and navigable
 - [ ] Root directory is clean
 - [ ] All audiences have appropriate documentation
@@ -391,7 +391,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
-1. Verify all previous + current E2E tests pass
+1. Verify baseline test + all current/previous validation gates pass
 2. Confirm documentation is easy to find and follow
 3. Test examples work correctly
 4. Complete validation checklist from instructions
@@ -415,7 +415,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 #### Validation Gate Protocol:
 1. **Read validation gates** from your session instructions
 2. **Test each gate** before marking session complete
-3. **All previous session tests** must continue to pass
+3. **Current system baseline + all previous validation gates** must continue to pass
 4. **Document any test failures** and resolution
 5. **Do not proceed** until all gates pass
 
@@ -428,7 +428,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - **Include verification checklist** completion
 
 #### Error Handling:
-- If E2E tests fail, **stop immediately** and investigate
+- If validation gates fail, **stop immediately** and investigate
 - If validation gates cannot be passed, **document why** in handoff  
 - If architectural changes are needed, **document rationale**
 - If session cannot be completed, **mark as incomplete** and explain

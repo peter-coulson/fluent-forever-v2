@@ -5,8 +5,8 @@ Create the fundamental pipeline architecture and registry system that will serve
 
 ## Context Files Required
 - `context/refactor/refactor_summary.md` - Overall refactor plan
-- `context/refactor/completed_handoffs/01_e2e_test_setup_handoff.md` - E2E test infrastructure
-- `tests/e2e/01_core_architecture/` - Validation gates for this session
+- `context/refactor/chunks/01_validation_gates.md` - Validation gate approach
+- `tests/validation_gates/test_session2_core.py` - Validation gate for this session
 - `src/utils/card_types.py` - Current card type system to evolve
 
 ## Objectives

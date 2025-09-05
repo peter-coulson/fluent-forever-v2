@@ -23,10 +23,10 @@ Transform the vocabulary-centric system into a true multi-pipeline architecture 
 
 ## Refactor Strategy
 
-### Test-Driven Approach
-- **Session 1**: Create comprehensive E2E tests for all planned functionality
-- **Sessions 2-N**: Implement chunks, must pass E2E gates to complete
-- **Validation Gates**: Each session has immutable tests that must pass
+### Validation-Gate Approach
+- **Session 1**: Create focused validation gates (1 test per session + current system baseline)
+- **Sessions 2-N**: Implement chunks, must pass validation gates to complete
+- **Validation Gates**: Simple integration tests that verify key functionality
 - **Progressive Coverage**: Later tests include functionality from previous sessions
 
 ### No Backwards Compatibility
@@ -37,7 +37,7 @@ Transform the vocabulary-centric system into a true multi-pipeline architecture 
 ## Implementation Phases
 
 ### Phase 1: Foundation (Sessions 1-4)
-1. **E2E Test Setup**: Create validation gates for all future work
+1. **Validation Gates Setup**: Create focused integration tests (1 per session)
 2. **Core Architecture**: Pipeline abstractions, registry, basic CLI framework  
 3. **Stage System**: Extract common processing stages into pluggable components
 4. **Provider System**: Abstract external APIs and data sources
@@ -96,20 +96,20 @@ python -m cli.pipeline preview conjugation --card-id hablar_present_yo
 
 ## Quality Gates
 
-### E2E Test Coverage
-- **Core Architecture**: Pipeline creation, registration, basic execution
-- **Stage System**: Stage execution, chaining, error handling
-- **Provider System**: API abstraction, mock support, failover
-- **CLI System**: All old functionality accessible through new commands
-- **Configuration**: All configs load and validate correctly
-- **Pipeline Implementation**: Full vocabulary E2E workflow
-- **Multi-Pipeline**: Multiple pipelines coexist without conflict
-- **Documentation**: All docs organized and accessible
+### Validation Gate Coverage
+- **Core Architecture**: Pipeline creation, registration, basic execution (1 focused test)
+- **Stage System**: Stage execution, chaining, error handling (1 focused test)
+- **Provider System**: API abstraction, mock support, failover (1 focused test)
+- **CLI System**: All old functionality accessible through new commands (1 focused test)
+- **Configuration**: All configs load and validate correctly (1 focused test)
+- **Pipeline Implementation**: Full vocabulary E2E workflow (1 focused test)
+- **Multi-Pipeline**: Multiple pipelines coexist without conflict (1 focused test)
+- **Documentation**: All docs organized and accessible (1 focused test)
 
 ### Session Completion Criteria
 Each session must:
-1. ✅ Pass all E2E tests for current + previous sessions
-2. ✅ Create comprehensive unit tests for new functionality  
+1. ✅ Pass current session's validation gate + all previous validation gates
+2. ✅ Pass current system baseline test (no regressions)
 3. ✅ Complete validation checklist in session prompt
 4. ✅ Create detailed handoff document for next session
 5. ✅ Update documentation as needed
