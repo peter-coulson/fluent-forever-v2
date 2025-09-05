@@ -1,10 +1,10 @@
 {
   "metadata": {
     "created": "2025-08-10",
-    "last_updated": "2025-09-05T14:41:36.234962",
-    "total_words": 96,
-    "total_cards": 176,
-    "total_skipped": 24,
+    "last_updated": "2025-09-05T15:06:44.271537",
+    "total_words": 101,
+    "total_cards": 184,
+    "total_skipped": 26,
     "source": "Mark Davies Frequency Dictionary - Latin American Spanish Corpus",
     "corpus_info": "20M words, 1970-2000, Spain + 10 Latin American countries",
     "reset_reason": "Schema update - synced with Anki field structure"
@@ -33,7 +33,9 @@
     "tu",
     "eh",
     "esto",
-    "no"
+    "no",
+    "aquel",
+    "aquí"
   ],
   "words": {
     "ser": {
@@ -3342,6 +3344,161 @@
           "CardID": "claro_clear_transparent",
           "ImageFile": "claro_clear_transparent.png",
           "WordAudio": "[sound:claro.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "llamar": {
+      "word": "llamar",
+      "processed_date": "2025-09-05T14:50:13.689753",
+      "meanings": [
+        {
+          "SpanishWord": "llamar",
+          "MeaningID": "phone_call",
+          "MeaningContext": "llamada telefónica/convocar",
+          "MonolingualDef": "contactar a una persona por teléfono o convocar a alguien",
+          "ExampleSentence": "El chico rubio llama a su amigo moreno porque está muy triste.",
+          "GappedSentence": "El chico rubio _____ a su amigo moreno porque está muy triste.",
+          "IPA": "[ʎa.ˈmaɾ]",
+          "prompt": "A guy with blond hair, calling a guy with brown hair, both guys are very sad.",
+          "CardID": "llamar_phone_call",
+          "ImageFile": "llamar_phone_call.png",
+          "WordAudio": "[sound:llamar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "llamar",
+          "MeaningID": "naming",
+          "MeaningContext": "dar nombre/nombrar",
+          "MonolingualDef": "dar un nombre a alguien o algo, o decir cómo se llama",
+          "ExampleSentence": "En la habitación del hospital, los padres llaman Peter al bebé recién nacido.",
+          "GappedSentence": "En la habitación del hospital, los padres _____ Peter al bebé recién nacido.",
+          "IPA": "[ʎa.ˈmaɾ]",
+          "prompt": "In a hospital room, a boy has just been born with the two parents on the bed, the baby's name in ballons \"PETER\".",
+          "CardID": "llamar_naming",
+          "ImageFile": "llamar_naming.png",
+          "WordAudio": "[sound:llamar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "llamar",
+          "MeaningID": "knocking",
+          "MeaningContext": "tocar/golpear puerta",
+          "MonolingualDef": "tocar o golpear una puerta para que abran",
+          "ExampleSentence": "En la calle del pueblo, el chico rubio llama fuertemente a la puerta antes de que corran.",
+          "GappedSentence": "En la calle del pueblo, el chico rubio _____ fuertemente a la puerta antes de que corran.",
+          "IPA": "[ʎa.ˈmaɾ]",
+          "prompt": "A group of boys on a small town street getting ready to run, a blond boy knocking loudly on the front door.",
+          "CardID": "llamar_knocking",
+          "ImageFile": "llamar_knocking.png",
+          "WordAudio": "[sound:llamar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 3
+    },
+    "mirar": {
+      "word": "mirar",
+      "processed_date": "2025-09-05T14:50:13.689768",
+      "meanings": [
+        {
+          "SpanishWord": "mirar",
+          "MeaningID": "looking",
+          "MeaningContext": "observar/ver",
+          "MonolingualDef": "dirigir los ojos hacia algo para verlo o observarlo",
+          "ExampleSentence": "El chico rubio y su hermana pelirroja miran la televisión en el sofá rojo.",
+          "GappedSentence": "El chico rubio y su hermana pelirroja _____ la televisión en el sofá rojo.",
+          "IPA": "[mi.ˈɾaɾ]",
+          "prompt": "A blond boy and his ginger sister sitting on a red couch in a small green room watching television.",
+          "CardID": "mirar_looking",
+          "ImageFile": "mirar_looking.png",
+          "WordAudio": "[sound:mirar.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "mientras": {
+      "word": "mientras",
+      "processed_date": "2025-09-05T14:50:13.689771",
+      "meanings": [
+        {
+          "SpanishWord": "mientras",
+          "MeaningID": "while",
+          "MeaningContext": "durante/al mismo tiempo",
+          "MonolingualDef": "durante el tiempo que ocurre otra cosa, al mismo tiempo que",
+          "ExampleSentence": "El chico rubio cocina mientras escucha música muy alta con sus amigos.",
+          "GappedSentence": "El chico rubio cocina _____ escucha música muy alta con sus amigos.",
+          "IPA": "[ˈmjen.tɾas]",
+          "prompt": "A blond guy making dinner with his friends in the kitchen with very loud music on.",
+          "CardID": "mientras_while",
+          "ImageFile": "mientras_while.png",
+          "WordAudio": "[sound:mientras.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 1
+    },
+    "conocer": {
+      "word": "conocer",
+      "processed_date": "2025-09-05T15:06:44.271518",
+      "meanings": [
+        {
+          "SpanishWord": "conocer",
+          "MeaningID": "know_people_places",
+          "MeaningContext": "familiaridad con personas/lugares",
+          "MonolingualDef": "tener familiaridad con una persona, lugar o cosa por experiencia",
+          "ExampleSentence": "Conozco a la doctora María en el club de golf.",
+          "GappedSentence": "_____ a la doctora María en el club de golf.",
+          "IPA": "[ko.no.ˈseɾ]",
+          "prompt": "A very muscular young guy on a pristine golf course with Harry Styles",
+          "CardID": "conocer_know_people_places",
+          "ImageFile": "conocer_know_people_places.png",
+          "WordAudio": "[sound:conocer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        },
+        {
+          "SpanishWord": "conocer",
+          "MeaningID": "meet_first_time",
+          "MeaningContext": "conocer por primera vez",
+          "MonolingualDef": "el acto de encontrarse o llegar a conocer a alguien nuevo",
+          "ExampleSentence": "Quiero conocer a los dos chicos rubios en el café.",
+          "GappedSentence": "Quiero _____ a los dos chicos rubios en el café.",
+          "IPA": "[ko.no.ˈseɾ]",
+          "prompt": "Looking in from the terrace on two blond guys in a packed cafe in the afternoon",
+          "CardID": "conocer_meet_first_time",
+          "ImageFile": "conocer_meet_first_time.png",
+          "WordAudio": "[sound:conocer.mp3]",
+          "WordAudioAlt": "",
+          "UsageNote": ""
+        }
+      ],
+      "cards_created": 2
+    },
+    "aunque": {
+      "word": "aunque",
+      "processed_date": "2025-09-05T15:06:44.271534",
+      "meanings": [
+        {
+          "SpanishWord": "aunque",
+          "MeaningID": "although_contrast",
+          "MeaningContext": "contraste/concesión",
+          "MonolingualDef": "conjunción que expresa contraste o concesión",
+          "ExampleSentence": "Aunque llueve mucho, los chicos juegan al fútbol.",
+          "GappedSentence": "_____ llueve mucho, los chicos juegan al fútbol.",
+          "IPA": "[auŋ.ke]",
+          "prompt": "A group of boys playing football on an astro turf in torrential rain",
+          "CardID": "aunque_although_contrast",
+          "ImageFile": "aunque_although_contrast.png",
+          "WordAudio": "[sound:aunque.mp3]",
           "WordAudioAlt": "",
           "UsageNote": ""
         }

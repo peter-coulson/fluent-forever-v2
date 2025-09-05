@@ -784,5 +784,53 @@
     "prompt_hash": "a7ea139735994a9d",
     "provider": "runware",
     "created_at": 1757101326.107915
+  },
+  "llamar_knocking.png": {
+    "word": "llamar",
+    "prompt_hash": "2951aba439f08b88",
+    "provider": "runware",
+    "created_at": 1757101831.573312
+  },
+  "llamar_naming.png": {
+    "word": "llamar",
+    "prompt_hash": "5bd40fdb311ef182",
+    "provider": "runware",
+    "created_at": 1757101836.146529
+  },
+  "llamar_phone_call.png": {
+    "word": "llamar",
+    "prompt_hash": "32909df620067b1a",
+    "provider": "runware",
+    "created_at": 1757101840.8139079
+  },
+  "mientras_while.png": {
+    "word": "mientras",
+    "prompt_hash": "e1c32fb7df24c643",
+    "provider": "runware",
+    "created_at": 1757101845.286356
+  },
+  "mirar_looking.png": {
+    "word": "mirar",
+    "prompt_hash": "90081ac9df50c1c6",
+    "provider": "runware",
+    "created_at": 1757101849.938339
+  },
+  "aunque_although_contrast.png": {
+    "word": "aunque",
+    "prompt_hash": "2f60935ffd48363c",
+    "provider": "runware",
+    "created_at": 1757102815.892937
+  },
+  "conocer_know_people_places.png": {
+    "word": "conocer",
+    "prompt_hash": "afcfeac56d07eb83",
+    "provider": "runware",
+    "created_at": 1757102820.7591412
+  },
+  "conocer_meet_first_time.png": {
+    "word": "conocer",
+    "prompt_hash": "58c873ac259a3690",
+    "provider": "runware",
+    "created_at": 1757102825.994596
   }
 }

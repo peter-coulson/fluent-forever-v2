@@ -2,20 +2,13 @@
   "metadata": {
     "created": "2025-09-05T14:26:50.569892",
     "source": "spanish_dictionary.json",
-    "total_words": 42,
+    "total_words": 35,
     "excluded_processed": 88,
     "excluded_skipped": 24,
-    "last_updated": "2025-09-05T14:41:36.237068",
-    "removed_batch_processing": 8
+    "last_updated": "2025-09-05T15:06:44.273784",
+    "removed_batch_processing": 15
   },
   "words": [
-    "llamar",
-    "mirar",
-    "mientras",
-    "conocer",
-    "aquel",
-    "aquí",
-    "aunque",
     "quien",
     "tomar",
     "tres",
