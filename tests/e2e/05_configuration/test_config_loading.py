@@ -132,20 +132,23 @@ class MockConfigLoader:
         """Apply default values to configuration"""
         result = config.copy()
         
-        # Merge defaults
+        # Deep merge defaults
+        def merge_defaults(target, defaults):
+            for key, default_value in defaults.items():
+                if key not in target:
+                    if isinstance(default_value, dict):
+                        target[key] = {}
+                        merge_defaults(target[key], default_value)
+                    else:
+                        target[key] = default_value
+                elif isinstance(default_value, dict) and isinstance(target[key], dict):
+                    merge_defaults(target[key], default_value)
+        
+        # Merge defaults for each section
         for section, section_defaults in self.defaults.items():
             if section not in result:
                 result[section] = {}
-            
-            for key, default_value in section_defaults.items():
-                if key not in result[section]:
-                    if isinstance(default_value, dict):
-                        result[section][key] = {}
-                        for subkey, subvalue in default_value.items():
-                            if subkey not in result[section][key]:
-                                result[section][key][subkey] = subvalue
-                    else:
-                        result[section][key] = default_value
+            merge_defaults(result[section], section_defaults)
         
         return result
     

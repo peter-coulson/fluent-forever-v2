@@ -208,8 +208,8 @@ class TestMediaFileManagement:
         manager = MockMediaFileManager()
         
         # Store files
-        manager.store_image_file("used.png", b"data1")
-        manager.store_image_file("unused.png", b"data2")
+        used_path = manager.store_image_file("used.png", b"data1")
+        unused_path = manager.store_image_file("unused.png", b"data2")
         
         # Mark one as used
         manager.mark_file_as_used("used.png")
@@ -218,8 +218,8 @@ class TestMediaFileManagement:
         cleaned_count = manager.cleanup_unused_files()
         
         assert cleaned_count == 1
-        assert manager.file_exists("used.png")
-        assert not manager.file_exists("unused.png")
+        assert manager.file_exists(used_path)
+        assert not manager.file_exists(unused_path)
     
     def test_media_metadata_tracking(self):
         """Contract: Media file metadata is tracked"""

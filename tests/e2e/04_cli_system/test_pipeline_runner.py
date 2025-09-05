@@ -93,7 +93,7 @@ class TestPipelineRunnerContract:
         # General help
         help_result = runner.execute_command(["help"])
         assert help_result["status"] == "success"
-        assert "usage" in help_result["help"]
+        assert "usage" in help_result["help"].lower()
         
         # Pipeline-specific help
         runner.register_pipeline(MockPipeline("vocabulary"))

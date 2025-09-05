@@ -112,8 +112,8 @@ class TestMultiplePipelineCoexistence:
         cli_runner = MockUnifiedCLI()
         
         # Register both pipelines
-        cli_runner.register_pipeline("vocabulary", MockPipeline("vocabulary"))
-        cli_runner.register_pipeline("conjugation", MockPipeline("conjugation"))
+        cli_runner.register_pipeline("vocabulary", MockPipeline("vocabulary", ["claude_batch", "media_gen", "sync"]))
+        cli_runner.register_pipeline("conjugation", MockPipeline("conjugation", ["generate", "validate", "export"]))
         
         # Same CLI pattern should work for both
         vocab_cmd = ["run", "vocabulary", "--stage", "claude_batch", "--words", "casa"]
