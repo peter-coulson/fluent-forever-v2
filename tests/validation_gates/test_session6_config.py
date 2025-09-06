@@ -80,16 +80,23 @@ def test_config_validation():
     
     # Test valid configuration passes
     valid_config = {
+        "system": {
+            "log_level": "INFO",
+            "cache_enabled": True,
+            "max_concurrent_requests": 5
+        },
+        "paths": {
+            "media_base": "media",
+            "templates_base": "templates"
+        },
         "pipelines": {
             "vocabulary": {
                 "stages": ["prepare", "validate", "generate", "sync"]
             }
         },
         "providers": {
-            "media": {
-                "openai": {"enabled": True},
-                "runware": {"enabled": True}
-            }
+            "openai": {"enabled": True},
+            "runware": {"enabled": True}
         }
     }
     

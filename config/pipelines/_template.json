@@ -1,0 +1,21 @@
+{
+  "pipeline": {
+    "name": "PIPELINE_NAME",
+    "display_name": "DISPLAY_NAME",
+    "data_file": "PIPELINE_NAME.json",
+    "anki_note_type": "NOTE_TYPE_NAME",
+    "stages": [
+      "stage1",
+      "stage2",
+      "stage3"
+    ]
+  },
+  "stage_providers": {
+    "stage1": "provider1",
+    "stage2": "provider2"
+  },
+  "config": {
+    "custom_setting1": "value1",
+    "custom_setting2": "value2"
+  }
+}

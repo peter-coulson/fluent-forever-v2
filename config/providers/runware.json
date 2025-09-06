@@ -1,0 +1,28 @@
+{
+  "provider": {
+    "type": "runware",
+    "base_url": "https://api.runware.ai",
+    "timeout": 60,
+    "max_retries": 3
+  },
+  "image_generation": {
+    "model": "runware:101@1",
+    "width": 1024,
+    "height": 1024,
+    "steps": 25,
+    "guidance_scale": 7.0,
+    "sampler": "euler",
+    "output_type": "URL",
+    "output_format": "JPG",
+    "number_results": 1
+  },
+  "cost_limits": {
+    "daily_limit_usd": 5.0,
+    "warn_threshold_usd": 2.0,
+    "track_usage": true
+  },
+  "prompts": {
+    "style_prefix": "Studio Ghibli animation style",
+    "negative_prompt": "realistic, photo, 3d render, dark, scary, multiple people, extra limbs, distorted face, blurry, low quality, watermark, text, adult content, violence"
+  }
+}

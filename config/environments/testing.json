@@ -1,0 +1,21 @@
+{
+  "system": {
+    "log_level": "WARNING"
+  },
+  "providers": {
+    "openai": {
+      "provider": {
+        "enabled": false
+      }
+    },
+    "runware": {
+      "provider": {
+        "enabled": false
+      }
+    }
+  },
+  "cli": {
+    "default_dry_run": true,
+    "confirm_destructive": false
+  }
+}
