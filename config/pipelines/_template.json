@@ -1,21 +1,36 @@
 {
   "pipeline": {
-    "name": "PIPELINE_NAME",
-    "display_name": "DISPLAY_NAME",
-    "data_file": "PIPELINE_NAME.json",
-    "anki_note_type": "NOTE_TYPE_NAME",
+    "name": "template",
+    "display_name": "Template Pipeline",
+    "data_file": "template.json",
+    "anki_note_type": "Template Note Type",
     "stages": [
-      "stage1",
-      "stage2",
-      "stage3"
+      "analyze",
+      "prepare",
+      "generate", 
+      "validate",
+      "sync"
     ]
   },
   "stage_providers": {
-    "stage1": "provider1",
-    "stage2": "provider2"
+    "generate": "default_media",
+    "sync": "anki"
   },
-  "config": {
-    "custom_setting1": "value1",
-    "custom_setting2": "value2"
+  "processing_settings": {
+    "batch_size": 10,
+    "max_concurrent": 3,
+    "timeout_seconds": 300
+  },
+  "validation": {
+    "strict_mode": true,
+    "require_all_fields": true,
+    "check_duplicates": true
+  },
+  "custom_settings": {
+    "example_setting": "example_value",
+    "feature_flags": {
+      "enable_advanced_processing": false,
+      "use_experimental_validation": false
+    }
   }
 }

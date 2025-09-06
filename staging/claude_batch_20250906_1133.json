@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "created": "2025-09-06T11:33:15.630659",
+    "source": "pipeline-vocabulary",
+    "pipeline": "vocabulary",
+    "stage": "prepare_batch",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry). Add any words to skip to the 'skipped_words' array."
+  },
+  "words": [
+    "newword"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "newword",
+      "MeaningID": "newword_meaning_1",
+      "MeaningContext": "primary meaning of newword",
+      "CardID": "newword_newword_meaning_1",
+      "MonolingualDef": "",
+      "ExampleSentence": "",
+      "GappedSentence": "",
+      "IPA": "",
+      "prompt": "",
+      "GrammaticalCategory": "noun",
+      "EstimatedDifficulty": "basic",
+      "RequiresPrompt": true
+    }
+  ],
+  "skipped_words": []
+}

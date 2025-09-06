@@ -71,6 +71,16 @@ class MediaGenerationStage(BaseMediaGenerationStage):
                 'errors': result.errors
             }
             
+            # Flatten data fields to top level for backward compatibility
+            if result.data:
+                result_dict.update(result.data)
+                
+                # Add compatibility fields for validation gate
+                if 'total_generated' in result.data:
+                    result_dict['generated'] = result.data['total_generated'] > 0
+                if 'image_result' in result.data or 'audio_result' in result.data:
+                    result_dict['media_files'] = []  # Empty list for compatibility
+            
             # Copy input data to output for chaining
             result_dict.update(context)
             

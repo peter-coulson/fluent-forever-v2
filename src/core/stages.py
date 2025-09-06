@@ -34,6 +34,14 @@ class StageResult:
             return self.status.value
         return getattr(self, key, None)
     
+    def get(self, key: str, default: Any = None) -> Any:
+        """Support dict-like get method for backward compatibility."""
+        if key == 'status':
+            return self.status.value
+        if key == 'output':
+            return self.data  # For backward compatibility with old "output" key
+        return getattr(self, key, default)
+    
     @classmethod
     def success(cls, message: str, data: Dict[str, Any] = None) -> 'StageResult':
         """Create a success result."""

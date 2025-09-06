@@ -40,12 +40,74 @@ class PrepareStage(Stage):
         return errors
 
 
+class ClaudeBatchStage(Stage):
+    """Claude batch stage for vocabulary pipeline."""
+    
+    @property
+    def name(self) -> str:
+        return "claude_batch"
+    
+    @property
+    def display_name(self) -> str:
+        return "Claude Batch Processing"
+    
+    @property
+    def dependencies(self) -> List[str]:
+        return ["prepare"]
+    
+    def execute(self, context: PipelineContext) -> StageResult:
+        """Execute the claude batch stage."""
+        prepared_data = context.get("prepared_data")
+        if not prepared_data:
+            return StageResult.failure("No prepared data found")
+        
+        # Simulate claude batch processing
+        batch_data = {"batch_processed": True, "stage": "claude_batch"}
+        context.set("batch_data", batch_data)
+        
+        return StageResult.success(
+            "Claude batch processing completed",
+            batch_data
+        )
+
+
+class ValidateStage(Stage):
+    """Validate stage for vocabulary pipeline."""
+    
+    @property
+    def name(self) -> str:
+        return "validate"
+    
+    @property
+    def display_name(self) -> str:
+        return "Validate Data"
+    
+    @property
+    def dependencies(self) -> List[str]:
+        return ["claude_batch"]
+    
+    def execute(self, context: PipelineContext) -> StageResult:
+        """Execute the validate stage."""
+        batch_data = context.get("batch_data")
+        if not batch_data:
+            return StageResult.failure("No batch data found")
+        
+        # Simulate validation
+        validation_data = {"validated": True, "stage": "validate"}
+        context.set("validation_data", validation_data)
+        
+        return StageResult.success(
+            "Data validation completed",
+            validation_data
+        )
+
+
 class MediaGenerationStage(Stage):
     """Media generation stage for vocabulary pipeline."""
     
     @property
     def name(self) -> str:
-        return "media"
+        return "generate_media"
     
     @property
     def display_name(self) -> str:
@@ -53,16 +115,16 @@ class MediaGenerationStage(Stage):
     
     @property
     def dependencies(self) -> List[str]:
-        return ["prepare"]
+        return ["validate"]
     
     def execute(self, context: PipelineContext) -> StageResult:
         """Execute the media generation stage."""
-        prepared_data = context.get("prepared_data")
-        if not prepared_data:
-            return StageResult.failure("No prepared data found")
+        validation_data = context.get("validation_data")
+        if not validation_data:
+            return StageResult.failure("No validation data found")
         
         # Simulate media generation
-        media_data = {"generated_media": True, "stage": "media"}
+        media_data = {"generated_media": True, "stage": "generate_media"}
         context.set("media_data", media_data)
         
         return StageResult.success(
@@ -84,7 +146,7 @@ class SyncStage(Stage):
     
     @property
     def dependencies(self) -> List[str]:
-        return ["prepare", "media"]
+        return ["generate_media"]
     
     def execute(self, context: PipelineContext) -> StageResult:
         """Execute the sync stage."""

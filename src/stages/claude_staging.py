@@ -41,6 +41,10 @@ class ClaudeStagingStage(BatchPreparationStage):
                 'errors': result.errors
             }
             
+            # Flatten data fields to top level for backward compatibility
+            if result.data:
+                result_dict.update(result.data)
+            
             # Copy input data to output for chaining
             result_dict.update(context)
             
