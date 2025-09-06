@@ -94,3 +94,28 @@ class VocabularyPipeline(Pipeline):
     @property
     def anki_note_type(self) -> str:
         return "Fluent Forever"
+    
+    def get_media_config(self) -> Dict[str, Any]:
+        """Get media configuration for this pipeline."""
+        return {
+            "media_dir": "media",  # Vocabulary uses root media directory
+            "image_dir": "media/images",
+            "audio_dir": "media/audio",
+            "providers": self.pipeline_config.get('stage_providers', {})
+        }
+    
+    def get_sync_config(self) -> Dict[str, Any]:
+        """Get sync configuration for this pipeline."""
+        return {
+            "note_type": self.anki_note_type,
+            "data_file": self.data_file,
+            "providers": self.pipeline_config.get('stage_providers', {})
+        }
+    
+    def get_data_paths(self) -> Dict[str, str]:
+        """Get data paths for this pipeline."""
+        return {
+            "data_file": self.data_file,
+            "media_dir": "media",
+            "template_dir": f"templates/anki/{self.anki_note_type}"
+        }

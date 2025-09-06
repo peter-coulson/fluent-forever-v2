@@ -83,7 +83,7 @@ def test_shared_resource_management():
     
     # Test that multiple pipelines can share media directory
     for pipeline_name in pipelines:
-        pipeline = registry.get_pipeline(pipeline_name)
+        pipeline = registry.get(pipeline_name)
         
         # Each pipeline should handle media without conflicts
         media_config = pipeline.get_media_config()

@@ -38,8 +38,9 @@ def test_core_architecture():
     pipeline = VocabularyPipeline()
     assert pipeline is not None, "VocabularyPipeline should be creatable"
     
-    # Test pipeline can be registered
-    registry.register(pipeline)
+    # Test pipeline can be registered (may already be registered by auto-registration)
+    if not registry.has_pipeline("vocabulary"):
+        registry.register(pipeline)
     pipelines = registry.list_pipelines()
     assert "vocabulary" in pipelines, "Vocabulary pipeline should be registered"
     

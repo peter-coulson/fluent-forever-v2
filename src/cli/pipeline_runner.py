@@ -67,6 +67,7 @@ Examples:
     
     # Common run arguments (extract from existing scripts)
     run_parser.add_argument('--words', help='Comma-separated word list')
+    run_parser.add_argument('--verbs', help='Comma-separated verb list (for conjugation pipeline)')
     run_parser.add_argument('--cards', help='Comma-separated card IDs')  
     run_parser.add_argument('--file', help='Input file path')
     run_parser.add_argument('--execute', action='store_true', help='Execute changes')
@@ -75,6 +76,8 @@ Examples:
     run_parser.add_argument('--force-regenerate', action='store_true', help='Force regeneration')
     run_parser.add_argument('--max', type=int, help='Maximum items to process')
     run_parser.add_argument('--delete-extras', action='store_true', help='Delete extra items')
+    run_parser.add_argument('--tenses', help='Comma-separated tense list (for conjugation pipeline)')
+    run_parser.add_argument('--persons', help='Comma-separated person list (for conjugation pipeline)')
     
     # Preview command
     preview_parser = subparsers.add_parser('preview', help='Preview cards')
@@ -108,11 +111,8 @@ class PipelineRunner:
     
     def _register_pipelines(self) -> None:
         """Register available pipelines."""
-        # Import and register the vocabulary pipeline
-        from pipelines.vocabulary.pipeline import VocabularyPipeline
-        vocabulary_pipeline = VocabularyPipeline()
-        if not self.pipeline_registry.has_pipeline('vocabulary'):
-            self.pipeline_registry.register(vocabulary_pipeline)
+        # Use the centralized pipeline registration
+        import pipelines  # This triggers auto-registration
     
     def list_pipelines(self) -> List[str]:
         """List available pipelines.
@@ -186,11 +186,8 @@ def main() -> int:
     # Initialize providers from config
     config.initialize_providers(provider_registry)
     
-    # Register pipelines
-    from pipelines.vocabulary.pipeline import VocabularyPipeline
-    vocabulary_pipeline = VocabularyPipeline()
-    if not pipeline_registry.has_pipeline('vocabulary'):
-        pipeline_registry.register(vocabulary_pipeline)
+    # Register pipelines using centralized system
+    import pipelines  # This triggers auto-registration
     
     project_root = Path(__file__).parents[2]
     

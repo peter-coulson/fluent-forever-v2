@@ -1,0 +1,31 @@
+{
+  "pipeline": {
+    "name": "conjugation",
+    "display_name": "Conjugation Practice Cards",
+    "data_file": "conjugations.json",
+    "anki_note_type": "Conjugation",
+    "stages": [
+      "analyze_verbs",
+      "create_cards",
+      "generate_media",
+      "validate_data",
+      "sync_templates",
+      "sync_cards"
+    ]
+  },
+  "stage_providers": {
+    "generate_media": "openai",
+    "sync_templates": "anki",
+    "sync_cards": "anki"
+  },
+  "conjugation_settings": {
+    "tenses": ["present", "preterite", "imperfect", "future"],
+    "persons": ["yo", "tú", "él", "nosotros", "vosotros", "ellos"],
+    "max_forms_per_verb": 12,
+    "include_reverse_cards": true
+  },
+  "validation": {
+    "require_all_fields": true,
+    "check_media_exists": false
+  }
+}

@@ -135,8 +135,19 @@ class RunCommand:
             context: Pipeline context
             args: Command arguments
         """
+        # Vocabulary-specific arguments
         if getattr(args, 'words', None):
             context.set('words', [w.strip() for w in args.words.split(',') if w.strip()])
+        
+        # Conjugation-specific arguments
+        if getattr(args, 'verbs', None):
+            context.set('verbs', [v.strip() for v in args.verbs.split(',') if v.strip()])
+        if getattr(args, 'tenses', None):
+            context.set('tenses', [t.strip() for t in args.tenses.split(',') if t.strip()])
+        if getattr(args, 'persons', None):
+            context.set('persons', [p.strip() for p in args.persons.split(',') if p.strip()])
+        
+        # Common arguments
         if getattr(args, 'cards', None):
             context.set('cards', [c.strip() for c in args.cards.split(',') if c.strip()])
         if getattr(args, 'file', None):
@@ -164,6 +175,12 @@ class RunCommand:
         
         if context.get('words'):
             print(f"  Words: {', '.join(context.get('words'))}")
+        if context.get('verbs'):
+            print(f"  Verbs: {', '.join(context.get('verbs'))}")
+        if context.get('tenses'):
+            print(f"  Tenses: {', '.join(context.get('tenses'))}")
+        if context.get('persons'):
+            print(f"  Persons: {', '.join(context.get('persons'))}")
         if context.get('cards'):
             print(f"  Cards: {', '.join(context.get('cards'))}")
         if context.get('input_file'):
