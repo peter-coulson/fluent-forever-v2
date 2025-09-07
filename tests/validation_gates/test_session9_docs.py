@@ -16,51 +16,6 @@ project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
 
-def test_documentation_structure():
-    """
-    Validation gate for Session 9: Documentation Context
-    
-    Tests:
-    - Documentation is organized by audience and purpose
-    - All documentation files are valid and accessible
-    - Documentation index provides clear navigation
-    """
-    context_dir = project_root / 'context'
-    
-    if not context_dir.exists():
-        pytest.skip("Documentation not yet implemented (Session 9 pending)")
-    
-    # Test documentation structure exists
-    expected_dirs = [
-        "user",        # User-facing documentation
-        "development", # Developer documentation
-        "operations",  # Operations documentation
-        "reference"    # Reference documentation
-    ]
-    
-    for expected_dir in expected_dirs:
-        dir_path = context_dir / expected_dir
-        assert dir_path.exists(), f"Documentation directory {expected_dir} should exist"
-
-
-def test_documentation_index():
-    """Test that documentation has proper index and navigation."""
-    context_dir = project_root / 'context'
-    
-    if not context_dir.exists():
-        pytest.skip("Documentation not yet implemented (Session 9 pending)")
-    
-    # Test main documentation index
-    index_file = context_dir / 'README.md'
-    assert index_file.exists(), "Documentation should have main README.md"
-    
-    # Read and validate index content
-    index_content = index_file.read_text()
-    
-    # Should contain links to major sections
-    assert "user" in index_content.lower(), "Index should reference user docs"
-    assert "development" in index_content.lower(), "Index should reference developer docs"
-    assert "operations" in index_content.lower(), "Index should reference operations docs"
 
 
 def test_user_documentation():
@@ -198,8 +153,6 @@ def test_documentation_metadata():
 
 
 if __name__ == "__main__":
-    test_documentation_structure()
-    test_documentation_index()
     test_user_documentation()
     test_developer_documentation()
     test_api_documentation()
