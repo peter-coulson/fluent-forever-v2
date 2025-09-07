@@ -82,17 +82,8 @@ python -m cli.pipeline preview <pipeline> --start-server [--port 8000]
 
 ## Environment Setup
 
-### Activation Script (CRITICAL)
-```bash
-# ALWAYS run this first
-source activate_env.sh
-```
+**→ See [Quick Start Guide](../user/quick_start.md)** for complete setup instructions including critical activation script usage.
 
-Never run Python commands without activating first!
+## Common Issues
 
-## Common Error Solutions
-- **ModuleNotFoundError**: Run `source activate_env.sh` first
-- **Anki Connection Error**: Ensure Anki is running with AnkiConnect addon
-- **API Key Error**: Check `.env` file has valid keys
-
-For detailed troubleshooting, see [Troubleshooting Guide](../user/troubleshooting.md).
+**→ See [Troubleshooting Guide](../user/troubleshooting.md)** for complete error solutions and diagnostic procedures.

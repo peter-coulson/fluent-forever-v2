@@ -7,11 +7,7 @@ Common issues and solutions for Fluent Forever V2.
 ### Environment Not Activated
 **Problem**: `ModuleNotFoundError: No module named 'cli'`
 
-**Solution**: Always run activation script first
-```bash
-source activate_env.sh
-python -m cli.pipeline list
-```
+**Solution**: Always run activation script first - see [Quick Start Guide](quick_start.md#installation)
 
 **Why**: The activation script sets up virtual environment and PYTHONPATH correctly.
 
@@ -51,12 +47,7 @@ python -m cli.pipeline run vocabulary --stage sync_templates --dry-run
 **Problem**: `FileNotFoundError: staging/claude_batch_*.json`
 
 **Solutions**:
-1. **Run prepare_batch first**:
-   ```bash
-   source activate_env.sh
-   python -m cli.pipeline run vocabulary --stage prepare_batch --words haber,ser
-   ```
-
+1. **Run prepare_batch first** - see [CLI Reference](../reference/cli_reference.md#vocabulary-pipeline)
 2. **Check staging directory** exists and has files
 
 #### IPA Validation Failures  
@@ -103,28 +94,13 @@ python -m cli.pipeline run vocabulary --stage sync_templates --dry-run
 ## 📊 Diagnostic Commands
 
 ### System Health Check
-```bash
-# Always activate first
-source activate_env.sh
 
-# Check pipeline availability
-python -m cli.pipeline list
+**→ See [CLI Reference](../reference/cli_reference.md) for complete command list**
 
-# Test Anki connection
-python -m cli.pipeline run vocabulary --stage sync_templates --dry-run
-
-# Validate configuration
-python -m cli.pipeline info vocabulary
-
-# Check API keys
-python -c "
-import os
-keys = ['OPENAI_API_KEY', 'FORVO_API_KEY']
-for key in keys:
-    value = os.getenv(key, 'NOT_SET')
-    print(f'{key}: {\"SET\" if value != \"NOT_SET\" else \"NOT_SET\"}')
-"
-```
+Key diagnostic commands:
+- Check pipeline availability: `python -m cli.pipeline list`
+- Test Anki connection: `python -m cli.pipeline run vocabulary --stage sync_templates --dry-run`
+- Validate configuration: `python -m cli.pipeline info vocabulary`
 
 ## 🆘 Emergency Recovery
 

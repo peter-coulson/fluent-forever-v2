@@ -14,8 +14,9 @@ This example demonstrates creating conjugation cards for Spanish verbs "hablar,"
 
 ## Step 1: Environment Setup
 
+**→ See [Quick Start Guide](../quick_start.md) for complete setup instructions**
+
 ```bash
-source activate_env.sh
 python -m cli.pipeline info conjugation
 ```
 
@@ -69,7 +70,7 @@ python -m cli.pipeline run conjugation --stage sync_cards --execute
 ## Complete Conjugation Workflow
 
 ```bash
-source activate_env.sh
+# Environment setup - see Quick Start Guide
 python -m cli.pipeline run conjugation --stage analyze_verbs --verbs hablar,comer,vivir
 python -m cli.pipeline run conjugation --stage create_cards  
 python -m cli.pipeline run conjugation --stage generate_media --execute

@@ -14,10 +14,7 @@ This example demonstrates creating vocabulary cards for the Spanish words "haber
 
 ## Step 1: Environment Setup
 
-**CRITICAL**: Always activate environment first
-```bash
-source activate_env.sh
-```
+**→ See [Quick Start Guide](../quick_start.md) for complete setup instructions**
 
 Verify system is ready:
 ```bash
@@ -107,8 +104,7 @@ python -m cli.pipeline run vocabulary --stage sync_cards --execute
 ## Complete Workflow Summary
 
 ```bash
-# 1. Environment setup (ALWAYS FIRST!)
-source activate_env.sh
+# 1. Environment setup - see Quick Start Guide
 
 # 2. Batch preparation
 python -m cli.pipeline run vocabulary --stage prepare_batch --words haber,por,con

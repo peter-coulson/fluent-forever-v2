@@ -2,39 +2,28 @@
 
 **Spanish learning card creation system with modular pipeline architecture.**
 
-## 📖 Documentation
-
-All documentation has been organized in the `context/` directory:
-
-- **[User Guide](context/user/README.md)** - Getting started, usage, examples
-- **[Developer Guide](context/development/architecture.md)** - Architecture, API reference
-- **[Operations Guide](context/operations/claude_guide.md)** - Configuration, deployment
-- **[Complete Navigation](context/README.md)** - Full documentation index
+Transform Spanish vocabulary and grammar into memorable Anki cards with Studio Ghibli imagery and native pronunciation.
 
 ## 🚀 Quick Start
 
 ```bash
-# Install and setup
-python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
-
 # CRITICAL: Always activate environment first
 source activate_env.sh
 
-# Discover available pipelines
+# Get started immediately
 python -m cli.pipeline list
-
-# Get detailed usage instructions
-# See context/user/quick_start.md
 ```
 
-## 🏗️ Architecture
+**→ [Complete Setup Guide](context/user/quick_start.md)**
 
-Pipeline-centric system supporting multiple card types:
-- **Vocabulary Pipeline**: Fluent Forever vocabulary cards  
-- **Conjugation Pipeline**: Verb conjugation practice
-- **Extensible**: Easy to add new card types
+## 📖 Documentation
 
----
+**[Full Documentation Navigation](context/README.md)**
 
-**For complete documentation, see [`context/README.md`](context/README.md)**
+## 🏗️ Current Pipelines
+
+- **Vocabulary**: Fluent Forever vocabulary cards with visual memory anchors
+- **Conjugation**: Verb conjugation practice cards
+- **Extensible**: Add new card types easily
+
+**→ [Architecture Overview](context/development/architecture.md)**
