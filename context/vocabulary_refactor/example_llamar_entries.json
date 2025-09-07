@@ -1,0 +1,4376 @@
+[
+  {
+    "word": "llamar",
+    "pos": "verb",
+    "pos_title": "Verbo transitivo",
+    "lang_code": "es",
+    "lang": "Español",
+    "sounds": [
+      {
+        "ipa": "[ʝaˈmaɾ]",
+        "raw_tags": [
+          "yeísta"
+        ]
+      },
+      {
+        "ipa": "[ʎaˈmaɾ]",
+        "raw_tags": [
+          "no yeísta"
+        ]
+      },
+      {
+        "ipa": "[ʃaˈmaɾ]",
+        "raw_tags": [
+          "sheísta"
+        ]
+      },
+      {
+        "ipa": "[ʒaˈmaɾ]",
+        "raw_tags": [
+          "zheísta"
+        ]
+      },
+      {
+        "rhymes": "aɾ"
+      }
+    ],
+    "translations": [
+      {
+        "word": "cridar",
+        "lang_code": "ca",
+        "lang": "Catalán",
+        "sense_index": "5"
+      },
+      {
+        "word": "call",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "1,2,4,5,8"
+      },
+      {
+        "word": "name",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "1,2"
+      },
+      {
+        "word": "refer to",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "1,2"
+      },
+      {
+        "word": "summon",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "3"
+      },
+      {
+        "word": "knock",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "10"
+      },
+      {
+        "word": "ring",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "10"
+      },
+      {
+        "word": "appeal",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "11"
+      },
+      {
+        "word": "attract",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "11"
+      },
+      {
+        "word": "vokialvokialtiri",
+        "lang_code": "eo",
+        "lang": "Esperanto",
+        "sense_index": "5"
+      },
+      {
+        "word": "chamar",
+        "lang_code": "gl",
+        "lang": "Gallego",
+        "sense_index": "1"
+      },
+      {
+        "word": "anrufen",
+        "lang_code": "de",
+        "lang": "Alemán",
+        "sense_index": "5"
+      },
+      {
+        "word": "chiamare",
+        "lang_code": "it",
+        "lang": "Italiano",
+        "sense_index": "5"
+      },
+      {
+        "word": "notza",
+        "lang_code": "nci",
+        "lang": "Náhuatl clásico"
+      }
+    ],
+    "etymology_text": "Del latín clāmāre (\"invocar, implorar, rogar\").",
+    "idioms": [
+      {
+        "word": "llamar a capítulo"
+      },
+      {
+        "word": "llamar a cerrar filas"
+      },
+      {
+        "word": "llamar a la guerra"
+      },
+      {
+        "word": "llamar al orden"
+      },
+      {
+        "word": "llamar al pan, pan, y al vino, vino"
+      },
+      {
+        "word": "llamar en voz alta"
+      },
+      {
+        "word": "llamar en voz baja"
+      },
+      {
+        "word": "llamar la atención",
+        "sense": "interesar mucho una cosa, reprender"
+      },
+      {
+        "word": "treta del llamar"
+      }
+    ],
+    "synonyms": [
+      {
+        "word": "decir",
+        "sense_index": "1",
+        "sense": "Utilizar una palabra o expresión para referirse a alguien o algo."
+      },
+      {
+        "word": "designar",
+        "sense_index": "1",
+        "sense": "Utilizar una palabra o expresión para referirse a alguien o algo."
+      },
+      {
+        "word": "denominar",
+        "sense_index": "1",
+        "sense": "Utilizar una palabra o expresión para referirse a alguien o algo."
+      },
+      {
+        "word": "conocer como",
+        "sense_index": "1",
+        "sense": "Utilizar una palabra o expresión para referirse a alguien o algo."
+      },
+      {
+        "word": "bautizar",
+        "sense_index": "2",
+        "sense": "Designar a alguien o algo con una palabra o expresión que desde ese momento le servirá para identificarlo."
+      },
+      {
+        "word": "nombrar",
+        "sense_index": "2",
+        "sense": "Designar a alguien o algo con una palabra o expresión que desde ese momento le servirá para identificarlo."
+      },
+      {
+        "word": "buscar",
+        "sense_index": "3",
+        "sense": "Llamar la atención de alguien hacia sí mismo, mediante el uso de alguna señal visual, auditiva, táctil, etc, y más comùnmente usando una palabra o expresión que lo identifica."
+      },
+      {
+        "word": "invocar",
+        "sense_index": "4",
+        "sense": "Pedir la atención de parte de una deidad, ser inmaterial o imaginario."
+      },
+      {
+        "word": "telefonear",
+        "sense_index": "5",
+        "sense": "Hacer uso del teléfono para comunicarse con alguien."
+      },
+      {
+        "word": "traer",
+        "sense_index": "6",
+        "sense": "Llevar una cosa hacia otra."
+      },
+      {
+        "word": "citar",
+        "sense_index": "7",
+        "sense": "Dar instrucciones para que una o más personas acudan a cierto lugar o evento."
+      },
+      {
+        "word": "convocar",
+        "sense_index": "7",
+        "sense": "Dar instrucciones para que una o más personas acudan a cierto lugar o evento."
+      }
+    ],
+    "proverbs": [
+      {
+        "word": "por un perro que maté, mataperros me llamaron"
+      }
+    ],
+    "tags": [
+      "transitive"
+    ],
+    "extra_sounds": {
+      "acentuación": "aguda",
+      "longitud silábica": "bisílaba"
+    },
+    "forms": [
+      {
+        "form": "haber llamado",
+        "tags": [
+          "impersonal",
+          "infinitive"
+        ]
+      },
+      {
+        "form": "llamando",
+        "tags": [
+          "impersonal",
+          "gerund"
+        ]
+      },
+      {
+        "form": "habiendo llamado",
+        "tags": [
+          "impersonal",
+          "gerund"
+        ]
+      },
+      {
+        "form": "llamado",
+        "tags": [
+          "impersonal",
+          "participle"
+        ]
+      },
+      {
+        "form": "llamo",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamas",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamás",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llama",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamamos",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamáis",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llaman",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llamaba",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamabas",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamabas",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llamaba",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamábamos",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamabais",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llamaban",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llamé",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamaste",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamaste",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llamó",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamamos",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamasteis",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llamaron",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "había llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "habías llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "habías llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "había llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "habíamos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "habíais llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "habían llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "he llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "has llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "has llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "ha llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "hemos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "habéis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "han llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llamaré",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamarás",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamarás",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llamará",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamaremos",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamaréis",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llamarán",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "habré llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "habrás llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "habrás llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "habrá llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "habremos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "habréis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "habrán llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "hube llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "hubiste llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "hubiste llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "hubo llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "hubimos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "hubisteis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "hubieron llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llamaría",
+        "tags": [
+          "first-person",
+          "singular",
+          "conditional"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamarías",
+        "tags": [
+          "second-person",
+          "singular",
+          "conditional"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamarías",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "conditional"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llamaría",
+        "tags": [
+          "third-person",
+          "singular",
+          "conditional"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamaríamos",
+        "tags": [
+          "first-person",
+          "plural",
+          "conditional"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamaríais",
+        "tags": [
+          "second-person",
+          "plural",
+          "conditional"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llamarían",
+        "tags": [
+          "third-person",
+          "plural",
+          "conditional"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "habría llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "habrías llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "habrías llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "habría llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "habríamos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "habríais llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "habrían llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llame",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "llames",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "llames",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llamés",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llame",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "llamemos",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "llaméis",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "llamen",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "llamara",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "llamase",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "llamaras",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "llamases",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "llamaras",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llamases",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llamara",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "llamase",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "llamáramos",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "llamásemos",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "llamarais",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "llamaseis",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "llamaran",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "llamasen",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "haya llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "hayas llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "hayas llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "haya llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "hayamos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "hayáis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "hayan llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "hubiera llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "hubiese llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "hubieras llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "hubieses llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "hubieras llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "hubieses llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "hubiera llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "hubiese llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "hubiéramos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "hubiésemos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "hubierais llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "hubieseis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "hubieran llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "hubiesen llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "llamare",
+        "tags": [
+          "first-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "llamares",
+        "tags": [
+          "second-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "llamares",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llamare",
+        "tags": [
+          "third-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "llamáremos",
+        "tags": [
+          "first-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "llamareis",
+        "tags": [
+          "second-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "llamaren",
+        "tags": [
+          "third-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "hubiere llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "hubieres llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "hubieres llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "hubiere llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "hubiéremos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "hubiereis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "hubieren llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "llama",
+        "tags": [
+          "second-person",
+          "singular",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(tú)"
+        ]
+      },
+      {
+        "form": "llamá",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(vos)"
+        ]
+      },
+      {
+        "form": "llame",
+        "tags": [
+          "third-person",
+          "singular",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(usted)"
+        ]
+      },
+      {
+        "form": "llamemos",
+        "tags": [
+          "first-person",
+          "plural",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(nosotros)"
+        ]
+      },
+      {
+        "form": "llamad",
+        "tags": [
+          "second-person",
+          "plural",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(vosotros)"
+        ]
+      },
+      {
+        "form": "llamen",
+        "tags": [
+          "third-person",
+          "plural",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(ustedes)"
+        ]
+      }
+    ],
+    "hyphenations": [
+      {
+        "parts": [
+          "lla",
+          "mar"
+        ]
+      }
+    ],
+    "categories": [
+      {
+        "name": "ES:Palabras agudas",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Palabras bisílabas",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Palabras provenientes del latín",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Rimas:aɾ",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos de la primera conjugación",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos del paradigma amar",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos regulares",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos transitivos",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Alemán",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Catalán",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Esperanto",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Gallego",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Inglés",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Italiano",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Náhuatl clásico",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "NCI:Traducciones incompletas o imprecisas",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      }
+    ],
+    "senses": [
+      {
+        "glosses": [
+          "Utilizar una palabra o expresión para referirse a alguien o algo."
+        ],
+        "examples": [
+          {
+            "text": "Al aguacate, en Sudamérica lo llaman palta.",
+            "bold_text_offsets": [
+              [
+                30,
+                36
+              ]
+            ]
+          }
+        ],
+        "sense_index": "1",
+        "id": "es-llamar-es-verb-7KG1vp6V"
+      },
+      {
+        "glosses": [
+          "Designar a alguien o algo con una palabra o expresión que desde ese momento le servirá para identificarlo."
+        ],
+        "examples": [
+          {
+            "text": "Nació en julio y lo llamaron Juan.",
+            "bold_text_offsets": [
+              [
+                20,
+                28
+              ]
+            ]
+          },
+          {
+            "text": "me llamo Mini.",
+            "bold_text_offsets": [
+              [
+                3,
+                8
+              ]
+            ]
+          },
+          {
+            "text": "¿cómo te llamas?",
+            "bold_text_offsets": [
+              [
+                9,
+                15
+              ]
+            ]
+          },
+          {
+            "text": "¿cómo se llama usted ?",
+            "bold_text_offsets": [
+              [
+                9,
+                14
+              ]
+            ]
+          }
+        ],
+        "sense_index": "2",
+        "id": "es-llamar-es-verb-aPAFfOft"
+      },
+      {
+        "glosses": [
+          "Llamar la atención de alguien hacia sí mismo, mediante el uso de alguna señal visual, auditiva, táctil, etc, y más comùnmente usando una palabra o expresión que lo identifica."
+        ],
+        "examples": [
+          {
+            "text": "Estoy llamando a Juan.",
+            "bold_text_offsets": [
+              [
+                6,
+                14
+              ]
+            ]
+          }
+        ],
+        "sense_index": "3",
+        "id": "es-llamar-es-verb-in3Z4wmv"
+      },
+      {
+        "glosses": [
+          "Pedir la atención de parte de una deidad, ser inmaterial o imaginario."
+        ],
+        "tags": [
+          "figurative"
+        ],
+        "sense_index": "4",
+        "id": "es-llamar-es-verb-nRWyBRQL",
+        "categories": [
+          {
+            "name": "ES:Términos en sentido figurado",
+            "kind": "other",
+            "parents": [],
+            "source": "w"
+          }
+        ]
+      },
+      {
+        "glosses": [
+          "Hacer uso del teléfono para comunicarse con alguien."
+        ],
+        "raw_tags": [
+          "se usa también como verbo intransitivo"
+        ],
+        "sense_index": "5",
+        "id": "es-llamar-es-verb-bxEpHeKU"
+      },
+      {
+        "glosses": [
+          "Llevar una cosa hacia otra."
+        ],
+        "examples": [
+          {
+            "text": "El ocio llama al vicio.",
+            "bold_text_offsets": [
+              [
+                8,
+                13
+              ]
+            ]
+          }
+        ],
+        "sense_index": "6",
+        "id": "es-llamar-es-verb-eBx1JD~8"
+      },
+      {
+        "glosses": [
+          "Dar instrucciones para que una o más personas acudan a cierto lugar o evento."
+        ],
+        "examples": [
+          {
+            "text": "Llamar a filas.",
+            "bold_text_offsets": [
+              [
+                0,
+                6
+              ]
+            ]
+          }
+        ],
+        "sense_index": "7",
+        "id": "es-llamar-es-verb-r17GjiL~"
+      },
+      {
+        "glosses": [
+          "Entre personas, darse determinado tratamiento, ya más cortés, ya más informal."
+        ],
+        "raw_tags": [
+          "se usa con la preposición de"
+        ],
+        "examples": [
+          {
+            "text": "Llamar de usted.",
+            "bold_text_offsets": [
+              [
+                0,
+                9
+              ]
+            ]
+          }
+        ],
+        "sense_index": "8",
+        "id": "es-llamar-es-verb-gScDkT4D"
+      },
+      {
+        "glosses": [
+          "Dicho del viento, tomar otra dirección."
+        ],
+        "raw_tags": [
+          "se usa también como verbo pronominal"
+        ],
+        "topics": [
+          "nautical"
+        ],
+        "sense_index": "9",
+        "id": "es-llamar-es-verb-vlpO8SBl",
+        "categories": [
+          {
+            "name": "ES:Náutica",
+            "kind": "other",
+            "parents": [],
+            "source": "w"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "word": "llamar",
+    "pos": "verb",
+    "pos_title": "Verbo intransitivo",
+    "lang_code": "es",
+    "lang": "Español",
+    "sounds": [
+      {
+        "ipa": "[ʝaˈmaɾ]",
+        "raw_tags": [
+          "yeísta"
+        ]
+      },
+      {
+        "ipa": "[ʎaˈmaɾ]",
+        "raw_tags": [
+          "no yeísta"
+        ]
+      },
+      {
+        "ipa": "[ʃaˈmaɾ]",
+        "raw_tags": [
+          "sheísta"
+        ]
+      },
+      {
+        "ipa": "[ʒaˈmaɾ]",
+        "raw_tags": [
+          "zheísta"
+        ]
+      },
+      {
+        "rhymes": "aɾ"
+      }
+    ],
+    "translations": [
+      {
+        "word": "cridar",
+        "lang_code": "ca",
+        "lang": "Catalán",
+        "sense_index": "5"
+      },
+      {
+        "word": "call",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "1,2,4,5,8"
+      },
+      {
+        "word": "name",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "1,2"
+      },
+      {
+        "word": "refer to",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "1,2"
+      },
+      {
+        "word": "summon",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "3"
+      },
+      {
+        "word": "knock",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "10"
+      },
+      {
+        "word": "ring",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "10"
+      },
+      {
+        "word": "appeal",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "11"
+      },
+      {
+        "word": "attract",
+        "lang_code": "en",
+        "lang": "Inglés",
+        "sense_index": "11"
+      },
+      {
+        "word": "vokialvokialtiri",
+        "lang_code": "eo",
+        "lang": "Esperanto",
+        "sense_index": "5"
+      },
+      {
+        "word": "chamar",
+        "lang_code": "gl",
+        "lang": "Gallego",
+        "sense_index": "1"
+      },
+      {
+        "word": "anrufen",
+        "lang_code": "de",
+        "lang": "Alemán",
+        "sense_index": "5"
+      },
+      {
+        "word": "chiamare",
+        "lang_code": "it",
+        "lang": "Italiano",
+        "sense_index": "5"
+      },
+      {
+        "word": "notza",
+        "lang_code": "nci",
+        "lang": "Náhuatl clásico"
+      }
+    ],
+    "etymology_text": "Del latín clāmāre (\"invocar, implorar, rogar\").",
+    "derived": [
+      {
+        "word": "llamado"
+      },
+      {
+        "word": "llamada"
+      },
+      {
+        "word": "llamamiento"
+      }
+    ],
+    "idioms": [
+      {
+        "word": "llamar a capítulo"
+      },
+      {
+        "word": "llamar a cerrar filas"
+      },
+      {
+        "word": "llamar a la guerra"
+      },
+      {
+        "word": "llamar al orden"
+      },
+      {
+        "word": "llamar al pan, pan, y al vino, vino"
+      },
+      {
+        "word": "llamar en voz alta"
+      },
+      {
+        "word": "llamar en voz baja"
+      },
+      {
+        "word": "llamar la atención",
+        "sense": "interesar mucho una cosa, reprender"
+      },
+      {
+        "word": "treta del llamar"
+      }
+    ],
+    "synonyms": [
+      {
+        "word": "golpear",
+        "sense_index": "10",
+        "sense": "Utilizar una señal convenida frente a una puerta, como golpear o tocar un timbre, para que acuda una persona a abrir o atender."
+      },
+      {
+        "word": "sonar",
+        "sense_index": "10",
+        "sense": "Utilizar una señal convenida frente a una puerta, como golpear o tocar un timbre, para que acuda una persona a abrir o atender."
+      },
+      {
+        "word": "tocar",
+        "sense_index": "10",
+        "sense": "Utilizar una señal convenida frente a una puerta, como golpear o tocar un timbre, para que acuda una persona a abrir o atender."
+      },
+      {
+        "word": "atraer",
+        "sense_index": "11",
+        "sense": "Producir algo atracción o agrado a alguien."
+      },
+      {
+        "word": "gustar",
+        "sense_index": "11",
+        "sense": "Producir algo atracción o agrado a alguien."
+      }
+    ],
+    "proverbs": [
+      {
+        "word": "por un perro que maté, mataperros me llamaron"
+      }
+    ],
+    "tags": [
+      "intransitive"
+    ],
+    "extra_sounds": {
+      "acentuación": "aguda",
+      "longitud silábica": "bisílaba"
+    },
+    "forms": [
+      {
+        "form": "haber llamado",
+        "tags": [
+          "impersonal",
+          "infinitive"
+        ]
+      },
+      {
+        "form": "llamando",
+        "tags": [
+          "impersonal",
+          "gerund"
+        ]
+      },
+      {
+        "form": "habiendo llamado",
+        "tags": [
+          "impersonal",
+          "gerund"
+        ]
+      },
+      {
+        "form": "llamado",
+        "tags": [
+          "impersonal",
+          "participle"
+        ]
+      },
+      {
+        "form": "llamo",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamas",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamás",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llama",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamamos",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamáis",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llaman",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "present"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llamaba",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamabas",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamabas",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llamaba",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamábamos",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamabais",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llamaban",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llamé",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamaste",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamaste",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llamó",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamamos",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamasteis",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llamaron",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "había llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "habías llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "habías llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "había llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "habíamos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "habíais llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "habían llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "he llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "has llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "has llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "ha llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "hemos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "habéis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "han llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "present",
+          "perfect",
+          "compound"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llamaré",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamarás",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamarás",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llamará",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamaremos",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamaréis",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llamarán",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "future"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "habré llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "habrás llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "habrás llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "habrá llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "habremos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "habréis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "habrán llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "indicative",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "hube llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "hubiste llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "hubiste llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "hubo llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "hubimos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "hubisteis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "hubieron llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "archaic",
+          "indicative",
+          "past",
+          "anterior"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llamaría",
+        "tags": [
+          "first-person",
+          "singular",
+          "conditional"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "llamarías",
+        "tags": [
+          "second-person",
+          "singular",
+          "conditional"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "llamarías",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "conditional"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "llamaría",
+        "tags": [
+          "third-person",
+          "singular",
+          "conditional"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "llamaríamos",
+        "tags": [
+          "first-person",
+          "plural",
+          "conditional"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "llamaríais",
+        "tags": [
+          "second-person",
+          "plural",
+          "conditional"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "llamarían",
+        "tags": [
+          "third-person",
+          "plural",
+          "conditional"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "habría llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "yo"
+        ]
+      },
+      {
+        "form": "habrías llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "tú"
+        ]
+      },
+      {
+        "form": "habrías llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "vos"
+        ]
+      },
+      {
+        "form": "habría llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "él, ella, usted"
+        ]
+      },
+      {
+        "form": "habríamos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "nosotros"
+        ]
+      },
+      {
+        "form": "habríais llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "vosotros"
+        ]
+      },
+      {
+        "form": "habrían llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "conditional",
+          "compound"
+        ],
+        "raw_tags": [
+          "ustedes, ellos"
+        ]
+      },
+      {
+        "form": "llame",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "llames",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "llames",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llamés",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llame",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "llamemos",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "llaméis",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "llamen",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "present"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "llamara",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "llamase",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "llamaras",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "llamases",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "llamaras",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llamases",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llamara",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "llamase",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "llamáramos",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "llamásemos",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "llamarais",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "llamaseis",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "llamaran",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "llamasen",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "past",
+          "imperfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "haya llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "hayas llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "hayas llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "haya llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "hayamos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "hayáis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "hayan llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "present",
+          "perfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "hubiera llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "hubiese llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "hubieras llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "hubieses llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "hubieras llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "hubieses llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "hubiera llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "hubiese llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "hubiéramos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "hubiésemos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "hubierais llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "hubieseis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "hubieran llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "hubiesen llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "subjunctive",
+          "pluperfect"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "llamare",
+        "tags": [
+          "first-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "llamares",
+        "tags": [
+          "second-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "llamares",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "llamare",
+        "tags": [
+          "third-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "llamáremos",
+        "tags": [
+          "first-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "llamareis",
+        "tags": [
+          "second-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "llamaren",
+        "tags": [
+          "third-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "hubiere llamado",
+        "tags": [
+          "first-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que yo"
+        ]
+      },
+      {
+        "form": "hubieres llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que tú"
+        ]
+      },
+      {
+        "form": "hubieres llamado",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que vos"
+        ]
+      },
+      {
+        "form": "hubiere llamado",
+        "tags": [
+          "third-person",
+          "singular",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que él, que ella, que usted"
+        ]
+      },
+      {
+        "form": "hubiéremos llamado",
+        "tags": [
+          "first-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que nosotros"
+        ]
+      },
+      {
+        "form": "hubiereis llamado",
+        "tags": [
+          "second-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que vosotros"
+        ]
+      },
+      {
+        "form": "hubieren llamado",
+        "tags": [
+          "third-person",
+          "plural",
+          "archaic",
+          "subjunctive",
+          "future",
+          "compound"
+        ],
+        "raw_tags": [
+          "que ustedes, que ellos"
+        ]
+      },
+      {
+        "form": "llama",
+        "tags": [
+          "second-person",
+          "singular",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(tú)"
+        ]
+      },
+      {
+        "form": "llamá",
+        "tags": [
+          "second-person",
+          "singular",
+          "vos-form",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(vos)"
+        ]
+      },
+      {
+        "form": "llame",
+        "tags": [
+          "third-person",
+          "singular",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(usted)"
+        ]
+      },
+      {
+        "form": "llamemos",
+        "tags": [
+          "first-person",
+          "plural",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(nosotros)"
+        ]
+      },
+      {
+        "form": "llamad",
+        "tags": [
+          "second-person",
+          "plural",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(vosotros)"
+        ]
+      },
+      {
+        "form": "llamen",
+        "tags": [
+          "third-person",
+          "plural",
+          "imperative",
+          "present"
+        ],
+        "raw_tags": [
+          "(ustedes)"
+        ]
+      }
+    ],
+    "hyphenations": [
+      {
+        "parts": [
+          "lla",
+          "mar"
+        ]
+      }
+    ],
+    "cognates": [
+      {
+        "word": "clamar"
+      }
+    ],
+    "categories": [
+      {
+        "name": "ES:Palabras agudas",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Palabras bisílabas",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Palabras provenientes del latín",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Rimas:aɾ",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos de la primera conjugación",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos del paradigma amar",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos intransitivos",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "ES:Verbos regulares",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Alemán",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Catalán",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Esperanto",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Gallego",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Inglés",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Italiano",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "Español-Náhuatl clásico",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      },
+      {
+        "name": "NCI:Traducciones incompletas o imprecisas",
+        "kind": "other",
+        "parents": [],
+        "source": "w"
+      }
+    ],
+    "senses": [
+      {
+        "glosses": [
+          "Utilizar una señal convenida frente a una puerta, como golpear o tocar un timbre, para que acuda una persona a abrir o atender."
+        ],
+        "sense_index": "10",
+        "id": "es-llamar-es-verb-jgcDL4e3"
+      },
+      {
+        "glosses": [
+          "Producir algo atracción o agrado a alguien."
+        ],
+        "examples": [
+          {
+            "text": "La natación no me llama.",
+            "bold_text_offsets": [
+              [
+                18,
+                23
+              ]
+            ]
+          }
+        ],
+        "sense_index": "11",
+        "id": "es-llamar-es-verb-aZ7aMYvE"
+      },
+      {
+        "glosses": [
+          "Provocar una sensación de sed."
+        ],
+        "tags": [
+          "rare"
+        ],
+        "examples": [
+          {
+            "text": "Este plato es demasiado salado y llama.",
+            "bold_text_offsets": [
+              [
+                33,
+                38
+              ]
+            ]
+          }
+        ],
+        "sense_index": "12",
+        "id": "es-llamar-es-verb-QDKqz2DB",
+        "categories": [
+          {
+            "name": "ES:Términos infrecuentes",
+            "kind": "other",
+            "parents": [],
+            "source": "w"
+          }
+        ]
+      }
+    ]
+  }
+]
