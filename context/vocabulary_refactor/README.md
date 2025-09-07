@@ -54,7 +54,7 @@ We divide the structure into four seperate and modular workflows:
 3) Word queue to vocabulary
 4) Vocabulary sync with Anki
 
-### Spanish dict to word queue 
+### 1. Spanish dict to word queue 
 #### Word Queue Structure
 - The word queue entries will be a sequencial list of meanings with the same keys the meanings for words in vocabulary.json
 - Every entry will be filled with the exception of Prompt and Gender which is an optional field that may be empty
@@ -64,3 +64,12 @@ We divide the structure into four seperate and modular workflows:
 - Pulls that many new words from the spanish_dictionary.json in order of rank that are not already in vocabulary as words, or skipped words, or in the word queue
 - For each word "senses" value, appends a new meaning instance in the word_queue.json with the same fields as vocabulary.json filling the fields as described above 
 - **Critical Problem** The dictionary contains all possible meanings of words defined as "senses". We need a small subset of only the most used senses
+
+### 2. Filling Prompt Creation
+Will leave undefined for now. Options are either the user directly editing the word queue and calling a sync script that checks for any words where the prompt value is filled. Or we create some other batch file where the user inputs the CardID: "prompt". We also need some skip word function. I think this would probably be easiest to have some cli script for skipping word queue where we input the words to be skipped --skipped-words ya,yo,hay
+
+### 3. Word Queue to Vocabulary
+We generate the media as part of this pipeline. This would constitue a form of sync as described above. It should validate prompts are a certain number of characters to prevent accidental typos. Then it should validate that the media with the same name is not already in the media folder and the CardID is not already in vocabulary. Then proceed to generate all media. Once all media is generated, update vocabulary. 
+
+### 4. Vocabulary Sync
+This logic will remain largely unchanged
