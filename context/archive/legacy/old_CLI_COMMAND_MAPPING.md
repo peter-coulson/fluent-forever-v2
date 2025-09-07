@@ -1,3 +1,13 @@
+<!-- 
+ARCHIVED DOCUMENT
+Original: CLI_COMMAND_MAPPING.md
+Archived Location: context/archive/legacy/old_CLI_COMMAND_MAPPING.md
+Archive Date: 2025-09-06T19:46:52.108279
+
+This document has been archived as part of the documentation reorganization.
+For current documentation, see context/README.md
+-->
+
 # CLI Command Mapping: Old to New System
 
 This document maps all existing CLI scripts to the new universal pipeline runner commands.

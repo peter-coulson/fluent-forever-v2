@@ -1,3 +1,13 @@
+<!-- 
+ARCHIVED DOCUMENT
+Original: DESIGN_DECISIONS.md
+Archived Location: context/archive/legacy/old_DESIGN_DECISIONS.md
+Archive Date: 2025-09-06T19:46:52.107784
+
+This document has been archived as part of the documentation reorganization.
+For current documentation, see context/README.md
+-->
+
 # Fluent Forever V2 - Design Principles & Evolution
 
 ## 🎯 Core Design Principles (Original Foundation)

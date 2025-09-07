@@ -1,3 +1,13 @@
+<!-- 
+ARCHIVED DOCUMENT
+Original: CLAUDE.md
+Archived Location: context/archive/legacy/old_CLAUDE.md
+Archive Date: 2025-09-06T19:46:52.107604
+
+This document has been archived as part of the documentation reorganization.
+For current documentation, see context/README.md
+-->
+
 # FLUENT FOREVER V2 - CLAUDE OPERATIONAL GUIDE
 
 ## SYSTEM OVERVIEW

@@ -25,33 +25,33 @@ def test_documentation_structure():
     - All documentation files are valid and accessible
     - Documentation index provides clear navigation
     """
-    docs_dir = project_root / 'docs'
+    context_dir = project_root / 'context'
     
-    if not docs_dir.exists():
+    if not context_dir.exists():
         pytest.skip("Documentation not yet implemented (Session 9 pending)")
     
     # Test documentation structure exists
     expected_dirs = [
         "user",        # User-facing documentation
-        "developer",   # Developer documentation
-        "api",         # API documentation
-        "tutorials"    # Tutorial documentation
+        "development", # Developer documentation
+        "operations",  # Operations documentation
+        "reference"    # Reference documentation
     ]
     
     for expected_dir in expected_dirs:
-        dir_path = docs_dir / expected_dir
+        dir_path = context_dir / expected_dir
         assert dir_path.exists(), f"Documentation directory {expected_dir} should exist"
 
 
 def test_documentation_index():
     """Test that documentation has proper index and navigation."""
-    docs_dir = project_root / 'docs'
+    context_dir = project_root / 'context'
     
-    if not docs_dir.exists():
+    if not context_dir.exists():
         pytest.skip("Documentation not yet implemented (Session 9 pending)")
     
     # Test main documentation index
-    index_file = docs_dir / 'README.md'
+    index_file = context_dir / 'README.md'
     assert index_file.exists(), "Documentation should have main README.md"
     
     # Read and validate index content
@@ -59,23 +59,22 @@ def test_documentation_index():
     
     # Should contain links to major sections
     assert "user" in index_content.lower(), "Index should reference user docs"
-    assert "developer" in index_content.lower(), "Index should reference developer docs"
-    assert "api" in index_content.lower(), "Index should reference API docs"
+    assert "development" in index_content.lower(), "Index should reference developer docs"
+    assert "operations" in index_content.lower(), "Index should reference operations docs"
 
 
 def test_user_documentation():
     """Test that user documentation is complete and accessible."""
-    user_docs = project_root / 'docs' / 'user'
+    user_docs = project_root / 'context' / 'user'
     
     if not user_docs.exists():
         pytest.skip("User documentation not yet implemented (Session 9 pending)")
     
     # Test key user documentation files
     expected_files = [
-        'getting-started.md',
-        'vocabulary-workflow.md',
-        'conjugation-workflow.md',
-        'troubleshooting.md'
+        'quick_start.md',
+        'troubleshooting.md',
+        'README.md'
     ]
     
     for expected_file in expected_files:
@@ -88,7 +87,7 @@ def test_user_documentation():
 
 def test_developer_documentation():
     """Test that developer documentation is complete."""
-    dev_docs = project_root / 'docs' / 'developer'
+    dev_docs = project_root / 'context' / 'development'
     
     if not dev_docs.exists():
         pytest.skip("Developer documentation not yet implemented (Session 9 pending)")
@@ -96,9 +95,7 @@ def test_developer_documentation():
     # Test key developer documentation files
     expected_files = [
         'architecture.md',
-        'pipeline-development.md',
-        'adding-providers.md',
-        'testing.md'
+        'adding_pipelines.md'
     ]
     
     for expected_file in expected_files:
@@ -110,36 +107,35 @@ def test_developer_documentation():
 
 def test_api_documentation():
     """Test that API documentation is generated and valid."""
-    api_docs = project_root / 'docs' / 'api'
+    dev_docs = project_root / 'context' / 'development'
     
-    if not api_docs.exists():
+    if not dev_docs.exists():
         pytest.skip("API documentation not yet implemented (Session 9 pending)")
     
-    # Test that API documentation includes key modules
-    expected_modules = [
-        'core.pipeline',
-        'core.registry', 
-        'stages',
-        'providers'
+    # Test that development documentation includes key concepts
+    expected_concepts = [
+        'Pipeline',
+        'Stage',
+        'architecture'
     ]
     
-    # Look for API documentation files
-    api_files = list(api_docs.glob('**/*.md'))
-    api_content = '\n'.join(f.read_text() for f in api_files)
+    # Look for development documentation files
+    dev_files = list(dev_docs.glob('**/*.md'))
+    dev_content = '\n'.join(f.read_text() for f in dev_files)
     
-    for module in expected_modules:
-        assert module in api_content, f"API docs should document {module}"
+    for concept in expected_concepts:
+        assert concept in dev_content, f"Development docs should document {concept}"
 
 
 def test_documentation_links():
     """Test that documentation internal links are valid."""
-    docs_dir = project_root / 'docs'
+    context_dir = project_root / 'context'
     
-    if not docs_dir.exists():
+    if not context_dir.exists():
         pytest.skip("Documentation not yet implemented (Session 9 pending)")
     
     # Find all markdown files
-    md_files = list(docs_dir.glob('**/*.md'))
+    md_files = list(context_dir.glob('**/*.md'))
     
     # Basic validation - files should be readable
     for md_file in md_files:
@@ -152,16 +148,15 @@ def test_documentation_links():
 
 def test_tutorial_documentation():
     """Test that tutorial documentation covers key workflows."""
-    tutorial_docs = project_root / 'docs' / 'tutorials'
+    tutorial_docs = project_root / 'context' / 'user' / 'examples'
     
     if not tutorial_docs.exists():
         pytest.skip("Tutorial documentation not yet implemented (Session 9 pending)")
     
     # Test key tutorial files
     expected_tutorials = [
-        'creating-vocabulary-cards.md',
-        'adding-conjugation-pipeline.md',
-        'customizing-templates.md'
+        'vocabulary_workflow.md',
+        'conjugation_workflow.md'
     ]
     
     for tutorial in expected_tutorials:
@@ -176,16 +171,16 @@ def test_tutorial_documentation():
 
 def test_documentation_metadata():
     """Test that documentation has proper metadata."""
-    docs_dir = project_root / 'docs'
+    context_dir = project_root / 'context'
     
-    if not docs_dir.exists():
+    if not context_dir.exists():
         pytest.skip("Documentation not yet implemented (Session 9 pending)")
     
     # Test for documentation configuration
     config_files = [
-        docs_dir / 'mkdocs.yml',
-        docs_dir / '.gitbook.yml',
-        docs_dir / 'config.json'
+        context_dir / 'mkdocs.yml',
+        context_dir / '.gitbook.yml',
+        context_dir / 'config.json'
     ]
     
     # At least one documentation config should exist

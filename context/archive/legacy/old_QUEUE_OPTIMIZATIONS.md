@@ -1,3 +1,13 @@
+<!-- 
+ARCHIVED DOCUMENT
+Original: QUEUE_OPTIMIZATIONS.md
+Archived Location: context/archive/legacy/old_QUEUE_OPTIMIZATIONS.md
+Archive Date: 2025-09-06T19:46:52.108142
+
+This document has been archived as part of the documentation reorganization.
+For current documentation, see context/README.md
+-->
+
 # Queue and Batch Planning – Proposed Optimizations (Future Work)
 
 ## Goals

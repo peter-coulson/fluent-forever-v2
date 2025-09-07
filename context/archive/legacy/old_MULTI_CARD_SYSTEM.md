@@ -1,3 +1,13 @@
+<!-- 
+ARCHIVED DOCUMENT
+Original: MULTI_CARD_SYSTEM.md
+Archived Location: context/archive/legacy/old_MULTI_CARD_SYSTEM.md
+Archive Date: 2025-09-06T19:46:52.107983
+
+This document has been archived as part of the documentation reorganization.
+For current documentation, see context/README.md
+-->
+
 # Multi-Card Type System
 
 A modular extension to the Fluent Forever system that supports multiple card types with local representation, preview, and sync functionality.
