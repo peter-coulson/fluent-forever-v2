@@ -63,35 +63,58 @@ We divide the structure into four seperate and modular workflows:
 - Every entry will be filled with the exception of Prompt and Gender which is an optional field that may be empty
 
 #### Modular Architecture
-The word queue population is divided into three configurable modules:
+The word queue population is divided into two distinct stages:
 
-**WordSelector Module** - Configurable input strategies:
-- **Rank-based**: Input number of words, pulls by rank order (default)
-- **Specific words**: Input specific word list (comma-separated or file)
-- **Custom filters**: Filter by word type, frequency range, etc.
+**Stage 1a: Word Selection**
+Two separate pipelines for word selection:
 
-**DictionaryFetcher Module** - Pure dictionary operations:
-- Retrieves word entries from spanish_dictionary.json
-- Validates word exists and has required fields
-- Returns structured dictionary data for processing
+*Rank-Based/Filter Pipeline:*
+- Input number of words, pulls by rank order (default)
+- Apply custom filters: word type, frequency range, etc.
+- Filter out words already processed (word-level check against vocabulary.json)
+- Filter out explicitly skipped words
+- Output: Clean word list
 
-**WordQueuePopulator Module** - Queue management:
-- Takes processed dictionary data and creates queue entries
-- Filters out words already in vocabulary, skipped words, or current queue
+*Direct Word Input Pipeline:*
+- Input specific word list (comma-separated or file)
+- Basic word existence check in dictionary
+- No filtering against vocabulary (allows reprocessing)
+- Output: Raw word list
+
+**Stage 1b: Word Processing**
+Universal processing regardless of Stage 1a source:
+- **DictionaryFetcher**: Retrieves and validates word entries from spanish_dictionary.json
+- **Sense Processor**: Applies sense grouping algorithm and IPA selection
+- **WordQueuePopulator**: Creates queue entries, filters duplicate CardIDs
 - Appends new meaning instances to word_queue.json with vocabulary.json field structure
 
-#### Default Workflow (Rank-based)
-- Input the number of new words to add to the queue 
-- WordSelector pulls that many new words from spanish_dictionary.json in order of rank
-- DictionaryFetcher retrieves and validates each word's dictionary data
-- WordQueuePopulator filters existing entries and creates new queue entries
-- For each word "senses" value, appends a new meaning instance in the word_queue.json with the same fields as vocabulary.json filling the fields as described above 
-- **Critical Problem**: Dictionary contains all possible senses. We need only the most essential ones.
-- **Solution**: Group senses by English translations, keeping only unique groups (no subsets):
-      - Group senses with identical English translations
-      - Eliminate subset groups (e.g., "call" is subset of "call, name, refer to")
-      - Example grouping: [{1,2: "call, name, refer to"}, {3: "summon"}, {10: "knock, ring"}, {11: "attract, appeal"}]
-- **Sense Selection**: For each group, select the first sense number that has an example sentence. If no senses in the group have examples, use the first sense number and log a warning.
+#### Stage 1a: Word Selection Workflows
+
+**Rank-Based/Filter Workflow:**
+- Input the number of new words and optional filters
+- Apply filters to spanish_dictionary.json (word type, frequency range, etc.)
+- Sort by rank and select top N words
+- Filter out words already processed (any CardID exists in vocabulary.json)
+- Filter out explicitly skipped words
+- Output: Clean word list → Stage 1b
+
+**Direct Word Input Workflow:**
+- Input specific word list (comma-separated or file)
+- Basic word existence check in dictionary
+- No vocabulary filtering (enables reprocessing)
+- Output: Raw word list → Stage 1b
+
+#### Stage 1b: Universal Word Processing
+- **DictionaryFetcher**: Retrieves and validates each word's dictionary data
+- **Sense Processing**: Apply sense grouping algorithm
+  - **Critical Problem**: Dictionary contains all possible senses. We need only the most essential ones.
+  - **Solution**: Group senses by English translations, keeping only unique groups (no subsets):
+    - Group senses with identical English translations
+    - Eliminate subset groups (e.g., "call" is subset of "call, name, refer to")
+    - Example grouping: [{1,2: "call, name, refer to"}, {3: "summon"}, {10: "knock, ring"}, {11: "attract, appeal"}]
+  - **Sense Selection**: For each group, select the first sense number that has an example sentence. If no senses in the group have examples, use the first sense number and log a warning.
+- **WordQueuePopulator**: Creates queue entries, filters duplicate CardIDs against vocabulary.json and current queue
+- For each selected sense, appends a new meaning instance to word_queue.json with vocabulary.json field structure
 
 ### 2. Filling Prompt Creation
 Will leave undefined for now. Options are either the user directly editing the word queue and calling a sync script that checks for any words where the prompt value is filled. Or we create some other batch file where the user inputs the CardID: "prompt". We also need some skip word function. I think this would probably be easiest to have some cli script for skipping word queue where we input the words to be skipped --skipped-words ya,yo,hay

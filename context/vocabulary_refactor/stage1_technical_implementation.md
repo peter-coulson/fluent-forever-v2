@@ -41,18 +41,61 @@ Follow existing validation pattern - return `List[str]` of error messages (empty
 - Skip malformed entries but continue processing
 - Report summary of skipped entries at completion
 
-## 3. Filtering Logic for Existing Entries
+## 3. Stage Separation and Validation Logic
 
-### Current Implementation
-Filter out words already in vocabulary or current queue using existing CardID field.
+### Clear Stage Handover Points
 
-### Exact Filtering Rules
-- Check word exists in vocabulary.json using set lookup for O(1) performance
-- No separate skipped words file - use existing vocabulary.json entries for filtering
+**Stage 1a: Word Selection**
+- **Input**: CLI parameters (count, filters, etc.) OR direct word list
+- **Processing**: Generate word list through rank-based/filter logic OR direct input
+- **Output**: List of words to process
+- **Handover**: Word list → Stage 1b
 
-### Word Conflict Handling
-- If word already exists in vocabulary.json, skip and log
-- If word already exists in current queue, skip and log duplicate
+**Stage 1b: Word Processing** 
+- **Input**: Word list (from Stage 1a or direct CLI)
+- **Processing**: Dictionary fetching, sense processing, CardID generation
+- **Output**: word_queue.json entries
+- **Handover**: Complete word_queue.json entries (without prompts)
+
+### Stage 1a: Word Selection Logic
+
+**Rank-Based/Filter Pipeline:**
+- Validate CLI parameters (count, word types, frequency ranges)
+- Apply filters to spanish_dictionary.json
+- Sort by rank and select top N words
+- Filter out words already processed (word-level check against vocabulary.json)
+- Filter out explicitly skipped words
+- Output: Clean word list
+
+**Direct Word Input Pipeline:**
+- Validate CLI word list format
+- Basic word existence check in dictionary
+- No filtering against vocabulary (allows reprocessing)
+- Output: Raw word list
+
+### Stage 1b: Word Processing Logic
+
+**Universal Entry Point** (same regardless of Stage 1a source):
+- **DictionaryFetcher**: Validate word exists, extract all required fields
+- **Sense Processor**: Apply sense grouping algorithm, IPA selection
+- **CardID Generator**: Create unique CardID per selected sense
+- **CardID Filtering**: Filter duplicate CardIDs against vocabulary.json and current queue
+
+### Validation Separation Benefits
+
+**Word-Level Filtering (Stage 1a Rank-Based only):**
+- Prevents reprocessing entire words unnecessarily
+- Applies only to automated selection, not direct CLI input
+
+**CardID-Level Filtering (Stage 1b):**
+- Always applied regardless of word source
+- Enables reprocessing words for new senses
+- Allows override of word-level filtering via direct CLI input
+
+**Override Capability:**
+- Direct CLI word input bypasses Stage 1a filtering
+- Still applies Stage 1b CardID filtering for safety
+- Enables forced reprocessing of words with new meanings
 
 ## 4. WordSelector Configuration Options and Interfaces
 
@@ -133,7 +176,31 @@ Use `raw_tags` field to identify Colombian phonological features:
 - Log warnings for: missing sounds, malformed entries, fallback usage
 - Log info for: multiple equal-priority selections
 
-## 6. Data Validation Rules and Edge Cases
+## 6. Debugging Output System
+
+### CLI Debug Flag Implementation
+Add comprehensive debugging output with CLI flag `--debug-vocab-processing` or `--debug-level=verbose`:
+
+### Core Debug Information
+- **Sense-level details**: Complete formatted vocabulary output for each sense
+- **Translation maps**: Full mapping from sense_index to translations showing grouping logic
+- **Translation groups**: How senses were grouped by identical translations and subset elimination
+
+### Extended Debug Information
+- **IPA Selection Details**: All available pronunciations with raw_tags, scoring breakdown, selected IPA with reasoning, fallback warnings
+- **Sense Grouping Algorithm**: Raw translations, normalization steps, group formation, subset elimination decisions, final sense selection reasoning
+- **Validation Results**: Field validation per sense, malformed data handling, missing field warnings, character limit checks
+- **Filtering Logic**: Words filtered (already in vocabulary/queue), conflict detection, skipped entries with reasons
+- **Quality Metrics**: Processing statistics, coverage metrics, warning summaries
+
+### Debug Output Options
+```bash
+--debug-vocab-processing          # Enable detailed debug output
+--debug-level=basic|detailed|verbose  # Control debug verbosity
+--debug-output=/path/to/debug.json    # Optional structured output file
+```
+
+## 7. Data Validation Rules and Edge Cases
 
 ### Field Requirements
 From spec - required fields per sense:
@@ -146,10 +213,19 @@ From spec - required fields per sense:
 - Type (from "pos")
 - Gender (from "tags", optional)
 
-### Validation Rules
-- Character limits for prompts to prevent typos (validate minimum length)
-- Media name conflict checking before generation
-- CardID uniqueness validation against vocabulary.json
+### Stage-Specific Validation Summary
+
+**Stage 1a (Word Selection):**
+- CLI input format validation
+- Word count/filter parameter validation
+- Word existence checks (for rank-based selection only)
+- Word-level filtering against existing vocabulary (rank-based only)
+
+**Stage 1b (Word Processing):**
+- Dictionary field validation (senses, translations, sounds, pos)
+- Sense processing validation
+- CardID uniqueness validation against vocabulary.json and current queue
+- Field completeness validation
 
 ### Edge Cases
 - Words without examples: Use first sense, log warning
