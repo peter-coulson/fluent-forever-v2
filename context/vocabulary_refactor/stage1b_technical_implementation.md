@@ -1,4 +1,32 @@
-# Stage 1 Technical Implementation Document
+# Stage 1b Technical Implementation Document
+
+## Launch Methods
+
+Stage 1b supports two launch methods:
+
+### 1. Automated Handover from Stage 1a
+**Input**: `List[str]` of Spanish words from Stage 1a
+**Trigger**: Automatic continuation after Stage 1a completion
+
+### 2. Manual CLI Launch
+**Input**: Command-line interface with word list
+**Usage**: `python -m vocab_processor stage1b --words "word1,word2,word3"` or `--words-file path/to/words.txt`
+**CLI Options**:
+- `--words`: Comma-separated list of Spanish words
+- `--words-file`: Path to file containing words (one per line)
+- `--debug-vocab-processing`: Enable detailed debug output
+- `--debug-level`: Control verbosity (basic|detailed|verbose)
+- `--debug-output`: Optional structured debug output file
+
+## Processing Interface
+
+**Output**: Complete word_queue.json entries (without prompts)
+
+**Processing Flow**:
+1. **DictionaryFetcher**: Validate word exists, extract all required fields
+2. **Sense Processor**: Apply sense grouping algorithm, IPA selection
+3. **CardID Generator**: Create unique CardID per selected sense
+4. **CardID Filtering**: Filter duplicate CardIDs against vocabulary.json and current queue
 
 ## 1. Sense Grouping Algorithm
 
@@ -41,81 +69,25 @@ Follow existing validation pattern - return `List[str]` of error messages (empty
 - Skip malformed entries but continue processing
 - Report summary of skipped entries at completion
 
-## 3. Stage Separation and Validation Logic
+## 3. CardID-Level Filtering and Validation
 
-### Clear Stage Handover Points
+### CardID Generation
+- Create unique CardID per selected sense: `spanish_word + "_" + meaning_id`
+- `meaning_id`: translations field formatted to be all lowercase, commas removed, and spaces replaced with underscores
 
-**Stage 1a: Word Selection**
-- **Input**: CLI parameters (count, filters, etc.) OR direct word list
-- **Processing**: Generate word list through rank-based/filter logic OR direct input
-- **Output**: List of words to process
-- **Handover**: Word list → Stage 1b
-
-**Stage 1b: Word Processing** 
-- **Input**: Word list (from Stage 1a or direct CLI)
-- **Processing**: Dictionary fetching, sense processing, CardID generation
-- **Output**: word_queue.json entries
-- **Handover**: Complete word_queue.json entries (without prompts)
-
-### Stage 1a: Word Selection Logic
-
-**Rank-Based/Filter Pipeline:**
-- Validate CLI parameters (count, word types, frequency ranges)
-- Apply filters to spanish_dictionary.json
-- Sort by rank and select top N words
-- Filter out words already processed (word-level check against vocabulary.json)
-- Filter out explicitly skipped words
-- Output: Clean word list
-
-**Direct Word Input Pipeline:**
-- Validate CLI word list format
-- Basic word existence check in dictionary
-- No filtering against vocabulary (allows reprocessing)
-- Output: Raw word list
-
-### Stage 1b: Word Processing Logic
-
-**Universal Entry Point** (same regardless of Stage 1a source):
-- **DictionaryFetcher**: Validate word exists, extract all required fields
-- **Sense Processor**: Apply sense grouping algorithm, IPA selection
-- **CardID Generator**: Create unique CardID per selected sense
-- **CardID Filtering**: Filter duplicate CardIDs against vocabulary.json and current queue
-
-### Validation Separation Benefits
-
-**Word-Level Filtering (Stage 1a Rank-Based only):**
-- Prevents reprocessing entire words unnecessarily
-- Applies only to automated selection, not direct CLI input
-
-**CardID-Level Filtering (Stage 1b):**
-- Always applied regardless of word source
+### Filtering Logic
+**Always applied regardless of word source:**
+- Filter duplicate CardIDs against vocabulary.json 
+- Filter duplicate CardIDs against current word queue
 - Enables reprocessing words for new senses
-- Allows override of word-level filtering via direct CLI input
+- Provides safety net for all processing paths
 
-**Override Capability:**
-- Direct CLI word input bypasses Stage 1a filtering
-- Still applies Stage 1b CardID filtering for safety
-- Enables forced reprocessing of words with new meanings
+### Validation Benefits
+- Prevents duplicate cards in final vocabulary
+- Allows word reprocessing when new meanings discovered
+- Works with both automated and manual word selection
 
-## 4. WordSelector Configuration Options and Interfaces
-
-### Input Strategies
-- **Rank-based**: Input number of words, pulls by rank order (default)
-- **Specific words**: Input specific word list (comma-separated or file)  
-- **Custom filters**: Filter by word type, frequency range, etc.
-
-### Interface Design
-Simple CLI arguments following existing patterns:
-- `--count N` for rank-based selection
-- `--words word1,word2` for specific words
-- `--type noun` for type filtering
-
-### Configuration Options
-- Default: rank-based selection
-- Validation: sanitize inputs with strip() and filter empty values
-- Error handling: return `List[str]` validation errors
-
-## 5. IPA Selection Algorithm
+## 4. IPA Selection Algorithm
 
 ### Selection Criteria
 Algorithm optimized for upper-class Bogota accent using priority-based scoring:
@@ -176,7 +148,7 @@ Use `raw_tags` field to identify Colombian phonological features:
 - Log warnings for: missing sounds, malformed entries, fallback usage
 - Log info for: multiple equal-priority selections
 
-## 6. Debugging Output System
+## 5. Debugging Output System
 
 ### CLI Debug Flag Implementation
 Add comprehensive debugging output with CLI flag `--debug-vocab-processing` or `--debug-level=verbose`:
@@ -200,10 +172,10 @@ Add comprehensive debugging output with CLI flag `--debug-vocab-processing` or `
 --debug-output=/path/to/debug.json    # Optional structured output file
 ```
 
-## 7. Data Validation Rules and Edge Cases
+## 6. Data Validation Rules and Edge Cases
 
 ### Field Requirements
-From spec - required fields per sense:
+Required fields per sense:
 - Word (from root key "word")
 - Sense ID
 - IPA (from "sounds" with correct "raw_tags")
@@ -213,15 +185,7 @@ From spec - required fields per sense:
 - Type (from "pos")
 - Gender (from "tags", optional)
 
-### Stage-Specific Validation Summary
-
-**Stage 1a (Word Selection):**
-- CLI input format validation
-- Word count/filter parameter validation
-- Word existence checks (for rank-based selection only)
-- Word-level filtering against existing vocabulary (rank-based only)
-
-**Stage 1b (Word Processing):**
+### Stage 1b Validation Summary
 - Dictionary field validation (senses, translations, sounds, pos)
 - Sense processing validation
 - CardID uniqueness validation against vocabulary.json and current queue
@@ -231,7 +195,9 @@ From spec - required fields per sense:
 - Words without examples: Use first sense, log warning
 - Missing gender information: Leave empty, continue processing
 - Translation sense_index parsing: Handle comma-separated ("1,2,4"), ranges ("1–2"), and mixed ("1,2,4,5,8") patterns
-- Sorting algorithm: Simple `sorted(words, key=lambda w: w['rank'])`
 
-### Ranking/Sorting Implementation
-Use existing "rank" field in dictionary with simple numeric sort: `sorted(words, key=lambda w: w['rank'])`
+### Processing Algorithm
+- Continue processing on validation failures
+- Accumulate all errors for batch reporting
+- Log detailed error context with word and sense identifiers
+- Never crash on malformed data - always return partial results or skip gracefully
