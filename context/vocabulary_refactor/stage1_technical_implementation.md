@@ -75,13 +75,63 @@ Simple CLI arguments following existing patterns:
 ## 5. IPA Selection Algorithm
 
 ### Selection Criteria
-[must define algorithm to select which IPA pronunciation when multiple exist]
+Algorithm optimized for upper-class Bogota accent using priority-based scoring:
+
+**Scoring System:**
+- `seseante, yeísta`: 10 points (ideal Colombian combination)
+- `seseante` only: 8 points (Colombian seseo standard)
+- `yeísta` only: 6 points (modern Spanish yeísmo)
+- No tags (default): 4 points (neutral pronunciation)
+- `no seseante`: -2 points (penalty for distinción)
+- `sheísta`/`zheísta`: -5 points (strong penalty for Rioplatense variants)
+
+**Selection Logic:**
+1. Score all valid IPA pronunciations from sounds data
+2. Select highest-scoring pronunciation
+3. On tie, select first occurrence for deterministic behavior
+4. Require minimum score > 0 for selection
 
 ### Filtering Logic
-[must define how to use "raw_tags" to identify correct IPA variant]
+Use `raw_tags` field to identify Colombian phonological features:
+
+**Target Tags for Bogota:**
+- `seseante`: Merges /s/ and /θ/ as /s/ (no "th" sound)
+- `yeísta`: Merges /ʎ/ (ll) and /ʝ/ (y) as /ʝ/
+
+**Avoided Tags:**
+- `no seseante`: Peninsular Spanish distinción 
+- `sheísta`: Argentine /ʃ/ pronunciation of ll/y
+- `zheísta`: Argentine /ʒ/ pronunciation of ll/y
+- `no sheísta`: Explicitly non-/ʃ/ (still not Colombian)
+
+**Tag Processing:**
+- Parse `raw_tags` as list of strings
+- Handle empty/missing tags as untagged (score: 4)
+- Log malformed tag data and continue processing
 
 ### Fallback Strategy
-[must define behavior when no valid IPA found or multiple equally valid options]
+**Primary Strategy:** Score-based selection with validation
+1. Validate sounds data exists and is list
+2. Filter entries with valid IPA field
+3. Score each pronunciation by tag combination
+4. Select highest score (>0 required)
+
+**Fallback Hierarchy:**
+1. If no positive-scoring pronunciations: select any untagged IPA, log warning
+2. If no valid IPA pronunciations: return None, log error
+3. If sounds field missing/empty: return None, log error
+
+**Error Handling:**
+- Continue processing on malformed entries
+- Accumulate warnings for batch logging
+- Log all selection decisions with sense_id for debugging
+- Never crash on invalid data - always return None or valid result
+
+**Validation Requirements:**
+- IPA field must be non-empty string
+- sounds must be non-empty list
+- Log warnings for: missing sounds, malformed entries, fallback usage
+- Log info for: multiple equal-priority selections
 
 ## 6. Data Validation Rules and Edge Cases
 
