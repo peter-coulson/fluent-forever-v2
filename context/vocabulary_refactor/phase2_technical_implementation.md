@@ -1,16 +1,93 @@
-# Stage 1b Technical Implementation Document
+# Phase 2 Technical Implementation Document
+
+## Code Architecture
+
+### File Structure
+```
+src/pipelines/vocabulary/phases/phase2/
+├── __init__.py
+├── word_processor.py      # Main orchestrator class
+├── dictionary_fetcher.py  # Fetch & validate from dictionary
+├── sense_processor.py     # Sense grouping algorithm
+├── ipa_selector.py        # IPA selection with scoring
+├── card_generator.py      # CardID generation & filtering
+├── queue_populator.py     # Word queue population
+└── debug_output.py        # Debug/logging system
+```
+
+### Core Classes
+
+#### WordProcessor (word_processor.py)
+```python
+class WordProcessor:
+    def process_words(self, word_list: List[str]) -> ProcessingResult:
+        # Main orchestration logic
+    def _validate_inputs(self, word_list: List[str]) -> List[str]:
+        # Input validation
+    def _generate_debug_output(self, results: ProcessingResult) -> None:
+        # Debug output coordination
+```
+
+#### DictionaryFetcher (dictionary_fetcher.py) 
+```python
+class DictionaryFetcher:
+    def fetch_word_data(self, word: str) -> DictionaryEntry:
+        # Retrieve and validate word from spanish_dictionary.json
+    def validate_entry(self, entry: dict) -> List[str]:
+        # Validate required fields exist
+```
+
+#### SenseProcessor (sense_processor.py)
+```python
+class SenseProcessor:
+    def group_senses_by_translations(self, senses: List[dict]) -> List[SenseGroup]:
+        # Group senses with identical translations
+    def eliminate_subset_groups(self, groups: List[SenseGroup]) -> List[SenseGroup]:
+        # Remove subset groups
+    def select_best_sense_per_group(self, groups: List[SenseGroup]) -> List[int]:
+        # Select sense with example, fallback to first
+```
+
+#### IPASelector (ipa_selector.py)
+```python
+class IPASelector:
+    def select_best_ipa(self, sounds_data: List[dict]) -> Optional[str]:
+        # Score and select IPA pronunciation
+    def _score_pronunciation(self, sound_entry: dict) -> int:
+        # Scoring algorithm for Colombian accent
+    def _parse_raw_tags(self, tags: List[str]) -> Dict[str, bool]:
+        # Parse pronunciation tags
+```
+
+#### CardGenerator (card_generator.py)
+```python
+class CardGenerator:
+    def generate_card_id(self, word: str, translations: List[str]) -> str:
+        # Create unique CardID
+    def filter_existing_cards(self, cards: List[dict]) -> List[dict]:
+        # Filter against vocabulary.json and current queue
+```
+
+#### QueuePopulator (queue_populator.py)
+```python
+class QueuePopulator:
+    def populate_queue(self, processed_data: List[dict]) -> None:
+        # Add entries to word_queue.json
+    def validate_queue_entry(self, entry: dict) -> List[str]:
+        # Validate complete queue entry
+```
 
 ## Launch Methods
 
-Stage 1b supports two launch methods:
+Phase 2 supports two launch methods:
 
-### 1. Automated Handover from Stage 1a
-**Input**: `List[str]` of Spanish words from Stage 1a
-**Trigger**: Automatic continuation after Stage 1a completion
+### 1. Automated Handover from Phase 1
+**Input**: `List[str]` of Spanish words from Phase 1
+**Trigger**: Automatic continuation after Phase 1 completion
 
 ### 2. Manual CLI Launch
 **Input**: Command-line interface with word list
-**Usage**: `python -m vocab_processor stage1b --words "word1,word2,word3"` or `--words-file path/to/words.txt`
+**Usage**: `python -m vocab_processor phase2 --words "word1,word2,word3"` or `--words-file path/to/words.txt`
 **CLI Options**:
 - `--words`: Comma-separated list of Spanish words
 - `--words-file`: Path to file containing words (one per line)
@@ -185,7 +262,7 @@ Required fields per sense:
 - Type (from "pos")
 - Gender (from "tags", optional)
 
-### Stage 1b Validation Summary
+### Phase 2 Validation Summary
 - Dictionary field validation (senses, translations, sounds, pos)
 - Sense processing validation
 - CardID uniqueness validation against vocabulary.json and current queue
