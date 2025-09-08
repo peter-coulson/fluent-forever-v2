@@ -141,7 +141,7 @@ From spec - required fields per sense:
 - Sense ID
 - IPA (from "sounds" with correct "raw_tags")
 - Monolingual Definition (from "senses" → "glosses")
-- English Translation (from "translations" mapped by "sense_index")
+- English Translation (from "translations" mapped by "sense_index" - supports comma-separated lists "1,2,4" and range notation "1–2")
 - Example Sentence (from "senses" → "examples", first if multiple)
 - Type (from "pos")
 - Gender (from "tags", optional)
@@ -154,6 +154,7 @@ From spec - required fields per sense:
 ### Edge Cases
 - Words without examples: Use first sense, log warning
 - Missing gender information: Leave empty, continue processing
+- Translation sense_index parsing: Handle comma-separated ("1,2,4"), ranges ("1–2"), and mixed ("1,2,4,5,8") patterns
 - Sorting algorithm: Simple `sorted(words, key=lambda w: w['rank'])`
 
 ### Ranking/Sorting Implementation
