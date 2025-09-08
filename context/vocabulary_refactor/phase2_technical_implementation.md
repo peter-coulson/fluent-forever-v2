@@ -1,10 +1,10 @@
-# Phase 2 Technical Implementation Document
+# Stage 2 Technical Implementation Document
 
 ## Code Architecture
 
 ### File Structure
 ```
-src/pipelines/vocabulary/phases/phase2/
+src/pipelines/vocabulary/stages/word_processing/
 ├── __init__.py
 ├── word_processor.py      # Main orchestrator class
 ├── dictionary_fetcher.py  # Fetch & validate from dictionary
@@ -79,15 +79,15 @@ class QueuePopulator:
 
 ## Launch Methods
 
-Phase 2 supports two launch methods:
+Stage 2 supports two launch methods:
 
-### 1. Automated Handover from Phase 1
-**Input**: `List[str]` of Spanish words from Phase 1
-**Trigger**: Automatic continuation after Phase 1 completion
+### 1. Automated Handover from Stage 1
+**Input**: `List[str]` of Spanish words from Stage 1 via PipelineContext
+**Trigger**: Automatic continuation after Stage 1 completion
 
 ### 2. Manual CLI Launch
 **Input**: Command-line interface with word list
-**Usage**: `python -m vocab_processor phase2 --words "word1,word2,word3"` or `--words-file path/to/words.txt`
+**Usage**: `python -m cli.pipeline run vocabulary --stage word_processing --words "word1,word2,word3"` or `--words-file path/to/words.txt`
 **CLI Options**:
 - `--words`: Comma-separated list of Spanish words
 - `--words-file`: Path to file containing words (one per line)
@@ -230,6 +230,11 @@ Use `raw_tags` field to identify Colombian phonological features:
 ### CLI Debug Flag Implementation
 Add comprehensive debugging output with CLI flag `--debug-vocab-processing` or `--debug-level=verbose`:
 
+**Core Integration Example:**
+```bash
+python -m cli.pipeline run vocabulary --stage word_processing --debug-level verbose
+```
+
 ### Core Debug Information
 - **Sense-level details**: Complete formatted vocabulary output for each sense
 - **Translation maps**: Full mapping from sense_index to translations showing grouping logic
@@ -278,3 +283,77 @@ Required fields per sense:
 - Accumulate all errors for batch reporting
 - Log detailed error context with word and sense identifiers
 - Never crash on malformed data - always return partial results or skip gracefully
+
+## Core Pipeline Integration
+
+### WordProcessingStage Implementation
+```python
+# src/pipelines/vocabulary/stages/word_processing.py
+from core.stages import Stage, StageResult, StageStatus
+from core.context import PipelineContext
+from .word_processing.word_processor import WordProcessor
+
+class WordProcessingStage(Stage):
+    """Stage 2: Process dictionary data for selected words"""
+    
+    @property
+    def name(self) -> str:
+        return "word_processing"
+    
+    @property
+    def display_name(self) -> str:
+        return "Word Processing"
+    
+    @property
+    def dependencies(self) -> List[str]:
+        return ["word_selection"]  # Requires Stage 1 output
+    
+    def validate_context(self, context: PipelineContext) -> List[str]:
+        errors = []
+        selected_words = context.get("selected_words")
+        if not selected_words:
+            errors.append("No selected_words found in context")
+        if not isinstance(selected_words, list):
+            errors.append("selected_words must be a list")
+        return errors
+    
+    def execute(self, context: PipelineContext) -> StageResult:
+        """Execute the complex Stage 2 word processing pipeline"""
+        try:
+            # Get input from Stage 1
+            selected_words = context.get("selected_words", [])
+            debug_level = context.get("debug_level", "basic")
+            
+            # Initialize the complex word processor orchestrator
+            processor = WordProcessor()
+            
+            # Execute the full Stage 2 pipeline
+            result = processor.process_words(
+                word_list=selected_words,
+                debug_level=debug_level
+            )
+            
+            # Update context for Stage 3
+            context.set("processed_entries", result.entries)
+            context.set("word_queue_updated", True)
+            context.set("processing_stats", result.stats)
+            
+            return StageResult.success(
+                f"Processed {len(result.entries)} word entries with {len(result.errors)} errors",
+                {
+                    "processed_entries": result.entries,
+                    "stats": result.stats,
+                    "warnings": result.warnings
+                }
+            )
+            
+        except ValidationError as e:
+            return StageResult.failure(
+                "Dictionary validation failed",
+                errors=e.errors
+            )
+        except Exception as e:
+            return StageResult.failure(
+                f"Word processing failed: {str(e)}"
+            )
+```
