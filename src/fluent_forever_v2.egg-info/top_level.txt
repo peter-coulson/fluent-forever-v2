@@ -1,6 +1,0 @@
-cli
-core
-pipelines
-providers
-stages
-utils

@@ -1,6 +1,0 @@
-[console_scripts]
-ff-media = cli.entrypoints:media_generate
-ff-preview = cli.entrypoints:preview_server
-ff-regen = cli.entrypoints:regenerate_images
-ff-run = cli.entrypoints:run_media_then_sync
-ff-sync = cli.entrypoints:sync_anki_all
