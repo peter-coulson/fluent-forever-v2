@@ -42,7 +42,8 @@ class TestPipelineRunner:
         mock_provider_registry.return_value = Mock()
         
         # Test
-        runner = PipelineRunner()
+        config = CLIConfig({})
+        runner = PipelineRunner(config)
         result = runner.list_pipelines()
         
         # Verify
@@ -61,7 +62,8 @@ class TestPipelineRunner:
         mock_provider_registry.return_value = Mock()
         
         # Test
-        runner = PipelineRunner()
+        config = CLIConfig({})
+        runner = PipelineRunner(config)
         result = runner.get_pipeline_info('vocabulary')
         
         # Verify

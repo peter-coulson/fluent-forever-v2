@@ -16,8 +16,8 @@ import sys
 project_root = Path(__file__).parent.parent.parent.parent
 sys.path.insert(0, str(project_root / 'src'))
 
-from config.config_manager import ConfigManager, ConfigLevel, ConfigSource
-from config.config_validator import ConfigValidator
+from core.config import ConfigManager, ConfigLevel, ConfigSource
+from core.config_validator import ConfigValidator
 
 
 class TestConfigManager:

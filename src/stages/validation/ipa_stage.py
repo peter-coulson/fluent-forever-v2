@@ -1,158 +1,220 @@
+#!/usr/bin/env python3
 """
 IPA Validation Stage
-
-Validates IPA pronunciation against authoritative dictionary. Extracts logic 
-from validation.ipa_validator to create reusable stage.
+Validates Spanish IPA pronunciation against reference dictionary
+Migrated from src/validation/ipa_validator.py to new stage structure
 """
 
-from typing import Dict, Any, List
-
-from core.stages import Stage, StageResult, StageStatus
-from core.context import PipelineContext
+from pathlib import Path
+from typing import Dict, Any, List, Optional, Tuple
 from stages.base.validation_stage import ValidationStage
+from core.context import PipelineContext
+from core.stages import StageResult, StageStatus
 from utils.logging_config import get_logger, ICONS
 
+logger = get_logger('stages.validation.ipa')
 
 class IPAValidationStage(ValidationStage):
-    """Validate IPA pronunciation"""
+    """Validates Spanish IPA pronunciation in pipeline data"""
     
-    def __init__(self, data_key: str = 'vocabulary', skip_failures: bool = False):
+    def __init__(self, data_key: str, dictionary_path: Optional[str] = None):
         """
         Initialize IPA validation stage
         
         Args:
-            data_key: Key in context for data containing IPA
-            skip_failures: Skip validation failures (just log warnings)
+            data_key: Key in context for vocabulary data to validate
+            dictionary_path: Path to Spanish IPA dictionary file
         """
         super().__init__(data_key)
-        self.skip_failures = skip_failures
-        self.logger = get_logger('stages.validation.ipa')
-    
-    @property
-    def name(self) -> str:
-        return f"validate_ipa"
-    
-    @property  
-    def display_name(self) -> str:
-        return "Validate IPA Pronunciations"
+        
+        if dictionary_path is None:
+            # Default to bundled dictionary
+            current_dir = Path(__file__).parent.parent.parent
+            dictionary_path = current_dir / "validation" / "data" / "spanish_ipa_dictionary.txt"
+        
+        self.dictionary_path = Path(dictionary_path)
+        self.dictionary = self._load_dictionary()
     
     def validate_data(self, data: Dict[str, Any]) -> List[str]:
-        """Validate IPA pronunciations in data"""
+        """
+        Validate IPA data and return list of error messages
+        
+        Args:
+            data: Vocabulary data with words containing IPA pronunciations
+            
+        Returns:
+            List of validation error messages (empty if valid)
+        """
         errors = []
         
-        # Load IPA validator
-        validator = self.get_ipa_validator()
-        if not validator:
-            if self.skip_failures:
-                self.logger.warning(f"{ICONS['warning']} IPA validator not available, skipping validation")
-                return []
-            else:
-                errors.append("IPA validator not available")
-                return errors
+        if not isinstance(data, dict):
+            return ["Data must be a dictionary"]
         
-        # Extract words and IPA from data
-        word_ipa_pairs = self.extract_ipa_data(data)
+        words = data.get('words', [])
+        if not isinstance(words, list):
+            return ["'words' must be a list"]
         
-        if not word_ipa_pairs:
-            self.logger.info(f"{ICONS['info']} No IPA data found to validate")
-            return []
-        
-        self.logger.info(f"{ICONS['search']} Validating {len(word_ipa_pairs)} IPA pronunciations...")
-        
-        # Validate each word/IPA pair
-        validation_failures = []
-        
-        for word, ipa, context_info in word_ipa_pairs:
-            try:
-                is_valid = validator.validate_ipa(word, ipa)
-                if not is_valid:
-                    validation_failures.append({
-                        'word': word,
-                        'ipa': ipa,
-                        'context': context_info
-                    })
-            except Exception as e:
-                error_msg = f"IPA validation error for '{word}': {e}"
-                if self.skip_failures:
-                    self.logger.warning(f"{ICONS['warning']} {error_msg}")
-                else:
-                    errors.append(error_msg)
-        
-        # Handle validation failures
-        if validation_failures:
-            failure_msg = f"IPA validation failed for {len(validation_failures)} words"
+        for i, word_entry in enumerate(words):
+            if not isinstance(word_entry, dict):
+                errors.append(f"Word entry {i} must be a dictionary")
+                continue
             
-            for failure in validation_failures:
-                detail = f"  - {failure['word']} → {failure['ipa']}"
-                if failure['context']:
-                    detail += f" ({failure['context']})"
-                
-                if self.skip_failures:
-                    self.logger.warning(f"{ICONS['warning']} {detail}")
-                else:
-                    self.logger.error(f"{ICONS['cross']} {detail}")
+            word = word_entry.get('word', '').strip()
+            predicted_ipa = word_entry.get('ipa', '').strip()
             
-            if not self.skip_failures:
-                errors.append(failure_msg)
-                errors.append("Use skip_failures=True to treat IPA validation failures as warnings")
-        else:
-            self.logger.info(f"{ICONS['check']} All IPA pronunciations validated successfully")
+            if not word:
+                errors.append(f"Word entry {i} missing 'word' field")
+                continue
+            
+            if not predicted_ipa:
+                errors.append(f"Word '{word}' missing IPA pronunciation")
+                continue
+            
+            # Validate IPA against dictionary
+            validation_result = self.validate_word_ipa(word, predicted_ipa)
+            if not validation_result[0]:  # If validation failed
+                errors.append(f"IPA validation failed for '{word}': {validation_result[1]}")
         
         return errors
     
-    def get_ipa_validator(self):
-        """Get IPA validator instance"""
-        try:
-            from validation.ipa_validator import SpanishIPAValidator
-            return SpanishIPAValidator()
-        except ImportError:
-            self.logger.warning(f"{ICONS['warning']} IPA validator module not available")
-            return None
-        except Exception as e:
-            self.logger.error(f"{ICONS['cross']} Failed to initialize IPA validator: {e}")
-            return None
+    def validate_word_ipa(self, word: str, predicted_ipa: str) -> Tuple[bool, str]:
+        """
+        Validate a single word's IPA pronunciation
+        
+        Args:
+            word: Spanish word
+            predicted_ipa: Predicted IPA pronunciation
+            
+        Returns:
+            Tuple of (is_valid, message)
+        """
+        word = word.lower().strip()
+        
+        if word not in self.dictionary:
+            # Not in dictionary - can't validate but not necessarily wrong
+            logger.debug(f"Word '{word}' not found in reference dictionary")
+            return True, f"Word not in reference dictionary (unable to validate)"
+        
+        reference_ipa = self.dictionary[word]
+        
+        # Normalize both IPAs for comparison
+        predicted_normalized = self._normalize_ipa(predicted_ipa)
+        reference_normalized = self._normalize_ipa(reference_ipa)
+        
+        if predicted_normalized == reference_normalized:
+            logger.debug(f"✓ IPA for '{word}' matches reference: {predicted_ipa}")
+            return True, "IPA matches reference dictionary"
+        
+        # Check for stress-only differences
+        predicted_no_stress = self._remove_stress_marks(predicted_normalized)
+        reference_no_stress = self._remove_stress_marks(reference_normalized)
+        
+        if predicted_no_stress == reference_no_stress:
+            logger.debug(f"~ IPA for '{word}' matches except for stress: predicted={predicted_ipa}, reference={reference_ipa}")
+            return True, "IPA matches reference except for stress placement"
+        
+        # Validation failed
+        logger.warning(f"✗ IPA mismatch for '{word}': predicted='{predicted_ipa}' vs reference='{reference_ipa}'")
+        return False, f"Predicted '{predicted_ipa}' differs from reference '{reference_ipa}'"
     
-    def extract_ipa_data(self, data: Dict[str, Any]) -> List[tuple[str, str, str]]:
-        """Extract word/IPA pairs from data structure"""
-        word_ipa_pairs = []
+    def _load_dictionary(self) -> Dict[str, str]:
+        """Load dictionary from file into memory"""
+        if not self.dictionary_path.exists():
+            logger.warning(f"Dictionary file not found: {self.dictionary_path}")
+            return {}
         
-        if 'words' in data:
-            # Vocabulary format
-            for word, word_data in data['words'].items():
-                if 'meanings' in word_data:
-                    for meaning in word_data['meanings']:
-                        ipa = meaning.get('IPA', '').strip('[]/')
-                        if ipa:
-                            meaning_id = meaning.get('MeaningID', 'unknown')
-                            context = f"meaning {meaning_id}"
-                            word_ipa_pairs.append((word, ipa, context))
+        dictionary = {}
+        try:
+            with open(self.dictionary_path, 'r', encoding='utf-8') as f:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    if not line or line.startswith('#'):
+                        continue
+                    
+                    parts = line.split('\t')
+                    if len(parts) != 2:
+                        logger.warning(f"Malformed line {line_num}: {line}")
+                        continue
+                    
+                    word, ipa = parts
+                    dictionary[word.lower()] = ipa
+            
+            logger.debug(f"Loaded {len(dictionary)} entries from IPA dictionary")
+            return dictionary
+            
+        except Exception as e:
+            logger.error(f"Error loading dictionary: {e}")
+            return {}
+    
+    def _normalize_ipa(self, ipa: str) -> str:
+        """Normalize IPA for comparison by removing syllable markers"""
+        # Remove syllable boundaries (periods)
+        normalized = ipa.replace('.', '')
+        return normalized.strip()
+    
+    def _remove_stress_marks(self, ipa: str) -> str:
+        """Remove stress marks from IPA"""
+        # Remove primary (ˈ) and secondary (ˌ) stress marks
+        no_stress = ipa.replace('ˈ', '').replace('ˌ', '')
+        return no_stress.strip()
+
+
+class MediaValidationStage(ValidationStage):
+    """Validates media file data in pipeline"""
+    
+    def validate_data(self, data: Dict[str, Any]) -> List[str]:
+        """
+        Validate media file data
         
-        elif 'meanings' in data:
-            # Staging format
-            for meaning in data['meanings']:
-                word = meaning.get('SpanishWord', '').strip()
-                ipa = meaning.get('IPA', '').strip('[]/')
-                if word and ipa:
-                    meaning_id = meaning.get('MeaningID', 'unknown')
-                    context = f"meaning {meaning_id}"
-                    word_ipa_pairs.append((word, ipa, context))
+        Args:
+            data: Media data with file information
+            
+        Returns:
+            List of validation error messages (empty if valid)
+        """
+        errors = []
         
-        elif isinstance(data, list):
-            # List of cards/meanings
-            for i, item in enumerate(data):
-                word = item.get('SpanishWord', '').strip()
-                ipa = item.get('IPA', '').strip('[]/')
-                if word and ipa:
-                    context = f"item {i}"
-                    word_ipa_pairs.append((word, ipa, context))
+        if not isinstance(data, dict):
+            return ["Data must be a dictionary"]
         
-        # Remove duplicates (same word might appear multiple times)
-        seen = set()
-        unique_pairs = []
-        for word, ipa, context in word_ipa_pairs:
-            key = (word, ipa)
-            if key not in seen:
-                seen.add(key)
-                unique_pairs.append((word, ipa, context))
+        media_files = data.get('media_files', [])
+        if not isinstance(media_files, list):
+            return ["'media_files' must be a list"]
         
-        return unique_pairs
+        for i, media_file in enumerate(media_files):
+            if not isinstance(media_file, dict):
+                errors.append(f"Media file entry {i} must be a dictionary")
+                continue
+            
+            file_id = media_file.get('id')
+            file_type = media_file.get('type')
+            file_path = media_file.get('file_path')
+            
+            if not file_id:
+                errors.append(f"Media file entry {i} missing 'id' field")
+            
+            if not file_type:
+                errors.append(f"Media file entry {i} missing 'type' field")
+            elif file_type not in ['audio', 'image', 'video']:
+                errors.append(f"Media file entry {i} has unsupported type: {file_type}")
+            
+            if not file_path:
+                errors.append(f"Media file entry {i} missing 'file_path' field")
+            else:
+                # Check if file exists
+                path_obj = Path(file_path)
+                if not path_obj.exists():
+                    errors.append(f"Media file not found: {file_path}")
+                elif not path_obj.is_file():
+                    errors.append(f"Media path is not a file: {file_path}")
+                else:
+                    # Validate file extension matches type
+                    extension = path_obj.suffix.lower()
+                    if file_type == 'audio' and extension not in ['.mp3', '.wav', '.ogg', '.m4a']:
+                        errors.append(f"Audio file {file_path} has unsupported extension: {extension}")
+                    elif file_type == 'image' and extension not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
+                        errors.append(f"Image file {file_path} has unsupported extension: {extension}")
+                    elif file_type == 'video' and extension not in ['.mp4', '.avi', '.mkv', '.webm']:
+                        errors.append(f"Video file {file_path} has unsupported extension: {extension}")
+        
+        return errors

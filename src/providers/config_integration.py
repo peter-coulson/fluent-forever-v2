@@ -5,14 +5,14 @@ Initializes providers from unified configuration system.
 """
 
 from pathlib import Path
-from config.config_manager import get_config_manager
+from core.config import ConfigManager
 from providers.registry import get_provider_registry
 import os
 
 
 def initialize_providers_from_config() -> None:
     """Initialize all providers from configuration"""
-    config_manager = get_config_manager()
+    config_manager = ConfigManager()
     provider_registry = get_provider_registry()
     
     # Load provider configurations

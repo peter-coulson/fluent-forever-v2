@@ -88,9 +88,9 @@ class CLIConfig:
         media_type = media_config.get('type', 'openai')
         
         if media_type == 'openai':
-            from providers.media.openai_provider import OpenAIMediaProvider
+            from providers.media.openai_provider import OpenAIProvider
             try:
-                provider = OpenAIMediaProvider(config=self.data)
+                provider = OpenAIProvider()
                 registry.register_media_provider('default', provider)
             except Exception:
                 # Fall back to mock provider if real one fails

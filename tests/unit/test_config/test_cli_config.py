@@ -33,10 +33,10 @@ class TestConfigCommand:
         self._create_test_configs()
         
         # Mock the config manager to use our test directory
-        with patch('cli.commands.config_command.get_config_manager') as mock_get_manager:
-            from config.config_manager import ConfigManager
+        with patch('cli.commands.config_command.ConfigManager') as MockConfigManager:
+            from core.config import ConfigManager
             test_manager = ConfigManager(self.config_dir)
-            mock_get_manager.return_value = test_manager
+            MockConfigManager.return_value = test_manager
             self.config_command = ConfigCommand()
     
     def teardown_method(self):

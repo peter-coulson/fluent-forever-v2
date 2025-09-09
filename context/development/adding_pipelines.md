@@ -178,7 +178,6 @@ Your pipeline automatically supports:
 
 See existing pipelines for reference:
 - **Vocabulary Pipeline**: `src/pipelines/vocabulary/`
-- **Conjugation Pipeline**: `src/pipelines/conjugation/`
 
 ## Best Practices
 

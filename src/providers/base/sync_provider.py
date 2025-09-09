@@ -13,35 +13,35 @@ from pathlib import Path
 @dataclass
 class SyncRequest:
     """Request for sync operation"""
-    operation: str  # 'create', 'update', 'delete', 'sync_templates', 'sync_media'
-    target: str     # Target identifier (note type, deck, etc.)
-    data: Dict[str, Any]
-    options: Optional[Dict[str, Any]] = None
+    target: str     # Target identifier (anki, etc.)
+    data: Any       # Data to sync
+    params: Optional[Dict[str, Any]] = None  # Additional parameters
     
     def __post_init__(self):
         """Validate request after initialization"""
-        if not self.operation:
-            raise ValueError("Sync operation cannot be empty")
         if not self.target:
             raise ValueError("Sync target cannot be empty")
         if self.data is None:
-            self.data = {}
-        if self.options is None:
-            self.options = {}
+            raise ValueError("Sync data cannot be None")
+        if self.params is None:
+            self.params = {}
 
 
 @dataclass  
 class SyncResult:
     """Result of sync operation"""
     success: bool
-    target_id: Optional[str]  # ID of created/updated item
+    processed_count: int
     metadata: Dict[str, Any]
-    error: Optional[str] = None
+    error_message: str = ""
+    created_ids: List[Any] = None
     
     def __post_init__(self):
         """Validate result after initialization"""
         if self.metadata is None:
             self.metadata = {}
+        if self.created_ids is None:
+            self.created_ids = []
 
 
 class SyncProvider(ABC):

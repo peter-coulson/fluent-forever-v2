@@ -298,13 +298,9 @@ class TestPreviewCommand:
         captured = capsys.readouterr()
         assert 'Must specify' in captured.out
     
-    @patch('cli.preview_server_multi.create_app')
-    def test_execute_start_server(self, mock_create_app):
-        """Test starting preview server."""
+    def test_execute_start_server_not_supported(self, capsys):
+        """Test that preview server functionality is no longer supported."""
         # Setup
-        mock_app = Mock()
-        mock_create_app.return_value = mock_app
-        
         pipeline_registry = Mock()
         provider_registry = Mock()
         config = CLIConfig({})
@@ -318,12 +314,12 @@ class TestPreviewCommand:
         )
         args.port = 8001
         
-        # Execute
+        # Execute - should indicate preview functionality is stripped
         result = command.execute(args)
         
-        # Verify
-        assert result == 0
-        mock_app.run.assert_called_once_with(host='127.0.0.1', port=8001, debug=False)
+        # Verify - command should fail or indicate functionality not available
+        # The exact behavior will depend on the PreviewCommand implementation after stripping
+        assert result in [1, 2]  # Some error code indicating unsupported functionality
     
     def test_execute_pipeline_not_found(self, capsys):
         """Test preview with missing pipeline."""

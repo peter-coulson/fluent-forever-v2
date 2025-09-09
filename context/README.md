@@ -2,16 +2,6 @@
 
 Welcome to the Fluent Forever V2 documentation system. Documentation is organized by audience and purpose.
 
-## 📚 For Users
-Start here if you want to use the system to create Spanish learning cards.
-
-- **[README](user/README.md)** - System overview and getting started
-- **[Quick Start](user/quick_start.md)** - Get running in minutes
-- **[Troubleshooting](user/troubleshooting.md)** - Common issues and solutions
-- **[Examples](user/examples/)** - Workflow examples and tutorials
-  - [Vocabulary Workflow](user/examples/vocabulary_workflow.md) - Complete vocabulary card creation
-  - [Conjugation Workflow](user/examples/conjugation_workflow.md) - Verb conjugation practice cards
-
 ## 🛠️ For Developers  
 Start here if you want to understand or extend the system.
 

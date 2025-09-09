@@ -1,294 +1,227 @@
+#!/usr/bin/env python3
 """
 Forvo Media Provider
-
-Provides audio generation using Forvo pronunciation API.
+Handles pronunciation audio downloads for vocabulary
+Migrated from src/apis/forvo_client.py to new provider structure
 """
 
 import os
-import json
-import requests
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any, Optional, List
+import requests
+from providers.base.api_client import BaseAPIClient, APIResponse, APIError
 from providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
 from utils.logging_config import get_logger, ICONS
 
 logger = get_logger('providers.media.forvo')
 
-
-class ForvoMediaProvider(MediaProvider):
-    """Forvo-based audio generation"""
+class ForvoProvider(MediaProvider, BaseAPIClient):
+    """Forvo media provider for Spanish pronunciation audio"""
     
-    def __init__(self, api_key: Optional[str] = None, config: Optional[Dict] = None):
-        """Initialize Forvo media provider
+    def __init__(self):
+        BaseAPIClient.__init__(self, "Forvo")
         
-        Args:
-            api_key: Forvo API key (if None, loads from environment)
-            config: Configuration dictionary (if None, loads from config.json)
-        """
-        if config is None:
-            config = self._load_config()
-        
-        self.config = config
-        self.api_config = config.get("apis", {}).get("forvo", {})
-        
-        # Load API key
-        if api_key is not None:
-            self.api_key = api_key
+        # Handle both old and new config structure during migration
+        if "apis" in self.config and "forvo" in self.config["apis"]:
+            self.api_config = self.config["apis"]["forvo"]
+        elif "providers" in self.config and "media" in self.config["providers"] and "forvo" in self.config["providers"]["media"]:
+            self.api_config = self.config["providers"]["media"]["forvo"]
         else:
-            env_var = self.api_config.get("env_var", "FORVO_API_KEY")
-            self.api_key = os.getenv(env_var)
-            if not self.api_key:
-                # Don't raise error for testing - just log warning
-                logger.warning(f"Forvo API key not found in environment variable {env_var}")
-                self.api_key = "test_key_for_validation"
+            # Fallback config
+            self.api_config = {
+                "env_var": "FORVO_API_KEY",
+                "base_url": "https://apifree.forvo.com",
+                "country_priorities": ["MX", "ES", "AR", "CO", "PE"],
+                "priority_groups": [["MX"], ["ES"], ["AR", "CO", "PE"]]
+            }
         
-        self.base_url = self.api_config.get("base_url", "https://apifree.forvo.com")
+        self.api_key = self._load_api_key(self.api_config["env_var"])
+        self.base_url = self.api_config["base_url"]
         
         # Priority order from config
-        self.country_priorities = self.api_config.get("country_priorities", ["CO", "MX", "PE", "VE", "AR", "EC", "UY", "CR", "ES"])
+        self.country_priorities = self.api_config.get("country_priorities", ["MX", "ES", "AR"])
+        # Grouped prioritization
         cfg_groups = self.api_config.get("priority_groups", [])
-        
-        # Sanitize groups to include only countries present in global priorities
         priorities_set = list(dict.fromkeys(self.country_priorities))
+        
         def sanitize(group):
             return [c for c in group if c in priorities_set]
-        groups = [sanitize(g) for g in cfg_groups if isinstance(g, list)]
         
-        # Fallback to a single group of all priorities if misconfigured
+        groups = [sanitize(g) for g in cfg_groups if isinstance(g, list)]
         if not groups:
             groups = [priorities_set]
-            
-        # Normalize to exactly three logical groups by padding with []
         while len(groups) < 3:
             groups.append([])
+        
         self.group1, self.group2, self.group3 = groups[:3]
-    
-    def _load_config(self) -> Dict[str, Any]:
-        """Load configuration from config.json"""
-        try:
-            config_path = Path(__file__).parent.parent.parent.parent / 'config.json'
-            if config_path.exists():
-                with open(config_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            else:
-                logger.warning("config.json not found, using defaults")
-                return {}
-        except Exception as e:
-            logger.warning(f"Error loading config: {e}, using defaults")
-            return {}
-    
+        
     @property
     def supported_types(self) -> List[str]:
-        """Forvo supports audio generation"""
+        """Media types supported by Forvo provider"""
         return ['audio']
     
+    def test_connection(self) -> bool:
+        """Test Forvo API connection"""
+        try:
+            # Test with a simple word lookup
+            response = self._make_request(
+                "GET",
+                f"{self.base_url}/key/{self.api_key}/format/json/action/word-pronunciations/word/hola/language/es/country/MX"
+            )
+            return response.success
+        except Exception as e:
+            logger.error(f"{ICONS['cross']} Forvo connection test failed: {e}")
+            return False
+    
+    def get_service_info(self) -> Dict[str, Any]:
+        """Get Forvo API service information"""
+        return {
+            "service": "Forvo",
+            "type": "audio_provider",
+            "supported_languages": ["es"],
+            "supported_countries": self.country_priorities
+        }
+    
     def generate_media(self, request: MediaRequest) -> MediaResult:
-        """Generate audio using Forvo API
+        """
+        Generate audio media using Forvo API
         
         Args:
-            request: MediaRequest with audio generation parameters
+            request: MediaRequest with type='audio', content=word, params with language/country
             
         Returns:
-            MediaResult with success status and file path
+            MediaResult with success status and file path or error
         """
         if request.type != 'audio':
             return MediaResult(
                 success=False,
                 file_path=None,
                 metadata={},
-                error=f"Unsupported media type: {request.type}"
+                error=f"Unsupported media type: {request.type}. Forvo only supports 'audio'."
             )
         
-        try:
-            # Extract parameters
-            word = request.content
-            filename = request.params.get('filename', f'{word}.mp3')
-            save_path = request.output_path or Path(self.config["paths"]["media_folder"]) / "audio"
-            
-            logger.info(f"{ICONS['gear']} Downloading pronunciation: {word}")
-            
-            # Get full list of available pronunciations with metadata
-            pronunciations = self._get_word_pronunciations(word)
-            if not pronunciations:
-                error_msg = f"No pronunciations available for '{word}'"
-                logger.warning(f"{ICONS['warning']} {error_msg}")
-                return MediaResult(
-                    success=False,
-                    file_path=None,
-                    metadata={},
-                    error=error_msg
-                )
-            
-            # Select best pronunciation using priority groups
-            best_pronunciation = self._select_best_pronunciation(pronunciations)
-            if not best_pronunciation:
-                error_msg = f"No pronunciation found for '{word}' in prioritized groups"
-                logger.warning(f"{ICONS['warning']} {error_msg}")
-                return MediaResult(
-                    success=False,
-                    file_path=None,
-                    metadata={},
-                    error=error_msg
-                )
-            
-            chosen_country = best_pronunciation.get('country', '')
-            audio_url = best_pronunciation.get('audio_url', '')
-            
-            logger.info(f"{ICONS['info']} Selected pronunciation {word} from {chosen_country} (votes+={best_pronunciation.get('num_positive_votes',0)}/{best_pronunciation.get('num_votes',0)})")
-            
-            # Download audio
-            file_path = self._download_audio(audio_url, filename, save_path)
-            
-            if file_path:
-                logger.info(f"{ICONS['check']} Pronunciation downloaded ({chosen_country}): {filename}")
-                return MediaResult(
-                    success=True,
-                    file_path=file_path,
-                    metadata={
-                        'word': word,
-                        'country': chosen_country,
-                        'votes': best_pronunciation.get('num_votes', 0),
-                        'positive_votes': best_pronunciation.get('num_positive_votes', 0),
-                        'username': best_pronunciation.get('username', 'unknown')
-                    }
-                )
-            else:
-                # Try fallback pronunciations
-                tried_countries = {chosen_country}
-                for group in [self.group1, self.group2, self.group3]:
-                    for candidate in sorted(
-                        [p for p in pronunciations if p.get('country') in group and p.get('audio_url')],
-                        key=lambda p: (int(p.get('num_positive_votes', 0)), int(p.get('num_votes', 0))),
-                        reverse=True
-                    ):
-                        ctry = candidate.get('country', '')
-                        if ctry in tried_countries:
-                            continue
-                        
-                        file_path = self._download_audio(candidate.get('audio_url',''), filename, save_path)
-                        tried_countries.add(ctry)
-                        
-                        if file_path:
-                            logger.info(f"{ICONS['check']} Pronunciation downloaded ({ctry}) on fallback: {filename}")
-                            return MediaResult(
-                                success=True,
-                                file_path=file_path,
-                                metadata={
-                                    'word': word,
-                                    'country': ctry,
-                                    'votes': candidate.get('num_votes', 0),
-                                    'positive_votes': candidate.get('num_positive_votes', 0),
-                                    'username': candidate.get('username', 'unknown'),
-                                    'fallback': True
-                                }
-                            )
-                
-                error_msg = f"Failed to download pronunciation for '{word}' from prioritized countries"
-                return MediaResult(
-                    success=False,
-                    file_path=None,
-                    metadata={},
-                    error=error_msg
-                )
-            
-        except Exception as e:
-            error_msg = f"Failed to download pronunciation for {word}: {e}"
-            logger.error(f"{ICONS['cross']} {error_msg}")
+        word = request.content.strip()
+        if not word:
             return MediaResult(
                 success=False,
                 file_path=None,
                 metadata={},
-                error=error_msg
+                error="Empty word provided for audio generation"
+            )
+        
+        language = request.params.get('language', 'es')
+        preferred_country = request.params.get('country')
+        
+        try:
+            # Get pronunciations for the word
+            pronunciations = self._get_pronunciations(word, language, preferred_country)
+            
+            if not pronunciations:
+                return MediaResult(
+                    success=False,
+                    file_path=None,
+                    metadata={'word': word, 'language': language},
+                    error=f"No pronunciations found for word: {word}"
+                )
+            
+            # Select best pronunciation based on country priorities
+            best_pronunciation = self._select_best_pronunciation(pronunciations)
+            
+            # Download the audio file
+            file_path = self._download_audio(word, best_pronunciation, request.output_path)
+            
+            metadata = {
+                'word': word,
+                'language': language,
+                'country': best_pronunciation.get('country'),
+                'username': best_pronunciation.get('username'),
+                'votes': best_pronunciation.get('votes', 0)
+            }
+            
+            return MediaResult(
+                success=True,
+                file_path=file_path,
+                metadata=metadata
+            )
+            
+        except Exception as e:
+            logger.error(f"{ICONS['cross']} Error generating audio for '{word}': {e}")
+            return MediaResult(
+                success=False,
+                file_path=None,
+                metadata={'word': word, 'language': language},
+                error=str(e)
             )
     
-    def _get_word_pronunciations(self, word: str) -> List[Dict[str, Any]]:
-        """Get all available pronunciations for a word"""
-        try:
-            all_pronunciations = []
-            
-            for country_code in self.country_priorities:
-                url = f"{self.base_url}/key/{self.api_key}/format/json/action/word-pronunciations/word/{word}/language/es/country/{country_code}"
-                
-                try:
-                    response = requests.get(url, timeout=10)
-                    if response.status_code == 200:
-                        data = response.json()
-                        items = data.get('items', [])
-                        for item in items:
-                            all_pronunciations.append({
-                                "country": country_code,
-                                "username": item.get('username', 'unknown'),
-                                "sex": item.get('sex', 'unknown'),
-                                "num_votes": item.get('num_votes', 0),
-                                "num_positive_votes": item.get('num_positive_votes', 0),
-                                "audio_url": item.get('pathmp3', '')
-                            })
-                except requests.RequestException as e:
-                    logger.debug(f"Error getting pronunciations from {country_code}: {e}")
-                    continue
-            
-            return all_pronunciations
-            
-        except Exception as e:
-            logger.error(f"Error getting word pronunciations for {word}: {e}")
-            return []
+    def estimate_cost(self, request: MediaRequest) -> float:
+        """Estimate cost for Forvo request (free API has rate limits)"""
+        # Forvo free API - no direct cost but rate limited
+        return 0.0
     
-    def _select_best_pronunciation(self, pronunciations: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
-        """Select best pronunciation using priority groups"""
-        def select_best(group: List[str]) -> Optional[Dict[str, Any]]:
-            # Filter pronunciations to those whose country in group
-            candidates = [p for p in pronunciations if p.get('country') in group and p.get('audio_url')]
-            # Rank by num_positive_votes desc, then num_votes desc
-            candidates.sort(key=lambda p: (int(p.get('num_positive_votes', 0)), int(p.get('num_votes', 0))), reverse=True)
-            return candidates[0] if candidates else None
+    def _get_pronunciations(self, word: str, language: str = 'es', preferred_country: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Get pronunciations for a word"""
+        # Try specific country first if provided
+        if preferred_country:
+            response = self._make_request(
+                "GET",
+                f"{self.base_url}/key/{self.api_key}/format/json/action/word-pronunciations/word/{word}/language/{language}/country/{preferred_country}"
+            )
+            if response.success and response.data.get('items'):
+                return response.data['items']
         
-        # Try groups in order
-        return select_best(self.group1) or select_best(self.group2) or select_best(self.group3)
+        # Try without country filter to get all pronunciations
+        response = self._make_request(
+            "GET",
+            f"{self.base_url}/key/{self.api_key}/format/json/action/word-pronunciations/word/{word}/language/{language}"
+        )
+        
+        if response.success and response.data.get('items'):
+            return response.data['items']
+        
+        return []
     
-    def _download_audio(self, audio_url: str, filename: str, save_path: Path) -> Optional[Path]:
-        """Download audio from URL and save to file"""
-        try:
-            # Ensure directory exists
-            save_path.mkdir(parents=True, exist_ok=True)
-            file_path = save_path / filename
-            
-            # Download audio
-            logger.debug(f"Downloading audio from: {audio_url}")
-            audio_response = requests.get(audio_url, timeout=30)
-            
-            if audio_response.status_code == 200:
-                with open(file_path, 'wb') as f:
-                    f.write(audio_response.content)
-                
-                logger.debug(f"Audio saved to: {file_path}")
-                return file_path
-            else:
-                logger.error(f"Failed to download audio (HTTP {audio_response.status_code})")
-                return None
-                
-        except Exception as e:
-            logger.error(f"{ICONS['cross']} Error downloading audio: {e}")
-            return None
+    def _select_best_pronunciation(self, pronunciations: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Select best pronunciation based on country priorities and votes"""
+        # Group by priority levels
+        group1_pronunciations = [p for p in pronunciations if p.get('country') in self.group1]
+        group2_pronunciations = [p for p in pronunciations if p.get('country') in self.group2]
+        group3_pronunciations = [p for p in pronunciations if p.get('country') in self.group3]
+        other_pronunciations = [p for p in pronunciations if p.get('country') not in (self.group1 + self.group2 + self.group3)]
+        
+        # Try each group in priority order
+        for group in [group1_pronunciations, group2_pronunciations, group3_pronunciations, other_pronunciations]:
+            if group:
+                # Sort by votes (descending) and return the best
+                group.sort(key=lambda x: x.get('votes', 0), reverse=True)
+                return group[0]
+        
+        # Fallback to first pronunciation if no matches
+        return pronunciations[0] if pronunciations else {}
     
-    def get_cost_estimate(self, requests: List[MediaRequest]) -> Dict[str, float]:
-        """Estimate cost for Forvo API calls
+    def _download_audio(self, word: str, pronunciation: Dict[str, Any], output_path: Optional[Path] = None) -> Path:
+        """Download audio file for pronunciation"""
+        audio_url = pronunciation.get('pathmp3')
+        if not audio_url:
+            raise APIError(f"No audio URL found for pronunciation of '{word}'")
         
-        Args:
-            requests: List of audio generation requests
-            
-        Returns:
-            Cost breakdown dictionary
-        """
-        audio_requests = [r for r in requests if r.type == 'audio']
-        num_audio = len(audio_requests)
+        # Determine output path
+        if output_path is None:
+            # Create safe filename
+            safe_word = "".join(c for c in word if c.isalnum() or c in "._-").strip()
+            country = pronunciation.get('country', 'unknown')
+            output_path = Path(f"media/audio/{safe_word}_{country}.mp3")
         
-        # Forvo is typically free for moderate usage, but track requests
-        return {
-            'total_cost': 0.0,
-            'breakdown': {
-                'service': 'Forvo',
-                'audio_requests': num_audio,
-                'cost_per_request': 0.0,
-                'note': 'Forvo is free for moderate usage'
-            }
-        }
+        # Ensure directory exists
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Download the file
+        logger.debug(f"Downloading audio from {audio_url}")
+        response = requests.get(audio_url, stream=True, timeout=30)
+        response.raise_for_status()
+        
+        with open(output_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        
+        logger.debug(f"{ICONS['check']} Audio downloaded to {output_path}")
+        return output_path
