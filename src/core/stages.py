@@ -28,23 +28,12 @@ class StageResult:
     errors: list[str]
 
     def __contains__(self, key: str) -> bool:
-        """Support 'in' operator for backward compatibility."""
-        if key == "status":
-            return True
         return hasattr(self, key)
 
     def __getitem__(self, key: str) -> Any:
-        """Support dict-like access for backward compatibility."""
-        if key == "status":
-            return self.status.value
         return getattr(self, key, None)
 
     def get(self, key: str, default: Any = None) -> Any:
-        """Support dict-like get method for backward compatibility."""
-        if key == "status":
-            return self.status.value
-        if key == "output":
-            return self.data  # For backward compatibility with old "output" key
         return getattr(self, key, default)
 
     @property

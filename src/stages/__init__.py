@@ -24,19 +24,9 @@ from .base.api_stage import APIStage
 # Import all stage classes
 from .base.file_stage import FileLoadStage, FileSaveStage
 from .base.validation_stage import ValidationStage
-from .media.audio_stage import AudioGenerationStage
-from .media.image_stage import ImageGenerationStage
-from .media.media_stage import MediaGenerationStage
-from .validation.data_stage import DataValidationStage
-from .validation.media_stage import MediaValidationStage
 
 # Stage registry for easy lookup
 STAGE_REGISTRY: dict[str, type[Stage]] = {
-    "generate_images": ImageGenerationStage,
-    "generate_audio": AudioGenerationStage,
-    "generate_media": MediaGenerationStage,
-    "validate_data": DataValidationStage,
-    "validate_media": MediaValidationStage,
     "load_file": FileLoadStage,
     "save_file": FileSaveStage,
 }

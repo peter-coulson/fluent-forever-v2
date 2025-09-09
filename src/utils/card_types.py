@@ -58,11 +58,6 @@ class CardType(ABC):
         """List all cards with their basic info"""
         pass
 
-    @abstractmethod
-    def build_fields(self, card_data: dict[str, Any]) -> dict[str, str]:
-        """Build template fields from card data"""
-        pass
-
 
 class FluentForeverCardType(CardType):
     """Fluent Forever vocabulary cards"""
@@ -110,12 +105,6 @@ class FluentForeverCardType(CardType):
                     }
                 )
         return cards
-
-    def build_fields(self, card_data: dict[str, Any]) -> dict[str, str]:
-        """Build fields for Fluent Forever templates"""
-        from .template_render import build_fields_from_meaning
-
-        return build_fields_from_meaning(card_data)
 
 
 class ConjugationCardType(CardType):
@@ -174,25 +163,6 @@ class ConjugationCardType(CardType):
                 }
             )
         return cards
-
-    def build_fields(self, card_data: dict[str, Any]) -> dict[str, str]:
-        """Build fields for Conjugation templates"""
-        # For conjugation cards, just convert all values to strings
-        fields = {}
-        for key, value in card_data.items():
-            fields[key] = str(value) if value is not None else ""
-
-        # Handle image paths
-        if "Picture" in fields and fields["Picture"]:
-            picture = fields["Picture"].strip()
-            if (
-                picture
-                and "/" not in picture
-                and not picture.startswith("media/images/")
-            ):
-                fields["Picture"] = f"media/images/{picture}"
-
-        return fields
 
 
 class CardTypeRegistry:
