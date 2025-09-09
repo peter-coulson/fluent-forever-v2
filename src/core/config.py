@@ -10,7 +10,7 @@ import os
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, cast
+from typing import Any
 
 
 class ConfigLevel(Enum):
@@ -84,76 +84,6 @@ class ConfigManager:
             return all(section in system_config for section in required_sections)
         except Exception:
             return False
-
-    def load_legacy_config(self) -> dict[str, Any] | None:
-        """Load legacy config.json format"""
-        legacy_path = self.base_path / "config.json"
-        if legacy_path.exists():
-            try:
-                return cast(dict[str, Any], json.loads(legacy_path.read_text()))
-            except (OSError, json.JSONDecodeError):
-                return None
-        return None
-
-    def migrate_legacy_config(self, legacy_config: dict[str, Any]) -> dict[str, Any]:
-        """Migrate legacy configuration to new format"""
-        migrated = {
-            "system": {
-                "log_level": "INFO",
-                "cache_enabled": True,
-                "max_concurrent_requests": 5,
-                "timeout_seconds": 300,
-            },
-            "paths": legacy_config.get("paths", {}),
-            "pipelines": {
-                "vocabulary": {
-                    "name": "vocabulary",
-                    "display_name": "Vocabulary Cards (Fluent Forever)",
-                    "data_file": "vocabulary.json",
-                    "anki_note_type": "Fluent Forever",
-                    "stages": [
-                        "analyze_words",
-                        "prepare_batch",
-                        "ingest_batch",
-                        "generate_media",
-                        "validate_data",
-                        "sync_templates",
-                        "sync_cards",
-                    ],
-                    "batch_settings": legacy_config.get("preferences", {}),
-                }
-            },
-            "providers": self._migrate_providers(legacy_config),
-            "stages": {},
-            "apis": legacy_config.get("apis", {}),  # Legacy compatibility
-        }
-
-        return migrated
-
-    def _migrate_providers(self, legacy_config: dict[str, Any]) -> dict[str, Any]:
-        """Migrate provider configurations from legacy format"""
-        providers = {}
-
-        # Migrate API configurations to provider format
-        apis = legacy_config.get("apis", {})
-
-        for api_name, api_config in apis.items():
-            if api_name == "base":
-                continue
-
-            providers[api_name] = {
-                "provider": {
-                    "type": api_name,
-                    "enabled": api_config.get("enabled", True),
-                }
-            }
-
-            # Copy all other configuration
-            for key, value in api_config.items():
-                if key not in ["enabled"]:
-                    providers[api_name][key] = value
-
-        return providers
 
     def resolve_environment_variables(self, config: dict[str, Any]) -> dict[str, Any]:
         """Resolve environment variables in configuration"""
@@ -229,18 +159,6 @@ class ConfigManager:
 
             # Load stages config (empty for now but structure)
             merged_config["stages"] = {}
-
-            # Add legacy APIs section for backward compatibility
-            if "apis" not in merged_config:
-                legacy_config = self.load_legacy_config()
-                if legacy_config and "apis" in legacy_config:
-                    merged_config["apis"] = legacy_config["apis"]
-
-        # If no configs found, use legacy config as fallback
-        if not merged_config:
-            legacy_config = self.load_legacy_config()
-            if legacy_config:
-                merged_config = self.migrate_legacy_config(legacy_config)
 
         # Apply environment variable overrides
         self._apply_env_overrides(merged_config)
