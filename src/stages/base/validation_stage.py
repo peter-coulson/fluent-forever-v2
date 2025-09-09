@@ -34,7 +34,7 @@ class ValidationStage(Stage):
         return f"Validate {self.data_key.replace('_', ' ').title()}"
 
     @abstractmethod
-    def validate_data(self, data: dict[str, Any]) -> list[str]:
+    def validate_data(self, data: Any) -> list[str]:
         """
         Validate data and return list of error messages
 

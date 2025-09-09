@@ -5,15 +5,10 @@ Unit tests for Validation Stages after migration
 Tests validation stage functionality in the new stage structure.
 """
 
-import sys
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 from core.context import PipelineContext
 from core.stages import StageResult, StageStatus

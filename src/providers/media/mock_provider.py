@@ -70,12 +70,10 @@ class MockMediaProvider(MediaProvider):
         filename = request.params.get(
             "filename", f"mock_{request.type}_{self.generation_count}"
         )
-        if request.type == "image":
-            if not filename.endswith((".jpg", ".png", ".jpeg")):
-                filename += ".jpg"
-        elif request.type == "audio":
-            if not filename.endswith((".mp3", ".wav")):
-                filename += ".mp3"
+        if request.type == "image" and not filename.endswith((".jpg", ".png", ".jpeg")):
+            filename += ".jpg"
+        elif request.type == "audio" and not filename.endswith((".mp3", ".wav")):
+            filename += ".mp3"
 
         if request.output_path:
             mock_file_path = request.output_path / filename
@@ -118,15 +116,11 @@ class MockMediaProvider(MediaProvider):
 
         return {
             "total_cost": total_cost,
-            "breakdown": {
-                "provider": "Mock",
-                "total_requests": num_requests,
-                "image_requests": len(image_requests),
-                "audio_requests": len(audio_requests),
-                "image_cost": image_cost,
-                "audio_cost": audio_cost,
-                "note": "Mock costs for testing",
-            },
+            "image_cost": image_cost,
+            "audio_cost": audio_cost,
+            "total_requests": float(num_requests),
+            "image_requests": float(len(image_requests)),
+            "audio_requests": float(len(audio_requests)),
         }
 
     # Testing utility methods

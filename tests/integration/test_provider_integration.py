@@ -5,14 +5,8 @@ Integration tests for provider system.
 Tests that providers can be created, registered, and work with stages.
 """
 
-import sys
-from pathlib import Path
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 
 def test_provider_registry():
@@ -161,7 +155,7 @@ def test_provider_stage_integration():
         mock_provider = MockMediaProvider()
         stage = ProviderImageStage(provider=mock_provider)
 
-        context = PipelineContext({"words": ["test"]})
+        PipelineContext({"words": ["test"]})
 
         # This may fail due to missing configuration, but structure should work
         # We're mainly testing the integration works, not the full execution

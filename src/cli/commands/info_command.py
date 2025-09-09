@@ -1,5 +1,7 @@
 """Info command implementation."""
 
+from typing import Any
+
 from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.output import format_key_value_pairs, format_list, print_error
 from src.core.registry import PipelineRegistry
@@ -18,7 +20,7 @@ class InfoCommand:
         self.registry = registry
         self.config = config
 
-    def execute(self, args) -> int:
+    def execute(self, args: Any) -> int:
         """Execute info command.
 
         Args:

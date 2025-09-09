@@ -1,5 +1,7 @@
 """List command implementation."""
 
+from typing import Any
+
 from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.output import format_table, print_info
 from src.core.registry import PipelineRegistry
@@ -18,7 +20,7 @@ class ListCommand:
         self.registry = registry
         self.config = config
 
-    def execute(self, args) -> int:
+    def execute(self, args: Any) -> int:
         """Execute list command.
 
         Args:

@@ -3,7 +3,10 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from src.core.context import PipelineContext
 
 
 class StageStatus(Enum):
@@ -44,15 +47,22 @@ class StageResult:
             return self.data  # For backward compatibility with old "output" key
         return getattr(self, key, default)
 
+    @property
+    def success(self) -> bool:
+        """Check if the result represents a successful execution."""
+        return self.status == StageStatus.SUCCESS
+
     @classmethod
-    def success(cls, message: str, data: Optional[dict[str, Any]] = None) -> "StageResult":
+    def success_result(
+        cls, message: str, data: dict[str, Any] | None = None
+    ) -> "StageResult":
         """Create a success result."""
         return cls(
             status=StageStatus.SUCCESS, message=message, data=data or {}, errors=[]
         )
 
     @classmethod
-    def failure(cls, message: str, errors: Optional[list[str]] = None) -> "StageResult":
+    def failure(cls, message: str, errors: list[str] | None = None) -> "StageResult":
         """Create a failure result."""
         return cls(
             status=StageStatus.FAILURE, message=message, data={}, errors=errors or []
@@ -60,7 +70,10 @@ class StageResult:
 
     @classmethod
     def partial(
-        cls, message: str, data: Optional[dict[str, Any]] = None, errors: Optional[list[str]] = None
+        cls,
+        message: str,
+        data: dict[str, Any] | None = None,
+        errors: list[str] | None = None,
     ) -> "StageResult":
         """Create a partial result."""
         return cls(

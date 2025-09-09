@@ -10,8 +10,10 @@ from __future__ import annotations
 
 import json
 from abc import ABC, abstractmethod
-from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any, cast
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 from src.utils.logging_config import get_logger
 
@@ -82,7 +84,7 @@ class FluentForeverCardType(CardType):
         if not vocab_path.exists():
             logger.warning(f"Data file not found: {vocab_path}")
             return {}
-        return json.loads(vocab_path.read_text(encoding="utf-8"))
+        return cast(dict[str, Any], json.loads(vocab_path.read_text(encoding="utf-8")))
 
     def find_card_by_id(
         self, data: dict[str, Any], card_id: str
@@ -91,7 +93,7 @@ class FluentForeverCardType(CardType):
         for _, wdata in data.get("words", {}).items():
             for meaning in wdata.get("meanings", []):
                 if str(meaning.get("CardID", "")).strip() == card_id:
-                    return meaning
+                    return cast(dict[str, str], meaning)
         return None
 
     def list_cards(self, data: dict[str, Any]) -> list[dict[str, str]]:
@@ -111,7 +113,7 @@ class FluentForeverCardType(CardType):
 
     def build_fields(self, card_data: dict[str, Any]) -> dict[str, str]:
         """Build fields for Fluent Forever templates"""
-        from utils.template_render import build_fields_from_meaning
+        from .template_render import build_fields_from_meaning
 
         return build_fields_from_meaning(card_data)
 
@@ -150,14 +152,14 @@ class ConjugationCardType(CardType):
                     }
                 }
             }
-        return json.loads(conj_path.read_text(encoding="utf-8"))
+        return cast(dict[str, Any], json.loads(conj_path.read_text(encoding="utf-8")))
 
     def find_card_by_id(
         self, data: dict[str, Any], card_id: str
     ) -> dict[str, str] | None:
         """Find a conjugation card by CardID"""
         conjugations = data.get("conjugations", {})
-        return conjugations.get(card_id)
+        return cast(dict[str, str] | None, conjugations.get(card_id))
 
     def list_cards(self, data: dict[str, Any]) -> list[dict[str, str]]:
         """List all conjugation cards"""
@@ -196,16 +198,16 @@ class ConjugationCardType(CardType):
 class CardTypeRegistry:
     """Registry for managing different card types"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._card_types: dict[str, CardType] = {}
         self._register_builtin_types()
 
-    def _register_builtin_types(self):
+    def _register_builtin_types(self) -> None:
         """Register built-in card types"""
         self.register(FluentForeverCardType())
         self.register(ConjugationCardType())
 
-    def register(self, card_type: CardType):
+    def register(self, card_type: CardType) -> None:
         """Register a new card type"""
         self._card_types[card_type.name] = card_type
         logger.debug(f"Registered card type: {card_type.name}")

@@ -11,7 +11,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import requests
 
@@ -105,7 +105,7 @@ class BaseAPIClient(ABC):
         return api_key
 
     def _make_request(
-        self, method: str, url: str, max_retries: Optional[int] = None, **kwargs: Any
+        self, method: str, url: str, max_retries: int | None = None, **kwargs: Any
     ) -> APIResponse:
         """
         Make HTTP request with retry logic and error handling
@@ -136,7 +136,9 @@ class BaseAPIClient(ABC):
                     f"Making {method} request to {url} (attempt {attempt + 1}/{max_retries})"
                 )
 
-                response = self.session.request(method, url, timeout=self.timeout, **kwargs)
+                response = self.session.request(
+                    method, url, timeout=self.timeout, **kwargs
+                )
 
                 # Handle rate limiting
                 if response.status_code == 429:
@@ -182,7 +184,7 @@ class BaseAPIClient(ABC):
                         error_msg += f": {error_data['error']}"
                     elif "message" in error_data:
                         error_msg += f": {error_data['message']}"
-                except:
+                except Exception:
                     error_msg += f": {response.text[:200]}"
 
                 # Don't retry on 4xx client errors (except rate limiting)

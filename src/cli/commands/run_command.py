@@ -1,6 +1,7 @@
 """Run command implementation."""
 
 from pathlib import Path
+from typing import Any
 
 from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.output import print_error, print_success, print_warning
@@ -37,7 +38,7 @@ class RunCommand:
         self.project_root = project_root
         self.config = config
 
-    def execute(self, args) -> int:
+    def execute(self, args: Any) -> int:
         """Execute run command.
 
         Args:
@@ -122,7 +123,7 @@ class RunCommand:
             print_error(f"Error executing stage '{args.stage}': {e}")
             return 1
 
-    def _validate_stage_args(self, args) -> list:
+    def _validate_stage_args(self, args: Any) -> list:
         """Validate stage-specific arguments.
 
         Args:
@@ -133,16 +134,14 @@ class RunCommand:
         """
         errors = []
 
-        if args.stage == "prepare":
-            if args.words:
-                errors.extend(validate_word_list(args.words))
-        elif args.stage == "media":
-            if args.cards:
-                errors.extend(validate_card_list(args.cards))
+        if args.stage == "prepare" and args.words:
+            errors.extend(validate_word_list(args.words))
+        elif args.stage == "media" and args.cards:
+            errors.extend(validate_card_list(args.cards))
 
         return errors
 
-    def _populate_context(self, context: PipelineContext, args) -> None:
+    def _populate_context(self, context: PipelineContext, args: Any) -> None:
         """Populate context from command arguments.
 
         Args:
@@ -186,7 +185,7 @@ class RunCommand:
         context.set("max_new", getattr(args, "max", None))
         context.set("delete_extras", getattr(args, "delete_extras", False))
 
-    def _show_execution_plan(self, context: PipelineContext, args) -> None:
+    def _show_execution_plan(self, context: PipelineContext, args: Any) -> None:
         """Show execution plan for dry run.
 
         Args:

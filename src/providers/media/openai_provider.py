@@ -45,7 +45,7 @@ class OpenAIProvider(MediaProvider):
             ),
         }
 
-    def _download_image(self, url: str, output_path: Path = None) -> Path:
+    def _download_image(self, url: str, output_path: Path | None = None) -> Path:
         """Download image from URL (placeholder method for testing)"""
         # This is a placeholder method for testing
         if output_path is None:

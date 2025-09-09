@@ -20,8 +20,8 @@ class ValidationResult:
 class ConfigValidator:
     """Validates configuration files and data structures"""
 
-    def __init__(self):
-        self.required_sections = {
+    def __init__(self) -> None:
+        self.required_sections: dict[str, list[str]] = {
             "system": ["log_level", "cache_enabled", "max_concurrent_requests"],
             "paths": [],  # Paths section is required but fields are flexible
             "pipelines": [],  # Must exist but content is flexible
@@ -30,8 +30,8 @@ class ConfigValidator:
 
     def validate(self, config: dict[str, Any]) -> ValidationResult:
         """Validate a complete configuration"""
-        errors = []
-        warnings = []
+        errors: list[str] = []
+        warnings: list[str] = []
 
         # Check required top-level sections
         for section, required_fields in self.required_sections.items():

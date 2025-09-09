@@ -9,7 +9,7 @@ from .pipeline import Pipeline
 class PipelineRegistry:
     """Registry for managing pipeline implementations."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._pipelines: dict[str, Pipeline] = {}
 
     def register(self, pipeline: Pipeline) -> None:

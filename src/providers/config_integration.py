@@ -4,10 +4,15 @@ Provider Configuration Integration
 Initializes providers from unified configuration system.
 """
 
-import os
 from pathlib import Path
+from typing import TYPE_CHECKING
 
-from src.core.config import ConfigManager
+if TYPE_CHECKING:
+    from src.providers.media.runware_provider import (
+        RunwareProvider as RunwareProviderType,
+    )
+
+from src.core.config import ConfigManager, get_config_manager
 from src.providers.registry import get_provider_registry
 
 
@@ -33,20 +38,22 @@ def initialize_providers_from_config() -> None:
         runware_config = {"provider": legacy_apis.get("runware", {})}
 
     # Create and register providers
-    from providers.data.json_provider import JSONDataProvider
-    from providers.media.forvo_provider import ForvoMediaProvider
-    from providers.media.openai_provider import OpenAIMediaProvider
-    from providers.sync.anki_provider import AnkiSyncProvider
+    from src.providers.data.json_provider import JSONDataProvider
+    from src.providers.media.forvo_provider import ForvoProvider
+    from src.providers.media.openai_provider import OpenAIProvider
+    from src.providers.sync.anki_provider import AnkiProvider
 
+    RunwareProviderClass: type[RunwareProviderType] | None
     try:
-        from providers.media.runware_provider import RunwareMediaProvider
+        from src.providers.media.runware_provider import RunwareProvider
+
+        RunwareProviderClass = RunwareProvider
     except ImportError:
         print("Warning: Runware provider not available")
-        RunwareMediaProvider = None
+        RunwareProviderClass = None
 
     # Data provider
     system_config = config_manager.load_config("system")
-    paths = system_config.get("paths", {})
     project_root = Path(config_manager.base_path)
     data_provider = JSONDataProvider(project_root)
     provider_registry.register_data_provider("default", data_provider)
@@ -54,18 +61,14 @@ def initialize_providers_from_config() -> None:
     # Media providers
     if openai_config.get("provider", {}).get("enabled", True):
         try:
-            openai_provider = OpenAIMediaProvider(
-                api_key=os.getenv("OPENAI_API_KEY"), config=openai_config
-            )
+            openai_provider = OpenAIProvider()
             provider_registry.register_media_provider("openai", openai_provider)
         except Exception as e:
             print(f"Warning: Failed to initialize OpenAI provider: {e}")
 
-    if RunwareMediaProvider and runware_config.get("provider", {}).get("enabled", True):
+    if RunwareProviderClass and runware_config.get("provider", {}).get("enabled", True):
         try:
-            runware_provider = RunwareMediaProvider(
-                api_key=os.getenv("RUNWARE_API_KEY"), config=runware_config
-            )
+            runware_provider = RunwareProviderClass()
             provider_registry.register_media_provider("runware", runware_provider)
         except Exception as e:
             print(f"Warning: Failed to initialize Runware provider: {e}")
@@ -73,9 +76,7 @@ def initialize_providers_from_config() -> None:
     # Audio providers
     if forvo_config.get("provider", {}).get("enabled", True):
         try:
-            forvo_provider = ForvoMediaProvider(
-                api_key=os.getenv("FORVO_API_KEY"), config=forvo_config
-            )
+            forvo_provider = ForvoProvider()
             provider_registry.register_media_provider("forvo", forvo_provider)
         except Exception as e:
             print(f"Warning: Failed to initialize Forvo provider: {e}")
@@ -83,13 +84,13 @@ def initialize_providers_from_config() -> None:
     # Sync providers
     if anki_config.get("provider", {}).get("enabled", True):
         try:
-            anki_provider = AnkiSyncProvider(config=anki_config)
+            anki_provider = AnkiProvider()
             provider_registry.register_sync_provider("anki", anki_provider)
         except Exception as e:
             print(f"Warning: Failed to initialize Anki provider: {e}")
 
 
-def create_pipeline_from_config(pipeline_name: str):
+def create_pipeline_from_config(pipeline_name: str) -> dict | None:
     """Create pipeline instance from configuration"""
     config_manager = get_config_manager()
     pipeline_config = config_manager.get_pipeline_config(pipeline_name)

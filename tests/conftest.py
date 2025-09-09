@@ -4,15 +4,10 @@ Shared test fixtures and mocks
 """
 
 import json
-import sys
 from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 
 @pytest.fixture

@@ -5,14 +5,8 @@ Unit tests for Core Configuration Validator
 Tests configuration validation functionality after migration.
 """
 
-import sys
-from pathlib import Path
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 from core.config_validator import ConfigValidator
 

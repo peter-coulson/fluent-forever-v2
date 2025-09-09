@@ -76,7 +76,7 @@ class TestExceptionHierarchy:
             raise PipelineNotFoundError("Test pipeline not found")
 
         # Test catching as generic exception
-        with pytest.raises(Exception):
+        with pytest.raises(PipelineNotFoundError):
             raise PipelineNotFoundError("Test pipeline not found")
 
     def test_stage_error_hierarchy(self):

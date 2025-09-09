@@ -4,6 +4,8 @@ Combined Media Generation Stage
 Orchestrates both image and audio generation in a single stage.
 """
 
+from typing import Any
+
 from src.core.context import PipelineContext
 from src.core.stages import Stage, StageResult, StageStatus
 from src.utils.logging_config import ICONS, get_logger
@@ -59,7 +61,7 @@ class MediaGenerationStage(Stage):
 
     def execute(self, context: PipelineContext) -> StageResult:
         """Execute both image and audio generation"""
-        results = {
+        results: dict[str, Any] = {
             "image_result": None,
             "audio_result": None,
             "total_generated": 0,

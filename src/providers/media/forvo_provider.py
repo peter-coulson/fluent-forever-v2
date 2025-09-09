@@ -6,7 +6,7 @@ Migrated from src/apis/forvo_client.py to new provider structure
 """
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import requests
 
@@ -20,7 +20,7 @@ logger = get_logger("providers.media.forvo")
 class ForvoProvider(MediaProvider, BaseAPIClient):
     """Forvo media provider for Spanish pronunciation audio"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         BaseAPIClient.__init__(self, "Forvo")
 
         # Handle both old and new config structure during migration
@@ -52,7 +52,7 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
         cfg_groups = self.api_config.get("priority_groups", [])
         priorities_set = list(dict.fromkeys(self.country_priorities))
 
-        def sanitize(group):
+        def sanitize(group: list[str]) -> list[str]:
             return [c for c in group if c in priorities_set]
 
         groups = [sanitize(g) for g in cfg_groups if isinstance(g, list)]
@@ -190,7 +190,7 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
                 f"{self.base_url}/key/{self.api_key}/format/json/action/word-pronunciations/word/{word}/language/{language}/country/{preferred_country}",
             )
             if response.success and response.data.get("items"):
-                return response.data["items"]
+                return cast(list[dict[str, Any]], response.data["items"])
 
         # Try without country filter to get all pronunciations
         response = self._make_request(
@@ -199,7 +199,7 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
         )
 
         if response.success and response.data.get("items"):
-            return response.data["items"]
+            return cast(list[dict[str, Any]], response.data["items"])
 
         return []
 

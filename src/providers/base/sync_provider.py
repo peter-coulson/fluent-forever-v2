@@ -7,7 +7,7 @@ Abstract interface for sync targets (Anki, other flashcard systems, etc.)
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -36,12 +36,10 @@ class SyncResult:
     processed_count: int
     metadata: dict[str, Any]
     error_message: str = ""
-    created_ids: Optional[list[Any]] = None
+    created_ids: list[Any] | None = None
 
     def __post_init__(self) -> None:
         """Validate result after initialization"""
-        if self.metadata is None:
-            self.metadata = {}
         if self.created_ids is None:
             self.created_ids = []
 

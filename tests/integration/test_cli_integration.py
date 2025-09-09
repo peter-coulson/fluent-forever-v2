@@ -6,14 +6,9 @@ Tests that CLI components work together and can execute commands.
 """
 
 import subprocess
-import sys
 from pathlib import Path
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 
 def test_cli_pipeline_runner():
@@ -89,6 +84,7 @@ def test_cli_parser_creation():
 def test_cli_module_execution():
     """Test CLI can be executed as module (basic smoke test)."""
     # Test that the CLI module can be called without immediate errors
+    project_root = Path(__file__).parent.parent.parent
     try:
         result = subprocess.run(
             ["python", "-m", "cli.pipeline", "--help"],

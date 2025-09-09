@@ -34,7 +34,7 @@ class DataValidationStage(ValidationStage):
     def display_name(self) -> str:
         return f"Validate {self.data_key.replace('_', ' ').title()} Data"
 
-    def execute(self, context):
+    def execute(self, context: Any) -> Any:
         """Execute validation - supports both dict and PipelineContext"""
         # Convert dict context to PipelineContext if needed for compatibility
         if isinstance(context, dict):
@@ -70,7 +70,7 @@ class DataValidationStage(ValidationStage):
         # If it's already a PipelineContext, use normal flow
         return super().execute(context)
 
-    def validate_data(self, data: dict[str, Any]) -> list[str]:
+    def validate_data(self, data: Any) -> list[str]:
         """Validate data structure and content"""
         errors = []
 
@@ -135,7 +135,7 @@ class DataValidationStage(ValidationStage):
 
         return errors
 
-    def validate_word_entry(self, word: str, word_data: dict[str, Any]) -> list[str]:
+    def validate_word_entry(self, word: str, word_data: Any) -> list[str]:
         """Validate individual word entry"""
         errors = []
 
@@ -161,9 +161,7 @@ class DataValidationStage(ValidationStage):
 
         return errors
 
-    def validate_meaning_entry(
-        self, word: str, index: int, meaning: dict[str, Any]
-    ) -> list[str]:
+    def validate_meaning_entry(self, word: str, index: int, meaning: Any) -> list[str]:
         """Validate individual meaning entry"""
         errors = []
 

@@ -6,16 +6,11 @@ Tests API client functionality in the new provider structure.
 """
 
 import json
-import sys
 import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 from providers.base.api_client import APIError, APIResponse, BaseAPIClient
 
@@ -105,7 +100,7 @@ class TestBaseAPIClient:
         mock_response.json.return_value = {"error": "Rate limited"}
         mock_get.return_value = mock_response
 
-        client = MockAPIClient()
+        MockAPIClient()
 
         # This would typically be implemented in subclasses
         # Here we just test the response structure

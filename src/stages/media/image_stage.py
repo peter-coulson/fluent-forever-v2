@@ -40,7 +40,7 @@ class ImageGenerationStage(APIStage):
     def display_name(self) -> str:
         return "Generate Images"
 
-    def execute_api_call(self, context: PipelineContext, provider) -> StageResult:
+    def execute_api_call(self, context: PipelineContext, provider: Any) -> StageResult:
         """Execute image generation with provider"""
         # Get cards to process
         cards = context.get("cards", [])
@@ -138,7 +138,9 @@ class ImageGenerationStage(APIStage):
 
         return cards
 
-    def plan_image_generation(self, project_root: Path, cards: list[dict[str, Any]]):
+    def plan_image_generation(
+        self, project_root: Path, cards: list[dict[str, Any]]
+    ) -> Any:
         """Plan which images need to be generated"""
         from types import SimpleNamespace
 
@@ -158,7 +160,7 @@ class ImageGenerationStage(APIStage):
             images_needed=images_needed, images_to_generate=images_to_generate
         )
 
-    def generate_images(self, project_root: Path, plan, provider):
+    def generate_images(self, project_root: Path, plan: Any, provider: Any) -> Any:
         """Generate images using provider"""
         # Load vocabulary for prompts
         import json
@@ -264,7 +266,8 @@ class ImageGenerationStage(APIStage):
         if prov_file.exists():
             try:
                 with open(prov_file, encoding="utf-8") as f:
-                    return json.load(f)
+                    result = json.load(f)
+                    return dict(result)
             except Exception:
                 return {}
         return {}

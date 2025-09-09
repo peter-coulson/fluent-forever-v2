@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 # Import command classes
-from src.cli.commands import InfoCommand, ListCommand, PreviewCommand, RunCommand
+from src.cli.commands import InfoCommand, ListCommand, RunCommand
 from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.validation import validate_arguments
 from src.core.context import PipelineContext
@@ -230,18 +230,13 @@ def main() -> int:
             command = ListCommand(pipeline_registry, config)
             return command.execute(args)
         elif args.command == "info":
-            command = InfoCommand(pipeline_registry, config)
-            return command.execute(args)
+            info_command = InfoCommand(pipeline_registry, config)
+            return info_command.execute(args)
         elif args.command == "run":
-            command = RunCommand(
+            run_command = RunCommand(
                 pipeline_registry, provider_registry, project_root, config
             )
-            return command.execute(args)
-        elif args.command == "preview":
-            command = PreviewCommand(
-                pipeline_registry, provider_registry, project_root, config
-            )
-            return command.execute(args)
+            return run_command.execute(args)
         else:
             logger.error(f"Unknown command: {args.command}")
             return 1

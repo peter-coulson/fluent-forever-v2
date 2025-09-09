@@ -25,8 +25,6 @@ class MediaRequest:
             raise ValueError("Media request type cannot be empty")
         if not self.content:
             raise ValueError("Media request content cannot be empty")
-        if self.params is None:
-            self.params = {}
 
 
 @dataclass
@@ -40,8 +38,7 @@ class MediaResult:
 
     def __post_init__(self) -> None:
         """Validate result after initialization"""
-        if self.metadata is None:
-            self.metadata = {}
+        pass
 
 
 class MediaProvider(ABC):

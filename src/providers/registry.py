@@ -15,7 +15,7 @@ from .base.sync_provider import SyncProvider
 class ProviderRegistry:
     """Registry for provider instances"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._data_providers: dict[str, DataProvider] = {}
         self._media_providers: dict[str, MediaProvider] = {}
         self._sync_providers: dict[str, SyncProvider] = {}
@@ -168,7 +168,7 @@ def get_provider_registry() -> ProviderRegistry:
 class DataProviderFactory:
     """Factory for creating data providers"""
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: dict | None = None) -> None:
         """Initialize factory with configuration
 
         Args:
@@ -203,7 +203,7 @@ class DataProviderFactory:
 class MediaProviderFactory:
     """Factory for creating media providers"""
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: dict | None = None) -> None:
         """Initialize factory with configuration
 
         Args:
@@ -211,7 +211,9 @@ class MediaProviderFactory:
         """
         self.config = config or {}
 
-    def create_provider(self, provider_name: str, **kwargs) -> MediaProvider | None:
+    def create_provider(
+        self, provider_name: str, **kwargs: Any
+    ) -> MediaProvider | None:
         """Create media provider by name
 
         Args:
@@ -243,7 +245,7 @@ class MediaProviderFactory:
         """
         from .media.openai_provider import OpenAIProvider
 
-        return OpenAIProvider(api_key=api_key, config=self.config)
+        return OpenAIProvider()
 
     def create_runware_provider(self, api_key: str | None = None) -> MediaProvider:
         """Create Runware media provider
@@ -256,7 +258,7 @@ class MediaProviderFactory:
         """
         from .media.runware_provider import RunwareProvider
 
-        return RunwareProvider(api_key=api_key, config=self.config)
+        return RunwareProvider()
 
     def create_forvo_provider(self, api_key: str | None = None) -> MediaProvider:
         """Create Forvo media provider
@@ -269,7 +271,7 @@ class MediaProviderFactory:
         """
         from .media.forvo_provider import ForvoProvider
 
-        return ForvoProvider(api_key=api_key, config=self.config)
+        return ForvoProvider()
 
     def create_mock_provider(
         self, supported_types: list[str] | None = None, should_fail: bool = False
@@ -337,7 +339,7 @@ class MediaProviderFactory:
 class SyncProviderFactory:
     """Factory for creating sync providers"""
 
-    def __init__(self, config: dict | None = None):
+    def __init__(self, config: dict | None = None) -> None:
         """Initialize factory with configuration
 
         Args:

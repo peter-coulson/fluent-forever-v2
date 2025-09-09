@@ -10,7 +10,7 @@ import os
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 
 class ConfigLevel(Enum):
@@ -81,11 +81,7 @@ class ConfigManager:
 
             # Check for required system sections
             required_sections = ["system", "paths"]
-            for section in required_sections:
-                if section not in system_config:
-                    return False
-
-            return True
+            return all(section in system_config for section in required_sections)
         except Exception:
             return False
 
@@ -94,7 +90,7 @@ class ConfigManager:
         legacy_path = self.base_path / "config.json"
         if legacy_path.exists():
             try:
-                return json.loads(legacy_path.read_text())
+                return cast(dict[str, Any], json.loads(legacy_path.read_text()))
             except (OSError, json.JSONDecodeError):
                 return None
         return None
@@ -176,7 +172,7 @@ class ConfigManager:
                 ):
                     env_var = value[2:-1]
                     obj[key] = os.getenv(env_var, value)
-                elif isinstance(value, (dict, list)):
+                elif isinstance(value, dict | list):
                     self._resolve_env_vars_recursive(value)
         elif isinstance(obj, list):
             for item in obj:
@@ -186,7 +182,7 @@ class ConfigManager:
         self, config_type: str, name: str | None
     ) -> dict[str, Any]:
         """Merge configurations from all applicable sources"""
-        merged_config = {}
+        merged_config: dict[str, Any] = {}
 
         # Load in priority order (lower priority first)
         sources = self._get_config_sources(config_type, name)

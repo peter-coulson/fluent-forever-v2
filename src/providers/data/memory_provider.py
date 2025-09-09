@@ -13,7 +13,7 @@ from src.providers.base.data_provider import DataProvider
 class MemoryDataProvider(DataProvider):
     """In-memory data provider for testing"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize memory data provider"""
         self._data: dict[str, dict[str, Any]] = {}
 

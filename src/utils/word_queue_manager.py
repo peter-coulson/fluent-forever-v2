@@ -11,7 +11,7 @@ Provides programmatic management of word_queue.json including:
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from src.utils.logging_config import ICONS, setup_logging
 
@@ -41,7 +41,10 @@ class WordQueueManager:
             }
 
         try:
-            return json.loads(self.word_queue_path.read_text(encoding="utf-8"))
+            return cast(
+                dict[str, Any],
+                json.loads(self.word_queue_path.read_text(encoding="utf-8")),
+            )
         except Exception as e:
             self.logger.error(f"{ICONS['cross']} Failed to load word queue: {e}")
             raise
@@ -52,7 +55,10 @@ class WordQueueManager:
             return {"words": {}, "skipped_words": []}
 
         try:
-            return json.loads(self.vocabulary_path.read_text(encoding="utf-8"))
+            return cast(
+                dict[str, Any],
+                json.loads(self.vocabulary_path.read_text(encoding="utf-8")),
+            )
         except Exception as e:
             self.logger.error(f"{ICONS['cross']} Failed to load vocabulary: {e}")
             raise
@@ -156,7 +162,7 @@ class WordQueueManager:
         return queue
 
     def update_queue_after_batch_processing(
-        self, processed_words: list[str], skipped_words: list[str] = None
+        self, processed_words: list[str], skipped_words: list[str] | None = None
     ) -> None:
         """
         Update word_queue.json after batch processing by removing processed and skipped words.
@@ -233,7 +239,7 @@ class WordQueueManager:
         """Get the next N words from the queue."""
         queue = self.load_word_queue()
         words = queue.get("words", [])
-        return words[:count]
+        return cast(list[str], words[:count])
 
     def get_queue_status(self) -> dict[str, Any]:
         """Get current queue status and statistics."""

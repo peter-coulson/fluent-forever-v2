@@ -6,7 +6,8 @@ Provides compatibility aliases for the validation gate tests.
 
 from typing import Any
 
-from src.core.stages import StageResult, StageStatus
+from src.core.stages import StageResult
+
 from .media.media_stage import MediaGenerationStage as BaseMediaGenerationStage
 
 
@@ -92,7 +93,7 @@ class MediaGenerationStage(BaseMediaGenerationStage):
                 status=result.status,
                 message=result.message,
                 data=result_dict,  # Include the compatibility dict in data
-                errors=result.errors
+                errors=result.errors,
             )
 
         # If it's already a PipelineContext, use normal flow

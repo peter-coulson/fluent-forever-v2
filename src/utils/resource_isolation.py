@@ -1,11 +1,11 @@
 """Resource isolation utilities for multi-pipeline support."""
 
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 
 def get_pipeline_media_paths(
-    pipeline_name: str, project_root: Optional[Path] = None
+    pipeline_name: str, project_root: Path | None = None
 ) -> dict[str, Path]:
     """Get pipeline-specific media paths for resource isolation.
 
@@ -40,7 +40,7 @@ def get_pipeline_media_paths(
 
 
 def get_pipeline_template_paths(
-    pipeline_name: str, anki_note_type: str, project_root: Optional[Path] = None
+    pipeline_name: str, anki_note_type: str, project_root: Path | None = None
 ) -> dict[str, Path]:
     """Get pipeline-specific template paths for resource isolation.
 
@@ -66,7 +66,7 @@ def get_pipeline_template_paths(
 
 
 def get_pipeline_data_paths(
-    pipeline_name: str, data_file: str, project_root: Optional[Path] = None
+    pipeline_name: str, data_file: str, project_root: Path | None = None
 ) -> dict[str, Path]:
     """Get pipeline-specific data paths for resource isolation.
 
@@ -90,7 +90,10 @@ def get_pipeline_data_paths(
 
 
 def ensure_pipeline_directories(
-    pipeline_name: str, anki_note_type: str, data_file: str, project_root: Optional[Path] = None
+    pipeline_name: str,
+    anki_note_type: str,
+    data_file: str,
+    project_root: Path | None = None,
 ) -> None:
     """Ensure all required directories exist for a pipeline.
 
@@ -139,12 +142,11 @@ def validate_pipeline_isolation(
 
     # Check media path isolation
     media_paths = get_pipeline_media_paths(pipeline_name, project_root)
-    if pipeline_name != "vocabulary":
+    if pipeline_name != "vocabulary" and media_paths["base"] == project_root / "media":
         # Non-vocabulary pipelines should have separate media directories
-        if media_paths["base"] == project_root / "media":
-            issues.append(
-                f"Pipeline '{pipeline_name}' not properly isolated - using root media directory"
-            )
+        issues.append(
+            f"Pipeline '{pipeline_name}' not properly isolated - using root media directory"
+        )
 
     # Check template path isolation
     template_paths = get_pipeline_template_paths(

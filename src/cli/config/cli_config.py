@@ -2,7 +2,7 @@
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from src.providers.registry import ProviderRegistry
 
@@ -73,7 +73,7 @@ class CLIConfig:
         # Initialize data providers
         data_config = providers_config.get("data", {})
         if data_config.get("type") == "json":
-            from providers.data.json_provider import JSONDataProvider
+            from src.providers.data.json_provider import JSONDataProvider
 
             base_path = Path(data_config.get("base_path", "."))
             registry.register_data_provider("default", JSONDataProvider(base_path))
@@ -83,37 +83,37 @@ class CLIConfig:
         media_type = media_config.get("type", "openai")
 
         if media_type == "openai":
-            from providers.media.openai_provider import OpenAIProvider
+            from src.providers.media.openai_provider import OpenAIProvider
 
             try:
-                provider = OpenAIProvider()
-                registry.register_media_provider("default", provider)
+                media_provider = OpenAIProvider()
+                registry.register_media_provider("default", media_provider)
             except Exception:
                 # Fall back to mock provider if real one fails
-                from providers.media.mock_provider import MockMediaProvider
+                from src.providers.media.mock_provider import MockMediaProvider
 
                 registry.register_media_provider("default", MockMediaProvider())
         else:
             # Default to mock provider
-            from providers.media.mock_provider import MockMediaProvider
+            from src.providers.media.mock_provider import MockMediaProvider
 
             registry.register_media_provider("default", MockMediaProvider())
 
         # Initialize sync providers
         sync_config = providers_config.get("sync", {})
         if sync_config.get("type") == "anki":
-            from providers.sync.anki_provider import AnkiSyncProvider
+            from src.providers.sync.anki_provider import AnkiProvider
 
             try:
-                provider = AnkiSyncProvider()
-                registry.register_sync_provider("default", provider)
+                sync_provider = AnkiProvider()
+                registry.register_sync_provider("default", sync_provider)
             except Exception:
                 # Fall back to mock provider if real one fails
-                from providers.sync.mock_provider import MockSyncProvider
+                from src.providers.sync.mock_provider import MockSyncProvider
 
                 registry.register_sync_provider("default", MockSyncProvider())
         else:
-            from providers.sync.mock_provider import MockSyncProvider
+            from src.providers.sync.mock_provider import MockSyncProvider
 
             registry.register_sync_provider("default", MockSyncProvider())
 
@@ -179,7 +179,7 @@ class CLIConfig:
         Returns:
             True if verbose mode enabled
         """
-        return self.get("output.verbose", False)
+        return cast(bool, self.get("output.verbose", False))
 
     def use_colors(self) -> bool:
         """Check if colored output is enabled.
@@ -187,7 +187,7 @@ class CLIConfig:
         Returns:
             True if colors should be used
         """
-        return self.get("output.use_colors", True)
+        return cast(bool, self.get("output.use_colors", True))
 
     def get_default_pipeline(self) -> str:
         """Get default pipeline name.
@@ -195,7 +195,7 @@ class CLIConfig:
         Returns:
             Default pipeline name
         """
-        return self.get("cli.default_pipeline", "vocabulary")
+        return cast(str, self.get("cli.default_pipeline", "vocabulary"))
 
     def get_default_port(self) -> int:
         """Get default preview server port.
@@ -203,4 +203,4 @@ class CLIConfig:
         Returns:
             Default port number
         """
-        return self.get("cli.default_port", 8000)
+        return cast(int, self.get("cli.default_port", 8000))

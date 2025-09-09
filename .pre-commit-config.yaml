@@ -27,6 +27,7 @@ repos:
       - id: mypy
         additional_dependencies:
           - types-requests
+          - python-dotenv>=1.0.1
         args: [--config-file=pyproject.toml]
         exclude: ^tests/
 

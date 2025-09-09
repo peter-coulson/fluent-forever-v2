@@ -8,7 +8,7 @@ Migrated from src/apis/anki_client.py to new provider structure
 import base64
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from src.providers.base.api_client import BaseAPIClient
 from src.providers.base.sync_provider import SyncProvider, SyncRequest, SyncResult
@@ -20,7 +20,7 @@ logger = get_logger("providers.sync.anki")
 class AnkiProvider(SyncProvider, BaseAPIClient):
     """Anki sync provider for card and template synchronization"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         BaseAPIClient.__init__(self, "AnkiConnect")
 
         # Handle both old and new config structure during migration
@@ -105,15 +105,16 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
                 error_message=f"Unsupported sync target: {request.target}. Anki provider only supports 'anki'.",
             )
 
-        operation = request.params.get("operation", "sync_cards")
+        params = request.params or {}
+        operation = params.get("operation", "sync_cards")
 
         try:
             if operation == "sync_cards":
-                return self._sync_cards(request.data, request.params)
+                return self._sync_cards(request.data, params)
             elif operation == "sync_templates":
-                return self._sync_templates(request.data, request.params)
+                return self._sync_templates(request.data, params)
             elif operation == "sync_media":
-                return self._sync_media(request.data, request.params)
+                return self._sync_media(request.data, params)
             else:
                 return SyncResult(
                     success=False,
@@ -177,7 +178,7 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
                 )
 
                 if info_response.success:
-                    return info_response.data
+                    return cast(list[dict], info_response.data)
 
             return []
 
@@ -188,11 +189,13 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
     # Keep existing sync_request-based methods for backward compatibility
     def sync_templates_request(self, request: SyncRequest) -> SyncResult:
         """Sync card templates to Anki (request-based)"""
-        return self._sync_templates(request.data, request.params)
+        params = request.params or {}
+        return self._sync_templates(request.data, params)
 
     def sync_media_request(self, request: SyncRequest) -> SyncResult:
         """Sync media files to Anki (request-based)"""
-        return self._sync_media(request.data, request.params)
+        params = request.params or {}
+        return self._sync_media(request.data, params)
 
     def list_existing_decks(self) -> list[str]:
         """List existing deck names in Anki"""
@@ -204,7 +207,13 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
             if response.success and response.data:
                 # Extract the 'result' field from Anki Connect response
                 if isinstance(response.data, dict) and "result" in response.data:
-                    return response.data["result"] if response.data["result"] else []
+                    if (
+                        isinstance(response.data["result"], list)
+                        and response.data["result"]
+                    ):
+                        return response.data["result"]
+                    else:
+                        return []
                 # If response.data is already a list (shouldn't happen with AnkiConnect)
                 elif isinstance(response.data, list):
                     return response.data

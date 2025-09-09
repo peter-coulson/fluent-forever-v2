@@ -7,7 +7,7 @@ Provides data from JSON files on the filesystem.
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from src.providers.base.data_provider import DataProvider
 
@@ -44,9 +44,9 @@ class JSONDataProvider(DataProvider):
             text_content = file_path.read_text(encoding="utf-8")
             if not text_content.strip():
                 return {}
-            return json.loads(text_content)
+            return cast(dict[str, Any], json.loads(text_content))
         except (OSError, json.JSONDecodeError) as e:
-            raise ValueError(f"Error loading {identifier}: {e}")
+            raise ValueError(f"Error loading {identifier}: {e}") from e
 
     def save_data(self, identifier: str, data: dict[str, Any]) -> bool:
         """Save data to JSON file

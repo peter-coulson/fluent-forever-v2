@@ -7,15 +7,10 @@ Tests hierarchical configuration loading, environment overrides, and validation.
 
 import json
 import os
-import sys
 import tempfile
 from pathlib import Path
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 from core.config import ConfigLevel, ConfigManager, ConfigSource
 from core.config_validator import ConfigValidator

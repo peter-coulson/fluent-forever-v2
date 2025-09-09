@@ -5,7 +5,7 @@ Utilities for integrating providers with the stage system.
 """
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from src.core.context import PipelineContext
 from src.utils.logging_config import ICONS, get_logger
@@ -204,7 +204,7 @@ def _load_default_config() -> dict[str, Any]:
         config_path = Path(__file__).parent.parent.parent / "config.json"
         if config_path.exists():
             with open(config_path, encoding="utf-8") as f:
-                return json.load(f)
+                return cast(dict[str, Any], json.load(f))
         else:
             logger.warning("config.json not found, using minimal defaults")
             return _get_minimal_config()

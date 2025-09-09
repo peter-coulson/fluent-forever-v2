@@ -36,7 +36,7 @@ class AudioGenerationStage(APIStage):
     def display_name(self) -> str:
         return "Generate Audio"
 
-    def execute_api_call(self, context: PipelineContext, provider) -> StageResult:
+    def execute_api_call(self, context: PipelineContext, provider: Any) -> StageResult:
         """Execute audio generation with provider"""
         # Get cards to process
         cards = context.get("cards", [])
@@ -136,7 +136,9 @@ class AudioGenerationStage(APIStage):
 
         return cards
 
-    def plan_audio_generation(self, project_root: Path, cards: list[dict[str, Any]]):
+    def plan_audio_generation(
+        self, project_root: Path, cards: list[dict[str, Any]]
+    ) -> Any:
         """Plan which audio files need to be generated"""
         from types import SimpleNamespace
 
@@ -166,7 +168,7 @@ class AudioGenerationStage(APIStage):
             words_needed=words_needed,
         )
 
-    def generate_audio(self, project_root: Path, plan, provider):
+    def generate_audio(self, project_root: Path, plan: Any, provider: Any) -> Any:
         """Generate audio using provider"""
         from types import SimpleNamespace
 

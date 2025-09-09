@@ -13,7 +13,7 @@ from src.stages.base.validation_stage import ValidationStage
 class MediaValidationStage(ValidationStage):
     """Validates media file data in pipeline"""
 
-    def validate_data(self, data: dict[str, Any]) -> list[str]:
+    def validate_data(self, data: Any) -> list[str]:
         """
         Validate media file data
 
@@ -23,8 +23,6 @@ class MediaValidationStage(ValidationStage):
         Returns:
             List of validation error messages (empty if valid)
         """
-        errors = []
-
         if not isinstance(data, dict):
             return ["Data must be a dictionary"]
 
@@ -32,6 +30,7 @@ class MediaValidationStage(ValidationStage):
         if not isinstance(media_files, list):
             return ["'media_files' must be a list"]
 
+        errors: list[str] = []
         for i, media_file in enumerate(media_files):
             if not isinstance(media_file, dict):
                 errors.append(f"Media file entry {i} must be a dictionary")

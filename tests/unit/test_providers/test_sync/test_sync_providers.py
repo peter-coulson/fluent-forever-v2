@@ -5,15 +5,10 @@ Unit tests for Sync Providers after migration from APIs
 Tests sync provider functionality in the new provider structure.
 """
 
-import sys
 from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 from providers.base.sync_provider import SyncRequest, SyncResult
 from providers.sync.anki_provider import AnkiProvider

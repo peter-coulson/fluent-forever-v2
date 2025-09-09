@@ -5,14 +5,7 @@ Integration tests for core pipeline architecture.
 Tests that pipeline registry and basic execution works.
 """
 
-import sys
-from pathlib import Path
-
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 
 def test_core_architecture():
@@ -35,9 +28,7 @@ def test_core_architecture():
     # Test registry interface
     pipelines = registry.list_pipelines()
     assert pipelines is not None, "Registry should return pipeline list"
-    assert isinstance(
-        pipelines, (list, dict)
-    ), "Should return list or dict of pipelines"
+    assert isinstance(pipelines, list | dict), "Should return list or dict of pipelines"
 
 
 def test_pipeline_registry_methods():

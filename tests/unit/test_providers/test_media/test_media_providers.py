@@ -6,15 +6,10 @@ Tests media provider functionality in the new provider structure.
 """
 
 import os
-import sys
 from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
-
-# Add src to path for imports
-project_root = Path(__file__).parent.parent.parent.parent.parent
-sys.path.insert(0, str(project_root / "src"))
 
 from providers.base.media_provider import MediaRequest, MediaResult
 from providers.media.forvo_provider import ForvoProvider
@@ -93,7 +88,7 @@ class TestOpenAIProvider:
 
         cost = self.provider.estimate_cost(request)
 
-        assert isinstance(cost, (int, float))
+        assert isinstance(cost, int | float)
         assert cost >= 0
 
 

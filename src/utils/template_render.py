@@ -4,11 +4,14 @@ from __future__ import annotations
 import html
 import json
 import re
-from pathlib import Path
+from typing import TYPE_CHECKING, Any, cast
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
-def load_vocab(vocab_path: Path) -> dict:
-    return json.loads(vocab_path.read_text(encoding="utf-8"))
+def load_vocab(vocab_path: Path) -> dict[str, Any]:
+    return cast(dict[str, Any], json.loads(vocab_path.read_text(encoding="utf-8")))
 
 
 def build_fields_from_meaning(meaning: dict[str, str]) -> dict[str, str]:
@@ -96,9 +99,11 @@ def wrap_html(doc_body: str, css: str, title: str) -> str:
     )
 
 
-def find_meaning_by_cardid(vocab: dict, card_id: str) -> dict[str, str] | None:
+def find_meaning_by_cardid(
+    vocab: dict[str, Any], card_id: str
+) -> dict[str, str] | None:
     for _, wdata in vocab.get("words", {}).items():
         for m in wdata.get("meanings", []):
             if str(m.get("CardID", "")).strip() == card_id:
-                return m
+                return cast(dict[str, str], m)
     return None

@@ -5,6 +5,7 @@ Provides commands for viewing, validating, and managing configuration.
 """
 
 import json
+from typing import Any
 
 from src.core.config import get_config_manager
 from src.core.config_validator import ConfigValidator
@@ -13,11 +14,11 @@ from src.core.config_validator import ConfigValidator
 class ConfigCommand:
     """Configuration management commands"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.config_manager = get_config_manager()
         self.validator = ConfigValidator()
 
-    def execute(self, args) -> int:
+    def execute(self, args: Any) -> int:
         """Execute config command"""
         if args.action == "show":
             return self._show_config(args)
@@ -31,7 +32,7 @@ class ConfigCommand:
             print(f"Unknown config action: {args.action}")
             return 1
 
-    def _show_config(self, args) -> int:
+    def _show_config(self, args: Any) -> int:
         """Show current configuration"""
         try:
             if args.type and args.name:
@@ -52,7 +53,7 @@ class ConfigCommand:
             print(f"Error loading configuration: {e}")
             return 1
 
-    def _validate_config(self, args) -> int:
+    def _validate_config(self, args: Any) -> int:
         """Validate configuration"""
         try:
             # Validate system configuration
@@ -80,7 +81,7 @@ class ConfigCommand:
             print(f"Error validating configuration: {e}")
             return 1
 
-    def _init_config(self, args) -> int:
+    def _init_config(self, args: Any) -> int:
         """Initialize configuration files"""
         try:
             # Check if config files already exist
@@ -96,7 +97,7 @@ class ConfigCommand:
             print(f"Error initializing configuration: {e}")
             return 1
 
-    def _test_config(self, args) -> int:
+    def _test_config(self, args: Any) -> int:
         """Test configuration loading and provider initialization"""
         try:
             # Test configuration loading
@@ -105,10 +106,10 @@ class ConfigCommand:
             system_config = self.config_manager.load_config("system")
             print(f"✅ System config loaded ({len(system_config)} sections)")
 
-            vocab_config = self.config_manager.get_pipeline_config("vocabulary")
+            self.config_manager.get_pipeline_config("vocabulary")
             print("✅ Vocabulary pipeline config loaded")
 
-            openai_config = self.config_manager.get_provider_config("openai")
+            self.config_manager.get_provider_config("openai")
             print("✅ OpenAI provider config loaded")
 
             # Test validation
@@ -147,7 +148,7 @@ class ConfigCommand:
             return 1
 
 
-def add_config_arguments(parser):
+def add_config_arguments(parser: Any) -> Any:
     """Add configuration command arguments to parser"""
     config_parser = parser.add_parser("config", help="Configuration management")
     config_parser.add_argument(

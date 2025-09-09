@@ -4,7 +4,7 @@
 from src.core.registry import get_pipeline_registry
 
 
-def register_all_pipelines():
+def register_all_pipelines() -> None:
     """Register all available pipelines with the global registry."""
     # No pipelines currently implemented
     # This function is kept for future pipeline additions

@@ -2,16 +2,7 @@ Metadata-Version: 2.4
 Name: fluent-forever-v2
 Version: 0.1.0
 Summary: Spanish learning card creation system with modular pipeline architecture
-Author-email: Peter Coulson <peter@example.com>
-Classifier: Development Status :: 3 - Alpha
-Classifier: Intended Audience :: Education
-Classifier: License :: OSI Approved :: MIT License
-Classifier: Programming Language :: Python :: 3
-Classifier: Programming Language :: Python :: 3.11
-Classifier: Programming Language :: Python :: 3.12
-Classifier: Programming Language :: Python :: 3.13
 Requires-Python: >=3.11
-Description-Content-Type: text/markdown
 Requires-Dist: requests>=2.31.0
 Requires-Dist: python-dotenv>=1.0.1
 Requires-Dist: Flask>=3.0.0
@@ -31,33 +22,3 @@ Provides-Extra: lint
 Requires-Dist: ruff>=0.1.8; extra == "lint"
 Requires-Dist: mypy>=1.7.0; extra == "lint"
 Requires-Dist: types-requests>=2.31.0; extra == "lint"
-
-# Fluent Forever V2
-
-**Spanish learning card creation system with modular pipeline architecture.**
-
-Transform Spanish vocabulary and grammar into memorable Anki cards with Studio Ghibli imagery and native pronunciation.
-
-## 🚀 Quick Start
-
-```bash
-# CRITICAL: Always activate environment first
-source activate_env.sh
-
-# Get started immediately
-python -m cli.pipeline list
-```
-
-**→ [Complete Setup Guide](context/user/quick_start.md)**
-
-## 📖 Documentation
-
-**[Full Documentation Navigation](context/README.md)**
-
-## 🏗️ Current Pipelines
-
-- **Vocabulary**: Fluent Forever vocabulary cards with visual memory anchors
-- **Conjugation**: Verb conjugation practice cards
-- **Extensible**: Add new card types easily
-
-**→ [Architecture Overview](context/development/architecture.md)**

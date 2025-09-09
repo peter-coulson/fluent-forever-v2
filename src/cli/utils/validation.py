@@ -28,12 +28,10 @@ def validate_arguments(command: str, args: Any) -> list[str]:
 
         # Validate stage-specific arguments (skip for dry-run)
         if not getattr(args, "dry_run", False):
-            if args.stage == "prepare":
-                if not args.words:
-                    errors.append("--words is required for prepare stage")
-            elif args.stage == "media":
-                if not args.cards:
-                    errors.append("--cards is required for media stage")
+            if args.stage == "prepare" and not args.words:
+                errors.append("--words is required for prepare stage")
+            elif args.stage == "media" and not args.cards:
+                errors.append("--cards is required for media stage")
 
     elif command == "preview":
         if not args.pipeline:
