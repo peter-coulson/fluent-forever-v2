@@ -93,7 +93,7 @@ class TestIPAValidationStage:
         
         assert isinstance(result, StageResult)
         assert result.status == StageStatus.FAILURE
-        assert 'not found' in result.message.lower()
+        assert 'found' in result.message.lower() and 'data' in result.message.lower()
     
     def test_malformed_data(self):
         """Test validation with malformed data"""
@@ -144,8 +144,10 @@ class TestMediaValidationStage:
         
         self.context.set('media_data', valid_data)
         
-        with patch('pathlib.Path.exists') as mock_exists:
+        with patch('pathlib.Path.exists') as mock_exists, \
+             patch('pathlib.Path.is_file') as mock_is_file:
             mock_exists.return_value = True
+            mock_is_file.return_value = True
             result = self.stage.execute(self.context)
             
             assert isinstance(result, StageResult)

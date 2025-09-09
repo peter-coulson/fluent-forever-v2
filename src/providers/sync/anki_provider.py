@@ -126,12 +126,77 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
                 error_message=str(e)
             )
     
-    def sync_templates(self, request: SyncRequest) -> SyncResult:
-        """Sync card templates to Anki"""
+    def sync_templates(self, note_type: str, templates: List[Dict]) -> SyncResult:
+        """Sync card templates to Anki (abstract method implementation)"""
+        template_data = {
+            'model_name': note_type,
+            'templates': templates
+        }
+        return self._sync_templates(template_data, {})
+    
+    def sync_media(self, media_files: List[Path]) -> SyncResult:
+        """Sync media files to Anki (abstract method implementation)"""
+        # Convert Path objects to the format expected by _sync_media
+        media_data = []
+        for file_path in media_files:
+            media_data.append({
+                'filename': file_path.name,
+                'path': str(file_path)
+            })
+        return self._sync_media(media_data, {})
+    
+    def sync_cards(self, cards: List[Dict]) -> SyncResult:
+        """Sync card data to Anki (abstract method implementation)"""
+        return self._sync_cards(cards, {})
+    
+    def list_existing(self, note_type: str) -> List[Dict]:
+        """List existing items of specified note type (abstract method implementation)"""
+        try:
+            # Find all notes of the specified note type
+            response = self._make_request(
+                "POST", 
+                self.base_url,
+                json={
+                    "action": "findNotes", 
+                    "version": 6,
+                    "params": {
+                        "query": f'note:"{note_type}"'
+                    }
+                }
+            )
+            
+            if response.success and response.data:
+                note_ids = response.data
+                
+                # Get note info for these IDs
+                info_response = self._make_request(
+                    "POST", 
+                    self.base_url,
+                    json={
+                        "action": "notesInfo", 
+                        "version": 6,
+                        "params": {
+                            "notes": note_ids
+                        }
+                    }
+                )
+                
+                if info_response.success:
+                    return info_response.data
+            
+            return []
+            
+        except Exception as e:
+            logger.error(f"{ICONS['cross']} Error listing existing notes: {e}")
+            return []
+    
+    # Keep existing sync_request-based methods for backward compatibility
+    def sync_templates_request(self, request: SyncRequest) -> SyncResult:
+        """Sync card templates to Anki (request-based)"""
         return self._sync_templates(request.data, request.params)
     
-    def sync_media(self, request: SyncRequest) -> SyncResult:
-        """Sync media files to Anki"""
+    def sync_media_request(self, request: SyncRequest) -> SyncResult:
+        """Sync media files to Anki (request-based)"""
         return self._sync_media(request.data, request.params)
     
     def list_existing_decks(self) -> List[str]:
@@ -143,8 +208,13 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
                 json={"action": "deckNames", "version": 6}
             )
             
-            if response.success:
-                return response.data if response.data else []
+            if response.success and response.data:
+                # Extract the 'result' field from Anki Connect response
+                if isinstance(response.data, dict) and 'result' in response.data:
+                    return response.data['result'] if response.data['result'] else []
+                # If response.data is already a list (shouldn't happen with AnkiConnect)
+                elif isinstance(response.data, list):
+                    return response.data
             
         except Exception as e:
             logger.error(f"{ICONS['cross']} Error listing decks: {e}")
@@ -161,8 +231,13 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
                 max_retries=1  # Quick check, don't retry
             )
             
-            if response.success:
-                version = response.data
+            if response.success and response.data:
+                # Extract version from Anki Connect response structure
+                if isinstance(response.data, dict) and 'result' in response.data:
+                    version = response.data['result']
+                else:
+                    version = response.data
+                    
                 if version and version >= 6:
                     self.logger.debug(f"{ICONS['check']} AnkiConnect version {version} available")
                     return True
@@ -252,8 +327,18 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
                 error_message=response.error_message
             )
         
-        # Check for Anki-level errors
-        note_ids = response.data
+        # Check for Anki-level errors in the response data
+        if response.data and isinstance(response.data, dict):
+            if response.data.get('error'):
+                return SyncResult(
+                    success=False,
+                    processed_count=0,
+                    metadata={'operation': 'sync_cards', 'deck': deck_name},
+                    error_message=response.data['error']
+                )
+            note_ids = response.data.get('result')
+        else:
+            note_ids = response.data
         if not note_ids:
             return SyncResult(
                 success=False,

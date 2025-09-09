@@ -57,9 +57,9 @@ class MockSyncProvider(SyncProvider):
         if self.should_fail:
             return SyncResult(
                 success=False,
-                target_id=None,
+                processed_count=0,
                 metadata={'mock': True, 'failure_mode': True},
-                error="Mock provider configured to fail"
+                error_message="Mock provider configured to fail"
             )
         
         # Simulate some processing time
@@ -75,12 +75,13 @@ class MockSyncProvider(SyncProvider):
         
         return SyncResult(
             success=True,
-            target_id=note_type,
+            processed_count=len(templates),
             metadata={
                 'mock': True,
                 'template_count': len(templates),
                 'note_type': note_type,
-                'sync_id': self.template_sync_count
+                'sync_id': self.template_sync_count,
+                'target_id': note_type
             }
         )
     
@@ -99,9 +100,9 @@ class MockSyncProvider(SyncProvider):
         if self.should_fail:
             return SyncResult(
                 success=False,
-                target_id=None,
+                processed_count=0,
                 metadata={'mock': True, 'failure_mode': True},
-                error="Mock provider configured to fail"
+                error_message="Mock provider configured to fail"
             )
         
         # Simulate processing time based on file count
@@ -112,14 +113,15 @@ class MockSyncProvider(SyncProvider):
         
         return SyncResult(
             success=True,
-            target_id="mock_media",
+            processed_count=len(media_files),
             metadata={
                 'mock': True,
                 'total_files': len(media_files),
                 'synced_files': [f.name for f in media_files],
                 'success_count': len(media_files),
                 'failed_count': 0,
-                'sync_id': self.media_sync_count
+                'sync_id': self.media_sync_count,
+                'target_id': "mock_media"
             }
         )
     
@@ -138,9 +140,9 @@ class MockSyncProvider(SyncProvider):
         if self.should_fail:
             return SyncResult(
                 success=False,
-                target_id=None,
+                processed_count=0,
                 metadata={'mock': True, 'failure_mode': True},
-                error="Mock provider configured to fail"
+                error_message="Mock provider configured to fail"
             )
         
         # Simulate processing time based on card count
@@ -162,16 +164,17 @@ class MockSyncProvider(SyncProvider):
         
         return SyncResult(
             success=True,
-            target_id="mock_deck",
+            processed_count=len(cards),
             metadata={
                 'mock': True,
                 'total_cards': len(cards),
                 'synced_cards': synced_cards,
-                'created_note_ids': created_note_ids,
                 'success_count': len(cards),
                 'failed_count': 0,
-                'sync_id': self.card_sync_count
-            }
+                'sync_id': self.card_sync_count,
+                'target_id': "mock_deck"
+            },
+            created_ids=created_note_ids
         )
     
     def list_existing(self, note_type: str) -> List[Dict]:

@@ -31,8 +31,7 @@ class TestAnkiProvider:
         """Test supported sync targets"""
         assert 'anki' in self.provider.supported_targets
     
-    @patch('requests.post')
-    def test_test_connection(self, mock_post):
+    def test_test_connection(self):
         """Test Anki connection"""
         # Mock successful Anki Connect response
         mock_response = Mock()
@@ -41,15 +40,14 @@ class TestAnkiProvider:
             'result': 6,  # Anki version
             'error': None
         }
-        mock_post.return_value = mock_response
         
-        result = self.provider.test_connection()
-        
-        assert result.success is True
-        assert 'version' in result.data
+        with patch.object(self.provider.session, 'request', return_value=mock_response):
+            result = self.provider.test_connection()
+            
+            # test_connection returns bool according to abstract interface
+            assert result is True
     
-    @patch('requests.post')
-    def test_sync_cards(self, mock_post):
+    def test_sync_cards(self):
         """Test card synchronization"""
         # Mock successful note creation
         mock_response = Mock()
@@ -58,7 +56,6 @@ class TestAnkiProvider:
             'result': [1001, 1002],  # Note IDs
             'error': None
         }
-        mock_post.return_value = mock_response
         
         cards = [
             {
@@ -79,14 +76,14 @@ class TestAnkiProvider:
             params={'deck': 'Spanish'}
         )
         
-        result = self.provider.sync_data(request)
-        
-        assert isinstance(result, SyncResult)
-        assert result.success is True
-        assert result.processed_count == 2
+        with patch.object(self.provider.session, 'request', return_value=mock_response):
+            result = self.provider.sync_data(request)
+            
+            assert isinstance(result, SyncResult)
+            assert result.success is True
+            assert result.processed_count == 2
     
-    @patch('requests.post')
-    def test_sync_templates(self, mock_post):
+    def test_sync_templates(self):
         """Test template synchronization"""
         # Mock successful model update
         mock_response = Mock()
@@ -95,32 +92,22 @@ class TestAnkiProvider:
             'result': None,  # Void response for model update
             'error': None
         }
-        mock_post.return_value = mock_response
         
-        template_data = {
-            'model_name': 'FluentForever',
-            'fields': ['Front', 'Back', 'Audio', 'Image'],
-            'templates': [
-                {
-                    'name': 'Card 1',
-                    'front': '{{Front}}',
-                    'back': '{{Back}}'
-                }
-            ]
-        }
+        note_type = 'FluentForever'
+        templates = [
+            {
+                'name': 'Card 1',
+                'front': '{{Front}}',
+                'back': '{{Back}}'
+            }
+        ]
         
-        request = SyncRequest(
-            target='anki',
-            data=template_data,
-            params={'operation': 'update_templates'}
-        )
-        
-        result = self.provider.sync_templates(request)
-        
-        assert isinstance(result, SyncResult)
+        with patch.object(self.provider.session, 'request', return_value=mock_response):
+            result = self.provider.sync_templates(note_type, templates)
+            
+            assert isinstance(result, SyncResult)
     
-    @patch('requests.post')  
-    def test_sync_media(self, mock_post):
+    def test_sync_media(self):
         """Test media synchronization"""
         # Mock successful media store
         mock_response = Mock()
@@ -129,27 +116,20 @@ class TestAnkiProvider:
             'result': None,
             'error': None
         }
-        mock_post.return_value = mock_response
         
         media_files = [
-            {'filename': 'audio1.mp3', 'path': '/path/to/audio1.mp3'},
-            {'filename': 'image1.jpg', 'path': '/path/to/image1.jpg'}
+            Path('/path/to/audio1.mp3'),
+            Path('/path/to/image1.jpg')
         ]
-        
-        request = SyncRequest(
-            target='anki',
-            data=media_files,
-            params={'operation': 'store_media'}
-        )
         
         with patch('builtins.open', create=True) as mock_open:
             mock_open.return_value.__enter__.return_value.read.return_value = b'fake_data'
-            result = self.provider.sync_media(request)
-            
-            assert isinstance(result, SyncResult)
+            with patch.object(self.provider.session, 'request', return_value=mock_response):
+                result = self.provider.sync_media(media_files)
+                
+                assert isinstance(result, SyncResult)
     
-    @patch('requests.post')
-    def test_list_existing_decks(self, mock_post):
+    def test_list_existing_decks(self):
         """Test listing existing decks"""
         # Mock deck names response
         mock_response = Mock()
@@ -158,42 +138,39 @@ class TestAnkiProvider:
             'result': ['Default', 'Spanish', 'French'],
             'error': None
         }
-        mock_post.return_value = mock_response
         
-        decks = self.provider.list_existing_decks()
-        
-        assert 'Spanish' in decks
-        assert 'French' in decks
-        assert len(decks) >= 2
+        with patch.object(self.provider.session, 'request', return_value=mock_response):
+            decks = self.provider.list_existing_decks()
+            
+            assert 'Spanish' in decks
+            assert 'French' in decks
+            assert len(decks) >= 2
     
     def test_connection_error_handling(self):
         """Test connection error handling"""
-        with patch('requests.post') as mock_post:
-            mock_post.side_effect = ConnectionError("Connection failed")
-            
+        with patch.object(self.provider.session, 'request', side_effect=ConnectionError("Connection failed")):
             result = self.provider.test_connection()
             
-            assert not result.success
-            assert 'Connection failed' in result.error_message
+            # test_connection returns bool according to abstract interface
+            assert result is False
     
     def test_anki_error_response(self):
         """Test Anki error response handling"""
-        with patch('requests.post') as mock_post:
-            # Mock Anki error response
-            mock_response = Mock()
-            mock_response.status_code = 200
-            mock_response.json.return_value = {
-                'result': None,
-                'error': 'deck was not found'
-            }
-            mock_post.return_value = mock_response
-            
-            request = SyncRequest(
-                target='anki',
-                data=[],
-                params={'deck': 'NonexistentDeck'}
-            )
-            
+        # Mock Anki error response
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            'result': None,
+            'error': 'deck was not found'
+        }
+        
+        request = SyncRequest(
+            target='anki',
+            data=[{'front': 'test', 'back': 'test'}],  # Provide a test card so API call is made
+            params={'deck': 'NonexistentDeck'}
+        )
+        
+        with patch.object(self.provider.session, 'request', return_value=mock_response):
             result = self.provider.sync_data(request)
             
             assert not result.success

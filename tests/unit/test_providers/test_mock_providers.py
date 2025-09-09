@@ -178,7 +178,7 @@ class TestMockSyncProvider:
         
         result = self.provider.sync_templates('test_type', templates)
         assert result.success is True
-        assert result.target_id == 'test_type'
+        assert result.metadata['target_id'] == 'test_type'
         assert result.metadata['template_count'] == 1
     
     def test_sync_cards(self):
@@ -191,7 +191,7 @@ class TestMockSyncProvider:
         result = self.provider.sync_cards(cards)
         assert result.success is True
         assert result.metadata['total_cards'] == 2
-        assert len(result.metadata['created_note_ids']) == 2
+        assert len(result.created_ids) == 2
     
     def test_sync_media(self):
         """Test media syncing"""
@@ -222,7 +222,7 @@ class TestMockSyncProvider:
         
         result = self.provider.sync_cards([{'CardID': 'test'}])
         assert result.success is False
-        assert result.error is not None
+        assert result.error_message is not None and result.error_message != ""
     
     def test_sync_counts(self):
         """Test sync operation counting"""

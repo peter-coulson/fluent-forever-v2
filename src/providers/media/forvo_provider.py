@@ -158,6 +158,15 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
         # Forvo free API - no direct cost but rate limited
         return 0.0
     
+    def get_cost_estimate(self, requests: List[MediaRequest]) -> Dict[str, float]:
+        """Get cost estimate for batch of requests"""
+        total_cost = sum(self.estimate_cost(req) for req in requests if req.type in self.supported_types)
+        return {
+            'total_cost': total_cost,
+            'per_request': 0.0,  # Free API
+            'requests_count': len([req for req in requests if req.type in self.supported_types])
+        }
+    
     def _get_pronunciations(self, word: str, language: str = 'es', preferred_country: Optional[str] = None) -> List[Dict[str, Any]]:
         """Get pronunciations for a word"""
         # Try specific country first if provided

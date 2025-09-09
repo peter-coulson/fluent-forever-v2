@@ -7,7 +7,7 @@ Provides commands for viewing, validating, and managing configuration.
 import json
 from pathlib import Path
 from typing import Dict, Any
-from core.config import ConfigManager
+from core.config import ConfigManager, get_config_manager
 from core.config_validator import ConfigValidator
 
 

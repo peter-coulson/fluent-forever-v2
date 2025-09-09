@@ -8,9 +8,10 @@ Tests media provider functionality in the new provider structure.
 import pytest
 import tempfile
 import json
+import os
+import sys
 from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
-import sys
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent.parent.parent.parent
@@ -25,7 +26,8 @@ from providers.base.media_provider import MediaRequest, MediaResult
 class TestForvoProvider:
     """Test Forvo audio provider"""
     
-    def setup_method(self):
+    @patch.dict(os.environ, {'FORVO_API_KEY': 'test_key'})
+    def setup_method(self, method):
         """Set up test provider"""
         self.provider = ForvoProvider()
     
@@ -79,25 +81,20 @@ class TestOpenAIProvider:
         assert 'image' in self.provider.supported_types
         assert 'audio' in self.provider.supported_types
     
-    @patch('openai.Image.create')
-    def test_generate_image(self, mock_create):
-        """Test image generation"""
-        # Mock OpenAI response
-        mock_create.return_value = {
-            'data': [{'url': 'https://example.com/image.jpg'}]
-        }
-        
+    def test_generate_image(self):
+        """Test image generation (placeholder implementation)"""
         request = MediaRequest(
             type='image',
             content='a red apple',
             params={'size': '512x512'}
         )
         
-        with patch.object(self.provider, '_download_image') as mock_download:
-            mock_download.return_value = Path('/fake/path/image.jpg')
-            result = self.provider.generate_media(request)
-            
-            assert isinstance(result, MediaResult)
+        result = self.provider.generate_media(request)
+        
+        # Since this is a placeholder implementation, it should return failure
+        assert isinstance(result, MediaResult)
+        assert not result.success
+        assert "not yet implemented" in result.error
     
     def test_cost_estimation(self):
         """Test cost estimation functionality"""
@@ -124,29 +121,20 @@ class TestRunwareProvider:
         """Test supported media types"""
         assert 'image' in self.provider.supported_types
     
-    @patch('requests.post')
-    def test_generate_image(self, mock_post):
-        """Test image generation"""
-        # Mock successful response
-        mock_response = Mock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = {
-            'status': 'success',
-            'image_url': 'https://example.com/image.jpg'
-        }
-        mock_post.return_value = mock_response
-        
+    def test_generate_image(self):
+        """Test image generation (placeholder implementation)"""
         request = MediaRequest(
             type='image',
             content='a blue car',
             params={'width': 512, 'height': 512}
         )
         
-        with patch.object(self.provider, '_download_image') as mock_download:
-            mock_download.return_value = Path('/fake/path/image.jpg')
-            result = self.provider.generate_media(request)
-            
-            assert isinstance(result, MediaResult)
+        result = self.provider.generate_media(request)
+        
+        # Since this is a placeholder implementation, it should return failure
+        assert isinstance(result, MediaResult)
+        assert not result.success
+        assert "not yet implemented" in result.error
     
     def test_batch_processing(self):
         """Test batch image processing"""

@@ -69,16 +69,37 @@ class ValidationStage(Stage):
             )
         
         if errors:
-            self.logger.error(f"{ICONS['cross']} Validation failed: {len(errors)} errors")
-            for error in errors:
-                self.logger.error(f"  - {error}")
-            
-            return StageResult(
-                status=StageStatus.FAILURE,
-                message=f"Validation failed: {len(errors)} errors",
-                data={'validation_errors': errors},
-                errors=errors
+            # Check if errors are structural (data format) or content validation issues
+            structural_error_keywords = ["must be a dictionary", "must be a list", "malformed", "invalid format"]
+            is_structural_error = any(
+                any(keyword in error.lower() for keyword in structural_error_keywords)
+                for error in errors
             )
+            
+            if is_structural_error:
+                # Structural errors are failures
+                self.logger.error(f"{ICONS['cross']} Validation failed: {len(errors)} structural errors")
+                for error in errors:
+                    self.logger.error(f"  - {error}")
+                
+                return StageResult(
+                    status=StageStatus.FAILURE,
+                    message=f"Validation failed: {len(errors)} structural errors",
+                    data={'validation_errors': errors},
+                    errors=errors
+                )
+            else:
+                # Content validation issues are partial success with warnings
+                self.logger.warning(f"{ICONS['warning']} Validation found {len(errors)} issues")
+                for error in errors:
+                    self.logger.warning(f"  - {error}")
+                
+                return StageResult(
+                    status=StageStatus.PARTIAL,
+                    message=f"Validation completed with {len(errors)} issues",
+                    data={'validation_errors': errors, 'errors': errors},
+                    errors=errors
+                )
         
         self.logger.info(f"{ICONS['check']} Validation passed")
         return StageResult(
