@@ -151,3 +151,38 @@ class TestPipeline:
 
         assert result.status == StageStatus.FAILURE
         assert "not found" in result.message
+
+    def test_pipeline_stage_execution_exception_handling(self):
+        """Test pipeline handling of unhandled exceptions in stage.execute()."""
+
+        class ExceptionStage(MockStage):
+            def __init__(self, name, exception_type=Exception):
+                super().__init__(name)
+                self.exception_type = exception_type
+
+            def execute(self, context):
+                raise self.exception_type("Simulated stage exception")
+
+        pipeline = MockPipeline()
+        pipeline._stages["exception_stage"] = ExceptionStage("exception_stage")
+
+        context = PipelineContext(pipeline_name="test", project_root=Path("/test"))
+
+        # Test that pipeline catches and handles the exception
+        result = pipeline.execute_stage("exception_stage", context)
+
+        assert result.status == StageStatus.FAILURE
+        assert (
+            "Simulated stage exception" in result.message
+            or "exception" in result.message.lower()
+        )
+        assert "exception_stage" not in context.completed_stages
+
+        # Test with different exception types
+        pipeline._stages["runtime_error"] = ExceptionStage(
+            "runtime_error", RuntimeError
+        )
+        result2 = pipeline.execute_stage("runtime_error", context)
+
+        assert result2.status == StageStatus.FAILURE
+        assert "runtime_error" not in context.completed_stages

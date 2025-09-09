@@ -130,3 +130,30 @@ class TestPipelineRegistry:
 
         assert registry.has_pipeline("test")
         assert not registry.has_pipeline("nonexistent")
+
+    def test_registry_global_state_isolation(self):
+        """Test registry instances are isolated from each other."""
+        registry1 = PipelineRegistry()
+        registry2 = PipelineRegistry()
+
+        pipeline1 = MockPipeline("test1")
+        pipeline2 = MockPipeline("test2")
+
+        # Register different pipelines in each registry
+        registry1.register(pipeline1)
+        registry2.register(pipeline2)
+
+        # Each registry should only contain its own pipeline
+        assert registry1.has_pipeline("test1")
+        assert not registry1.has_pipeline("test2")
+
+        assert registry2.has_pipeline("test2")
+        assert not registry2.has_pipeline("test1")
+
+        # Verify pipeline lists are independent
+        assert registry1.list_pipelines() == ["test1"]
+        assert registry2.list_pipelines() == ["test2"]
+
+        # Test that modifying one doesn't affect the other
+        registry1.register(MockPipeline("shared_name"))
+        assert not registry2.has_pipeline("shared_name")
