@@ -41,7 +41,7 @@ Each card type is implemented as a **Pipeline** that defines:
 ```
 
 ### Core Layer
-- **Pipeline Interface**: Abstract base class for all card types
+- **Pipeline Interface**: Abstract base class for all card types with CLI integration methods
 - **Stage Interface**: Common processing step abstraction
 - **Context System**: Data flow between stages
 - **Registry System**: Pipeline and provider discovery
@@ -64,14 +64,21 @@ Each card type is implemented as a **Pipeline** that defines:
 ### CLI Layer
 - **Universal Commands**: Same interface for all pipelines
 - **Discovery**: List pipelines, stages, and capabilities
-- **Execution**: Run individual stages or complete workflows
+- **Execution**: Delegates to pipeline-specific CLI integration methods
+- **Thin Layer**: CLI only handles argument parsing and output formatting
 
 ## Data Flow
 
 ```
-Input (Words/Verbs)
+CLI Arguments
     ↓
-[Analysis Stage] → Context Data
+[Pipeline.validate_cli_args()] → Validation Errors (if any)
+    ↓
+[Pipeline.populate_context_from_cli()] → Context with CLI data
+    ↓
+[Pipeline.execute_stage()] → Stage Processing
+    ↓
+Input (Words/Verbs) → [Analysis Stage] → Context Data
     ↓
 [Generation Stage] → Context + Generated Content
     ↓

@@ -1,7 +1,6 @@
 """Abstract pipeline definition and base classes."""
 
 from abc import ABC, abstractmethod
-from pathlib import Path
 from typing import Any
 
 from .context import PipelineContext
@@ -35,20 +34,11 @@ class Pipeline(ABC):
         """Get a stage instance by name."""
         pass
 
-    def execute_stage(
-        self, stage_name: str, context: dict[str, Any] | PipelineContext
-    ) -> StageResult:
+    def execute_stage(self, stage_name: str, context: PipelineContext) -> StageResult:
         """Execute a specific stage with context."""
         try:
             stage = self.get_stage(stage_name)
-
-            # Convert dictionary context to PipelineContext for backward compatibility
-            if isinstance(context, dict):
-                pipeline_context = PipelineContext(
-                    pipeline_name=self.name, project_root=Path.cwd(), data=context
-                )
-            else:
-                pipeline_context = context
+            pipeline_context = context
 
             # Validate context for this stage
             validation_errors = stage.validate_context(pipeline_context)
@@ -101,3 +91,35 @@ class Pipeline(ABC):
             }
         except StageNotFoundError:
             return {}
+
+    @abstractmethod
+    def validate_cli_args(self, args: Any) -> list[str]:
+        """Validate CLI arguments for this pipeline.
+
+        Args:
+            args: CLI arguments
+
+        Returns:
+            List of validation error messages
+        """
+        pass
+
+    @abstractmethod
+    def populate_context_from_cli(self, context: PipelineContext, args: Any) -> None:
+        """Populate context from CLI arguments.
+
+        Args:
+            context: Pipeline context to populate
+            args: CLI arguments
+        """
+        pass
+
+    @abstractmethod
+    def show_cli_execution_plan(self, context: PipelineContext, args: Any) -> None:
+        """Show execution plan for dry run.
+
+        Args:
+            context: Pipeline context
+            args: CLI arguments
+        """
+        pass

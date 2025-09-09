@@ -5,9 +5,9 @@ Learn how to extend the system with new card types using the pipeline-centric ar
 ## Overview
 
 Adding a new pipeline involves:
-1. **Pipeline Implementation**: Core pipeline class with stage definitions
+1. **Pipeline Implementation**: Core pipeline class with CLI integration methods
 2. **Stage Development**: Custom stages for your card type
-3. **Configuration**: Pipeline-specific settings
+3. **CLI Integration**: Implement validation, context population, and dry-run display
 4. **Registration**: Auto-registration with the system
 5. **Testing**: Comprehensive test coverage
 
@@ -33,59 +33,98 @@ src/pipelines/your_pipeline/
 ```python
 # src/pipelines/your_pipeline/your_pipeline.py
 
-from src.core.pipeline import Pipeline
+from typing import Any
 from pathlib import Path
-import json
+
+from src.core.pipeline import Pipeline
+from src.core.context import PipelineContext
+from src.core.stages import Stage
+
 
 class YourPipeline(Pipeline):
+    """Your pipeline implementation."""
 
-    def __init__(self, config: dict):
-        super().__init__("your_pipeline", "Your Pipeline Description", config)
-        self.data_file = Path(config.get('data_file', 'your_data.json'))
+    @property
+    def name(self) -> str:
+        return "your_pipeline"
 
-    def get_stages(self) -> dict:
-        """Define pipeline stages and their dependencies"""
-        return {
-            'your_analysis': {
-                'description': 'Analyze input data for your card type',
-                'dependencies': []
-            },
-            'generate_media': {
-                'description': 'Generate images and audio',
-                'dependencies': ['your_analysis']
-            },
-            'sync_cards': {
-                'description': 'Sync cards to Anki',
-                'dependencies': ['generate_media']
-            }
-        }
+    @property
+    def display_name(self) -> str:
+        return "Your Pipeline"
 
-    def get_media_paths(self) -> dict:
-        """Get pipeline-specific media paths"""
-        return {
-            'base': f'media/{self.pipeline_type}/',
-            'images': f'media/{self.pipeline_type}/images/',
-            'audio': f'media/{self.pipeline_type}/audio/'
-        }
+    @property
+    def stages(self) -> list[str]:
+        return ["analysis", "generation", "sync"]
 
-    def get_anki_config(self) -> dict:
-        """Get Anki integration configuration"""
-        return {
-            'note_type': 'Your Pipeline',
-            'deck_name': 'Your Pipeline::Cards'
-        }
+    @property
+    def data_file(self) -> str:
+        return "your_data.json"
 
-    def load_data(self) -> dict:
-        """Load pipeline data"""
-        if self.data_file.exists():
-            with open(self.data_file, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        return {}
+    @property
+    def anki_note_type(self) -> str:
+        return "Your Pipeline"
 
-    def save_data(self, data: dict) -> None:
-        """Save pipeline data"""
-        with open(self.data_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
+    def get_stage(self, stage_name: str) -> Stage:
+        """Get stage implementation by name."""
+        if stage_name == "analysis":
+            from .stages.analysis_stage import YourAnalysisStage
+            return YourAnalysisStage()
+        elif stage_name == "generation":
+            from .stages.generation_stage import YourGenerationStage
+            return YourGenerationStage()
+        elif stage_name == "sync":
+            from src.stages.sync.anki_sync_stage import AnkiSyncStage
+            return AnkiSyncStage()
+        else:
+            raise StageNotFoundError(f"Stage '{stage_name}' not found in {self.name}")
+
+    def validate_cli_args(self, args: Any) -> list[str]:
+        """Validate CLI arguments specific to this pipeline."""
+        errors = []
+
+        # Example validation
+        if args.stage == "analysis" and not getattr(args, "input_data", None):
+            errors.append("--input-data is required for analysis stage")
+
+        return errors
+
+    def populate_context_from_cli(self, context: PipelineContext, args: Any) -> None:
+        """Populate context from CLI arguments."""
+        # Parse your pipeline-specific CLI arguments
+        if getattr(args, "input_data", None):
+            data_items = [item.strip() for item in args.input_data.split(",") if item.strip()]
+            context.set("input_items", data_items)
+
+        # Common flags
+        context.set("execute", getattr(args, "execute", False))
+        context.set("skip_images", getattr(args, "no_images", False))
+        context.set("skip_audio", getattr(args, "no_audio", False))
+        context.set("force_regenerate", getattr(args, "force_regenerate", False))
+
+    def show_cli_execution_plan(self, context: PipelineContext, args: Any) -> None:
+        """Show execution plan for dry run."""
+        print("\nExecution Plan:")
+        print(f"  Pipeline: {self.display_name}")
+        print(f"  Stage: {args.stage}")
+
+        if context.get("input_items"):
+            print(f"  Input items: {', '.join(context.get('input_items'))}")
+
+        # Show relevant flags
+        flags = []
+        if context.get("execute"):
+            flags.append("execute")
+        if context.get("skip_images"):
+            flags.append("skip-images")
+        if context.get("skip_audio"):
+            flags.append("skip-audio")
+        if context.get("force_regenerate"):
+            flags.append("force-regenerate")
+
+        if flags:
+            print(f"  Flags: {', '.join(flags)}")
+
+        print()  # Empty line for readability
 ```
 
 ### 3. Create Configuration

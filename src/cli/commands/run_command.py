@@ -5,12 +5,9 @@ from typing import Any
 
 from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.output import print_error, print_success, print_warning
-from src.cli.utils.validation import (
-    validate_arguments,
-    validate_card_list,
-    validate_word_list,
-)
+from src.cli.utils.validation import validate_arguments
 from src.core.context import PipelineContext
+from src.core.pipeline import Pipeline
 from src.core.registry import PipelineRegistry
 from src.providers.registry import ProviderRegistry
 
@@ -47,28 +44,54 @@ class RunCommand:
         Returns:
             Exit code
         """
-        # Validate arguments
+        # Validate general CLI arguments
         validation_errors = validate_arguments("run", args)
         if validation_errors:
             for error in validation_errors:
                 print_error(error)
             return 1
 
-        # Additional stage-specific validation (skip for dry-run)
-        if not getattr(args, "dry_run", False):
-            stage_errors = self._validate_stage_args(args)
-            if stage_errors:
-                for error in stage_errors:
-                    print_error(error)
-                return 1
-
+        # Get pipeline from registry
         try:
             pipeline = self.pipeline_registry.get(args.pipeline)
         except Exception as e:
             print_error(f"Pipeline '{args.pipeline}' not found: {e}")
             return 1
 
+        # Pipeline-specific CLI argument validation (skip for dry-run)
+        if not getattr(args, "dry_run", False):
+            pipeline_errors = pipeline.validate_cli_args(args)
+            if pipeline_errors:
+                for error in pipeline_errors:
+                    print_error(error)
+                return 1
+
         # Create execution context
+        context = self._create_context(args)
+
+        # Let pipeline populate context from CLI arguments
+        pipeline.populate_context_from_cli(context, args)
+
+        # Handle dry-run
+        if getattr(args, "dry_run", False):
+            print_warning(
+                f"DRY RUN: Would execute stage '{args.stage}' on pipeline '{args.pipeline}'"
+            )
+            pipeline.show_cli_execution_plan(context, args)
+            return 0
+
+        # Execute stage
+        return self._execute_pipeline_stage(pipeline, args.stage, context)
+
+    def _create_context(self, args: Any) -> PipelineContext:
+        """Create pipeline context with providers and basic configuration.
+
+        Args:
+            args: Command arguments
+
+        Returns:
+            Pipeline context
+        """
         context = PipelineContext(
             pipeline_name=args.pipeline,
             project_root=self.project_root,
@@ -86,20 +109,23 @@ class RunCommand:
             },
         )
 
-        # Parse command arguments into context
-        self._populate_context(context, args)
+        return context
 
-        # Handle dry-run
-        if getattr(args, "dry_run", False):
-            print_warning(
-                f"DRY RUN: Would execute stage '{args.stage}' on pipeline '{args.pipeline}'"
-            )
-            self._show_execution_plan(context, args)
-            return 0
+    def _execute_pipeline_stage(
+        self, pipeline: Pipeline, stage_name: str, context: PipelineContext
+    ) -> int:
+        """Execute pipeline stage and handle results.
 
-        # Execute stage
+        Args:
+            pipeline: Pipeline instance
+            stage_name: Stage to execute
+            context: Pipeline context
+
+        Returns:
+            Exit code
+        """
         try:
-            result = pipeline.execute_stage(args.stage, context)
+            result = pipeline.execute_stage(stage_name, context)
 
             if result.status.value == "success":
                 print_success(result.message)
@@ -120,109 +146,5 @@ class RunCommand:
                 return 1
 
         except Exception as e:
-            print_error(f"Error executing stage '{args.stage}': {e}")
+            print_error(f"Error executing stage '{stage_name}': {e}")
             return 1
-
-    def _validate_stage_args(self, args: Any) -> list:
-        """Validate stage-specific arguments.
-
-        Args:
-            args: Command arguments
-
-        Returns:
-            List of validation errors
-        """
-        errors = []
-
-        if args.stage == "prepare" and args.words:
-            errors.extend(validate_word_list(args.words))
-        elif args.stage == "media" and args.cards:
-            errors.extend(validate_card_list(args.cards))
-
-        return errors
-
-    def _populate_context(self, context: PipelineContext, args: Any) -> None:
-        """Populate context from command arguments.
-
-        Args:
-            context: Pipeline context
-            args: Command arguments
-        """
-        # Vocabulary-specific arguments
-        if getattr(args, "words", None):
-            context.set(
-                "words", [w.strip() for w in args.words.split(",") if w.strip()]
-            )
-
-        # Conjugation-specific arguments
-        if getattr(args, "verbs", None):
-            context.set(
-                "verbs", [v.strip() for v in args.verbs.split(",") if v.strip()]
-            )
-        if getattr(args, "tenses", None):
-            context.set(
-                "tenses", [t.strip() for t in args.tenses.split(",") if t.strip()]
-            )
-        if getattr(args, "persons", None):
-            context.set(
-                "persons", [p.strip() for p in args.persons.split(",") if p.strip()]
-            )
-
-        # Common arguments
-        if getattr(args, "cards", None):
-            context.set(
-                "cards", [c.strip() for c in args.cards.split(",") if c.strip()]
-            )
-        if getattr(args, "file", None):
-            context.set("input_file", Path(args.file))
-
-        # Set execution flags
-        context.set("execute", getattr(args, "execute", False))
-        context.set("skip_images", getattr(args, "no_images", False))
-        context.set("skip_audio", getattr(args, "no_audio", False))
-        context.set("dry_run", getattr(args, "dry_run", False))
-        context.set("force_regenerate", getattr(args, "force_regenerate", False))
-        context.set("max_new", getattr(args, "max", None))
-        context.set("delete_extras", getattr(args, "delete_extras", False))
-
-    def _show_execution_plan(self, context: PipelineContext, args: Any) -> None:
-        """Show execution plan for dry run.
-
-        Args:
-            context: Pipeline context
-            args: Command arguments
-        """
-        print("\nExecution Plan:")
-        print(f"  Pipeline: {args.pipeline}")
-        print(f"  Stage: {args.stage}")
-
-        if context.get("words"):
-            print(f"  Words: {', '.join(context.get('words'))}")
-        if context.get("verbs"):
-            print(f"  Verbs: {', '.join(context.get('verbs'))}")
-        if context.get("tenses"):
-            print(f"  Tenses: {', '.join(context.get('tenses'))}")
-        if context.get("persons"):
-            print(f"  Persons: {', '.join(context.get('persons'))}")
-        if context.get("cards"):
-            print(f"  Cards: {', '.join(context.get('cards'))}")
-        if context.get("input_file"):
-            print(f"  Input file: {context.get('input_file')}")
-
-        # Show relevant flags
-        flags = []
-        if context.get("execute"):
-            flags.append("execute")
-        if context.get("skip_images"):
-            flags.append("skip-images")
-        if context.get("skip_audio"):
-            flags.append("skip-audio")
-        if context.get("force_regenerate"):
-            flags.append("force-regenerate")
-        if context.get("delete_extras"):
-            flags.append("delete-extras")
-
-        if flags:
-            print(f"  Flags: {', '.join(flags)}")
-
-        print()  # Empty line for readability
