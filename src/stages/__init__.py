@@ -28,7 +28,6 @@ from .media.audio_stage import AudioGenerationStage
 from .media.image_stage import ImageGenerationStage
 from .media.media_stage import MediaGenerationStage
 from .validation.data_stage import DataValidationStage
-from .validation.ipa_stage import IPAValidationStage
 from .validation.media_stage import MediaValidationStage
 
 # Stage registry for easy lookup
@@ -37,7 +36,6 @@ STAGE_REGISTRY: dict[str, type[Stage]] = {
     "generate_audio": AudioGenerationStage,
     "generate_media": MediaGenerationStage,
     "validate_data": DataValidationStage,
-    "validate_ipa": IPAValidationStage,
     "validate_media": MediaValidationStage,
     "load_file": FileLoadStage,
     "save_file": FileSaveStage,

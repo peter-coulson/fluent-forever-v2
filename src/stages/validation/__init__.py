@@ -8,7 +8,6 @@ Stages for validating data integrity and correctness:
 """
 
 from .data_stage import DataValidationStage
-from .ipa_stage import IPAValidationStage
 from .media_stage import MediaValidationStage
 
 # Compatibility alias for validation gate tests
@@ -16,7 +15,6 @@ ValidationStage = DataValidationStage
 
 __all__ = [
     "DataValidationStage",
-    "IPAValidationStage",
     "MediaValidationStage",
     "ValidationStage",  # Compatibility alias
 ]

@@ -1,11 +1,10 @@
 """Unit tests for CLI commands."""
 
 from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 from cli.commands.info_command import InfoCommand
 from cli.commands.list_command import ListCommand
-from cli.commands.preview_command import PreviewCommand
 from cli.commands.run_command import RunCommand
 from cli.config.cli_config import CLIConfig
 
@@ -233,102 +232,6 @@ class TestRunCommand:
             cards=None,
             file=None,
         )
-
-        # Execute
-        result = command.execute(args)
-
-        # Verify
-        assert result == 1
-        captured = capsys.readouterr()
-        assert "not found" in captured.out
-
-
-class TestPreviewCommand:
-    """Test PreviewCommand."""
-
-    def test_execute_card_preview(self):
-        """Test card preview execution."""
-        # Setup
-        pipeline_registry = Mock()
-        pipeline_registry.get.return_value = Mock()  # Pipeline exists
-        provider_registry = Mock()
-        config = CLIConfig({})
-        project_root = Path("/test")
-
-        command = PreviewCommand(
-            pipeline_registry, provider_registry, project_root, config
-        )
-        args = Mock(pipeline="vocabulary", card_id="test_card", start_server=False)
-        args.port = 8000
-
-        with patch("webbrowser.open") as mock_browser:
-            result = command.execute(args)
-
-        # Verify
-        assert result == 0
-        mock_browser.assert_called_once()
-        expected_url = (
-            "http://127.0.0.1:8000/preview?card_id=test_card&card_type=vocabulary"
-        )
-        mock_browser.assert_called_with(expected_url)
-
-    def test_execute_missing_args(self, capsys):
-        """Test preview with missing arguments."""
-        # Setup
-        pipeline_registry = Mock()
-        provider_registry = Mock()
-        config = CLIConfig({})
-        project_root = Path("/test")
-
-        command = PreviewCommand(
-            pipeline_registry, provider_registry, project_root, config
-        )
-        args = Mock(pipeline="vocabulary", card_id=None, start_server=False)
-        args.port = 8000
-
-        # Execute
-        result = command.execute(args)
-
-        # Verify
-        assert result == 1
-        captured = capsys.readouterr()
-        assert "Must specify" in captured.out
-
-    def test_execute_start_server_not_supported(self, capsys):
-        """Test that preview server functionality is no longer supported."""
-        # Setup
-        pipeline_registry = Mock()
-        provider_registry = Mock()
-        config = CLIConfig({})
-        project_root = Path("/test")
-
-        command = PreviewCommand(
-            pipeline_registry, provider_registry, project_root, config
-        )
-        args = Mock(pipeline="vocabulary", start_server=True, card_id=None)
-        args.port = 8001
-
-        # Execute - should indicate preview functionality is stripped
-        result = command.execute(args)
-
-        # Verify - command should fail or indicate functionality not available
-        # The exact behavior will depend on the PreviewCommand implementation after stripping
-        assert result in [1, 2]  # Some error code indicating unsupported functionality
-
-    def test_execute_pipeline_not_found(self, capsys):
-        """Test preview with missing pipeline."""
-        # Setup
-        pipeline_registry = Mock()
-        pipeline_registry.get.side_effect = Exception("Pipeline not found")
-        provider_registry = Mock()
-        config = CLIConfig({})
-        project_root = Path("/test")
-
-        command = PreviewCommand(
-            pipeline_registry, provider_registry, project_root, config
-        )
-        args = Mock(pipeline="nonexistent", card_id="test_card", start_server=False)
-        args.port = 8000
 
         # Execute
         result = command.execute(args)
