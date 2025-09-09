@@ -69,13 +69,13 @@ def test_media_providers():
 def test_sync_providers():
     """Test sync provider system integration."""
     try:
-        from providers.sync.anki_provider import AnkiSyncProvider
+        from providers.sync.anki_provider import AnkiProvider
         from providers.sync.mock_provider import MockSyncProvider
     except ImportError:
         pytest.skip("Sync providers not available")
     
     # Test providers can be imported
-    assert AnkiSyncProvider is not None, "Anki provider should be available"
+    assert AnkiProvider is not None, "Anki provider should be available"
     assert MockSyncProvider is not None, "Mock sync provider should be available"
     
     # Test mock sync provider

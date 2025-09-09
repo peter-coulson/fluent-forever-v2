@@ -36,6 +36,7 @@ class TestAnkiProvider:
         # Mock successful Anki Connect response
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.content = True  # So _make_request checks response.json()
         mock_response.json.return_value = {
             'result': 6,  # Anki version
             'error': None
@@ -52,6 +53,7 @@ class TestAnkiProvider:
         # Mock successful note creation
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.content = True  # So _make_request checks response.json()
         mock_response.json.return_value = {
             'result': [1001, 1002],  # Note IDs
             'error': None
@@ -88,6 +90,7 @@ class TestAnkiProvider:
         # Mock successful model update
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.content = True  # So _make_request checks response.json()
         mock_response.json.return_value = {
             'result': None,  # Void response for model update
             'error': None
@@ -112,6 +115,7 @@ class TestAnkiProvider:
         # Mock successful media store
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.content = True  # So _make_request checks response.json()
         mock_response.json.return_value = {
             'result': None,
             'error': None
@@ -134,6 +138,7 @@ class TestAnkiProvider:
         # Mock deck names response
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.content = True  # So _make_request checks response.json()
         mock_response.json.return_value = {
             'result': ['Default', 'Spanish', 'French'],
             'error': None
@@ -148,17 +153,21 @@ class TestAnkiProvider:
     
     def test_connection_error_handling(self):
         """Test connection error handling"""
-        with patch.object(self.provider.session, 'request', side_effect=ConnectionError("Connection failed")):
+        with patch.object(self.provider.session, 'request', side_effect=ConnectionError("Connection failed")), \
+             patch.object(self.provider, '_launch_anki', return_value=False) as mock_launch:
             result = self.provider.test_connection()
             
             # test_connection returns bool according to abstract interface
             assert result is False
+            # Verify that _launch_anki was called when connection failed
+            mock_launch.assert_called_once()
     
     def test_anki_error_response(self):
         """Test Anki error response handling"""
         # Mock Anki error response
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.content = True  # So _make_request checks response.json()
         mock_response.json.return_value = {
             'result': None,
             'error': 'deck was not found'
