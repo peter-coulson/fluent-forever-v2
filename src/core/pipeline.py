@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any
+from typing import Any, Union
 
 from .context import PipelineContext
 from .exceptions import StageNotFoundError
@@ -35,7 +35,7 @@ class Pipeline(ABC):
         """Get a stage instance by name."""
         pass
 
-    def execute_stage(self, stage_name: str, context) -> StageResult:
+    def execute_stage(self, stage_name: str, context: Union[dict[str, Any], PipelineContext]) -> StageResult:
         """Execute a specific stage with context."""
         try:
             stage = self.get_stage(stage_name)

@@ -66,7 +66,7 @@ While "llamar" wasn't in our first 1000 entries sample, words with similar patte
 - **49.9% seseante**: Primarily Latin American Spanish varieties
 - **50.1% no seseante**: Primarily Peninsular Spanish (except Andalusia)
 
-### Yeísmo Distribution  
+### Yeísmo Distribution
 - **50.1% yeísta**: Most modern Spanish varieties globally
 - **49.9% no yeísta**: Conservative varieties, particularly rural Argentina, Paraguay
 
@@ -95,11 +95,11 @@ While "llamar" wasn't in our first 1000 entries sample, words with similar patte
 This analysis reveals the rich phonological diversity of Spanish as documented in the Wiktionary data. The most significant variation patterns are:
 
 1. **Seseo/Distinción** (37.5% vs 37.6%) - the most evenly distributed major variant
-2. **Yeísmo** (8.5% vs 8.5%) - showing widespread adoption of the merged pronunciation  
+2. **Yeísmo** (8.5% vs 8.5%) - showing widespread adoption of the merged pronunciation
 3. **Regional variants** like sheísmo/zheísmo (11.2% each) - capturing distinctive regional features
 
 The data demonstrates that Spanish pronunciation varies considerably across regions, with some words having up to 6 different accepted pronunciations depending on the speaker's linguistic background.
 
 ---
-*Generated from analysis of Español.jsonl on 2025-01-27*  
+*Generated from analysis of Español.jsonl on 2025-01-27*
 *Total processing time: ~20 seconds*

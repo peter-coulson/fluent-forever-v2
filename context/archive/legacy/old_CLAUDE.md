@@ -1,4 +1,4 @@
-<!-- 
+<!--
 ARCHIVED DOCUMENT
 Original: CLAUDE.md
 Archived Location: context/archive/legacy/old_CLAUDE.md
@@ -50,7 +50,7 @@ Perform the semantic work; then hand off to automation.
        - "A blond boy on a green train through the countryside with lots of sheep around [Me going home from boarding school as a child]"
      - **CRITICAL**: The bracketed comment informs sentence generation only; Claude MUST remove brackets from the image prompt
      - **MANDATORY SENTENCE RELEVANCE**: Claude MUST create sentences that match the visual prompt AND bracketed context, regardless of how abstract, unusual, or challenging the prompt may be
-     - **PROCESS**: 
+     - **PROCESS**:
        1. Remove bracketed content from prompt for image generation
        2. Use bracketed context AND visual prompt details to create relevant Spanish sentences
        3. Never include brackets in the actual image prompt field
@@ -134,7 +134,7 @@ Before proceeding to batch composition:
 - STEP 2: Check contexts: "sobre la mesa" vs "sobre el tema" vs "sobre las cinco" → Different concepts ✓
 - STEP 3: Create examples:
   * Physical: "El libro está sobre la mesa" (on/above)
-  * Topic: "Hablamos sobre el clima" (about/concerning) 
+  * Topic: "Hablamos sobre el clima" (about/concerning)
   * Approximation: "Llegó sobre las cinco" (around/approximately)
 - STEP 4: 3 distinct meanings → 3 cards needed
 
@@ -147,7 +147,7 @@ Before proceeding to batch composition:
 ### REFERENCE EXAMPLES (NOT EXHAUSTIVE PATTERNS)
 **Complex Multi-Meaning Examples:**
 - **ser**: identity, qualities, time, origin (4 meanings)
-- **estar**: location, states, actions, presence (4 meanings)  
+- **estar**: location, states, actions, presence (4 meanings)
 - **por**: through/via, by means of, because of, in exchange for (4 meanings)
 - **para**: purpose, deadline, destination, recipient (4 meanings)
 
@@ -162,7 +162,7 @@ Before proceeding to batch composition:
 ### CLAUDE ALWAYS PROVIDES BEFORE COLLECTING PROMPTS
 **For each meaning in the batch, Claude provides:**
 - **Clear description** - Simple explanation of what the meaning expresses
-- **Example sentence** - Spanish sentence demonstrating the meaning in context  
+- **Example sentence** - Spanish sentence demonstrating the meaning in context
 - **Context note** - When/how this meaning is typically used
 
 **Format Example:**
@@ -186,7 +186,7 @@ Before proceeding to batch composition:
 **CRITICAL: Claude NEVER edits user prompts - only reviews and suggests improvements**
 **Claude ALWAYS validates each prompt has**:
 - ✅ Specific age range and physical description
-- ✅ Clear emotional state or activity  
+- ✅ Clear emotional state or activity
 - ✅ Detailed setting/environment
 - ✅ Simple scene (not complex multi-action)
 - ✅ Human-centered (fits Ghibli aesthetic)
@@ -250,7 +250,7 @@ Before proceeding to batch composition:
 ### CONTEXTUAL FRICATIVE RULES:
 - **Word-initial consonants**: Clear stops [b,d,g] for clarity
 - **Intervocalic consonants**: Natural fricatives [β,ð,ɣ] for fluency
-- **Examples**: 
+- **Examples**:
   - bueno [ˈbweno] - word-initial b = stop
   - trabajo [traˈβaxo] - intervocalic b = fricative β
   - cada [ˈkaða] - intervocalic d = fricative ð
@@ -388,7 +388,7 @@ python -m cli.generate_word_queue --output my_queue.json --count 25  # Custom ou
 
 **Each meaning → card with:**
 - SpanishWord, IPA, MeaningContext, MonolingualDef
-- ExampleSentence, GappedSentence, ImageFile, WordAudio  
+- ExampleSentence, GappedSentence, ImageFile, WordAudio
 - Generated from: word + meaning_context + user_prompt + memory connection
 
 ## COMMANDS CHEAT SHEET (Claude)

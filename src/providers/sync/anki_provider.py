@@ -10,9 +10,9 @@ import time
 from pathlib import Path
 from typing import Any
 
-from providers.base.api_client import BaseAPIClient
-from providers.base.sync_provider import SyncProvider, SyncRequest, SyncResult
-from utils.logging_config import ICONS, get_logger
+from src.providers.base.api_client import BaseAPIClient
+from src.providers.base.sync_provider import SyncProvider, SyncRequest, SyncResult
+from src.utils.logging_config import ICONS, get_logger
 
 logger = get_logger("providers.sync.anki")
 

@@ -8,10 +8,10 @@ sync.media_sync to create reusable stage.
 from pathlib import Path
 from typing import Any
 
-from core.context import PipelineContext
-from core.stages import StageResult, StageStatus
-from stages.base.api_stage import APIStage
-from utils.logging_config import ICONS, get_logger
+from src.core.context import PipelineContext
+from src.core.stages import StageResult, StageStatus
+from src.stages.base.api_stage import APIStage
+from src.utils.logging_config import ICONS, get_logger
 
 
 class MediaSyncStage(APIStage):

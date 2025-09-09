@@ -40,7 +40,7 @@ External Services: OpenAI → Forvo → AnkiConnect
 ## 📊 Current Card Types
 
 - ✅ **Vocabulary Pipeline**: Complete E2E workflow for vocabulary cards
-- ✅ **Conjugation Pipeline**: Verb conjugation practice cards  
+- ✅ **Conjugation Pipeline**: Verb conjugation practice cards
 - ✅ **Multi-Pipeline Support**: Multiple card types coexist cleanly
 
 **→ [Adding New Pipelines](../development/adding_pipelines.md)** - Extend the system

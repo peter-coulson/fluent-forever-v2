@@ -33,7 +33,7 @@
     {
       "SpanishWord": "menos",
       "MeaningID": "comparative_degree",
-      "MeaningContext": "Comparative Degree", 
+      "MeaningContext": "Comparative Degree",
       "MonolingualDef": "Indica menor grado o cantidad en comparaciones",
       "ExampleSentence": "El chico moreno tiene menos dinero que el chico calvo feliz con gafas redondas",
       "GappedSentence": "El chico moreno tiene _____ dinero que el chico calvo feliz con gafas redondas",

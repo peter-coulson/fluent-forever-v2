@@ -155,25 +155,24 @@
     padding: 15px;
     font-size: 18px;
   }
-  
+
   .spanish {
     font-size: 24px;
   }
-  
+
   .ipa {
     font-size: 18px;
     margin-left: 5px;
     padding: 4px 12px;
   }
-  
+
   .image-container img {
     max-width: 100%;
     max-height: 250px;
   }
-  
+
   .full-sentence,
   .gapped-sentence {
     font-size: 16px;
   }
 }
-

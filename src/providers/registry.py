@@ -241,9 +241,9 @@ class MediaProviderFactory:
         Returns:
             OpenAIMediaProvider instance
         """
-        from .media.openai_provider import OpenAIMediaProvider
+        from .media.openai_provider import OpenAIProvider
 
-        return OpenAIMediaProvider(api_key=api_key, config=self.config)
+        return OpenAIProvider(api_key=api_key, config=self.config)
 
     def create_runware_provider(self, api_key: str | None = None) -> MediaProvider:
         """Create Runware media provider
@@ -254,9 +254,9 @@ class MediaProviderFactory:
         Returns:
             RunwareMediaProvider instance
         """
-        from .media.runware_provider import RunwareMediaProvider
+        from .media.runware_provider import RunwareProvider
 
-        return RunwareMediaProvider(api_key=api_key, config=self.config)
+        return RunwareProvider(api_key=api_key, config=self.config)
 
     def create_forvo_provider(self, api_key: str | None = None) -> MediaProvider:
         """Create Forvo media provider
@@ -267,9 +267,9 @@ class MediaProviderFactory:
         Returns:
             ForvoMediaProvider instance
         """
-        from .media.forvo_provider import ForvoMediaProvider
+        from .media.forvo_provider import ForvoProvider
 
-        return ForvoMediaProvider(api_key=api_key, config=self.config)
+        return ForvoProvider(api_key=api_key, config=self.config)
 
     def create_mock_provider(
         self, supported_types: list[str] | None = None, should_fail: bool = False
@@ -351,9 +351,9 @@ class SyncProviderFactory:
         Returns:
             AnkiSyncProvider instance
         """
-        from .sync.anki_provider import AnkiSyncProvider
+        from .sync.anki_provider import AnkiProvider
 
-        return AnkiSyncProvider()
+        return AnkiProvider()
 
     def create_mock_provider(
         self, provider_name: str = "anki", should_fail: bool = False

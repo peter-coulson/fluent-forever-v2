@@ -6,8 +6,8 @@ Provides commands for viewing, validating, and managing configuration.
 
 import json
 
-from core.config import get_config_manager
-from core.config_validator import ConfigValidator
+from src.core.config import get_config_manager
+from src.core.config_validator import ConfigValidator
 
 
 class ConfigCommand:

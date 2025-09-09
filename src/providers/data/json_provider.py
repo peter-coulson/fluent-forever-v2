@@ -9,7 +9,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from providers.base.data_provider import DataProvider
+from src.providers.base.data_provider import DataProvider
 
 
 class JSONDataProvider(DataProvider):

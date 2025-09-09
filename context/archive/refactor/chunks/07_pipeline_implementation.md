@@ -30,7 +30,7 @@ src/
 │   │   │   └── sentence_generation.py # Contextual sentences
 │   │   ├── data/                # Data handling
 │   │   │   ├── __init__.py
-│   │   │   ├── vocabulary_data.py # Vocabulary.json handling  
+│   │   │   ├── vocabulary_data.py # Vocabulary.json handling
 │   │   │   └── word_queue.py    # Word queue management
 │   │   └── validation/          # Vocabulary-specific validation
 │   │       ├── __init__.py
@@ -60,23 +60,23 @@ from config.config_manager import get_config_manager
 
 class VocabularyPipeline(Pipeline):
     """Fluent Forever vocabulary card pipeline"""
-    
+
     def __init__(self, config: Dict[str, Any] = None):
         self.config = config or {}
         self._stages_cache: Dict[str, Stage] = {}
-        
+
         # Load pipeline configuration
         config_manager = get_config_manager()
         self.pipeline_config = config_manager.load_config('pipeline', 'vocabulary')
-    
+
     @property
     def name(self) -> str:
         return "vocabulary"
-    
+
     @property
     def display_name(self) -> str:
         return self.pipeline_config.get('pipeline', {}).get('display_name', 'Vocabulary Cards')
-    
+
     @property
     def stages(self) -> List[str]:
         """Available stages for vocabulary pipeline"""
@@ -90,20 +90,20 @@ class VocabularyPipeline(Pipeline):
             'sync_templates',     # Sync Anki templates
             'sync_cards'         # Sync cards to Anki
         ]
-    
+
     @property
     def data_file(self) -> str:
         return self.pipeline_config.get('pipeline', {}).get('data_file', 'vocabulary.json')
-    
-    @property 
+
+    @property
     def anki_note_type(self) -> str:
         return self.pipeline_config.get('pipeline', {}).get('anki_note_type', 'Fluent Forever')
-    
+
     def get_stage(self, stage_name: str) -> Stage:
         """Get stage instance by name"""
         if stage_name in self._stages_cache:
             return self._stages_cache[stage_name]
-        
+
         # Create stage instance
         if stage_name == 'analyze_words':
             from .stages.word_analysis import VocabularyWordAnalysisStage
@@ -125,17 +125,17 @@ class VocabularyPipeline(Pipeline):
             stage = get_stage('sync_cards', note_type=self.anki_note_type)
         else:
             raise ValueError(f"Unknown stage: {stage_name}")
-        
+
         self._stages_cache[stage_name] = stage
         return stage
-    
+
     def execute_stage(self, stage_name: str, context: PipelineContext) -> StageResult:
         """Execute a specific stage"""
         if stage_name not in self.stages:
             raise ValueError(f"Stage '{stage_name}' not available in vocabulary pipeline")
-        
+
         stage = self.get_stage(stage_name)
-        
+
         # Validate stage can run with current context
         validation_errors = stage.validate_context(context)
         if validation_errors:
@@ -145,7 +145,7 @@ class VocabularyPipeline(Pipeline):
                 data={},
                 errors=validation_errors
             )
-        
+
         # Execute stage
         try:
             return stage.execute(context)
@@ -168,23 +168,23 @@ from core.context import PipelineContext
 
 class VocabularyWordAnalysisStage(Stage):
     """Analyze Spanish words and identify distinct meanings"""
-    
+
     def __init__(self, pipeline_config: Dict[str, Any]):
         self.config = pipeline_config
         self.max_meanings_per_word = self.config.get('batch_settings', {}).get('max_meanings_per_word', 5)
-    
+
     @property
     def name(self) -> str:
         return "analyze_words"
-    
+
     @property
     def display_name(self) -> str:
         return "Analyze Word Meanings"
-    
+
     def validate_context(self, context: PipelineContext) -> List[str]:
         """Validate context has required data"""
         errors = []
-        
+
         words = context.get('words')
         if not words:
             errors.append("No words provided for analysis (missing 'words' in context)")
@@ -192,16 +192,16 @@ class VocabularyWordAnalysisStage(Stage):
             errors.append("Words must be provided as a list")
         elif not all(isinstance(w, str) for w in words):
             errors.append("All words must be strings")
-        
+
         return errors
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         """Execute word analysis"""
         words = context.get('words', [])
-        
+
         analyzed_meanings = []
         skipped_words = []
-        
+
         for word in words:
             try:
                 meanings = self._analyze_word_meanings(word, context)
@@ -212,11 +212,11 @@ class VocabularyWordAnalysisStage(Stage):
             except Exception as e:
                 context.add_error(f"Error analyzing word '{word}': {e}")
                 skipped_words.append(word)
-        
+
         # Store results in context
         context.set('analyzed_meanings', analyzed_meanings)
         context.set('skipped_words', skipped_words)
-        
+
         return StageResult(
             status=StageStatus.SUCCESS,
             message=f"Analyzed {len(words)} words, found {len(analyzed_meanings)} meanings",
@@ -227,36 +227,36 @@ class VocabularyWordAnalysisStage(Stage):
             },
             errors=[]
         )
-    
+
     def _analyze_word_meanings(self, word: str, context: PipelineContext) -> List[Dict[str, Any]]:
         """Analyze a single word for distinct meanings"""
         # Extract the existing word analysis logic from:
         # - Current vocabulary system
         # - Claude operational guidelines
         # - Meaning identification patterns
-        
+
         # This is where the sophisticated meaning analysis happens
         # Based on the 4-step process defined in CLAUDE.md:
         # 1. Grammatical Category Check
-        # 2. Multi-Context Analysis  
+        # 2. Multi-Context Analysis
         # 3. Distinct Meaning Verification
         # 4. Final Count Verification
-        
+
         meanings = []
-        
+
         # Check if word already exists in vocabulary
         vocabulary_data = self._load_vocabulary_data(context)
         if word in vocabulary_data.get('words', {}):
             # Word already processed, skip
             return []
-        
+
         # Perform meaning analysis (implement the systematic analysis from CLAUDE.md)
         # This would include:
         # - Grammatical category identification
         # - Context analysis
         # - Meaning distinction
         # - Example generation
-        
+
         # For now, return placeholder structure
         meaning_id = f"{word}_meaning_1"
         meaning = {
@@ -267,9 +267,9 @@ class VocabularyWordAnalysisStage(Stage):
             'RequiresPrompt': True
         }
         meanings.append(meaning)
-        
+
         return meanings
-    
+
     def _load_vocabulary_data(self, context: PipelineContext) -> Dict[str, Any]:
         """Load current vocabulary data"""
         data_provider = context.get('providers', {}).get('data')
@@ -285,11 +285,11 @@ from core.context import PipelineContext
 
 class VocabularyBatchCreationStage(Stage):
     """Create Claude staging batch for vocabulary meanings"""
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         """Create staging batch from analyzed meanings"""
         analyzed_meanings = context.get('analyzed_meanings', [])
-        
+
         if not analyzed_meanings:
             return StageResult(
                 status=StageStatus.FAILURE,
@@ -297,20 +297,20 @@ class VocabularyBatchCreationStage(Stage):
                 data={},
                 errors=["Missing analyzed meanings"]
             )
-        
+
         # Create staging batch structure
         # Extract logic from cli/prepare_claude_batch.py
-        
+
         batch_data = {
             'version': '1.0',
             'created': datetime.now().isoformat(),
             'meanings': []
         }
-        
+
         for meaning in analyzed_meanings:
             batch_meaning = {
                 'SpanishWord': meaning['SpanishWord'],
-                'MeaningID': meaning['MeaningID'], 
+                'MeaningID': meaning['MeaningID'],
                 'MeaningContext': meaning['MeaningContext'],
                 'CardID': meaning['CardID'],
                 # Fields for Claude to fill
@@ -321,13 +321,13 @@ class VocabularyBatchCreationStage(Stage):
                 'prompt': ''
             }
             batch_data['meanings'].append(batch_meaning)
-        
+
         # Save to staging directory
         staging_file = self._save_batch_file(batch_data, context)
-        
+
         context.set('batch_file', staging_file)
         context.set('batch_data', batch_data)
-        
+
         return StageResult(
             status=StageStatus.SUCCESS,
             message=f"Created batch with {len(batch_data['meanings'])} meanings",
@@ -346,14 +346,14 @@ from datetime import datetime
 
 class VocabularyDataManager:
     """Manage vocabulary.json data operations"""
-    
+
     def __init__(self, data_provider):
         self.data_provider = data_provider
-    
+
     def load_vocabulary(self) -> Dict[str, Any]:
         """Load vocabulary data"""
         return self.data_provider.load_data('vocabulary')
-    
+
     def save_vocabulary(self, data: Dict[str, Any]) -> bool:
         """Save vocabulary data"""
         # Add metadata
@@ -361,39 +361,39 @@ class VocabularyDataManager:
             'last_updated': datetime.now().isoformat(),
             'version': '2.0'
         }
-        
+
         return self.data_provider.save_data('vocabulary', data)
-    
+
     def add_meanings(self, meanings: List[Dict[str, Any]]) -> bool:
         """Add new meanings to vocabulary"""
         vocab_data = self.load_vocabulary()
-        
+
         if 'words' not in vocab_data:
             vocab_data['words'] = {}
-        
+
         for meaning in meanings:
             spanish_word = meaning['SpanishWord']
-            
+
             if spanish_word not in vocab_data['words']:
                 vocab_data['words'][spanish_word] = {
                     'meanings': [],
                     'created': datetime.now().isoformat()
                 }
-            
+
             vocab_data['words'][spanish_word]['meanings'].append(meaning)
-        
+
         return self.save_vocabulary(vocab_data)
-    
+
     def get_word_meanings(self, word: str) -> List[Dict[str, Any]]:
         """Get all meanings for a word"""
         vocab_data = self.load_vocabulary()
         word_data = vocab_data.get('words', {}).get(word, {})
         return word_data.get('meanings', [])
-    
+
     def card_exists(self, card_id: str) -> bool:
         """Check if card already exists"""
         vocab_data = self.load_vocabulary()
-        
+
         for word_data in vocab_data.get('words', {}).values():
             for meaning in word_data.get('meanings', []):
                 if meaning.get('CardID') == card_id:
@@ -411,76 +411,76 @@ from stages.base.validation_stage import ValidationStage
 
 class VocabularyDataValidationStage(ValidationStage):
     """Validate vocabulary-specific data requirements"""
-    
+
     @property
     def name(self) -> str:
         return "validate_vocabulary_data"
-    
+
     @property
     def display_name(self) -> str:
         return "Validate Vocabulary Data"
-    
+
     def __init__(self, pipeline_config: Dict[str, Any]):
         self.config = pipeline_config
         self.data_key = 'vocabulary_data'
-    
+
     def validate_data(self, data: Dict[str, Any]) -> List[str]:
         """Validate vocabulary data structure"""
         errors = []
-        
+
         if 'words' not in data:
             errors.append("Vocabulary data must contain 'words' section")
             return errors
-        
+
         words_data = data['words']
         if not isinstance(words_data, dict):
             errors.append("'words' must be a dictionary")
             return errors
-        
+
         for word, word_data in words_data.items():
             word_errors = self._validate_word_data(word, word_data)
             errors.extend(word_errors)
-        
+
         return errors
-    
+
     def _validate_word_data(self, word: str, word_data: Dict[str, Any]) -> List[str]:
         """Validate individual word data"""
         errors = []
-        
+
         if 'meanings' not in word_data:
             errors.append(f"Word '{word}' missing 'meanings' section")
             return errors
-        
+
         meanings = word_data['meanings']
         if not isinstance(meanings, list):
             errors.append(f"Word '{word}' meanings must be a list")
             return errors
-        
+
         for i, meaning in enumerate(meanings):
             meaning_errors = self._validate_meaning_data(word, i, meaning)
             errors.extend(meaning_errors)
-        
+
         return errors
-    
+
     def _validate_meaning_data(self, word: str, index: int, meaning: Dict[str, Any]) -> List[str]:
         """Validate individual meaning data"""
         errors = []
-        
+
         required_fields = ['SpanishWord', 'MeaningID', 'CardID', 'MeaningContext']
         for field in required_fields:
             if field not in meaning:
                 errors.append(f"Meaning {index} for word '{word}' missing required field: {field}")
-        
+
         # Validate specific field formats
         if 'GappedSentence' in meaning:
             if '_____' not in meaning['GappedSentence']:
                 errors.append(f"GappedSentence for {word}:{index} must contain '_____'")
-        
+
         if 'IPA' in meaning:
             ipa = meaning['IPA']
             if not (ipa.startswith('[') and ipa.endswith(']')):
                 errors.append(f"IPA for {word}:{index} must be in bracket notation [...]")
-        
+
         return errors
 ```
 
@@ -496,7 +496,7 @@ from .vocabulary.vocabulary_pipeline import VocabularyPipeline
 def register_builtin_pipelines():
     """Register all built-in pipelines"""
     registry = get_pipeline_registry()
-    
+
     # Register vocabulary pipeline
     vocabulary_pipeline = VocabularyPipeline()
     registry.register(vocabulary_pipeline)
@@ -518,18 +518,18 @@ from core.context import PipelineContext
 
 class TemplatePipeline(Pipeline):
     """Template pipeline for creating new card types"""
-    
+
     def __init__(self, config: Dict[str, Any] = None):
         self.config = config or {}
-    
+
     @property
     def name(self) -> str:
         return "template"  # Change this
-    
+
     @property
     def display_name(self) -> str:
         return "Template Pipeline"  # Change this
-    
+
     @property
     def stages(self) -> List[str]:
         return [
@@ -537,20 +537,20 @@ class TemplatePipeline(Pipeline):
             'stage2',
             'stage3'
         ]
-    
+
     @property
     def data_file(self) -> str:
         return "template.json"  # Change this
-    
+
     @property
     def anki_note_type(self) -> str:
         return "Template Note Type"  # Change this
-    
+
     def get_stage(self, stage_name: str) -> Stage:
         """Get stage instance by name"""
         # Implement stage creation logic
         pass
-    
+
     def execute_stage(self, stage_name: str, context: PipelineContext) -> StageResult:
         """Execute a specific stage"""
         # Implement stage execution logic

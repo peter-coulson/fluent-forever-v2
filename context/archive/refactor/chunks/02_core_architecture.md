@@ -20,7 +20,7 @@ src/
 ├── core/
 │   ├── __init__.py
 │   ├── pipeline.py              # Abstract pipeline definition
-│   ├── stages.py               # Stage base classes and interfaces  
+│   ├── stages.py               # Stage base classes and interfaces
 │   ├── registry.py             # Pipeline registry system
 │   ├── context.py              # Pipeline execution context
 │   └── exceptions.py           # Core exception hierarchy
@@ -43,41 +43,41 @@ from pathlib import Path
 
 class Pipeline(ABC):
     """Abstract base class for all card type pipelines"""
-    
+
     @property
     @abstractmethod
     def name(self) -> str:
         """Pipeline identifier (e.g., 'vocabulary', 'conjugation')"""
         pass
-    
+
     @property
     @abstractmethod
     def display_name(self) -> str:
         """Human-readable pipeline name"""
         pass
-    
+
     @property
     @abstractmethod
     def stages(self) -> List[str]:
         """List of available stage names for this pipeline"""
         pass
-    
+
     @abstractmethod
     def get_stage(self, stage_name: str) -> 'Stage':
         """Get a stage instance by name"""
         pass
-    
+
     @abstractmethod
     def execute_stage(self, stage_name: str, context: 'PipelineContext') -> 'StageResult':
         """Execute a specific stage with context"""
         pass
-    
+
     @property
     @abstractmethod
     def data_file(self) -> str:
         """Primary data file for this pipeline (e.g., 'vocabulary.json')"""
         pass
-    
+
     @property
     @abstractmethod
     def anki_note_type(self) -> str:
@@ -110,29 +110,29 @@ class StageResult:
 
 class Stage(ABC):
     """Abstract base class for pipeline stages"""
-    
+
     @property
     @abstractmethod
     def name(self) -> str:
         """Stage identifier"""
         pass
-    
+
     @property
     @abstractmethod
     def display_name(self) -> str:
         """Human-readable stage name"""
         pass
-    
+
     @abstractmethod
     def execute(self, context: 'PipelineContext') -> StageResult:
         """Execute this stage with the given context"""
         pass
-    
+
     @property
     def dependencies(self) -> List[str]:
         """List of stage names that must complete before this stage"""
         return []
-    
+
     def validate_context(self, context: 'PipelineContext') -> List[str]:
         """Validate context has required data. Return list of errors."""
         return []
@@ -150,36 +150,36 @@ from dataclasses import dataclass, field
 @dataclass
 class PipelineContext:
     """Execution context passed between pipeline stages"""
-    
+
     # Core context
     pipeline_name: str
     project_root: Path
-    
+
     # Stage data (modified by stages during execution)
     data: Dict[str, Any] = field(default_factory=dict)
-    
+
     # Configuration
     config: Dict[str, Any] = field(default_factory=dict)
-    
+
     # Execution tracking
     completed_stages: List[str] = field(default_factory=list)
     errors: List[str] = field(default_factory=list)
-    
+
     # Command arguments
     args: Dict[str, Any] = field(default_factory=dict)
-    
+
     def get(self, key: str, default: Any = None) -> Any:
         """Get data value with default"""
         return self.data.get(key, default)
-    
+
     def set(self, key: str, value: Any) -> None:
         """Set data value"""
         self.data[key] = value
-    
+
     def add_error(self, error: str) -> None:
         """Add error to context"""
         self.errors.append(error)
-    
+
     def has_errors(self) -> bool:
         """Check if context has errors"""
         return len(self.errors) > 0
@@ -196,28 +196,28 @@ from .exceptions import PipelineNotFoundError, PipelineAlreadyRegisteredError
 
 class PipelineRegistry:
     """Registry for managing pipeline implementations"""
-    
+
     def __init__(self):
         self._pipelines: Dict[str, Pipeline] = {}
-    
+
     def register(self, pipeline: Pipeline) -> None:
         """Register a pipeline"""
         if pipeline.name in self._pipelines:
             raise PipelineAlreadyRegisteredError(f"Pipeline '{pipeline.name}' already registered")
-        
+
         self._pipelines[pipeline.name] = pipeline
-    
+
     def get(self, name: str) -> Pipeline:
         """Get pipeline by name"""
         if name not in self._pipelines:
             raise PipelineNotFoundError(f"Pipeline '{name}' not found")
-        
+
         return self._pipelines[name]
-    
+
     def list_pipelines(self) -> List[str]:
         """List all registered pipeline names"""
         return list(self._pipelines.keys())
-    
+
     def has_pipeline(self, name: str) -> bool:
         """Check if pipeline is registered"""
         return name in self._pipelines
@@ -287,40 +287,40 @@ def create_base_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description='Universal pipeline runner for card creation workflows'
     )
-    
+
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
-    
+
     # List command
     list_parser = subparsers.add_parser('list', help='List available pipelines')
-    
-    # Info command  
+
+    # Info command
     info_parser = subparsers.add_parser('info', help='Show pipeline information')
     info_parser.add_argument('pipeline', help='Pipeline name')
-    
+
     # Run command
     run_parser = subparsers.add_parser('run', help='Run pipeline stage')
     run_parser.add_argument('pipeline', help='Pipeline name')
     run_parser.add_argument('--stage', required=True, help='Stage to execute')
     run_parser.add_argument('--dry-run', action='store_true', help='Show what would be done')
     run_parser.add_argument('--config', help='Override config file')
-    
+
     return parser
 
 def main() -> int:
     """Main CLI entry point"""
     setup_logging()
     logger = setup_logging().getChild('cli.pipeline_runner')
-    
+
     parser = create_base_parser()
     args = parser.parse_args()
-    
+
     if not args.command:
         parser.print_help()
         return 1
-    
+
     registry = get_pipeline_registry()
     project_root = Path(__file__).parents[2]
-    
+
     try:
         if args.command == 'list':
             return cmd_list(registry)
@@ -331,7 +331,7 @@ def main() -> int:
         else:
             logger.error(f"Unknown command: {args.command}")
             return 1
-            
+
     except PipelineError as e:
         logger.error(f"{ICONS['cross']} {e}")
         return 1
@@ -345,11 +345,11 @@ def cmd_list(registry: 'PipelineRegistry') -> int:
     pass
 
 def cmd_info(registry: 'PipelineRegistry', pipeline_name: str) -> int:
-    """Show pipeline information"""  
+    """Show pipeline information"""
     # Implementation details...
     pass
 
-def cmd_run(registry: 'PipelineRegistry', pipeline_name: str, stage_name: str, 
+def cmd_run(registry: 'PipelineRegistry', pipeline_name: str, stage_name: str,
            project_root: Path, args) -> int:
     """Run pipeline stage"""
     # Implementation details...
@@ -370,7 +370,7 @@ if __name__ == '__main__':
 ### Implementation Quality
 - [ ] All abstract base classes defined with clear interfaces
 - [ ] Registry supports pipeline registration and discovery
-- [ ] Context system allows data flow between stages  
+- [ ] Context system allows data flow between stages
 - [ ] Exception hierarchy provides clear error handling
 - [ ] CLI framework has consistent command structure
 
@@ -416,7 +416,7 @@ Create `context/refactor/completed_handoffs/02_core_architecture_handoff.md` wit
 
 ### Quality Validation
 - Pipeline interface is clean and extensible
-- Context system supports data flow requirements  
+- Context system supports data flow requirements
 - Error handling provides clear debugging information
 - CLI follows consistent patterns for all commands
 
@@ -429,7 +429,7 @@ Create `context/refactor/completed_handoffs/02_core_architecture_handoff.md` wit
 
 ### Design Principles
 - **Interface Segregation** - Clean, focused interfaces
-- **Dependency Inversion** - Abstract external dependencies  
+- **Dependency Inversion** - Abstract external dependencies
 - **Open/Closed** - Extensible without modification
 - **Fail Fast** - Clear error messages at boundaries
 

@@ -7,8 +7,8 @@ Initializes providers from unified configuration system.
 import os
 from pathlib import Path
 
-from core.config import ConfigManager
-from providers.registry import get_provider_registry
+from src.core.config import ConfigManager
+from src.providers.registry import get_provider_registry
 
 
 def initialize_providers_from_config() -> None:

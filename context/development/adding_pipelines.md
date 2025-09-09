@@ -38,11 +38,11 @@ from pathlib import Path
 import json
 
 class YourPipeline(Pipeline):
-    
+
     def __init__(self, config: dict):
         super().__init__("your_pipeline", "Your Pipeline Description", config)
         self.data_file = Path(config.get('data_file', 'your_data.json'))
-    
+
     def get_stages(self) -> dict:
         """Define pipeline stages and their dependencies"""
         return {
@@ -59,7 +59,7 @@ class YourPipeline(Pipeline):
                 'dependencies': ['generate_media']
             }
         }
-    
+
     def get_media_paths(self) -> dict:
         """Get pipeline-specific media paths"""
         return {
@@ -67,21 +67,21 @@ class YourPipeline(Pipeline):
             'images': f'media/{self.pipeline_type}/images/',
             'audio': f'media/{self.pipeline_type}/audio/'
         }
-    
+
     def get_anki_config(self) -> dict:
         """Get Anki integration configuration"""
         return {
             'note_type': 'Your Pipeline',
             'deck_name': 'Your Pipeline::Cards'
         }
-    
+
     def load_data(self) -> dict:
         """Load pipeline data"""
         if self.data_file.exists():
             with open(self.data_file, 'r', encoding='utf-8') as f:
                 return json.load(f)
         return {}
-    
+
     def save_data(self, data: dict) -> None:
         """Save pipeline data"""
         with open(self.data_file, 'w', encoding='utf-8') as f:
@@ -146,14 +146,14 @@ from src.core.stage import Stage
 from src.core.context import Context
 
 class CustomAnalysisStage(Stage):
-    
+
     def execute(self, context: Context) -> Context:
         """Implement your custom analysis logic"""
         input_data = context.get('input_data')
-        
+
         # Your processing logic here
         processed_data = self._process(input_data)
-        
+
         context.set('analyzed_data', processed_data)
         return context
 ```

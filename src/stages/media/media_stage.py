@@ -4,9 +4,9 @@ Combined Media Generation Stage
 Orchestrates both image and audio generation in a single stage.
 """
 
-from core.context import PipelineContext
-from core.stages import Stage, StageResult, StageStatus
-from utils.logging_config import ICONS, get_logger
+from src.core.context import PipelineContext
+from src.core.stages import Stage, StageResult, StageStatus
+from src.utils.logging_config import ICONS, get_logger
 
 from .audio_stage import AudioGenerationStage
 from .image_stage import ImageGenerationStage

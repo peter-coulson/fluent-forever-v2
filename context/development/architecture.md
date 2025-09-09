@@ -46,7 +46,7 @@ Each card type is implemented as a **Pipeline** that defines:
 - **Context System**: Data flow between stages
 - **Registry System**: Pipeline and provider discovery
 
-### Provider Layer  
+### Provider Layer
 - **Data Providers**: JSON files, databases, memory (testing)
 - **Media Providers**: OpenAI (images), Forvo (audio), mock (testing)
 - **Sync Providers**: AnkiConnect, file export, mock (testing)
@@ -69,13 +69,13 @@ Each card type is implemented as a **Pipeline** that defines:
 ## Data Flow
 
 ```
-Input (Words/Verbs) 
+Input (Words/Verbs)
     ↓
 [Analysis Stage] → Context Data
     ↓
 [Generation Stage] → Context + Generated Content
     ↓
-[Validation Stage] → Context + Validation Results  
+[Validation Stage] → Context + Validation Results
     ↓
 [Sync Stage] → Cards in Anki
 ```
@@ -83,22 +83,22 @@ Input (Words/Verbs)
 ## Extension Points
 
 ### Adding New Pipelines
-1. **Implement Pipeline Interface** 
+1. **Implement Pipeline Interface**
 2. **Define Stages** (reuse existing + create custom)
-3. **Configure Providers** 
+3. **Configure Providers**
 4. **Register Pipeline**
 5. **Add Configuration**
 
 ### Adding New Stages
 1. **Implement Stage Interface**
-2. **Define Context Requirements** 
+2. **Define Context Requirements**
 3. **Add to Stage Registry**
 4. **Create Unit Tests**
 
 ### Adding New Providers
 1. **Implement Provider Interface**
 2. **Add Configuration Schema**
-3. **Register with Provider Registry** 
+3. **Register with Provider Registry**
 4. **Create Mock for Testing**
 
 ## Key Design Principles
@@ -108,7 +108,7 @@ Input (Words/Verbs)
 - **Loose Coupling**: Components interact through well-defined interfaces
 - **High Cohesion**: Related functionality is grouped together
 
-### Extensibility  
+### Extensibility
 - **Open/Closed Principle**: Easy to extend, hard to break
 - **Plugin Architecture**: New functionality added without core changes
 - **Interface Segregation**: Clean, focused interfaces
@@ -127,7 +127,7 @@ Input (Words/Verbs)
 
 - **Python 3.8+**: Core language
 - **Flask**: Preview server framework
-- **Requests**: HTTP client for external APIs  
+- **Requests**: HTTP client for external APIs
 - **JSON**: Configuration and data storage
 - **pytest**: Testing framework
 - **AnkiConnect**: Anki integration protocol

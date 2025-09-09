@@ -50,7 +50,7 @@ python -m cli.pipeline run vocabulary --stage sync_templates --dry-run
 1. **Run prepare_batch first** - see [CLI Reference](../reference/cli_reference.md#vocabulary-pipeline)
 2. **Check staging directory** exists and has files
 
-#### IPA Validation Failures  
+#### IPA Validation Failures
 **Problem**: `IPA validation failed for word 'trabajo'`
 
 **Solutions**:
@@ -120,7 +120,7 @@ rm -rf logs/*
 # Reset configuration
 cp config/core.json.example config/core.json
 
-# Reinstall dependencies  
+# Reinstall dependencies
 pip install -r requirements.txt --force-reinstall
 
 # Test basic functionality
@@ -132,7 +132,7 @@ python -m cli.pipeline list
 
 ### Information to Include in Bug Reports
 - **Exact command** that failed
-- **Complete error message** 
+- **Complete error message**
 - **System environment** (OS, Python version)
 - **Configuration details** (anonymized)
 - **Log excerpts** showing the issue

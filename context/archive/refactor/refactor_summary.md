@@ -38,7 +38,7 @@ Transform the vocabulary-centric system into a true multi-pipeline architecture 
 
 ### Phase 1: Foundation (Sessions 1-4)
 1. **Validation Gates Setup**: Create focused integration tests (1 per session)
-2. **Core Architecture**: Pipeline abstractions, registry, basic CLI framework  
+2. **Core Architecture**: Pipeline abstractions, registry, basic CLI framework
 3. **Stage System**: Extract common processing stages into pluggable components
 4. **Provider System**: Abstract external APIs and data sources
 
@@ -62,7 +62,7 @@ src/
 │   └── registry.py         # Enhanced registry system
 ├── pipelines/              # Card-type-specific pipelines
 │   ├── vocabulary/         # Fluent Forever pipeline
-│   ├── conjugation/        # Conjugation pipeline  
+│   ├── conjugation/        # Conjugation pipeline
 │   └── __template/         # Template for new pipelines
 ├── stages/                 # Pluggable processing stages
 │   ├── claude_staging/     # Claude interaction stages
@@ -84,7 +84,7 @@ src/
 python -m cli.pipeline list
 python -m cli.pipeline info vocabulary
 
-# Execute pipeline stages  
+# Execute pipeline stages
 python -m cli.pipeline run vocabulary --stage claude_batch --words por,para
 python -m cli.pipeline run conjugation --stage generate_media --cards card1,card2
 python -m cli.pipeline run vocabulary --stage sync_anki --execute
@@ -122,7 +122,7 @@ Each session must:
 - **Easy Testing**: Mockable providers and isolated stages
 - **Self-Documenting**: Pipeline definitions show complete workflow
 
-### For Users  
+### For Users
 - **Consistent CLI**: Same commands work for all card types
 - **Predictable Behavior**: All pipelines handle errors/config similarly
 - **Easy Discovery**: `pipeline list` shows what's available
@@ -138,7 +138,7 @@ Each session must:
 
 ### During Refactor
 - **E2E Tests**: Prevent regression during major restructuring
-- **Incremental Validation**: Each session has clear pass/fail criteria  
+- **Incremental Validation**: Each session has clear pass/fail criteria
 - **Handoff Documents**: Preserve implementation context between sessions
 - **Todo Lists**: Keep sessions focused on specific deliverables
 

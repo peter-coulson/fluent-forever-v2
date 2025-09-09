@@ -1,8 +1,8 @@
 """Info command implementation."""
 
-from cli.config.cli_config import CLIConfig
-from cli.utils.output import format_key_value_pairs, format_list, print_error
-from core.registry import PipelineRegistry
+from src.cli.config.cli_config import CLIConfig
+from src.cli.utils.output import format_key_value_pairs, format_list, print_error
+from src.core.registry import PipelineRegistry
 
 
 class InfoCommand:

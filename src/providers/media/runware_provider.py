@@ -5,8 +5,9 @@ Placeholder for Runware-based media generation
 """
 
 from pathlib import Path
+from typing import Optional
 
-from providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
+from src.providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
 
 
 class RunwareProvider(MediaProvider):
@@ -49,7 +50,7 @@ class RunwareProvider(MediaProvider):
         """Generate batch media (placeholder)"""
         return [self.generate_media(req) for req in requests]
 
-    def _download_image(self, url: str, output_path: Path = None) -> Path:
+    def _download_image(self, url: str, output_path: Optional[Path] = None) -> Path:
         """Download image from URL (placeholder method for testing)"""
         # This is a placeholder method for testing
         if output_path is None:

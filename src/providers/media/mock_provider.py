@@ -7,7 +7,7 @@ Mock provider for testing that simulates media generation without API calls.
 import time
 from pathlib import Path
 
-from providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
+from src.providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
 
 
 class MockMediaProvider(MediaProvider):

@@ -8,8 +8,8 @@ Migrated from src/validation/ipa_validator.py to new stage structure
 from pathlib import Path
 from typing import Any
 
-from stages.base.validation_stage import ValidationStage
-from utils.logging_config import get_logger
+from src.stages.base.validation_stage import ValidationStage
+from src.utils.logging_config import get_logger
 
 logger = get_logger("stages.validation.ipa")
 

@@ -5,30 +5,31 @@ Integration tests for stage system.
 Tests that stages can be created, configured, and handle data flow.
 """
 
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Add src to path for imports
 project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root / 'src'))
+sys.path.insert(0, str(project_root / "src"))
 
 
 def test_stage_base_classes():
     """
     Test stage base class system integration.
-    
+
     Tests:
     - Base stage classes can be imported
     - Stage interfaces are consistent
     """
     try:
         from stages.base.api_stage import BaseAPIStage
-        from stages.base.file_stage import BaseFileStage 
+        from stages.base.file_stage import BaseFileStage
         from stages.base.validation_stage import BaseValidationStage
     except ImportError:
         pytest.skip("Stage system not available")
-    
+
     # Test base classes exist
     assert BaseAPIStage is not None, "BaseAPIStage should be available"
     assert BaseFileStage is not None, "BaseFileStage should be available"
@@ -43,20 +44,20 @@ def test_concrete_stage_creation():
         from stages.validation.data_stage import DataValidationStage
     except ImportError:
         pytest.skip("Concrete stages not available")
-    
+
     # Test concrete stages can be instantiated
     try:
         batch_stage = ClaudeBatchStage()
         assert batch_stage is not None, "ClaudeBatchStage should be creatable"
     except Exception:
         pass  # May require configuration
-    
+
     try:
         image_stage = ImageGenerationStage()
         assert image_stage is not None, "ImageGenerationStage should be creatable"
     except Exception:
         pass  # May require configuration
-    
+
     try:
         validation_stage = DataValidationStage()
         assert validation_stage is not None, "DataValidationStage should be creatable"
@@ -70,19 +71,19 @@ def test_stage_error_handling():
         from stages.base.validation_stage import BaseValidationStage
     except ImportError:
         pytest.skip("Stage system not available")
-    
+
     # Test base stage error handling
     class TestStage(BaseValidationStage):
         def execute(self, context):
             if not context.get("valid_data"):
                 raise ValueError("Invalid data provided")
             return {"status": "success"}
-    
+
     stage = TestStage()
-    
+
     # Test with invalid input - should handle gracefully
     invalid_context = {"invalid": "data"}
-    
+
     try:
         result = stage.execute(invalid_context)
         # If it returns, should have proper structure
@@ -97,26 +98,26 @@ def test_stage_error_handling():
 def test_stage_configuration_system():
     """Test stage configuration integration."""
     try:
-        from stages.base.api_stage import BaseAPIStage
         from core.context import PipelineContext
+        from stages.base.api_stage import BaseAPIStage
     except ImportError:
         pytest.skip("Stage system not available")
-    
+
     # Test stage with configuration
     class ConfigurableStage(BaseAPIStage):
         def __init__(self, config=None):
             super().__init__(config)
             self.max_retries = config.get("max_retries", 3) if config else 3
-        
+
         def execute(self, context):
             return {"status": "success", "retries": self.max_retries}
-    
+
     # Test without config
     stage = ConfigurableStage()
     context = PipelineContext({"test": "data"})
     result = stage.execute(context)
     assert result["retries"] == 3, "Should use default configuration"
-    
+
     # Test with config
     config = {"max_retries": 5}
     stage_configured = ConfigurableStage(config=config)

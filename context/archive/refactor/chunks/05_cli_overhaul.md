@@ -41,7 +41,7 @@ src/
 │   ├── commands/                # Command implementations
 │   │   ├── __init__.py
 │   │   ├── list_command.py     # Pipeline discovery
-│   │   ├── info_command.py     # Pipeline information  
+│   │   ├── info_command.py     # Pipeline information
 │   │   ├── run_command.py      # Stage execution
 │   │   └── preview_command.py  # Preview functionality
 │   ├── config/                 # CLI configuration
@@ -73,7 +73,7 @@ import sys
 from pathlib import Path
 from typing import Dict, Any
 
-from core.registry import get_pipeline_registry  
+from core.registry import get_pipeline_registry
 from providers.registry import get_provider_registry
 from core.context import PipelineContext
 from cli.commands import ListCommand, InfoCommand, RunCommand, PreviewCommand
@@ -90,77 +90,77 @@ Examples:
   # Discovery
   %(prog)s list
   %(prog)s info vocabulary
-  
-  # Execution  
+
+  # Execution
   %(prog)s run vocabulary --stage prepare_batch --words por,para
   %(prog)s run vocabulary --stage sync_anki --execute
-  
+
   # Preview
   %(prog)s preview vocabulary --card-id lo_neuter_article
         """
     )
-    
+
     # Global options
     parser.add_argument('--config', help='Configuration file path')
     parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
     parser.add_argument('--dry-run', action='store_true', help='Show what would be done')
-    
+
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
-    
+
     # List command
     list_parser = subparsers.add_parser('list', help='List available pipelines')
     list_parser.add_argument('--detailed', action='store_true', help='Show detailed info')
-    
+
     # Info command
     info_parser = subparsers.add_parser('info', help='Show pipeline information')
     info_parser.add_argument('pipeline', help='Pipeline name')
     info_parser.add_argument('--stages', action='store_true', help='Show available stages')
-    
+
     # Run command
     run_parser = subparsers.add_parser('run', help='Run pipeline stage')
     run_parser.add_argument('pipeline', help='Pipeline name')
     run_parser.add_argument('--stage', required=True, help='Stage to execute')
-    
+
     # Common run arguments (extract from existing scripts)
     run_parser.add_argument('--words', help='Comma-separated word list')
-    run_parser.add_argument('--cards', help='Comma-separated card IDs')  
+    run_parser.add_argument('--cards', help='Comma-separated card IDs')
     run_parser.add_argument('--file', help='Input file path')
     run_parser.add_argument('--execute', action='store_true', help='Execute changes')
     run_parser.add_argument('--no-images', action='store_true', help='Skip image generation')
     run_parser.add_argument('--no-audio', action='store_true', help='Skip audio generation')
-    
+
     # Preview command
     preview_parser = subparsers.add_parser('preview', help='Preview cards')
     preview_parser.add_argument('pipeline', help='Pipeline name')
     preview_parser.add_argument('--card-id', help='Card ID to preview')
     preview_parser.add_argument('--port', type=int, default=8000, help='Preview server port')
     preview_parser.add_argument('--start-server', action='store_true', help='Start preview server')
-    
+
     return parser
 
 def main() -> int:
     """Main CLI entry point"""
     setup_logging()
-    
+
     parser = create_parser()
     args = parser.parse_args()
-    
+
     if not args.command:
         parser.print_help()
         return 1
-    
+
     # Load configuration
     config = CLIConfig.load(args.config)
-    
+
     # Setup registries
     pipeline_registry = get_pipeline_registry()
     provider_registry = get_provider_registry()
-    
+
     # Initialize providers from config
     config.initialize_providers(provider_registry)
-    
+
     project_root = Path(__file__).parents[2]
-    
+
     try:
         # Execute command
         if args.command == 'list':
@@ -178,7 +178,7 @@ def main() -> int:
         else:
             print(f"Unknown command: {args.command}")
             return 1
-            
+
     except Exception as e:
         print(f"Error: {e}")
         return 1
@@ -198,31 +198,31 @@ from cli.utils.output import format_table, print_success
 
 class ListCommand:
     """List available pipelines"""
-    
+
     def __init__(self, registry: PipelineRegistry, config: CLIConfig):
         self.registry = registry
         self.config = config
-    
+
     def execute(self, args) -> int:
         """Execute list command"""
         pipelines = self.registry.list_pipelines()
-        
+
         if not pipelines:
             print("No pipelines registered")
             return 0
-        
+
         if args.detailed:
             return self._list_detailed(pipelines)
         else:
             return self._list_simple(pipelines)
-    
+
     def _list_simple(self, pipelines: List[str]) -> int:
         """Simple pipeline listing"""
         print("Available pipelines:")
         for pipeline in pipelines:
             print(f"  - {pipeline}")
         return 0
-    
+
     def _list_detailed(self, pipelines: List[str]) -> int:
         """Detailed pipeline listing"""
         rows = []
@@ -234,7 +234,7 @@ class ListCommand:
                 len(pipeline.stages),
                 pipeline.anki_note_type
             ])
-        
+
         headers = ['Name', 'Display Name', 'Stages', 'Anki Note Type']
         print(format_table(headers, rows))
         return 0
@@ -244,7 +244,7 @@ class ListCommand:
 ```python
 class InfoCommand:
     """Show pipeline information"""
-    
+
     def execute(self, args) -> int:
         """Execute info command"""
         try:
@@ -252,18 +252,18 @@ class InfoCommand:
         except Exception as e:
             print(f"Error: {e}")
             return 1
-        
+
         print(f"Pipeline: {pipeline.name}")
         print(f"Display Name: {pipeline.display_name}")
         print(f"Data File: {pipeline.data_file}")
         print(f"Anki Note Type: {pipeline.anki_note_type}")
-        
+
         if args.stages:
             print(f"\nAvailable Stages:")
             for stage_name in pipeline.stages:
                 stage = pipeline.get_stage(stage_name)
                 print(f"  - {stage_name}: {stage.display_name}")
-        
+
         return 0
 ```
 
@@ -276,15 +276,15 @@ from core.context import PipelineContext
 
 class RunCommand:
     """Execute pipeline stages"""
-    
-    def __init__(self, pipeline_registry: PipelineRegistry, 
-                 provider_registry: ProviderRegistry, 
+
+    def __init__(self, pipeline_registry: PipelineRegistry,
+                 provider_registry: ProviderRegistry,
                  project_root: Path, config: CLIConfig):
         self.pipeline_registry = pipeline_registry
         self.provider_registry = provider_registry
         self.project_root = project_root
         self.config = config
-    
+
     def execute(self, args) -> int:
         """Execute run command"""
         try:
@@ -292,7 +292,7 @@ class RunCommand:
         except Exception as e:
             print(f"Error: Pipeline '{args.pipeline}' not found")
             return 1
-        
+
         # Create execution context
         context = PipelineContext(
             pipeline_name=args.pipeline,
@@ -300,21 +300,21 @@ class RunCommand:
             config=self.config.to_dict(),
             args=vars(args)
         )
-        
+
         # Add providers to context
         context.set('providers', {
             'data': self.provider_registry.get_data_provider('default'),
-            'media': self.provider_registry.get_media_provider('default'), 
+            'media': self.provider_registry.get_media_provider('default'),
             'sync': self.provider_registry.get_sync_provider('default')
         })
-        
+
         # Parse command arguments into context
         self._populate_context(context, args)
-        
+
         # Execute stage
         try:
             result = pipeline.execute_stage(args.stage, context)
-            
+
             if result.status.success:
                 print(f"✅ {result.message}")
                 return 0
@@ -323,11 +323,11 @@ class RunCommand:
                 for error in result.errors:
                     print(f"  - {error}")
                 return 1
-                
+
         except Exception as e:
             print(f"Error executing stage '{args.stage}': {e}")
             return 1
-    
+
     def _populate_context(self, context: PipelineContext, args) -> None:
         """Populate context from command arguments"""
         if args.words:
@@ -336,7 +336,7 @@ class RunCommand:
             context.set('cards', [c.strip() for c in args.cards.split(',')])
         if args.file:
             context.set('input_file', Path(args.file))
-        
+
         # Set execution flags
         context.set('execute', args.execute)
         context.set('skip_images', args.no_images)
@@ -348,7 +348,7 @@ class RunCommand:
 ```python
 class PreviewCommand:
     """Preview card functionality"""
-    
+
     def execute(self, args) -> int:
         """Execute preview command"""
         if args.start_server:
@@ -358,16 +358,16 @@ class PreviewCommand:
         else:
             print("Error: Must specify --card-id or --start-server")
             return 1
-    
+
     def _start_preview_server(self, args) -> int:
         """Start multi-card preview server"""
         from cli.preview_server_multi import create_app
-        
+
         app = create_app()
         print(f"Starting preview server on http://127.0.0.1:{args.port}")
         app.run(host='127.0.0.1', port=args.port, debug=True)
         return 0
-    
+
     def _preview_card(self, args) -> int:
         """Open specific card in browser"""
         import webbrowser
@@ -387,10 +387,10 @@ from providers.registry import ProviderRegistry
 
 class CLIConfig:
     """CLI configuration management"""
-    
+
     def __init__(self, config_data: Dict[str, Any]):
         self.data = config_data
-    
+
     @classmethod
     def load(cls, config_path: Optional[str] = None) -> 'CLIConfig':
         """Load configuration from file or defaults"""
@@ -403,13 +403,13 @@ class CLIConfig:
                 Path.home() / '.fluent-forever' / 'config.json'
             ]
             path = next((p for p in candidates if p.exists()), None)
-        
+
         if path and path.exists():
             return cls(json.loads(path.read_text()))
         else:
             return cls(cls._default_config())
-    
-    @staticmethod  
+
+    @staticmethod
     def _default_config() -> Dict[str, Any]:
         """Default CLI configuration"""
         return {
@@ -423,12 +423,12 @@ class CLIConfig:
                 'verbose': False
             }
         }
-    
+
     def initialize_providers(self, registry: ProviderRegistry) -> None:
         """Initialize providers from configuration"""
         # Create and register providers based on config
         pass
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary"""
         return self.data.copy()
@@ -444,23 +444,23 @@ def format_table(headers: List[str], rows: List[List[str]]) -> str:
     """Format data as a table"""
     if not rows:
         return "No data"
-    
+
     # Calculate column widths
     widths = [len(h) for h in headers]
     for row in rows:
         for i, cell in enumerate(row):
             widths[i] = max(widths[i], len(str(cell)))
-    
+
     # Create format string
     format_str = "  ".join(f"{{:<{w}}}" for w in widths)
-    
+
     # Build table
     lines = [format_str.format(*headers)]
     lines.append("  ".join("-" * w for w in widths))
-    
+
     for row in rows:
         lines.append(format_str.format(*[str(cell) for cell in row]))
-    
+
     return "\n".join(lines)
 
 def print_success(message: str) -> None:
@@ -485,7 +485,7 @@ Map existing CLI scripts to new commands:
 python -m cli.prepare_claude_batch --words por,para
 → python -m cli.pipeline run vocabulary --stage prepare_batch --words por,para
 
-python -m cli.ingest_claude_batch --input staging/batch.json  
+python -m cli.ingest_claude_batch --input staging/batch.json
 → python -m cli.pipeline run vocabulary --stage ingest_batch --file staging/batch.json
 
 python -m cli.media_generate --cards card1,card2 --execute
@@ -503,7 +503,7 @@ python -m cli.preview_server --port 8001
 ### E2E Test Compliance
 - [ ] All tests in `tests/e2e/04_cli_system/` pass
 - [ ] Universal pipeline runner works correctly
-- [ ] Command discovery functions properly  
+- [ ] Command discovery functions properly
 - [ ] All existing CLI functionality accessible through new commands
 
 ### Backward Compatibility
@@ -542,7 +542,7 @@ python -m cli.preview_server --port 8001
 Create `context/refactor/completed_handoffs/05_cli_overhaul_handoff.md` with:
 - Overview of new CLI system
 - Command mapping from old to new
-- Configuration system capabilities  
+- Configuration system capabilities
 - Extension points for new commands
 - Guidance for configuration refactor session
 
@@ -551,7 +551,7 @@ Create `context/refactor/completed_handoffs/05_cli_overhaul_handoff.md` with:
 ### Must Pass Before Session Completion
 1. ✅ All previous session E2E tests continue to pass
 2. ✅ All Session 5 E2E tests pass
-3. ✅ All existing CLI functionality accessible through new commands  
+3. ✅ All existing CLI functionality accessible through new commands
 4. ✅ Command system is consistent and extensible
 5. ✅ Error handling provides clear debugging information
 

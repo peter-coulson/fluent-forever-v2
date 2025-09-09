@@ -7,7 +7,7 @@ Validates media file data in pipeline
 from pathlib import Path
 from typing import Any
 
-from stages.base.validation_stage import ValidationStage
+from src.stages.base.validation_stage import ValidationStage
 
 
 class MediaValidationStage(ValidationStage):

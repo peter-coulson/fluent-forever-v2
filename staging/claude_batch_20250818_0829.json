@@ -22,7 +22,7 @@
     {
       "SpanishWord": "más",
       "MeaningID": "additional_quantity",
-      "MeaningContext": "additional_quantity", 
+      "MeaningContext": "additional_quantity",
       "MonolingualDef": "Indica cantidad adicional o mayor de algo",
       "ExampleSentence": "El hombre rubio quiere más hamburguesas.",
       "GappedSentence": "El hombre rubio quiere _____ hamburguesas.",

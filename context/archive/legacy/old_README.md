@@ -1,4 +1,4 @@
-<!-- 
+<!--
 ARCHIVED DOCUMENT
 Original: README.md
 Archived Location: context/archive/legacy/old_README.md
@@ -69,7 +69,7 @@ Claude manages the workflow with your creative input:
 
 **Example Results:**
 1. **haber** (auxiliary verb) → "Boy and father eating fish and chips" → Ghibli-style image
-2. **haber** (existential) → "Man chasing cat from garden" → Ghibli-style image  
+2. **haber** (existential) → "Man chasing cat from garden" → Ghibli-style image
 3. **haber** (necessity) → "Boy jumping out of bed to study" → Ghibli-style image
 4. **con** (accompaniment) → "Two guys driving through Italy" → Ghibli-style image
 5. **con** (instrument) → "Boy with hammer working in basement" → Ghibli-style image
@@ -104,7 +104,7 @@ fluent-forever-v2/
 ### **Contextual Fricative Pronunciation**
 Uses optimal Latin American Spanish pronunciation:
 - **Word-initial**: Clear stops [b,d,g] for clarity
-- **Intervocalic**: Natural fricatives [β,ð,ɣ] for fluency  
+- **Intervocalic**: Natural fricatives [β,ð,ɣ] for fluency
 - **Result**: Sounds educated and native-like across multiple regions
 
 ### **Claude's Intelligent Sentence Generation**
@@ -145,18 +145,18 @@ Edit `config.json` for:
 
 The system automatically maintains:
 - **vocabulary.json** - Complete word database with meanings and examples
-- **word_queue.txt** - Pending/completed word tracking  
+- **word_queue.txt** - Pending/completed word tracking
 - **Media files** - Organized by word and meaning for easy reference
 
 Check `vocabulary.json` to see:
-- Total words processed: 8 words (33 cards)  
+- Total words processed: 8 words (33 cards)
 - Processing dates and batch information
 - Generated examples and contextual sentences
 
 ## 🎨 Why This System Works
 
 1. **Cognitive Load Optimization** - Claude handles analysis, automation handles repetitive tasks
-2. **Memory Enhancement** - Visual + auditory + personal associations  
+2. **Memory Enhancement** - Visual + auditory + personal associations
 3. **Systematic Coverage** - Claude processes high-frequency vocabulary methodically
 4. **Quality Consistency** - Ghibli style + native audio + proper formatting
 5. **Sustainable Practice** - Cost-effective, time-efficient daily routine
@@ -176,7 +176,7 @@ Check `vocabulary.json` to see:
 ## 📚 Documentation
 
 - **CLAUDE.md** - Complete operational guide and procedures
-- **DESIGN_DECISIONS.md** - Evolution history and design rationale  
+- **DESIGN_DECISIONS.md** - Evolution history and design rationale
 - **CARD_FORMAT.md** - Technical card specifications and Anki integration
 
 ---

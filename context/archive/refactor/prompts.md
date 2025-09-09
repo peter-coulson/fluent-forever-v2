@@ -35,7 +35,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
 1. Run current system baseline test and confirm it passes
-2. Verify validation gate tests are focused and realistic  
+2. Verify validation gate tests are focused and realistic
 3. Confirm total test time is <10 seconds
 4. Complete validation checklist from instructions
 5. Create handoff document using template: `context/refactor/handoff_template.md`
@@ -45,14 +45,14 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 ---
 
-## Session 2: Core Architecture  
+## Session 2: Core Architecture
 
 ### Prompt for Session 2
 
 **You are implementing Session 2 of the Fluent Forever V2 refactor. Your mission is to create the fundamental pipeline architecture and registry system that will serve as the foundation for all card types.**
 
 #### Required Input Files:
-- Read `context/refactor/refactor_summary.md` - Overall refactor plan  
+- Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/02_core_architecture.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/01_validation_gates_handoff.md` - Previous session context
 - Review `tests/validation_gates/test_session2_core.py` - Your validation gate
@@ -61,7 +61,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 #### Your Tasks (Use TodoWrite to Track):
 1. **Implement Pipeline abstraction** with clean interfaces
 2. **Create Stage system** with base classes and context flow
-3. **Build Registry system** for pipeline discovery and management  
+3. **Build Registry system** for pipeline discovery and management
 4. **Implement execution Context** for data flow between stages
 5. **Create exception hierarchy** for error handling
 6. **Build basic CLI framework** for universal commands
@@ -72,7 +72,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - [ ] Current system baseline test continues to pass (no regressions)
 - [ ] Session 2 validation gate passes (core architecture works)
 - [ ] Pipeline registry functionality works as specified
-- [ ] Basic pipeline execution patterns work  
+- [ ] Basic pipeline execution patterns work
 - [ ] Pipeline interface compliance is enforced
 - [ ] Unit test coverage >90% for all core components
 
@@ -96,7 +96,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Required Input Files:
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
-- Read `context/refactor/chunks/03_stage_system.md` - Your detailed instructions  
+- Read `context/refactor/chunks/03_stage_system.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/02_core_architecture_handoff.md` - Core architecture context
 - Review `tests/validation_gates/test_session3_stages.py` - Your validation gate
 - Review current processing scripts to extract common patterns
@@ -123,7 +123,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 #### Session Completion Requirements:
 ✅ **BEFORE marking complete, you MUST:**
 1. Verify baseline test + all current/previous validation gates pass
-2. Confirm stages can be chained together successfully  
+2. Confirm stages can be chained together successfully
 3. Test error handling works across stage boundaries
 4. Complete validation checklist from instructions
 5. Create handoff document: `context/refactor/completed_handoffs/03_stage_system_handoff.md`
@@ -153,7 +153,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 5. **Build provider registry** and factory system
 6. **Extract existing API logic** into provider implementations
 7. **Create comprehensive mock providers** for testing
-8. **Integrate providers with stage system** 
+8. **Integrate providers with stage system**
 9. **Create comprehensive unit tests** for all providers
 10. **Complete handoff document** for next session
 
@@ -170,7 +170,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 1. Verify baseline test + all current/previous validation gates pass
 2. Confirm all external dependencies abstracted behind providers
 3. Test mock providers enable comprehensive testing
-4. Complete validation checklist from instructions  
+4. Complete validation checklist from instructions
 5. Create handoff document: `context/refactor/completed_handoffs/04_provider_system_handoff.md`
 
 **You cannot complete this session until all external dependencies are properly abstracted.**
@@ -185,7 +185,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Required Input Files:
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
-- Read `context/refactor/chunks/05_cli_overhaul.md` - Your detailed instructions  
+- Read `context/refactor/chunks/05_cli_overhaul.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/04_provider_system_handoff.md` - Provider system context
 - Review `tests/validation_gates/test_session5_cli.py` - Your validation gate
 - Review `src/cli/` - Current CLI scripts to replace
@@ -193,7 +193,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 #### Your Tasks (Use TodoWrite to Track):
 1. **Enhance pipeline runner** with comprehensive command support
 2. **Implement all CLI commands** (list, info, run, preview)
-3. **Create CLI configuration system** 
+3. **Create CLI configuration system**
 4. **Build output formatting utilities**
 5. **Map all existing CLI functionality** to new commands
 6. **Create comprehensive argument validation**
@@ -230,7 +230,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 #### Required Input Files:
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/06_configuration_refactor.md` - Your detailed instructions
-- Read `context/refactor/completed_handoffs/05_cli_overhaul_handoff.md` - CLI system context  
+- Read `context/refactor/completed_handoffs/05_cli_overhaul_handoff.md` - CLI system context
 - Review `tests/validation_gates/test_session6_config.py` - Your validation gate
 - Review current config files: `config.json`, `.env`
 
@@ -242,7 +242,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 5. **Create configuration validation**
 6. **Migrate existing configuration** to new structure
 7. **Integrate configuration with all components**
-8. **Create configuration CLI commands** 
+8. **Create configuration CLI commands**
 9. **Create comprehensive unit tests** for configuration system
 10. **Complete handoff document** for next session
 
@@ -250,7 +250,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - [ ] Current system baseline test + all previous validation gates pass
 - [ ] Session 6 validation gate passes (configuration works)
 - [ ] Hierarchical configuration loading works correctly
-- [ ] Environment variable overrides function properly  
+- [ ] Environment variable overrides function properly
 - [ ] All existing configuration functionality preserved
 - [ ] Configuration changes don't require code changes
 
@@ -273,7 +273,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 **You are implementing Session 7 of the Fluent Forever V2 refactor. Your mission is to implement the vocabulary pipeline using the new architecture, ensuring all existing functionality is preserved while demonstrating the new modular system.**
 
 #### Required Input Files:
-- Read `context/refactor/refactor_summary.md` - Overall refactor plan  
+- Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/07_pipeline_implementation.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/06_configuration_refactor_handoff.md` - Configuration context
 - Review `tests/validation_gates/test_session7_vocabulary.py` - Your validation gate
@@ -285,7 +285,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 3. **Build data handling components** for vocabulary.json
 4. **Implement vocabulary validation stages**
 5. **Create pipeline template** for future card types
-6. **Register vocabulary pipeline** in global registry  
+6. **Register vocabulary pipeline** in global registry
 7. **Migrate all existing vocabulary functionality**
 8. **Ensure backward compatibility** with existing data
 9. **Create comprehensive unit tests** for vocabulary pipeline
@@ -311,7 +311,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 ---
 
-## Session 8: Multi-Pipeline Support  
+## Session 8: Multi-Pipeline Support
 
 ### Prompt for Session 8
 
@@ -321,7 +321,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
 - Read `context/refactor/chunks/08_multi_pipeline_support.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/07_pipeline_implementation_handoff.md` - Vocabulary pipeline context
-- Review `tests/validation_gates/test_session8_multi.py` - Your validation gate  
+- Review `tests/validation_gates/test_session8_multi.py` - Your validation gate
 - Review `src/utils/card_types.py` and `conjugations.json`
 
 #### Your Tasks (Use TodoWrite to Track):
@@ -333,7 +333,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 6. **Ensure resource isolation** between pipelines
 7. **Update CLI for multi-pipeline** support
 8. **Prevent conflicts** between pipeline operations
-9. **Create comprehensive unit tests** for conjugation pipeline  
+9. **Create comprehensive unit tests** for conjugation pipeline
 10. **Complete handoff document** for next session
 
 #### Mandatory Validation Gates (Must Pass):
@@ -364,7 +364,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Required Input Files:
 - Read `context/refactor/refactor_summary.md` - Overall refactor plan
-- Read `context/refactor/chunks/09_documentation_context.md` - Your detailed instructions  
+- Read `context/refactor/chunks/09_documentation_context.md` - Your detailed instructions
 - Read `context/refactor/completed_handoffs/08_multi_pipeline_support_handoff.md` - Multi-pipeline context
 - Review `tests/validation_gates/test_session9_docs.py` - Your validation gate
 - Review all current markdown files in project root
@@ -373,7 +373,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 1. **Create context directory structure** for all audiences
 2. **Migrate existing documentation** to appropriate contexts
 3. **Generate new documentation** for missing areas
-4. **Create navigation and index files** 
+4. **Create navigation and index files**
 5. **Build documentation management tools**
 6. **Create auto-generation** for reference materials
 7. **Add documentation currency tests**
@@ -407,7 +407,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Required TodoWrite Usage:
 - **Create TodoWrite list** immediately after reading instructions
-- **Mark items in_progress** before starting work (only one at a time)  
+- **Mark items in_progress** before starting work (only one at a time)
 - **Mark items completed** immediately after finishing
 - **Update todo list** if you discover additional work needed
 - **Clean up todo list** before session completion
@@ -429,7 +429,7 @@ Each prompt includes mandatory validation gates, todo list requirements, and han
 
 #### Error Handling:
 - If validation gates fail, **stop immediately** and investigate
-- If validation gates cannot be passed, **document why** in handoff  
+- If validation gates cannot be passed, **document why** in handoff
 - If architectural changes are needed, **document rationale**
 - If session cannot be completed, **mark as incomplete** and explain
 

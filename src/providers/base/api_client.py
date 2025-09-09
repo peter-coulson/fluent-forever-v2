@@ -11,11 +11,11 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import requests
 
-from utils.logging_config import ICONS, get_logger
+from src.utils.logging_config import ICONS, get_logger
 
 logger = get_logger("providers.base")
 
@@ -68,7 +68,7 @@ class BaseAPIClient(ABC):
                 )
                 raise
 
-        return cls._shared_config
+        return cls._shared_config or {}
 
     def __init__(self, service_name: str):
         self.config = self.load_config()
@@ -77,7 +77,7 @@ class BaseAPIClient(ABC):
         self.session = requests.Session()
         self._setup_session()
 
-    def _setup_session(self):
+    def _setup_session(self) -> None:
         """Configure the requests session with common settings"""
         # Handle both old and new config structure during migration
         if "apis" in self.config and "base" in self.config["apis"]:
@@ -94,8 +94,8 @@ class BaseAPIClient(ABC):
                 "Accept": "application/json",
             }
         )
-        # Set timeout from config
-        self.session.timeout = base_config.get("timeout", 30)
+        # Store timeout for use in requests
+        self.timeout = base_config.get("timeout", 30)
 
     def _load_api_key(self, env_var: str) -> str:
         """Load API key from environment variable"""
@@ -105,7 +105,7 @@ class BaseAPIClient(ABC):
         return api_key
 
     def _make_request(
-        self, method: str, url: str, max_retries: int | None = None, **kwargs
+        self, method: str, url: str, max_retries: Optional[int] = None, **kwargs: Any
     ) -> APIResponse:
         """
         Make HTTP request with retry logic and error handling
@@ -136,7 +136,7 @@ class BaseAPIClient(ABC):
                     f"Making {method} request to {url} (attempt {attempt + 1}/{max_retries})"
                 )
 
-                response = self.session.request(method, url, **kwargs)
+                response = self.session.request(method, url, timeout=self.timeout, **kwargs)
 
                 # Handle rate limiting
                 if response.status_code == 429:

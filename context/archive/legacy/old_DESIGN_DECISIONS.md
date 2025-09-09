@@ -1,4 +1,4 @@
-<!-- 
+<!--
 ARCHIVED DOCUMENT
 Original: DESIGN_DECISIONS.md
 Archived Location: context/archive/legacy/old_DESIGN_DECISIONS.md
@@ -15,7 +15,7 @@ For current documentation, see context/README.md
 ### 1. **Memory-First Learning**
 Personal visual associations create deep emotional memory anchors. The creative act of writing prompts is part of the learning process, not overhead to eliminate.
 
-### 2. **Intelligent Automation** 
+### 2. **Intelligent Automation**
 Automate only mechanical tasks (audio download, image generation, file management). Preserve human creativity in prompt writing and Claude's intelligence in meaning analysis.
 
 ### 3. **Radical Simplicity**
@@ -108,7 +108,7 @@ Outcome: Faster card creation with strict safety rails, cheaper media operations
 
 **Core Workflow**:
 ```
-word_queue.txt → Claude analyzes meanings → User provides prompts → 
+word_queue.txt → Claude analyzes meanings → User provides prompts →
 → Stable Diffusion generates → Forvo downloads → Anki cards created
 ```
 
@@ -119,7 +119,7 @@ word_queue.txt → Claude analyzes meanings → User provides prompts →
 
 **Testing Results**:
 - **Personal Characters**: ❌ Complete inconsistency across images
-- **Quentin Blake Style**: ❌ Too variable and interpretive  
+- **Quentin Blake Style**: ❌ Too variable and interpretive
 - **Local Generation**: ❌ Minutes per image vs seconds
 - **Setup Complexity**: ❌ High barrier to entry
 
@@ -200,7 +200,7 @@ word_queue.txt → Claude analyzes meanings → User provides prompts →
 
 **Innovation**: **Dynamic sentence generation**
 - User provides visual scene description
-- LLM analyzes: word + meaning + visual context  
+- LLM analyzes: word + meaning + visual context
 - Generates perfect Spanish sentence matching scene
 - Creates ideal image-language memory connections
 
@@ -216,33 +216,33 @@ word_queue.txt → Claude analyzes meanings → User provides prompts →
 ## 🎨 Critical Design Decisions & Rationale
 
 ### **🔄 Decision 1: Local Models → API Integration**
-**Original Plan**: Automatic1111 + SDXL models + LoRA training  
-**Final Decision**: OpenAI DALL-E 3 API  
+**Original Plan**: Automatic1111 + SDXL models + LoRA training
+**Final Decision**: OpenAI DALL-E 3 API
 **Reasoning**: Quality and speed trump cost for learning effectiveness
 
 ### **🎭 Decision 2: Character Consistency Strategy**
-**Original Plan**: Personal friends as cartoon characters  
-**Reality**: Text descriptions cannot maintain character consistency  
-**Final Decision**: Generic Ghibli characters with emotional engagement  
+**Original Plan**: Personal friends as cartoon characters
+**Reality**: Text descriptions cannot maintain character consistency
+**Final Decision**: Generic Ghibli characters with emotional engagement
 **Reasoning**: Consistency more important than personalization for learning
 
 ### **⚡ Decision 3: Batch Processing Workflow**
-**Original**: Individual word processing  
-**Evolution**: 5-word batches with overflow management  
-**Final**: Claude-managed batches with meaning analysis  
+**Original**: Individual word processing
+**Evolution**: 5-word batches with overflow management
+**Final**: Claude-managed batches with meaning analysis
 **Reasoning**: Optimal balance of efficiency and user control
 
 ### **📱 Decision 4: Claude Integration Philosophy**
-**Principle**: "Automate repetitive tasks, Claude handles intelligent decisions"  
-**Implementation**: 
+**Principle**: "Automate repetitive tasks, Claude handles intelligent decisions"
+**Implementation**:
 - Claude analyzes word meanings (intelligence)
 - System generates media (repetition)
 - User provides creative input (engagement)
 - System creates cards (automation)
 
 ### **🔧 Decision 5: Simplicity Over Features**
-**Philosophy**: "Memorable is better than perfect"  
-**Implementation**: Single script, clear workflow, minimal complexity  
+**Philosophy**: "Memorable is better than perfect"
+**Implementation**: Single script, clear workflow, minimal complexity
 **Rejected**: Multi-file architectures, advanced state management, unnecessary optimization
 
 ---
@@ -251,7 +251,7 @@ word_queue.txt → Claude analyzes meanings → User provides prompts →
 
 ### **Investment vs Value**
 - **Testing Phase**: ~$1.30 (32+ test images) - **Essential learning**
-- **Per Batch**: $0.20-0.25 (5 cards) - **Sustainable daily practice**  
+- **Per Batch**: $0.20-0.25 (5 cards) - **Sustainable daily practice**
 - **Complete System**: ~$25-50 for 100-word frequency list - **Reasonable for fluency**
 
 ### **Value Delivered**
@@ -264,14 +264,14 @@ word_queue.txt → Claude analyzes meanings → User provides prompts →
 
 ## 🎯 Success Criteria (All Achieved)
 
-✅ **Autonomous processing pipeline** from word queue to Anki cards  
-✅ **Intelligent meaning analysis** built into system logic  
-✅ **One card per meaning** following Fluent Forever methodology  
-✅ **Consistent artistic style** (Studio Ghibli)  
-✅ **Native audio integration** (Forvo API with LA priority)  
-✅ **Direct Anki integration** (AnkiConnect V6)  
-✅ **Cost-effective operation** (<$1/day for active learning)  
-✅ **Simplified codebase** (single autonomous script)  
+✅ **Autonomous processing pipeline** from word queue to Anki cards
+✅ **Intelligent meaning analysis** built into system logic
+✅ **One card per meaning** following Fluent Forever methodology
+✅ **Consistent artistic style** (Studio Ghibli)
+✅ **Native audio integration** (Forvo API with LA priority)
+✅ **Direct Anki integration** (AnkiConnect V6)
+✅ **Cost-effective operation** (<$1/day for active learning)
+✅ **Simplified codebase** (single autonomous script)
 ✅ **Graceful error handling** (never lose user work)
 ✅ **Optimal pronunciation** (contextual fricative system)
 ✅ **Perfect contextual alignment** (LLM-generated sentences)
@@ -283,7 +283,7 @@ word_queue.txt → Claude analyzes meanings → User provides prompts →
 
 ### **Local Model Infrastructure**
 - Automatic1111 setup complexity
-- SDXL model storage requirements  
+- SDXL model storage requirements
 - LoRA training time investment
 - Hardware optimization needs
 
@@ -349,9 +349,9 @@ word_queue.txt → Claude analyzes meanings → User provides prompts →
 
 ---
 
-*System Design V2.7*  
-*Current Implementation: August 13, 2025*  
-*Philosophy: Autonomous intelligent automation serving memory-first language learning*  
+*System Design V2.7*
+*Current Implementation: August 13, 2025*
+*Philosophy: Autonomous intelligent automation serving memory-first language learning*
 *Status: Production Ready - Vision Exceeded Through Continuous Evolution*
 
 **Latest Breakthrough**: Autonomous processing + contextual fricatives + LLM sentence generation = seamless daily practice with optimal learning outcomes.

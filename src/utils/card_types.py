@@ -13,7 +13,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any
 
-from utils.logging_config import get_logger
+from src.utils.logging_config import get_logger
 
 logger = get_logger("utils.card_types")
 

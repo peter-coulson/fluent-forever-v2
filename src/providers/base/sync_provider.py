@@ -7,7 +7,7 @@ Abstract interface for sync targets (Anki, other flashcard systems, etc.)
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 @dataclass
@@ -18,7 +18,7 @@ class SyncRequest:
     data: Any  # Data to sync
     params: dict[str, Any] | None = None  # Additional parameters
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate request after initialization"""
         if not self.target:
             raise ValueError("Sync target cannot be empty")
@@ -36,9 +36,9 @@ class SyncResult:
     processed_count: int
     metadata: dict[str, Any]
     error_message: str = ""
-    created_ids: list[Any] = None
+    created_ids: Optional[list[Any]] = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate result after initialization"""
         if self.metadata is None:
             self.metadata = {}
@@ -121,8 +121,7 @@ class SyncProvider(ABC):
             # If batch sync succeeded, create single-card result
             return SyncResult(
                 success=True,
-                target_id=result.target_id,
+                processed_count=1,
                 metadata={"cards_synced": 1, **result.metadata},
-                error=None,
             )
         return result

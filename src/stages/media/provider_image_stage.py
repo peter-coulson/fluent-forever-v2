@@ -7,11 +7,11 @@ Example stage that uses the provider system for image generation.
 from pathlib import Path
 from typing import Any
 
-from core.context import PipelineContext
-from core.stages import StageResult, StageStatus
-from providers.base.media_provider import MediaProvider, MediaRequest
-from stages.base.api_stage import APIStage
-from utils.logging_config import ICONS, get_logger
+from src.core.context import PipelineContext
+from src.core.stages import StageResult, StageStatus
+from src.providers.base.media_provider import MediaProvider, MediaRequest
+from src.stages.base.api_stage import APIStage
+from src.utils.logging_config import ICONS, get_logger
 
 logger = get_logger("stages.media.provider_image")
 

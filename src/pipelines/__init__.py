@@ -1,7 +1,7 @@
 """Pipeline implementations for different card types."""
 
 # Import registry for future use
-from core.registry import get_pipeline_registry
+from src.core.registry import get_pipeline_registry
 
 
 def register_all_pipelines():

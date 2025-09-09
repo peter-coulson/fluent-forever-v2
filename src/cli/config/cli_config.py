@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from providers.registry import ProviderRegistry
+from src.providers.registry import ProviderRegistry
 
 
 class CLIConfig:

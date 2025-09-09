@@ -7,7 +7,7 @@ Mock provider for testing that simulates sync operations without actual syncing.
 import time
 from pathlib import Path
 
-from providers.base.sync_provider import SyncProvider, SyncResult
+from src.providers.base.sync_provider import SyncProvider, SyncResult
 
 
 class MockSyncProvider(SyncProvider):

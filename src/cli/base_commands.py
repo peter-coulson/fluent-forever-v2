@@ -4,8 +4,8 @@ import argparse
 from abc import ABC, abstractmethod
 from pathlib import Path
 
-from core.context import PipelineContext
-from core.registry import PipelineRegistry
+from src.core.context import PipelineContext
+from src.core.registry import PipelineRegistry
 
 
 class BaseCommand(ABC):

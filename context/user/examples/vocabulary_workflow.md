@@ -34,7 +34,7 @@ python -m cli.pipeline run vocabulary --stage prepare_batch --words haber,por,co
 ✅ Generated batch staging file: staging/claude_batch_20241201_143022.json
 📊 Batch composition:
   - haber: 3 meanings
-  - por: 4 meanings  
+  - por: 4 meanings
   - con: 2 meanings
 📋 Total: 9 cards (exceeds limit of 5)
 ⚠️  Recommendation: Split into two batches for optimal processing

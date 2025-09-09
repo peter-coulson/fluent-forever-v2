@@ -7,8 +7,8 @@ Utilities for integrating providers with the stage system.
 from pathlib import Path
 from typing import Any
 
-from core.context import PipelineContext
-from utils.logging_config import ICONS, get_logger
+from src.core.context import PipelineContext
+from src.utils.logging_config import ICONS, get_logger
 
 from .registry import (
     DataProviderFactory,

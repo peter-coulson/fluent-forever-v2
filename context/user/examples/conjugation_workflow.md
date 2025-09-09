@@ -8,7 +8,7 @@ This example demonstrates creating conjugation cards for Spanish verbs "hablar,"
 
 ## Prerequisites
 
-- System installed and configured 
+- System installed and configured
 - Vocabulary pipeline setup complete
 - Understanding of Spanish verb conjugation basics
 
@@ -31,7 +31,7 @@ python -m cli.pipeline run conjugation --stage analyze_verbs --verbs hablar,come
 ```
 ✅ Analyzed 3 verbs:
   - hablar (AR verb): 20 conjugations
-  - comer (ER verb): 20 conjugations  
+  - comer (ER verb): 20 conjugations
   - vivir (IR verb): 20 conjugations
 📊 Total conjugation pairs: 60
 ```
@@ -72,7 +72,7 @@ python -m cli.pipeline run conjugation --stage sync_cards --execute
 ```bash
 # Environment setup - see Quick Start Guide
 python -m cli.pipeline run conjugation --stage analyze_verbs --verbs hablar,comer,vivir
-python -m cli.pipeline run conjugation --stage create_cards  
+python -m cli.pipeline run conjugation --stage create_cards
 python -m cli.pipeline run conjugation --stage generate_media --execute
 python -m cli.pipeline run conjugation --stage sync_cards --execute
 ```

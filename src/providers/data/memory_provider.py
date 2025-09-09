@@ -7,7 +7,7 @@ In-memory data provider for testing and temporary storage.
 import copy
 from typing import Any
 
-from providers.base.data_provider import DataProvider
+from src.providers.base.data_provider import DataProvider
 
 
 class MemoryDataProvider(DataProvider):

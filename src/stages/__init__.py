@@ -15,9 +15,9 @@ Usage:
     available = list_stages()
 """
 
-from typing import Dict, List, Type
+from typing import Any
 
-from core.stages import Stage
+from src.core.stages import Stage
 
 from .base.api_stage import APIStage
 

@@ -74,7 +74,7 @@ python -m cli.pipeline run vocabulary --stage generate_media --execute
 python -m cli.pipeline run vocabulary --stage sync_anki --execute
 ```
 
-### Conjugation Cards  
+### Conjugation Cards
 ```bash
 # Always activate environment first
 source activate_env.sh

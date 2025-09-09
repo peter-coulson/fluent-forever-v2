@@ -7,7 +7,7 @@
       "back": "templates/Card1_Back.html"
     },
     {
-      "name": "Card 2", 
+      "name": "Card 2",
       "front": "templates/Card2_Front.html",
       "back": "templates/Card2_Back.html"
     }
@@ -15,7 +15,7 @@
   "css": "styling.css",
   "fields": [
     "Front",
-    "Back", 
+    "Back",
     "Add Reverse",
     "Sentence",
     "Extra",

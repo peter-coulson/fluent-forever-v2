@@ -52,7 +52,7 @@ from enum import Enum
 
 class ConfigLevel(Enum):
     SYSTEM = "system"
-    PIPELINE = "pipeline"  
+    PIPELINE = "pipeline"
     PROVIDER = "provider"
     ENVIRONMENT = "environment"
     CLI = "cli"
@@ -66,30 +66,30 @@ class ConfigSource:
 
 class ConfigManager:
     """Hierarchical configuration management"""
-    
+
     def __init__(self, base_path: Path):
         self.base_path = Path(base_path)
         self.config_cache: Dict[str, Dict[str, Any]] = {}
         self.sources: List[ConfigSource] = []
-    
+
     def load_config(self, config_type: str, name: Optional[str] = None) -> Dict[str, Any]:
         """Load configuration with hierarchy resolution"""
         cache_key = f"{config_type}:{name or 'default'}"
-        
+
         if cache_key in self.config_cache:
             return self.config_cache[cache_key]
-        
+
         config = self._merge_configurations(config_type, name)
         self.config_cache[cache_key] = config
         return config
-    
+
     def _merge_configurations(self, config_type: str, name: Optional[str]) -> Dict[str, Any]:
         """Merge configurations from all applicable sources"""
         merged_config = {}
-        
+
         # Load in priority order (lower priority first)
         sources = self._get_config_sources(config_type, name)
-        
+
         for source in sorted(sources, key=lambda s: s.priority):
             if source.path.exists():
                 try:
@@ -97,20 +97,20 @@ class ConfigManager:
                     merged_config = self._deep_merge(merged_config, source_config)
                 except (json.JSONDecodeError, IOError) as e:
                     print(f"Warning: Failed to load {source.path}: {e}")
-        
+
         # Apply environment variable overrides
         self._apply_env_overrides(merged_config)
-        
+
         return merged_config
-    
+
     def _get_config_sources(self, config_type: str, name: Optional[str]) -> List[ConfigSource]:
         """Get all applicable configuration sources"""
         sources = []
-        
+
         # Core system config (lowest priority)
         core_path = self.base_path / 'config' / 'core.json'
         sources.append(ConfigSource(core_path, ConfigLevel.SYSTEM, 1))
-        
+
         # Type-specific config
         if config_type == 'pipeline' and name:
             pipeline_path = self.base_path / 'config' / 'pipelines' / f'{name}.json'
@@ -121,26 +121,26 @@ class ConfigManager:
         elif config_type == 'cli':
             cli_path = self.base_path / 'config' / 'cli' / 'defaults.json'
             sources.append(ConfigSource(cli_path, ConfigLevel.CLI, 2))
-        
+
         # Environment-specific overrides (highest priority)
         env = os.getenv('FLUENT_ENV', 'development')
         env_path = self.base_path / 'config' / 'environments' / f'{env}.json'
         sources.append(ConfigSource(env_path, ConfigLevel.ENVIRONMENT, 3))
-        
+
         return sources
-    
+
     def _deep_merge(self, base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
         """Deep merge two configuration dictionaries"""
         result = base.copy()
-        
+
         for key, value in override.items():
             if key in result and isinstance(result[key], dict) and isinstance(value, dict):
                 result[key] = self._deep_merge(result[key], value)
             else:
                 result[key] = value
-        
+
         return result
-    
+
     def _apply_env_overrides(self, config: Dict[str, Any]) -> None:
         """Apply environment variable overrides"""
         # Look for FF_ prefixed environment variables
@@ -148,25 +148,25 @@ class ConfigManager:
             if env_key.startswith('FF_'):
                 config_key = env_key[3:].lower().replace('_', '.')
                 self._set_nested_config(config, config_key, env_value)
-    
+
     def _set_nested_config(self, config: Dict[str, Any], key_path: str, value: str) -> None:
         """Set nested configuration value from dot notation"""
         keys = key_path.split('.')
         current = config
-        
+
         for key in keys[:-1]:
             if key not in current:
                 current[key] = {}
             current = current[key]
-        
+
         # Try to parse value as JSON, fall back to string
         try:
             parsed_value = json.loads(value)
         except json.JSONDecodeError:
             parsed_value = value
-        
+
         current[keys[-1]] = parsed_value
-    
+
     def clear_cache(self) -> None:
         """Clear configuration cache"""
         self.config_cache.clear()
@@ -195,7 +195,7 @@ class ProviderConfig:
     type: str
     enabled: bool = True
     config: Dict[str, Any] = None
-    
+
     def __post_init__(self):
         if self.config is None:
             self.config = {}
@@ -210,12 +210,12 @@ class PipelineConfig:
     stages: List[str]
     providers: Dict[str, str]  # stage -> provider mapping
     config: Dict[str, Any] = None
-    
+
     def __post_init__(self):
         if self.config is None:
             self.config = {}
 
-@dataclass  
+@dataclass
 class SystemConfig:
     """System-wide configuration"""
     project_root: str
@@ -223,7 +223,7 @@ class SystemConfig:
     cache_enabled: bool = True
     max_concurrent_requests: int = 5
     timeout_seconds: int = 300
-    
+
 @dataclass
 class CLIConfig:
     """CLI configuration"""
@@ -267,7 +267,7 @@ class CLIConfig:
     "anki_note_type": "Fluent Forever",
     "stages": [
       "analyze_words",
-      "prepare_batch", 
+      "prepare_batch",
       "ingest_batch",
       "generate_media",
       "validate_data",
@@ -277,7 +277,7 @@ class CLIConfig:
   },
   "stage_providers": {
     "generate_media": "openai_forvo",
-    "sync_templates": "anki", 
+    "sync_templates": "anki",
     "sync_cards": "anki"
   },
   "batch_settings": {
@@ -305,7 +305,7 @@ class CLIConfig:
   },
   "image_generation": {
     "model": "dall-e-3",
-    "size": "1024x1024", 
+    "size": "1024x1024",
     "quality": "standard",
     "style": "vivid"
   },
@@ -376,24 +376,24 @@ def initialize_providers_from_config() -> None:
     """Initialize all providers from configuration"""
     config_manager = get_config_manager()
     provider_registry = get_provider_registry()
-    
+
     # Load provider configurations
     openai_config = config_manager.load_config('provider', 'openai')
     forvo_config = config_manager.load_config('provider', 'forvo')
     anki_config = config_manager.load_config('provider', 'anki')
-    
+
     # Create and register providers
     from providers.media.openai_provider import OpenAIMediaProvider
-    from providers.media.forvo_provider import ForvoMediaProvider  
+    from providers.media.forvo_provider import ForvoMediaProvider
     from providers.sync.anki_provider import AnkiSyncProvider
     from providers.data.json_provider import JSONDataProvider
-    
+
     # Data provider
     core_config = config_manager.load_config('system')
     project_root = Path(core_config['system']['project_root'])
     data_provider = JSONDataProvider(project_root)
     provider_registry.register_data_provider('default', data_provider)
-    
+
     # Media providers
     if openai_config.get('provider', {}).get('enabled', True):
         openai_provider = OpenAIMediaProvider(
@@ -401,8 +401,8 @@ def initialize_providers_from_config() -> None:
             config=openai_config
         )
         provider_registry.register_media_provider('openai', openai_provider)
-    
-    # Sync providers  
+
+    # Sync providers
     if anki_config.get('provider', {}).get('enabled', True):
         anki_provider = AnkiSyncProvider(config=anki_config)
         provider_registry.register_sync_provider('anki', anki_provider)
@@ -414,7 +414,7 @@ def create_pipeline_from_config(pipeline_name: str) -> Pipeline:
     """Create pipeline instance from configuration"""
     config_manager = get_config_manager()
     pipeline_config = config_manager.load_config('pipeline', pipeline_name)
-    
+
     if pipeline_name == 'vocabulary':
         from pipelines.vocabulary.vocabulary_pipeline import VocabularyPipeline
         return VocabularyPipeline(config=pipeline_config)
@@ -433,7 +433,7 @@ Add configuration management to CLI:
 # In cli/commands/config_command.py
 class ConfigCommand:
     """Configuration management commands"""
-    
+
     def execute(self, args) -> int:
         """Execute config command"""
         if args.action == 'show':
@@ -445,18 +445,18 @@ class ConfigCommand:
         else:
             print(f"Unknown config action: {args.action}")
             return 1
-    
+
     def _show_config(self, args) -> int:
         """Show current configuration"""
         config_manager = get_config_manager()
-        
+
         if args.type and args.name:
             config = config_manager.load_config(args.type, args.name)
             print(json.dumps(config, indent=2))
         else:
             # Show all configurations
             pass
-        
+
         return 0
 ```
 

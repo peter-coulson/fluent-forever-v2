@@ -11,14 +11,14 @@ from pathlib import Path
 from typing import Any
 
 # Import command classes
-from cli.commands import InfoCommand, ListCommand, PreviewCommand, RunCommand
-from cli.config.cli_config import CLIConfig
-from cli.utils.validation import validate_arguments
-from core.context import PipelineContext
-from core.exceptions import PipelineError
-from core.registry import get_pipeline_registry
-from providers.registry import get_provider_registry
-from utils.logging_config import ICONS, setup_logging
+from src.cli.commands import InfoCommand, ListCommand, PreviewCommand, RunCommand
+from src.cli.config.cli_config import CLIConfig
+from src.cli.utils.validation import validate_arguments
+from src.core.context import PipelineContext
+from src.core.exceptions import PipelineError
+from src.core.registry import get_pipeline_registry
+from src.providers.registry import get_provider_registry
+from src.utils.logging_config import ICONS, setup_logging
 
 
 def create_parser() -> argparse.ArgumentParser:

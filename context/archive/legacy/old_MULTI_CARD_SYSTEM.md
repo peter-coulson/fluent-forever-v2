@@ -1,4 +1,4 @@
-<!-- 
+<!--
 ARCHIVED DOCUMENT
 Original: MULTI_CARD_SYSTEM.md
 Archived Location: context/archive/legacy/old_MULTI_CARD_SYSTEM.md
@@ -22,11 +22,11 @@ This system extends the original Fluent Forever implementation to support multip
 
 ## Key Features
 
-✅ **Local Representation**: Each card type has its own templates and data structure  
-✅ **Preview System**: Preview any card type in browser with live reload  
-✅ **Sync Functionality**: Sync templates and styling to Anki  
-✅ **Modular Design**: Easy to add new card types  
-✅ **Backwards Compatible**: Existing Fluent Forever system unchanged  
+✅ **Local Representation**: Each card type has its own templates and data structure
+✅ **Preview System**: Preview any card type in browser with live reload
+✅ **Sync Functionality**: Sync templates and styling to Anki
+✅ **Modular Design**: Easy to add new card types
+✅ **Backwards Compatible**: Existing Fluent Forever system unchanged
 
 ## Quick Start
 
@@ -79,7 +79,7 @@ Based on the Fluent Forever methodology for grammar cards:
 - **Back**: Reveals the infinitive form
 - **Purpose**: Connect conjugated forms to root verbs
 
-### Card 2: Root Form Comprehension  
+### Card 2: Root Form Comprehension
 - **Front**: Shows infinitive verb
 - **Back**: Shows usage in context with example sentence
 - **Purpose**: Understand verb usage patterns
@@ -90,7 +90,7 @@ Based on the Fluent Forever methodology for grammar cards:
 {
   "CardID": "hablar_present_yo",
   "Front": "hablo",
-  "Back": "hablar", 
+  "Back": "hablar",
   "Sentence": "Yo _____ español todos los días.",
   "Extra": "Present tense, first person singular (I speak)",
   "Add Reverse": "1"
@@ -166,7 +166,7 @@ python -m cli.sync_anki_multi --list-types
 - Registry pattern for managing card types
 - Extensible design for new card types
 
-### Template System  
+### Template System
 - Each card type has its own template directory
 - Manifest-based template definition
 - Shared CSS styling system

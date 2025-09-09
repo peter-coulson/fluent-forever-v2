@@ -28,7 +28,7 @@ class WordProcessor:
         # Debug output coordination
 ```
 
-#### DictionaryFetcher (dictionary_fetcher.py) 
+#### DictionaryFetcher (dictionary_fetcher.py)
 ```python
 class DictionaryFetcher:
     def fetch_word_data(self, word: str) -> DictionaryEntry:
@@ -110,7 +110,7 @@ Stage 2 supports two launch methods:
 ### Algorithm Overview
 Group senses by English translations, keeping only unique groups (no subsets):
 - Group senses with identical English translations after normalization (lowercase, sorted)
-- Eliminate subset groups using set operations (e.g., "call" is subset of "call, name, refer to") 
+- Eliminate subset groups using set operations (e.g., "call" is subset of "call, name, refer to")
 - Example grouping: `[{1,2: "call, name, refer to"}, {3: "summon"}, {10: "knock, ring"}, {11: "attract, appeal"}]`
 
 ### Sense Selection Logic
@@ -136,7 +136,7 @@ Follow existing validation pattern - return `List[str]` of error messages (empty
 - Required fields (word, senses, translations): Add to error list, skip entry
 - Optional fields (gender): Continue processing, log warning
 
-### Malformed Field Handling  
+### Malformed Field Handling
 - Use try-catch blocks with specific exception handling
 - Accumulate errors in lists for batch reporting
 - Continue processing remaining entries
@@ -154,7 +154,7 @@ Follow existing validation pattern - return `List[str]` of error messages (empty
 
 ### Filtering Logic
 **Always applied regardless of word source:**
-- Filter duplicate CardIDs against vocabulary.json 
+- Filter duplicate CardIDs against vocabulary.json
 - Filter duplicate CardIDs against current word queue
 - Enables reprocessing words for new senses
 - Provides safety net for all processing paths
@@ -191,7 +191,7 @@ Use `raw_tags` field to identify Colombian phonological features:
 - `yeísta`: Merges /ʎ/ (ll) and /ʝ/ (y) as /ʝ/
 
 **Avoided Tags:**
-- `no seseante`: Peninsular Spanish distinción 
+- `no seseante`: Peninsular Spanish distinción
 - `sheísta`: Argentine /ʃ/ pronunciation of ll/y
 - `zheísta`: Argentine /ʒ/ pronunciation of ll/y
 - `no sheísta`: Explicitly non-/ʃ/ (still not Colombian)
@@ -295,19 +295,19 @@ from .word_processing.word_processor import WordProcessor
 
 class WordProcessingStage(Stage):
     """Stage 2: Process dictionary data for selected words"""
-    
+
     @property
     def name(self) -> str:
         return "word_processing"
-    
+
     @property
     def display_name(self) -> str:
         return "Word Processing"
-    
+
     @property
     def dependencies(self) -> List[str]:
         return ["word_selection"]  # Requires Stage 1 output
-    
+
     def validate_context(self, context: PipelineContext) -> List[str]:
         errors = []
         selected_words = context.get("selected_words")
@@ -316,28 +316,28 @@ class WordProcessingStage(Stage):
         if not isinstance(selected_words, list):
             errors.append("selected_words must be a list")
         return errors
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         """Execute the complex Stage 2 word processing pipeline"""
         try:
             # Get input from Stage 1
             selected_words = context.get("selected_words", [])
             debug_level = context.get("debug_level", "basic")
-            
+
             # Initialize the complex word processor orchestrator
             processor = WordProcessor()
-            
+
             # Execute the full Stage 2 pipeline
             result = processor.process_words(
                 word_list=selected_words,
                 debug_level=debug_level
             )
-            
+
             # Update context for Stage 3
             context.set("processed_entries", result.entries)
             context.set("word_queue_updated", True)
             context.set("processing_stats", result.stats)
-            
+
             return StageResult.success(
                 f"Processed {len(result.entries)} word entries with {len(result.errors)} errors",
                 {
@@ -346,7 +346,7 @@ class WordProcessingStage(Stage):
                     "warnings": result.warnings
                 }
             )
-            
+
         except ValidationError as e:
             return StageResult.failure(
                 "Dictionary validation failed",

@@ -100,7 +100,7 @@
       "meaning_entry": {
         "required_fields": [
           "CardID",
-          "SpanishWord", 
+          "SpanishWord",
           "IPA",
           "MeaningContext",
           "MonolingualDef",

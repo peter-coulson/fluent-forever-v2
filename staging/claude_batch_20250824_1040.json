@@ -23,7 +23,7 @@
     },
     {
       "SpanishWord": "desde",
-      "MeaningID": "temporal_starting_point", 
+      "MeaningID": "temporal_starting_point",
       "MeaningContext": "Time when something began and continues",
       "MonolingualDef": "Marca el momento en el pasado cuando algo comenzó y continúa",
       "ExampleSentence": "Esperamos desde las seis de la tarde",
@@ -34,7 +34,7 @@
     {
       "SpanishWord": "eso",
       "MeaningID": "distant_demonstrative",
-      "MeaningContext": "Refers to something neuter, not close to speaker", 
+      "MeaningContext": "Refers to something neuter, not close to speaker",
       "MonolingualDef": "Se refiere a algo neutro que no está cerca del hablante",
       "ExampleSentence": "Eso fue increíble en la ceremonia",
       "GappedSentence": "_____ fue increíble en la ceremonia",
@@ -46,7 +46,7 @@
       "MeaningID": "negative_conjunction",
       "MeaningContext": "Connects negative alternatives, reinforces negation",
       "MonolingualDef": "Conecta alternativas negativas y refuerza la negación",
-      "ExampleSentence": "No puedo comer ni pasta ni pan", 
+      "ExampleSentence": "No puedo comer ni pasta ni pan",
       "GappedSentence": "No puedo comer _____ pasta _____ pan",
       "IPA": "[ni]",
       "prompt": "On the dinner table a bowl of steaming pasta and a french bagette."

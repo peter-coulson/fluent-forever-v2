@@ -6,7 +6,7 @@ Placeholder for OpenAI-based media generation
 
 from pathlib import Path
 
-from providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
+from src.providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
 
 
 class OpenAIProvider(MediaProvider):

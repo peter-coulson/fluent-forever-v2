@@ -33,14 +33,14 @@ src/
 │   ├── media/                   # Media generation stages
 │   │   ├── __init__.py
 │   │   ├── image_stage.py      # Image generation
-│   │   ├── audio_stage.py      # Audio generation  
+│   │   ├── audio_stage.py      # Audio generation
 │   │   └── media_stage.py      # Combined media generation
 │   ├── sync/                    # Synchronization stages
 │   │   ├── __init__.py
 │   │   ├── template_stage.py   # Template sync
 │   │   ├── media_sync_stage.py # Media sync
 │   │   └── card_stage.py       # Card sync
-│   └── validation/              # Validation stages  
+│   └── validation/              # Validation stages
 │       ├── __init__.py
 │       ├── data_stage.py       # Data validation
 │       ├── ipa_stage.py        # IPA validation
@@ -62,19 +62,19 @@ from core.context import PipelineContext
 
 class FileLoadStage(Stage):
     """Load data from JSON file"""
-    
+
     def __init__(self, file_key: str, required: bool = True):
         self.file_key = file_key  # Key in context for file path
         self.required = required
-    
+
     @property
     def name(self) -> str:
         return f"load_{self.file_key}"
-    
+
     @property
     def display_name(self) -> str:
         return f"Load {self.file_key}"
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         # Implementation...
         pass
@@ -84,20 +84,20 @@ class FileSaveStage(Stage):
     # Similar pattern...
 ```
 
-#### Validation Base (`validation_stage.py`)  
+#### Validation Base (`validation_stage.py`)
 ```python
 class ValidationStage(Stage):
     """Base class for validation stages"""
-    
+
     @abstractmethod
     def validate_data(self, data: Dict[str, Any]) -> List[str]:
         """Return list of validation errors"""
         pass
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         data = context.get(self.data_key)
         errors = self.validate_data(data)
-        
+
         if errors:
             return StageResult(
                 status=StageStatus.FAILURE,
@@ -105,7 +105,7 @@ class ValidationStage(Stage):
                 data={},
                 errors=errors
             )
-        
+
         return StageResult(
             status=StageStatus.SUCCESS,
             message="Validation passed",
@@ -118,10 +118,10 @@ class ValidationStage(Stage):
 ```python
 class APIStage(Stage):
     """Base class for external API operations"""
-    
+
     def __init__(self, provider_key: str):
         self.provider_key = provider_key
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         provider = context.get(f"providers.{self.provider_key}")
         if not provider:
@@ -131,9 +131,9 @@ class APIStage(Stage):
                 data={},
                 errors=[f"Missing provider: {self.provider_key}"]
             )
-        
+
         return self.execute_api_call(context, provider)
-    
+
     @abstractmethod
     def execute_api_call(self, context: PipelineContext, provider) -> StageResult:
         """Execute the API call with provider"""
@@ -146,15 +146,15 @@ class APIStage(Stage):
 ```python
 class WordAnalysisStage(Stage):
     """Analyze word meanings (vocabulary pipeline specific)"""
-    
+
     @property
     def name(self) -> str:
         return "analyze_words"
-    
+
     @property
     def display_name(self) -> str:
         return "Analyze Word Meanings"
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         words = context.get('words', [])
         if not words:
@@ -164,10 +164,10 @@ class WordAnalysisStage(Stage):
                 data={},
                 errors=["Missing 'words' in context"]
             )
-        
+
         # Analysis logic (extracted from current system)
         analyzed_meanings = self.analyze_meanings(words)
-        
+
         context.set('analyzed_meanings', analyzed_meanings)
         return StageResult(
             status=StageStatus.SUCCESS,
@@ -175,7 +175,7 @@ class WordAnalysisStage(Stage):
             data={'meanings': analyzed_meanings},
             errors=[]
         )
-    
+
     def analyze_meanings(self, words: List[str]) -> List[Dict[str, Any]]:
         """Analyze words and extract distinct meanings"""
         # Extract from existing vocabulary logic
@@ -186,7 +186,7 @@ class WordAnalysisStage(Stage):
 ```python
 class BatchPreparationStage(Stage):
     """Prepare Claude staging batch"""
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         # Extract from cli/prepare_claude_batch.py
         pass
@@ -196,9 +196,9 @@ class BatchPreparationStage(Stage):
 ```python
 class BatchIngestionStage(Stage):
     """Ingest completed Claude batch"""
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
-        # Extract from cli/ingest_claude_batch.py  
+        # Extract from cli/ingest_claude_batch.py
         pass
 ```
 
@@ -210,27 +210,27 @@ from stages.base.api_stage import APIStage
 
 class ImageGenerationStage(APIStage):
     """Generate images using configured provider"""
-    
+
     def __init__(self):
         super().__init__('image_provider')
-    
+
     @property
     def name(self) -> str:
         return "generate_images"
-    
+
     @property
     def display_name(self) -> str:
         return "Generate Images"
-    
+
     def execute_api_call(self, context: PipelineContext, provider) -> StageResult:
         cards = context.get('cards', [])
         results = []
-        
+
         for card in cards:
             if 'prompt' in card:
                 image_result = provider.generate_image(card['prompt'])
                 results.append(image_result)
-        
+
         context.set('generated_images', results)
         return StageResult(
             status=StageStatus.SUCCESS,
@@ -251,24 +251,24 @@ class AudioGenerationStage(APIStage):
 ```python
 class MediaGenerationStage(Stage):
     """Generate both images and audio"""
-    
+
     def __init__(self):
         self.image_stage = ImageGenerationStage()
         self.audio_stage = AudioGenerationStage()
-    
+
     @property
     def dependencies(self) -> List[str]:
         return []  # Can run independently
-    
+
     def execute(self, context: PipelineContext) -> StageResult:
         # Execute both image and audio generation
         image_result = self.image_stage.execute(context)
         audio_result = self.audio_stage.execute(context)
-        
+
         # Combine results
-        success = (image_result.status == StageStatus.SUCCESS and 
+        success = (image_result.status == StageStatus.SUCCESS and
                   audio_result.status == StageStatus.SUCCESS)
-        
+
         return StageResult(
             status=StageStatus.SUCCESS if success else StageStatus.PARTIAL,
             message="Media generation completed",
@@ -283,10 +283,10 @@ class MediaGenerationStage(Stage):
 ```python
 class TemplateSyncStage(APIStage):
     """Sync templates to Anki"""
-    
+
     def __init__(self):
         super().__init__('anki_provider')
-    
+
     def execute_api_call(self, context: PipelineContext, provider) -> StageResult:
         # Extract from existing sync/templates_sync.py
         pass
@@ -296,7 +296,7 @@ class TemplateSyncStage(APIStage):
 ```python
 class CardSyncStage(APIStage):
     """Sync cards to Anki"""
-    
+
     def execute_api_call(self, context: PipelineContext, provider) -> StageResult:
         # Extract from existing sync/cards_sync.py
         pass
@@ -310,35 +310,35 @@ from stages.base.validation_stage import ValidationStage
 
 class DataValidationStage(ValidationStage):
     """Validate card data structure"""
-    
+
     @property
     def name(self) -> str:
         return "validate_data"
-    
-    @property  
+
+    @property
     def display_name(self) -> str:
         return "Validate Data Structure"
-    
+
     def __init__(self, data_key: str):
         self.data_key = data_key
-    
+
     def validate_data(self, data: Dict[str, Any]) -> List[str]:
         errors = []
-        
+
         # Extract validation logic from existing system
         if not isinstance(data, dict):
             errors.append("Data must be a dictionary")
-        
+
         # Additional validation rules...
-        
+
         return errors
 ```
 
 #### IPA Validation (`ipa_stage.py`)
-```python  
+```python
 class IPAValidationStage(ValidationStage):
     """Validate IPA pronunciation"""
-    
+
     def validate_data(self, data: Dict[str, Any]) -> List[str]:
         # Extract from validation/ipa_validator.py
         pass
@@ -382,7 +382,7 @@ def get_stage(stage_name: str, **kwargs) -> Stage:
     """Get stage instance by name"""
     if stage_name not in STAGE_REGISTRY:
         raise ValueError(f"Unknown stage: {stage_name}")
-    
+
     stage_class = STAGE_REGISTRY[stage_name]
     return stage_class(**kwargs)
 
@@ -393,7 +393,7 @@ def list_stages() -> List[str]:
 
 ## Validation Checklist
 
-### E2E Test Compliance  
+### E2E Test Compliance
 - [ ] All tests in `tests/e2e/02_stage_system/` pass
 - [ ] Stage execution works correctly
 - [ ] Stage chaining executes in proper order
@@ -406,7 +406,7 @@ def list_stages() -> List[str]:
 - [ ] Context system enables data flow between stages
 
 ### Code Quality
-- [ ] Consistent error handling across all stages  
+- [ ] Consistent error handling across all stages
 - [ ] Clear logging and debugging information
 - [ ] Type hints and docstrings throughout
 - [ ] Unit tests for all stage implementations
@@ -421,7 +421,7 @@ def list_stages() -> List[str]:
 
 ### 2. Extracted Processing Logic
 - Move existing logic from CLI scripts into appropriate stages
-- Maintain functionality while improving modularity  
+- Maintain functionality while improving modularity
 - Clean interfaces between stages
 
 ### 3. Unit Tests
@@ -432,7 +432,7 @@ def list_stages() -> List[str]:
 ### 4. Session Handoff Document
 Create `context/refactor/completed_handoffs/03_stage_system_handoff.md` with:
 - Overview of implemented stage library
-- Available stages and their capabilities  
+- Available stages and their capabilities
 - How to create new stages
 - Integration points for provider system
 - Any implementation insights for Session 4

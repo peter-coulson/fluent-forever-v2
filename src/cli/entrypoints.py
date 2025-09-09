@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 
-from utils.logging_config import setup_logging
+from src.utils.logging_config import setup_logging
 
 
 def sync_anki_all():

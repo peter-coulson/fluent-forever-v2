@@ -60,7 +60,7 @@ This refactor strips the codebase to its absolute minimal essential components w
   - Ensure provider interface compatibility
 
 - [ ] **1.2 Migrate Configuration**
-  - Move `src/config/config_manager.py` → `src/core/config.py` 
+  - Move `src/config/config_manager.py` → `src/core/config.py`
   - Move `src/config/config_validator.py` → `src/core/config_validator.py`
   - Move `src/config/schemas.py` → `src/core/schemas.py`
   - Update all config references
@@ -85,7 +85,7 @@ This refactor strips the codebase to its absolute minimal essential components w
 - [ ] **2.1 Remove Old CLI Commands**
   - Delete `src/cli/media_generate.py`
   - Delete `src/cli/preview_server_multi.py`
-  - Delete `src/cli/preview_server.py` 
+  - Delete `src/cli/preview_server.py`
   - Delete `src/cli/sync_anki_multi.py`
   - Delete `src/cli/regenerate_images.py`
   - Keep only `pipeline_runner.py` and `commands/` directory
@@ -129,7 +129,7 @@ This refactor strips the codebase to its absolute minimal essential components w
 
 ### **Phase 4: Verification**
 
-- [ ] **4.1 Test Core Functionality** 
+- [ ] **4.1 Test Core Functionality**
   - Ensure pipeline runner works
   - Test provider system
   - Test stage system
@@ -190,7 +190,7 @@ src/
 
 ---
 
-**Execution Notes**: 
+**Execution Notes**:
 - Code bugs assumed first when tests fail
 - Tests only edited when absolutely necessary
 - Each phase completion requires all tests passing

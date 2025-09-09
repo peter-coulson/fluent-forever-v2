@@ -7,8 +7,8 @@ schemas and contains required fields.
 
 from typing import Any
 
-from stages.base.validation_stage import ValidationStage
-from utils.logging_config import get_logger
+from src.stages.base.validation_stage import ValidationStage
+from src.utils.logging_config import get_logger
 
 
 class DataValidationStage(ValidationStage):
@@ -40,7 +40,7 @@ class DataValidationStage(ValidationStage):
         if isinstance(context, dict):
             from pathlib import Path
 
-            from core.context import PipelineContext
+            from src.core.context import PipelineContext
 
             project_root = Path(context.get("project_root", Path.cwd()))
             pipeline_name = context.get("pipeline_name", "test_pipeline")

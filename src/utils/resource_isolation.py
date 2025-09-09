@@ -1,11 +1,11 @@
 """Resource isolation utilities for multi-pipeline support."""
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 def get_pipeline_media_paths(
-    pipeline_name: str, project_root: Path = None
+    pipeline_name: str, project_root: Optional[Path] = None
 ) -> dict[str, Path]:
     """Get pipeline-specific media paths for resource isolation.
 
@@ -40,7 +40,7 @@ def get_pipeline_media_paths(
 
 
 def get_pipeline_template_paths(
-    pipeline_name: str, anki_note_type: str, project_root: Path = None
+    pipeline_name: str, anki_note_type: str, project_root: Optional[Path] = None
 ) -> dict[str, Path]:
     """Get pipeline-specific template paths for resource isolation.
 
@@ -66,7 +66,7 @@ def get_pipeline_template_paths(
 
 
 def get_pipeline_data_paths(
-    pipeline_name: str, data_file: str, project_root: Path = None
+    pipeline_name: str, data_file: str, project_root: Optional[Path] = None
 ) -> dict[str, Path]:
     """Get pipeline-specific data paths for resource isolation.
 
@@ -90,7 +90,7 @@ def get_pipeline_data_paths(
 
 
 def ensure_pipeline_directories(
-    pipeline_name: str, anki_note_type: str, data_file: str, project_root: Path = None
+    pipeline_name: str, anki_note_type: str, data_file: str, project_root: Optional[Path] = None
 ) -> None:
     """Ensure all required directories exist for a pipeline.
 

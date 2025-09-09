@@ -2,16 +2,16 @@
 
 from pathlib import Path
 
-from cli.config.cli_config import CLIConfig
-from cli.utils.output import print_error, print_success, print_warning
-from cli.utils.validation import (
+from src.cli.config.cli_config import CLIConfig
+from src.cli.utils.output import print_error, print_success, print_warning
+from src.cli.utils.validation import (
     validate_arguments,
     validate_card_list,
     validate_word_list,
 )
-from core.context import PipelineContext
-from core.registry import PipelineRegistry
-from providers.registry import ProviderRegistry
+from src.core.context import PipelineContext
+from src.core.registry import PipelineRegistry
+from src.providers.registry import ProviderRegistry
 
 
 class RunCommand:

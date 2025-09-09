@@ -4,13 +4,16 @@ Media Generation Compatibility Module
 Provides compatibility aliases for the validation gate tests.
 """
 
+from typing import Any
+
+from src.core.stages import StageResult, StageStatus
 from .media.media_stage import MediaGenerationStage as BaseMediaGenerationStage
 
 
 class MediaGenerationStage(BaseMediaGenerationStage):
     """Media generation stage for compatibility with validation gate tests"""
 
-    def __init__(self, config=None, **kwargs):
+    def __init__(self, config: dict[str, Any] | None = None, **kwargs: Any) -> None:
         """
         Initialize with configuration support for validation gate
 
@@ -33,7 +36,7 @@ class MediaGenerationStage(BaseMediaGenerationStage):
             force_regenerate=force_regenerate,
         )
 
-    def get_config(self):
+    def get_config(self) -> dict[str, Any]:
         """Return stage configuration for validation gate compatibility"""
         return {
             "max_new": self.max_new,
@@ -43,13 +46,13 @@ class MediaGenerationStage(BaseMediaGenerationStage):
             **self.config,
         }
 
-    def execute(self, context):
+    def execute(self, context: Any) -> StageResult:
         """Execute stage with context dict (validation gate compatibility)"""
         # Convert dict context to PipelineContext if needed
         if isinstance(context, dict):
             from pathlib import Path
 
-            from core.context import PipelineContext
+            from src.core.context import PipelineContext
 
             project_root = Path(context.get("project_root", Path.cwd()))
             pipeline_name = context.get("pipeline_name", "test_pipeline")
@@ -84,7 +87,13 @@ class MediaGenerationStage(BaseMediaGenerationStage):
             # Copy input data to output for chaining
             result_dict.update(context)
 
-            return result_dict
+            # Return as proper StageResult for interface compliance
+            return StageResult(
+                status=result.status,
+                message=result.message,
+                data=result_dict,  # Include the compatibility dict in data
+                errors=result.errors
+            )
 
         # If it's already a PipelineContext, use normal flow
         return super().execute(context)

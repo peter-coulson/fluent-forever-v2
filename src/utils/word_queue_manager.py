@@ -13,7 +13,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from utils.logging_config import ICONS, setup_logging
+from src.utils.logging_config import ICONS, setup_logging
 
 
 class WordQueueManager:

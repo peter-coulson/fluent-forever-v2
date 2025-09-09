@@ -4,7 +4,7 @@
 Organize all documentation into a logical context system that serves different audiences and maintains clear separation between operational, development, and user documentation.
 
 ## Context Files Required
-- `context/refactor/refactor_summary.md` - Overall refactor plan  
+- `context/refactor/refactor_summary.md` - Overall refactor plan
 - `context/refactor/completed_handoffs/08_multi_pipeline_support_handoff.md` - Multi-pipeline context
 - `tests/e2e/08_documentation/` - Validation gates for this session
 - All current markdown files in project root
@@ -25,7 +25,7 @@ context/
 │   └── examples/              # Usage examples
 │       ├── vocabulary_workflow.md
 │       └── conjugation_workflow.md
-├── development/               # Developer documentation  
+├── development/               # Developer documentation
 │   ├── architecture.md        # System architecture overview
 │   ├── adding_pipelines.md    # How to add new card types
 │   ├── api_reference.md       # API documentation
@@ -40,7 +40,7 @@ context/
 │   ├── cli_reference.md       # Complete CLI command reference
 │   ├── configuration_reference.md # Configuration options reference
 │   ├── pipeline_reference.md  # Pipeline and stage reference
-│   └── provider_reference.md  # Provider API reference  
+│   └── provider_reference.md  # Provider API reference
 └── archive/                   # Historical/deprecated documentation
     ├── v1_migration.md        # Migration from old system
     ├── refactor/              # Refactor documentation (current folder)
@@ -61,41 +61,41 @@ from datetime import datetime
 
 class DocumentationManager:
     """Manage documentation organization and context system"""
-    
+
     def __init__(self, project_root: Path):
         self.project_root = Path(project_root)
         self.context_root = self.project_root / 'context'
-    
+
     def organize_documentation(self) -> None:
         """Organize all documentation into context system"""
         # Create context directory structure
         self._create_context_structure()
-        
+
         # Move existing documentation
         self._migrate_existing_docs()
-        
+
         # Generate new documentation
         self._generate_new_docs()
-        
+
         # Create navigation files
         self._create_navigation()
-        
+
         # Clean up root directory
         self._cleanup_root()
-    
+
     def _create_context_structure(self) -> None:
         """Create the context directory structure"""
         directories = [
             'user', 'user/examples',
-            'development', 
+            'development',
             'operations',
             'reference',
             'archive', 'archive/legacy'
         ]
-        
+
         for directory in directories:
             (self.context_root / directory).mkdir(parents=True, exist_ok=True)
-    
+
     def _migrate_existing_docs(self) -> None:
         """Move existing documentation to appropriate context"""
         migrations = {
@@ -105,20 +105,20 @@ class DocumentationManager:
             'MULTI_CARD_SYSTEM.md': 'archive/legacy/multi_card_system.md',
             'QUEUE_OPTIMIZATIONS.md': 'archive/legacy/queue_optimizations.md'
         }
-        
+
         for source, target in migrations.items():
             source_path = self.project_root / source
             target_path = self.context_root / target
-            
+
             if source_path.exists():
                 # Add migration header
                 content = self._add_migration_header(source_path.read_text(), source, target)
                 target_path.write_text(content)
                 print(f"Migrated {source} → context/{target}")
-    
+
     def _add_migration_header(self, content: str, source: str, target: str) -> str:
         """Add migration header to moved documentation"""
-        header = f"""<!-- 
+        header = f"""<!--
 MIGRATED DOCUMENT
 Original: {source}
 New Location: context/{target}
@@ -127,7 +127,7 @@ Migration Date: {datetime.now().isoformat()}
 
 """
         return header + content
-    
+
     def _generate_new_docs(self) -> None:
         """Generate new documentation files"""
         self._create_main_readme()
@@ -136,7 +136,7 @@ Migration Date: {datetime.now().isoformat()}
         self._create_cli_reference()
         self._create_configuration_docs()
         self._create_troubleshooting()
-    
+
     def _create_main_readme(self) -> None:
         """Create main user README"""
         content = """# Fluent Forever V2 - Spanish Learning System
@@ -164,7 +164,7 @@ Transform Spanish vocabulary and grammar into memorable Anki cards with:
 - [Troubleshooting](troubleshooting.md) - Common issues and solutions
 - [Examples](examples/) - Workflow examples and tutorials
 
-### For Developers  
+### For Developers
 - [Architecture Overview](../development/architecture.md) - System design and components
 - [Adding Pipelines](../development/adding_pipelines.md) - How to add new card types
 - [API Reference](../development/api_reference.md) - Complete API documentation
@@ -195,7 +195,7 @@ External Services: OpenAI → Forvo → AnkiConnect
 ## 📊 Current Status
 
 - ✅ **Vocabulary Pipeline**: Complete E2E workflow for vocabulary cards
-- ✅ **Conjugation Pipeline**: Verb conjugation practice cards  
+- ✅ **Conjugation Pipeline**: Verb conjugation practice cards
 - ✅ **Multi-Pipeline Support**: Multiple card types coexist cleanly
 - ✅ **Universal CLI**: `python -m cli.pipeline` commands for all operations
 
@@ -228,11 +228,11 @@ See [development documentation](../development/) for:
 
 **Transform Spanish learning into memorable visual experiences through modular card creation!**
 """
-        
+
         readme_path = self.context_root / 'user' / 'README.md'
         readme_path.write_text(content)
         print("Created context/user/README.md")
-    
+
     def _create_quick_start(self) -> None:
         """Create quick start guide"""
         content = """# Quick Start Guide
@@ -302,7 +302,7 @@ python -m cli.pipeline run vocabulary --stage generate_media --execute
 python -m cli.pipeline run vocabulary --stage sync_anki --execute
 ```
 
-### Conjugation Cards  
+### Conjugation Cards
 ```bash
 # Create conjugation practice cards
 python -m cli.pipeline run conjugation --stage analyze_verbs --verbs hablar,comer,vivir
@@ -332,11 +332,11 @@ python -m cli.pipeline preview vocabulary --start-server --port 8000
 - **Issues**: Report problems at [GitHub Issues](link-to-issues)
 - **CLI Help**: Run `python -m cli.pipeline --help` for command help
 """
-        
+
         quick_start_path = self.context_root / 'user' / 'quick_start.md'
         quick_start_path.write_text(content)
         print("Created context/user/quick_start.md")
-    
+
     def _create_architecture_guide(self) -> None:
         """Create architecture documentation"""
         content = """# System Architecture
@@ -387,7 +387,7 @@ Each card type is implemented as a **Pipeline** that defines:
 - **Context System**: Data flow between stages
 - **Registry System**: Pipeline and provider discovery
 
-### Provider Layer  
+### Provider Layer
 - **Data Providers**: JSON files, databases, memory (testing)
 - **Media Providers**: OpenAI (images), Forvo (audio), mock (testing)
 - **Sync Providers**: AnkiConnect, file export, mock (testing)
@@ -410,13 +410,13 @@ Each card type is implemented as a **Pipeline** that defines:
 ## Data Flow
 
 ```
-Input (Words/Verbs) 
+Input (Words/Verbs)
     ↓
 [Analysis Stage] → Context Data
     ↓
 [Generation Stage] → Context + Generated Content
     ↓
-[Validation Stage] → Context + Validation Results  
+[Validation Stage] → Context + Validation Results
     ↓
 [Sync Stage] → Cards in Anki
 ```
@@ -424,22 +424,22 @@ Input (Words/Verbs)
 ## Extension Points
 
 ### Adding New Pipelines
-1. **Implement Pipeline Interface** 
+1. **Implement Pipeline Interface**
 2. **Define Stages** (reuse existing + create custom)
-3. **Configure Providers** 
+3. **Configure Providers**
 4. **Register Pipeline**
 5. **Add Configuration**
 
 ### Adding New Stages
 1. **Implement Stage Interface**
-2. **Define Context Requirements** 
+2. **Define Context Requirements**
 3. **Add to Stage Registry**
 4. **Create Unit Tests**
 
 ### Adding New Providers
 1. **Implement Provider Interface**
 2. **Add Configuration Schema**
-3. **Register with Provider Registry** 
+3. **Register with Provider Registry**
 4. **Create Mock for Testing**
 
 ## Key Design Principles
@@ -449,7 +449,7 @@ Input (Words/Verbs)
 - **Loose Coupling**: Components interact through well-defined interfaces
 - **High Cohesion**: Related functionality is grouped together
 
-### Extensibility  
+### Extensibility
 - **Open/Closed Principle**: Easy to extend, hard to break
 - **Plugin Architecture**: New functionality added without core changes
 - **Interface Segregation**: Clean, focused interfaces
@@ -468,7 +468,7 @@ Input (Words/Verbs)
 
 - **Python 3.8+**: Core language
 - **Flask**: Preview server framework
-- **Requests**: HTTP client for external APIs  
+- **Requests**: HTTP client for external APIs
 - **JSON**: Configuration and data storage
 - **pytest**: Testing framework
 - **AnkiConnect**: Anki integration protocol
@@ -483,11 +483,11 @@ Input (Words/Verbs)
 ---
 
 This architecture enables rapid development of new card types while maintaining system stability and user experience consistency."""
-        
+
         arch_path = self.context_root / 'development' / 'architecture.md'
         arch_path.write_text(content)
         print("Created context/development/architecture.md")
-    
+
     def _create_navigation(self) -> None:
         """Create navigation and index files"""
         # Create main navigation file
@@ -503,7 +503,7 @@ Start here if you want to use the system to create Spanish learning cards.
 - **[Troubleshooting](user/troubleshooting.md)** - Common issues and solutions
 - **[Examples](user/examples/)** - Workflow examples and tutorials
 
-## 🛠️ For Developers  
+## 🛠️ For Developers
 Start here if you want to understand or extend the system.
 
 - **[Architecture](development/architecture.md)** - System design overview
@@ -514,7 +514,7 @@ Start here if you want to understand or extend the system.
 ## ⚙️ For Operations
 Advanced configuration and operational procedures.
 
-- **[Claude Guide](operations/claude_guide.md)** - Claude operational procedures  
+- **[Claude Guide](operations/claude_guide.md)** - Claude operational procedures
 - **[Configuration](operations/configuration.md)** - System configuration
 - **[Deployment](operations/deployment.md)** - Setup and deployment guides
 
@@ -537,30 +537,30 @@ Historical documentation and migration guides.
 
 **Need help finding something?** Check the most relevant audience section above, or search within the `context/` directory.
 """
-        
+
         nav_path = self.context_root / 'README.md'
         nav_path.write_text(nav_content)
         print("Created context/README.md navigation")
-    
+
     def _cleanup_root(self) -> None:
         """Clean up root directory of documentation files"""
         # Move markdown files to archive
         cleanup_files = [
-            'README.md', 'CLAUDE.md', 'DESIGN_DECISIONS.md', 
+            'README.md', 'CLAUDE.md', 'DESIGN_DECISIONS.md',
             'MULTI_CARD_SYSTEM.md', 'QUEUE_OPTIMIZATIONS.md'
         ]
-        
+
         for file in cleanup_files:
             file_path = self.project_root / file
             if file_path.exists():
                 # Create new root README pointing to context
                 if file == 'README.md':
                     self._create_root_readme()
-                
+
                 # Remove original (already migrated)
                 file_path.unlink()
                 print(f"Removed {file} from root (migrated to context/)")
-    
+
     def _create_root_readme(self) -> None:
         """Create minimal root README pointing to context"""
         content = """# Fluent Forever V2
@@ -593,7 +593,7 @@ python -m cli.pipeline list
 ## 🏗️ Architecture
 
 Pipeline-centric system supporting multiple card types:
-- **Vocabulary Pipeline**: Fluent Forever vocabulary cards  
+- **Vocabulary Pipeline**: Fluent Forever vocabulary cards
 - **Conjugation Pipeline**: Verb conjugation practice
 - **Extensible**: Easy to add new card types
 
@@ -601,7 +601,7 @@ Pipeline-centric system supporting multiple card types:
 
 **For complete documentation, see [`context/README.md`](context/README.md)**
 """
-        
+
         root_readme = self.project_root / 'README.md'
         root_readme.write_text(content)
         print("Created new root README.md pointing to context/")
@@ -660,13 +660,13 @@ def test_all_commands_documented():
 - [ ] All markdown files are valid
 - [ ] Navigation links work correctly
 
-### Documentation Quality  
+### Documentation Quality
 - [ ] All audiences have appropriate documentation
 - [ ] Root directory is clean and organized
 - [ ] Documentation is findable and navigable
 - [ ] Examples are current and functional
 
-### Maintenance  
+### Maintenance
 - [ ] Auto-generation works for reference materials
 - [ ] Tests validate documentation stays current
 - [ ] Migration headers preserve history

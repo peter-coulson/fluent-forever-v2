@@ -28,7 +28,7 @@ tests/
 ├── test_current_system.py   # Validate current vocabulary system works
 └── validation_gates/        # One simple test per refactor session
     ├── test_session2_core.py      # Core architecture validation
-    ├── test_session3_stages.py    # Stage system validation  
+    ├── test_session3_stages.py    # Stage system validation
     ├── test_session4_providers.py # Provider system validation
     ├── test_session5_cli.py       # CLI system validation
     ├── test_session6_config.py    # Configuration validation
@@ -48,20 +48,20 @@ def test_core_architecture():
     # Test that pipeline registry and basic execution works
     from src.core.registry import get_pipeline_registry
     from src.pipelines.vocabulary import VocabularyPipeline
-    
+
     registry = get_pipeline_registry()
     pipeline = VocabularyPipeline()
-    
+
     # Can register pipeline
     registry.register(pipeline)
     assert "vocabulary" in registry.list_pipelines()
-    
+
     # Can execute a basic stage
     context = {"test": "data"}
     result = pipeline.execute_stage("prepare", context)
     assert result["status"] == "success"
 
-# tests/validation_gates/test_session7_vocabulary.py  
+# tests/validation_gates/test_session7_vocabulary.py
 def test_vocabulary_pipeline_migration():
     """Validation gate for Session 7: Complete vocabulary workflow through new architecture"""
     # Test full word-to-card workflow using new pipeline system
@@ -69,7 +69,7 @@ def test_vocabulary_pipeline_migration():
         "python", "-m", "cli.pipeline", "run", "vocabulary",
         "--stage", "claude_batch", "--words", "test_word"
     ], capture_output=True)
-    
+
     assert result.returncode == 0
     # Verify vocabulary.json updated correctly
     # Verify can generate media and sync to Anki
@@ -88,7 +88,7 @@ def test_current_vocabulary_workflow():
             ["python", "-m", "cli.media_generate", "--cards", "test_card", "--no-execute"],
             ["python", "-m", "cli.sync_anki_all", "--dry-run"]
         ]
-        
+
         for cmd in commands:
             result = subprocess.run(cmd, capture_output=True)
             assert result.returncode == 0, f"Command failed: {' '.join(cmd)}"
@@ -99,7 +99,7 @@ def test_current_vocabulary_workflow():
 ### Session 2 (Core Architecture)
 **One test**: Can create, register, and execute basic pipeline stages
 
-### Session 3 (Stage System)  
+### Session 3 (Stage System)
 **One test**: Can chain stages and pass data between them
 
 ### Session 4 (Provider System)
@@ -123,7 +123,7 @@ def test_current_vocabulary_workflow():
 ## Mock Strategy
 
 **Minimal mocking** - Only mock what's absolutely necessary:
-- External APIs (OpenAI, Forvo, AnkiConnect) 
+- External APIs (OpenAI, Forvo, AnkiConnect)
 - File system operations that would affect host system
 - Network requests
 
@@ -164,7 +164,7 @@ def test_current_vocabulary_workflow():
 
 ### Focus Areas
 - **Real workflows** - Test actual CLI commands and file outputs
-- **Key integrations** - Test that stages work together correctly  
+- **Key integrations** - Test that stages work together correctly
 - **User impact** - Test functionality users depend on
 - **Fast feedback** - Keep total test time under 10 seconds
 

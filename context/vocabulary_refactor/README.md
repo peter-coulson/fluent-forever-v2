@@ -1,4 +1,4 @@
-# Vocabulary Refactor Planning 
+# Vocabulary Refactor Planning
 
 ## Refactor Goal
 
@@ -6,7 +6,7 @@ To eliminate all manual inputs and claude usage outside of prompt writing
 
 ## High Level Method
 
-All required inputs should be available in the Español.jsonl dictionary. By pulling the pipeline inputs from the dictionary we can eliminate all generation. Improving performance and efficiency. 
+All required inputs should be available in the Español.jsonl dictionary. By pulling the pipeline inputs from the dictionary we can eliminate all generation. Improving performance and efficiency.
 
 ## Required from Dictionary per Sense:
 
@@ -31,10 +31,10 @@ All required inputs should be available in the Español.jsonl dictionary. By pul
 - "MonolingualDef": Spanish Definition
 - "ExampleSentence": Spanish example from dictionary
 - "GappedSentence": Spanish example from dictionary gapped
-- "IPA": From Dict 
+- "IPA": From Dict
 - "Prompt": The prompt from the user
 - "CardID": spanish word + meaning id joined by _
-- "ImageFile": cardID + .png 
+- "ImageFile": cardID + .png
 - "WordAudio": SpanishWord + .mp3
 
 ## New Fields
@@ -61,7 +61,7 @@ The vocabulary pipeline implements the core framework's `Pipeline` abstract clas
 ```
 src/
 ├── core/              # Keep - pipeline framework (Stage, Pipeline, StageResult)
-├── apis/              # Keep - external API clients  
+├── apis/              # Keep - external API clients
 ├── cli/               # Keep - unified CLI with pipeline runner
 ├── config/            # Keep - configuration management
 ├── utils/             # Keep - shared utilities
@@ -71,7 +71,7 @@ src/
 │       ├── vocabulary_pipeline.py  # Main VocabularyPipeline class
 │       ├── stages/                 # Individual Stage implementations
 │       │   ├── word_selection.py      # Stage 1: Word Selection
-│       │   ├── word_processing.py     # Stage 2: Word Processing  
+│       │   ├── word_processing.py     # Stage 2: Word Processing
 │       │   ├── prompt_creation.py     # Stage 3: Prompt Creation
 │       │   ├── media_generation.py    # Stage 4: Media Generation
 │       │   └── anki_sync.py           # Stage 5: Anki Sync
@@ -87,7 +87,7 @@ The vocabulary pipeline divides processing into five modular stages:
 4) **Stage 4**: Media Generation & Vocabulary Update
 5) **Stage 5**: Anki Sync
 
-### Stage 1 & 2: Word Selection and Processing 
+### Stage 1 & 2: Word Selection and Processing
 #### Word Queue Structure
 - The word queue entries will be a sequencial list of meanings with the same keys the meanings for words in vocabulary.json
 - Every entry will be filled with the exception of Prompt and Gender which is an optional field that may be empty
@@ -150,7 +150,7 @@ Universal processing regardless of Stage 1 source:
 Will leave undefined for now. Options are either the user directly editing the word queue and calling a sync script that checks for any words where the prompt value is filled. Or we create some other batch file where the user inputs the CardID: "prompt". We also need some skip word function. I think this would probably be easiest to have some cli script for skipping word queue where we input the words to be skipped --skipped-words ya,yo,hay
 
 ### Stage 4: Media Generation & Vocabulary Update
-We generate the media as part of this pipeline. This would constitue a form of sync as described above. It should validate prompts are a certain number of characters to prevent accidental typos. Then it should validate that the media with the same name is not already in the media folder and the CardID is not already in vocabulary. Then proceed to generate all media. Once all media is generated, update vocabulary. 
+We generate the media as part of this pipeline. This would constitue a form of sync as described above. It should validate prompts are a certain number of characters to prevent accidental typos. Then it should validate that the media with the same name is not already in the media folder and the CardID is not already in vocabulary. Then proceed to generate all media. Once all media is generated, update vocabulary.
 
 ### Stage 5: Anki Sync
 This logic will remain largely unchanged
@@ -170,24 +170,24 @@ class VocabularyPipeline(Pipeline):
     @property
     def name(self) -> str:
         return "vocabulary"
-    
-    @property 
+
+    @property
     def display_name(self) -> str:
         return "Spanish Vocabulary Cards"
-    
+
     @property
     def stages(self) -> List[str]:
-        return ["word_selection", "word_processing", "prompt_creation", 
+        return ["word_selection", "word_processing", "prompt_creation",
                 "media_generation", "anki_sync"]
-    
+
     @property
     def data_file(self) -> str:
         return "vocabulary.json"
-    
+
     @property
     def anki_note_type(self) -> str:
         return "Spanish Vocabulary"
-    
+
     def get_stage(self, stage_name: str) -> Stage:
         # Return appropriate stage implementation
         if stage_name == "word_selection":
@@ -212,7 +212,7 @@ selected_words = context.get("selected_words")
 context.set("processed_entries", [
     {
         "SpanishWord": "por",
-        "MeaningID": "by_for_through", 
+        "MeaningID": "by_for_through",
         "MonolingualDef": "Para indicar causa...",
         "CardID": "por_by_for_through",
         # ... complete vocabulary.json structure minus prompt
@@ -262,7 +262,7 @@ context.set("anki_sync_results", {
 # Stage 1: Select words
 python -m cli.pipeline run vocabulary --stage word_selection --words "por,para,cuando"
 
-# Stage 2: Process dictionary data  
+# Stage 2: Process dictionary data
 python -m cli.pipeline run vocabulary --stage word_processing
 
 # Stage 3: Create prompts (manual intervention)
@@ -297,7 +297,7 @@ class WordProcessingStage(Stage):
             # Complex Phase 2 processing logic here
             processor = WordProcessor()
             result = processor.process_words(context.get("selected_words"))
-            
+
             return StageResult.success(
                 f"Processed {len(result.entries)} word entries",
                 {"processed_entries": result.entries}
@@ -319,7 +319,7 @@ class MediaGenerationStage(Stage):
     @property
     def dependencies(self) -> List[str]:
         return ["word_processing", "prompt_creation"]
-    
+
     def validate_context(self, context: PipelineContext) -> List[str]:
         errors = []
         if not context.get("prompts_completed"):

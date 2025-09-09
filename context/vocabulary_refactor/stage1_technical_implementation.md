@@ -40,7 +40,7 @@
 
 ### Input Strategies
 - **Rank-based**: Input number of words, pulls by rank order (default)
-- **Specific words**: Input specific word list (comma-separated or file)  
+- **Specific words**: Input specific word list (comma-separated or file)
 - **Custom filters**: Filter by word type, frequency range, etc.
 
 ### Interface Design

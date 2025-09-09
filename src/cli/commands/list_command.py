@@ -1,8 +1,8 @@
 """List command implementation."""
 
-from cli.config.cli_config import CLIConfig
-from cli.utils.output import format_table, print_info
-from core.registry import PipelineRegistry
+from src.cli.config.cli_config import CLIConfig
+from src.cli.utils.output import format_table, print_info
+from src.core.registry import PipelineRegistry
 
 
 class ListCommand:

@@ -12,7 +12,7 @@ The validation gate approach uses **focused integration tests** that validate re
 tests/
 ├── conftest.py                    # Shared fixtures and minimal mocking
 ├── test_current_system.py         # Baseline test (must always pass)
-├── run_validation_gates.py        # Fast test execution framework  
+├── run_validation_gates.py        # Fast test execution framework
 └── validation_gates/              # Session-specific validation tests
     ├── test_session2_core.py       # Core architecture validation
     ├── test_session3_stages.py     # Stage system validation
@@ -57,7 +57,7 @@ Each refactor session gets exactly one focused test:
 - **Key Test**: Can create, register, and execute pipeline stages
 - **Expected**: Initially fails until Session 2 is implemented
 
-#### Session 3: Stage System (`test_session3_stages.py`) 
+#### Session 3: Stage System (`test_session3_stages.py`)
 - **Validates**: Stage chaining and data flow
 - **Key Test**: Data flows correctly between chained stages
 - **Expected**: Initially fails until Session 3 is implemented
@@ -132,7 +132,7 @@ python tests/run_validation_gates.py
 For each session to be considered complete:
 
 1. ✅ **Current session validation gate passes** - The session's specific test must pass
-2. ✅ **All previous validation gates pass** - No regressions in earlier functionality  
+2. ✅ **All previous validation gates pass** - No regressions in earlier functionality
 3. ✅ **Baseline test passes** - Current system functionality preserved
 4. ✅ **Total test time <10 seconds** - Fast feedback maintained
 5. ✅ **Tests fail appropriately** - When implementations are wrong, tests clearly indicate what's broken
@@ -159,7 +159,7 @@ For each session to be considered complete:
 ### Minimal Mocking Philosophy
 Only mock what's absolutely necessary:
 - ✅ External APIs (OpenAI, Forvo, AnkiConnect)
-- ✅ File system operations that would affect host system  
+- ✅ File system operations that would affect host system
 - ✅ Network requests
 - ❌ Don't mock internal architecture - test real implementations
 
@@ -176,7 +176,7 @@ See `conftest.py` for shared fixtures:
 - Baseline test must always pass
 - Core architecture tests start passing in Session 2
 
-### Phase 2 (Sessions 5-7): Integration Tests  
+### Phase 2 (Sessions 5-7): Integration Tests
 - CLI and configuration tests start passing
 - Vocabulary pipeline test validates full workflow
 - Progressive complexity as more components integrate

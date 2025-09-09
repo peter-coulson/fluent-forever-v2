@@ -2,7 +2,7 @@
 
 Welcome to the Fluent Forever V2 documentation system. Documentation is organized by audience and purpose.
 
-## 🛠️ For Developers  
+## 🛠️ For Developers
 Start here if you want to understand or extend the system.
 
 - **[Architecture](development/architecture.md)** - System design overview

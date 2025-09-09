@@ -19,7 +19,7 @@ class MediaRequest:
     params: dict[str, Any]  # Provider-specific parameters
     output_path: Path | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate request after initialization"""
         if not self.type:
             raise ValueError("Media request type cannot be empty")
@@ -38,7 +38,7 @@ class MediaResult:
     metadata: dict[str, Any]
     error: str | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate result after initialization"""
         if self.metadata is None:
             self.metadata = {}
@@ -104,7 +104,7 @@ class MediaProvider(ABC):
         return self.supports_type(request.type)
 
     # Convenience methods for specific media types
-    def generate_image(self, prompt: str, **kwargs) -> MediaResult:
+    def generate_image(self, prompt: str, **kwargs: Any) -> MediaResult:
         """Generate image (convenience method)
 
         Args:
@@ -117,7 +117,7 @@ class MediaProvider(ABC):
         request = MediaRequest(type="image", content=prompt, params=kwargs)
         return self.generate_media(request)
 
-    def generate_audio(self, text: str, **kwargs) -> MediaResult:
+    def generate_audio(self, text: str, **kwargs: Any) -> MediaResult:
         """Generate audio (convenience method)
 
         Args:

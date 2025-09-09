@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 
 class StageStatus(Enum):
@@ -45,14 +45,14 @@ class StageResult:
         return getattr(self, key, default)
 
     @classmethod
-    def success(cls, message: str, data: dict[str, Any] = None) -> "StageResult":
+    def success(cls, message: str, data: Optional[dict[str, Any]] = None) -> "StageResult":
         """Create a success result."""
         return cls(
             status=StageStatus.SUCCESS, message=message, data=data or {}, errors=[]
         )
 
     @classmethod
-    def failure(cls, message: str, errors: list[str] = None) -> "StageResult":
+    def failure(cls, message: str, errors: Optional[list[str]] = None) -> "StageResult":
         """Create a failure result."""
         return cls(
             status=StageStatus.FAILURE, message=message, data={}, errors=errors or []
@@ -60,7 +60,7 @@ class StageResult:
 
     @classmethod
     def partial(
-        cls, message: str, data: dict[str, Any] = None, errors: list[str] = None
+        cls, message: str, data: Optional[dict[str, Any]] = None, errors: Optional[list[str]] = None
     ) -> "StageResult":
         """Create a partial result."""
         return cls(

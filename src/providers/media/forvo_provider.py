@@ -10,9 +10,9 @@ from typing import Any
 
 import requests
 
-from providers.base.api_client import APIError, BaseAPIClient
-from providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
-from utils.logging_config import ICONS, get_logger
+from src.providers.base.api_client import APIError, BaseAPIClient
+from src.providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
+from src.utils.logging_config import ICONS, get_logger
 
 logger = get_logger("providers.media.forvo")
 
