@@ -71,34 +71,6 @@ Examples:
         "--dry-run", action="store_true", help="Show what would be done"
     )
 
-    # Common run arguments (extract from existing scripts)
-    run_parser.add_argument("--words", help="Comma-separated word list")
-    run_parser.add_argument(
-        "--verbs", help="Comma-separated verb list (for conjugation pipeline)"
-    )
-    run_parser.add_argument("--cards", help="Comma-separated card IDs")
-    run_parser.add_argument("--file", help="Input file path")
-    run_parser.add_argument("--execute", action="store_true", help="Execute changes")
-    run_parser.add_argument(
-        "--no-images", action="store_true", help="Skip image generation"
-    )
-    run_parser.add_argument(
-        "--no-audio", action="store_true", help="Skip audio generation"
-    )
-    run_parser.add_argument(
-        "--force-regenerate", action="store_true", help="Force regeneration"
-    )
-    run_parser.add_argument("--max", type=int, help="Maximum items to process")
-    run_parser.add_argument(
-        "--delete-extras", action="store_true", help="Delete extra items"
-    )
-    run_parser.add_argument(
-        "--tenses", help="Comma-separated tense list (for conjugation pipeline)"
-    )
-    run_parser.add_argument(
-        "--persons", help="Comma-separated person list (for conjugation pipeline)"
-    )
-
     # Preview command
     preview_parser = subparsers.add_parser("preview", help="Preview cards")
     preview_parser.add_argument("pipeline", help="Pipeline name")
