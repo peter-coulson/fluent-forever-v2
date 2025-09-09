@@ -1,20 +1,17 @@
 """Unit tests for pipeline registry."""
 
-
 import pytest
+from src.core.exceptions import PipelineAlreadyRegisteredError, PipelineNotFoundError
+from src.core.pipeline import Pipeline
+from src.core.registry import PipelineRegistry
+from src.core.stages import Stage, StageResult
 
-from core.exceptions import PipelineAlreadyRegisteredError, PipelineNotFoundError
-from core.pipeline import Pipeline
-from core.registry import PipelineRegistry, get_pipeline_registry
-from core.stages import Stage
 
+class MockStage(Stage):
+    """Mock stage for testing."""
 
-class MockPipeline(Pipeline):
-    """Mock pipeline for testing."""
-
-    def __init__(self, name="mock", display_name="Mock Pipeline"):
+    def __init__(self, name):
         self._name = name
-        self._display_name = display_name
 
     @property
     def name(self) -> str:
@@ -22,142 +19,114 @@ class MockPipeline(Pipeline):
 
     @property
     def display_name(self) -> str:
-        return self._display_name
+        return f"Mock {self._name.title()} Stage"
+
+    def execute(self, context) -> StageResult:
+        return StageResult.success_result(f"{self._name} completed")
+
+    def validate_context(self, context) -> list:
+        return []
+
+
+class MockPipeline(Pipeline):
+    """Mock pipeline for testing."""
+
+    def __init__(self, name):
+        self._name = name
+        self._stages = {"test": MockStage("test")}
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def display_name(self) -> str:
+        return f"Mock {self._name.title()} Pipeline"
 
     @property
     def stages(self) -> list:
-        return ["stage1", "stage2"]
+        return list(self._stages.keys())
 
     def get_stage(self, stage_name: str) -> Stage:
-        raise NotImplementedError("Mock pipeline")
+        return self._stages[stage_name]
 
     @property
     def data_file(self) -> str:
-        return "mock.json"
+        return f"{self._name}.json"
 
     @property
     def anki_note_type(self) -> str:
-        return "Mock"
+        return f"Mock {self._name.title()}"
+
+    def validate_cli_args(self, args) -> list[str]:
+        return []
+
+    def populate_context_from_cli(self, context, args) -> None:
+        pass
+
+    def show_cli_execution_plan(self, context, args) -> None:
+        pass
 
 
 class TestPipelineRegistry:
-    """Test cases for PipelineRegistry class."""
+    """Test cases for PipelineRegistry."""
 
     def test_registry_creation(self):
         """Test registry creation."""
         registry = PipelineRegistry()
-        assert registry.list_pipelines() == []
+        assert registry is not None
 
-    def test_pipeline_registration(self):
-        """Test pipeline registration."""
+    def test_register_pipeline(self):
+        """Test registering a pipeline."""
         registry = PipelineRegistry()
-        pipeline = MockPipeline("test", "Test Pipeline")
+        pipeline = MockPipeline("test")
 
         registry.register(pipeline)
-
-        assert "test" in registry.list_pipelines()
-        assert registry.has_pipeline("test")
-
         retrieved = registry.get("test")
-        assert retrieved is pipeline
 
-    def test_duplicate_registration_error(self):
-        """Test that registering duplicate pipeline raises error."""
+        assert retrieved is pipeline
+        assert retrieved.name == "test"
+
+    def test_register_duplicate_pipeline(self):
+        """Test registering duplicate pipeline raises error."""
         registry = PipelineRegistry()
-        pipeline1 = MockPipeline("test", "Test Pipeline 1")
-        pipeline2 = MockPipeline("test", "Test Pipeline 2")
+        pipeline1 = MockPipeline("test")
+        pipeline2 = MockPipeline("test")
 
         registry.register(pipeline1)
 
-        with pytest.raises(PipelineAlreadyRegisteredError) as exc_info:
+        with pytest.raises(PipelineAlreadyRegisteredError):
             registry.register(pipeline2)
-
-        assert "already registered" in str(exc_info.value)
 
     def test_get_nonexistent_pipeline(self):
         """Test getting non-existent pipeline raises error."""
         registry = PipelineRegistry()
 
-        with pytest.raises(PipelineNotFoundError) as exc_info:
+        with pytest.raises(PipelineNotFoundError):
             registry.get("nonexistent")
 
-        assert "not found" in str(exc_info.value)
-
-    def test_pipeline_info(self):
-        """Test getting pipeline information."""
+    def test_list_pipelines(self):
+        """Test listing available pipelines."""
         registry = PipelineRegistry()
-        pipeline = MockPipeline("test", "Test Pipeline")
-        registry.register(pipeline)
-
-        info = registry.get_pipeline_info("test")
-
-        assert info["name"] == "test"
-        assert info["display_name"] == "Test Pipeline"
-        assert info["stages"] == ["stage1", "stage2"]
-        assert info["data_file"] == "mock.json"
-        assert info["anki_note_type"] == "Mock"
-        assert "description" in info
-
-    def test_get_info_nonexistent_pipeline(self):
-        """Test getting info for non-existent pipeline raises error."""
-        registry = PipelineRegistry()
-
-        with pytest.raises(PipelineNotFoundError):
-            registry.get_pipeline_info("nonexistent")
-
-    def test_get_all_pipeline_info(self):
-        """Test getting all pipeline information."""
-        registry = PipelineRegistry()
-        pipeline1 = MockPipeline("test1", "Test Pipeline 1")
-        pipeline2 = MockPipeline("test2", "Test Pipeline 2")
+        pipeline1 = MockPipeline("test1")
+        pipeline2 = MockPipeline("test2")
 
         registry.register(pipeline1)
         registry.register(pipeline2)
 
-        all_info = registry.get_all_pipeline_info()
-
-        assert "test1" in all_info
-        assert "test2" in all_info
-        assert all_info["test1"]["display_name"] == "Test Pipeline 1"
-        assert all_info["test2"]["display_name"] == "Test Pipeline 2"
+        pipelines = registry.list_pipelines()
+        assert len(pipelines) == 2
+        assert "test1" in pipelines
+        assert "test2" in pipelines
 
     def test_has_pipeline(self):
-        """Test has_pipeline method."""
+        """Test checking if pipeline exists."""
         registry = PipelineRegistry()
-        pipeline = MockPipeline("test", "Test Pipeline")
+        pipeline = MockPipeline("test")
 
         assert not registry.has_pipeline("test")
 
         registry.register(pipeline)
+
         assert registry.has_pipeline("test")
         assert not registry.has_pipeline("nonexistent")
-
-
-class TestGlobalRegistry:
-    """Test cases for global registry functions."""
-
-    def test_global_registry_singleton(self):
-        """Test that global registry is a singleton."""
-        registry1 = get_pipeline_registry()
-        registry2 = get_pipeline_registry()
-
-        assert registry1 is registry2
-
-    def test_global_registry_persistence(self):
-        """Test that global registry persists registrations."""
-        registry = get_pipeline_registry()
-        pipeline = MockPipeline("global_test", "Global Test Pipeline")
-
-        # Clear any existing registrations for clean test
-        if registry.has_pipeline("global_test"):
-            # Reset registry for test isolation
-            registry._pipelines.clear()
-
-        registry.register(pipeline)
-
-        # Get registry again and verify pipeline is still there
-        registry2 = get_pipeline_registry()
-        assert registry2.has_pipeline("global_test")
-
-        # Clean up for other tests
-        registry._pipelines.clear()

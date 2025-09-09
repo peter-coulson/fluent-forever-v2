@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from core.context import PipelineContext
+from src.core.context import PipelineContext
 
 
 class TestPipelineContext:

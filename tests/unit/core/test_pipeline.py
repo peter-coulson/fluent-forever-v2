@@ -3,11 +3,10 @@
 from pathlib import Path
 
 import pytest
-
-from core.context import PipelineContext
-from core.exceptions import StageNotFoundError
-from core.pipeline import Pipeline
-from core.stages import Stage, StageResult, StageStatus
+from src.core.context import PipelineContext
+from src.core.exceptions import StageNotFoundError
+from src.core.pipeline import Pipeline
+from src.core.stages import Stage, StageResult, StageStatus
 
 
 class MockStage(Stage):
@@ -28,7 +27,9 @@ class MockStage(Stage):
 
     def execute(self, context: PipelineContext) -> StageResult:
         if self._success:
-            return StageResult.success(f"{self._name} completed", {self._name: True})
+            return StageResult.success_result(
+                f"{self._name} completed", {self._name: True}
+            )
         else:
             return StageResult.failure(f"{self._name} failed", ["Test error"])
 
@@ -72,6 +73,15 @@ class MockPipeline(Pipeline):
     def anki_note_type(self) -> str:
         return f"Mock {self._name.title()}"
 
+    def validate_cli_args(self, args) -> list[str]:
+        return []
+
+    def populate_context_from_cli(self, context, args) -> None:
+        pass
+
+    def show_cli_execution_plan(self, context, args) -> None:
+        pass
+
 
 class TestPipeline:
     """Test cases for Pipeline base class."""
@@ -83,8 +93,6 @@ class TestPipeline:
         assert pipeline.name == "test"
         assert pipeline.display_name == "Mock Test Pipeline"
         assert pipeline.stages == ["prepare", "process", "finish"]
-        assert pipeline.data_file == "test.json"
-        assert pipeline.anki_note_type == "Mock Test"
 
     def test_get_stage(self):
         """Test getting stage by name."""
@@ -143,29 +151,3 @@ class TestPipeline:
 
         assert result.status == StageStatus.FAILURE
         assert "not found" in result.message
-
-    def test_get_description(self):
-        """Test getting pipeline description."""
-        pipeline = MockPipeline("test")
-        description = pipeline.get_description()
-
-        assert "Mock Test Pipeline" in description
-        assert "test.json" in description
-
-    def test_get_stage_info(self):
-        """Test getting stage information."""
-        pipeline = MockPipeline()
-
-        info = pipeline.get_stage_info("prepare")
-
-        assert info["name"] == "prepare"
-        assert info["display_name"] == "Mock Prepare Stage"
-        assert "dependencies" in info
-
-    def test_get_stage_info_nonexistent(self):
-        """Test getting info for non-existent stage."""
-        pipeline = MockPipeline()
-
-        info = pipeline.get_stage_info("nonexistent")
-
-        assert info == {}

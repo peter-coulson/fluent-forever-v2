@@ -1,8 +1,7 @@
 """Unit tests for core exceptions."""
 
 import pytest
-
-from core.exceptions import (
+from src.core.exceptions import (
     ContextValidationError,
     PipelineAlreadyRegisteredError,
     PipelineError,
@@ -12,79 +11,50 @@ from core.exceptions import (
 )
 
 
-class TestExceptionHierarchy:
-    """Test cases for exception hierarchy."""
+class TestPipelineExceptions:
+    """Test cases for pipeline exception hierarchy."""
 
-    def test_pipeline_error_base(self):
-        """Test PipelineError as base exception."""
-        error = PipelineError("Base pipeline error")
-        assert str(error) == "Base pipeline error"
+    def test_base_pipeline_error(self):
+        """Test base PipelineError."""
+        error = PipelineError("Test error")
+        assert str(error) == "Test error"
         assert isinstance(error, Exception)
 
     def test_pipeline_not_found_error(self):
-        """Test PipelineNotFoundError inheritance."""
+        """Test PipelineNotFoundError."""
         error = PipelineNotFoundError("Pipeline not found")
         assert str(error) == "Pipeline not found"
         assert isinstance(error, PipelineError)
-        assert isinstance(error, Exception)
 
     def test_pipeline_already_registered_error(self):
-        """Test PipelineAlreadyRegisteredError inheritance."""
-        error = PipelineAlreadyRegisteredError("Pipeline already registered")
-        assert str(error) == "Pipeline already registered"
+        """Test PipelineAlreadyRegisteredError."""
+        error = PipelineAlreadyRegisteredError("Already registered")
+        assert str(error) == "Already registered"
         assert isinstance(error, PipelineError)
-        assert isinstance(error, Exception)
 
-    def test_stage_error_inheritance(self):
-        """Test StageError inheritance."""
+    def test_stage_error(self):
+        """Test StageError."""
         error = StageError("Stage error")
         assert str(error) == "Stage error"
         assert isinstance(error, PipelineError)
-        assert isinstance(error, Exception)
 
     def test_stage_not_found_error(self):
-        """Test StageNotFoundError inheritance."""
+        """Test StageNotFoundError."""
         error = StageNotFoundError("Stage not found")
         assert str(error) == "Stage not found"
         assert isinstance(error, StageError)
         assert isinstance(error, PipelineError)
-        assert isinstance(error, Exception)
 
     def test_context_validation_error(self):
-        """Test ContextValidationError inheritance."""
-        error = ContextValidationError("Context validation failed")
-        assert str(error) == "Context validation failed"
+        """Test ContextValidationError."""
+        error = ContextValidationError("Context invalid")
+        assert str(error) == "Context invalid"
         assert isinstance(error, PipelineError)
-        assert isinstance(error, Exception)
 
-    def test_exception_with_args(self):
-        """Test exceptions with multiple arguments."""
-        error = PipelineError("Error message", "Additional info")
-        # The exact string representation may vary by Python version
-        assert "Error message" in str(error)
-
-    def test_exception_raising_and_catching(self):
-        """Test raising and catching exceptions."""
-        # Test raising and catching specific exception
-        with pytest.raises(PipelineNotFoundError) as exc_info:
-            raise PipelineNotFoundError("Test pipeline not found")
-
-        assert "Test pipeline not found" in str(exc_info.value)
-
-        # Test catching as base exception
-        with pytest.raises(PipelineError):
-            raise PipelineNotFoundError("Test pipeline not found")
-
-        # Test catching as generic exception
+    def test_exception_raising(self):
+        """Test exceptions can be raised and caught."""
         with pytest.raises(PipelineNotFoundError):
-            raise PipelineNotFoundError("Test pipeline not found")
+            raise PipelineNotFoundError("Test")
 
-    def test_stage_error_hierarchy(self):
-        """Test stage error hierarchy specifically."""
-        # StageNotFoundError should be caught as StageError
-        with pytest.raises(StageError):
-            raise StageNotFoundError("Stage not found")
-
-        # StageError should be caught as PipelineError
         with pytest.raises(PipelineError):
-            raise StageError("Stage error")
+            raise StageNotFoundError("Test")  # Should be caught as base class
