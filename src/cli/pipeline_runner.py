@@ -8,13 +8,11 @@ Replaces all hardcoded CLI scripts with unified command structure.
 
 import argparse
 from pathlib import Path
-from typing import Any
 
 # Import command classes
 from src.cli.commands import InfoCommand, ListCommand, RunCommand
 from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.validation import validate_arguments
-from src.core.context import PipelineContext
 from src.core.exceptions import PipelineError
 from src.core.registry import get_pipeline_registry
 from src.providers.registry import get_provider_registry
@@ -83,84 +81,6 @@ Examples:
     )
 
     return parser
-
-
-class PipelineRunner:
-    """Pipeline runner class for programmatic access."""
-
-    def __init__(self, config: CLIConfig | None = None):
-        """Initialize pipeline runner.
-
-        Args:
-            config: Optional CLI configuration
-        """
-        self.config = config or CLIConfig.load()
-        self.pipeline_registry = get_pipeline_registry()
-        self.provider_registry = get_provider_registry()
-        self.project_root = Path(__file__).parents[2]
-
-        # Initialize providers from configuration
-        self.config.initialize_providers(self.provider_registry)
-
-        # Register pipelines
-        self._register_pipelines()
-
-    def _register_pipelines(self) -> None:
-        """Register available pipelines."""
-        # Use the centralized pipeline registration
-
-    def list_pipelines(self) -> list[str]:
-        """List available pipelines.
-
-        Returns:
-            List of pipeline names
-        """
-        return self.pipeline_registry.list_pipelines()
-
-    def get_pipeline_info(self, pipeline_name: str) -> dict[str, Any]:
-        """Get pipeline information.
-
-        Args:
-            pipeline_name: Name of pipeline
-
-        Returns:
-            Pipeline information dictionary
-        """
-        return self.pipeline_registry.get_pipeline_info(pipeline_name)
-
-    def execute_stage(
-        self, pipeline_name: str, stage_name: str, context_data: dict[str, Any]
-    ) -> Any:
-        """Execute a pipeline stage.
-
-        Args:
-            pipeline_name: Name of pipeline
-            stage_name: Name of stage
-            context_data: Context data
-
-        Returns:
-            Stage execution result
-        """
-        pipeline = self.pipeline_registry.get(pipeline_name)
-
-        context = PipelineContext(
-            pipeline_name=pipeline_name,
-            project_root=self.project_root,
-            config=self.config.to_dict(),
-            data=context_data,
-        )
-
-        # Add providers to context
-        context.set(
-            "providers",
-            {
-                "data": self.provider_registry.get_data_provider("default"),
-                "media": self.provider_registry.get_media_provider("default"),
-                "sync": self.provider_registry.get_sync_provider("default"),
-            },
-        )
-
-        return pipeline.execute_stage(stage_name, context)
 
 
 def main() -> int:
