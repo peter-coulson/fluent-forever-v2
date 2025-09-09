@@ -83,7 +83,7 @@ def setup_logging(
             log_file_path = project_root / "logs" / "fluent_forever.log"
 
         # Create logs directory if it doesn't exist
-        log_file_path.parent.mkdir(exist_ok=True)
+        log_file_path.parent.mkdir(parents=True, exist_ok=True)
 
         file_handler = logging.FileHandler(log_file_path)
         file_handler.setLevel(level)
