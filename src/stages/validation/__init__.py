@@ -3,7 +3,7 @@ Validation Stages
 
 Stages for validating data integrity and correctness:
 - Data structure validation
-- IPA pronunciation validation  
+- IPA pronunciation validation
 - Media file validation
 """
 
@@ -15,8 +15,8 @@ from .media_stage import MediaValidationStage
 ValidationStage = DataValidationStage
 
 __all__ = [
-    'DataValidationStage',
-    'IPAValidationStage',
-    'MediaValidationStage',
-    'ValidationStage'  # Compatibility alias
+    "DataValidationStage",
+    "IPAValidationStage",
+    "MediaValidationStage",
+    "ValidationStage",  # Compatibility alias
 ]

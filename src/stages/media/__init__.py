@@ -7,12 +7,8 @@ Stages for generating media assets (images and audio) for vocabulary cards:
 - Combined media generation orchestration
 """
 
-from .image_stage import ImageGenerationStage
 from .audio_stage import AudioGenerationStage
+from .image_stage import ImageGenerationStage
 from .media_stage import MediaGenerationStage
 
-__all__ = [
-    'ImageGenerationStage',
-    'AudioGenerationStage', 
-    'MediaGenerationStage'
-]
+__all__ = ["ImageGenerationStage", "AudioGenerationStage", "MediaGenerationStage"]

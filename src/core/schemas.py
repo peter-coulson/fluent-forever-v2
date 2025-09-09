@@ -4,33 +4,36 @@ Configuration Schema Definitions
 Defines data structures for different configuration types.
 """
 
-from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
+from typing import Any
 
 
 @dataclass
 class ProviderConfig:
     """Base provider configuration"""
+
     type: str
     enabled: bool = True
-    config: Dict[str, Any] = field(default_factory=dict)
+    config: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class PipelineConfig:
     """Pipeline configuration"""
+
     name: str
     display_name: str
     data_file: str
     anki_note_type: str
-    stages: List[str]
-    providers: Dict[str, str] = field(default_factory=dict)  # stage -> provider mapping
-    config: Dict[str, Any] = field(default_factory=dict)
+    stages: list[str]
+    providers: dict[str, str] = field(default_factory=dict)  # stage -> provider mapping
+    config: dict[str, Any] = field(default_factory=dict)
 
 
-@dataclass  
+@dataclass
 class SystemConfig:
     """System-wide configuration"""
+
     project_root: str
     log_level: str = "INFO"
     cache_enabled: bool = True
@@ -41,6 +44,7 @@ class SystemConfig:
 @dataclass
 class CLIConfig:
     """CLI configuration"""
+
     output_format: str = "table"
     show_progress: bool = True
     confirm_destructive: bool = True

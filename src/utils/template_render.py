@@ -5,50 +5,49 @@ import html
 import json
 import re
 from pathlib import Path
-from typing import Dict
 
 
-def load_vocab(vocab_path: Path) -> Dict:
-    return json.loads(vocab_path.read_text(encoding='utf-8'))
+def load_vocab(vocab_path: Path) -> dict:
+    return json.loads(vocab_path.read_text(encoding="utf-8"))
 
 
-def build_fields_from_meaning(meaning: Dict[str, str]) -> Dict[str, str]:
-    fields = {k: ('' if v is None else str(v)) for k, v in meaning.items()}
+def build_fields_from_meaning(meaning: dict[str, str]) -> dict[str, str]:
+    fields = {k: ("" if v is None else str(v)) for k, v in meaning.items()}
 
-    img = fields.get('ImageFile', '').strip()
-    if img and '/' not in img and not img.startswith('media/images/'):
-        fields['ImageFile'] = f"media/images/{img}"
+    img = fields.get("ImageFile", "").strip()
+    if img and "/" not in img and not img.startswith("media/images/"):
+        fields["ImageFile"] = f"media/images/{img}"
 
     def sound_to_audio_tag(value: str) -> str:
         m = re.match(r"\[sound:(.+?)\]", value.strip())
         if not m:
             return html.escape(value)
         fname = m.group(1)
-        src = f"media/audio/{fname}" if '/' not in fname else fname
+        src = f"media/audio/{fname}" if "/" not in fname else fname
         return f'<audio controls preload="none" src="{html.escape(src)}"></audio>'
 
-    if fields.get('WordAudio'):
-        fields['WordAudio'] = sound_to_audio_tag(fields['WordAudio'])
-    if fields.get('WordAudioAlt'):
-        fields['WordAudioAlt'] = sound_to_audio_tag(fields['WordAudioAlt'])
+    if fields.get("WordAudio"):
+        fields["WordAudio"] = sound_to_audio_tag(fields["WordAudio"])
+    if fields.get("WordAudioAlt"):
+        fields["WordAudioAlt"] = sound_to_audio_tag(fields["WordAudioAlt"])
 
     return fields
 
 
-def render_template(template: str, fields: Dict[str, str]) -> str:
+def render_template(template: str, fields: dict[str, str]) -> str:
     section_pattern = re.compile(r"{{#(\w+)}}([\s\S]*?){{/\1}}")
 
     def replace_section(match: re.Match[str]) -> str:
         key = match.group(1)
         body = match.group(2)
-        val = fields.get(key, '').strip()
-        return body if val else ''
+        val = fields.get(key, "").strip()
+        return body if val else ""
 
     out = section_pattern.sub(replace_section, template)
 
     def replace_field(m: re.Match[str]) -> str:
         key = m.group(1)
-        return fields.get(key, '')
+        return fields.get(key, "")
 
     out = re.sub(r"{{(\w+)}}", replace_field, out)
     return out
@@ -87,23 +86,19 @@ def wrap_html(doc_body: str, css: str, title: str) -> str:
     )
     return (
         "<!DOCTYPE html>\n"
-        "<html lang=\"es\">\n"
+        '<html lang="es">\n'
         "<head>\n"
-        f"  <meta charset=\"utf-8\">\n  <title>{html.escape(title)}</title>\n"
-        "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+        f'  <meta charset="utf-8">\n  <title>{html.escape(title)}</title>\n'
+        '  <meta name="viewport" content="width=device-width, initial-scale=1">\n'
         "  <style>\n" + anki_base_css + "\n" + css + "\n  </style>\n"
         "</head>\n"
-        "<body>\n"
-        + wrapped +
-        "\n</body>\n</html>\n"
+        "<body>\n" + wrapped + "\n</body>\n</html>\n"
     )
 
 
-def find_meaning_by_cardid(vocab: Dict, card_id: str) -> Dict[str, str] | None:
-    for _, wdata in vocab.get('words', {}).items():
-        for m in wdata.get('meanings', []):
-            if str(m.get('CardID', '')).strip() == card_id:
+def find_meaning_by_cardid(vocab: dict, card_id: str) -> dict[str, str] | None:
+    for _, wdata in vocab.get("words", {}).items():
+        for m in wdata.get("meanings", []):
+            if str(m.get("CardID", "")).strip() == card_id:
                 return m
     return None
-
-

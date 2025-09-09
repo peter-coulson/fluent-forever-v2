@@ -7,7 +7,11 @@ from .media_provider import MediaProvider, MediaRequest, MediaResult
 from .sync_provider import SyncProvider, SyncRequest, SyncResult
 
 __all__ = [
-    'DataProvider',
-    'MediaProvider', 'MediaRequest', 'MediaResult',
-    'SyncProvider', 'SyncRequest', 'SyncResult'
+    "DataProvider",
+    "MediaProvider",
+    "MediaRequest",
+    "MediaResult",
+    "SyncProvider",
+    "SyncRequest",
+    "SyncResult",
 ]

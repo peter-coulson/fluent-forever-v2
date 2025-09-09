@@ -7,13 +7,8 @@ Common base implementations for typical stage patterns:
 - Data validation (structured validation)
 """
 
-from .file_stage import FileLoadStage, FileSaveStage
 from .api_stage import APIStage
+from .file_stage import FileLoadStage, FileSaveStage
 from .validation_stage import ValidationStage
 
-__all__ = [
-    'FileLoadStage',
-    'FileSaveStage',
-    'APIStage', 
-    'ValidationStage'
-]
+__all__ = ["FileLoadStage", "FileSaveStage", "APIStage", "ValidationStage"]

@@ -11,8 +11,4 @@ from .analysis_stage import WordAnalysisStage
 from .batch_stage import BatchPreparationStage
 from .ingestion_stage import BatchIngestionStage
 
-__all__ = [
-    'WordAnalysisStage',
-    'BatchPreparationStage', 
-    'BatchIngestionStage'
-]
+__all__ = ["WordAnalysisStage", "BatchPreparationStage", "BatchIngestionStage"]
