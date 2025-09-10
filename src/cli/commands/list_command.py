@@ -2,15 +2,15 @@
 
 from typing import Any
 
-from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.output import format_table, print_info
+from src.core.config import Config
 from src.core.registry import PipelineRegistry
 
 
 class ListCommand:
     """List available pipelines."""
 
-    def __init__(self, registry: PipelineRegistry, config: CLIConfig):
+    def __init__(self, registry: PipelineRegistry, config: Config):
         """Initialize command.
 
         Args:

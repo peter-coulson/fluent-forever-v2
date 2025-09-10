@@ -3,9 +3,9 @@
 from pathlib import Path
 from typing import Any
 
-from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.output import print_error, print_success, print_warning
 from src.cli.utils.validation import validate_arguments
+from src.core.config import Config
 from src.core.context import PipelineContext
 from src.core.pipeline import Pipeline
 from src.core.registry import PipelineRegistry
@@ -20,7 +20,7 @@ class RunCommand:
         pipeline_registry: PipelineRegistry,
         provider_registry: ProviderRegistry,
         project_root: Path,
-        config: CLIConfig,
+        config: Config,
     ):
         """Initialize command.
 

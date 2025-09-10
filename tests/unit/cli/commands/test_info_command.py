@@ -3,7 +3,7 @@
 from unittest.mock import Mock
 
 from src.cli.commands.info_command import InfoCommand
-from src.cli.config.cli_config import CLIConfig
+from src.core.config import Config
 from src.core.pipeline import Pipeline
 from src.core.registry import PipelineRegistry
 
@@ -63,7 +63,7 @@ class TestInfoCommand:
     def test_info_command_creation(self):
         """Test info command creation."""
         registry = PipelineRegistry()
-        config = CLIConfig({})
+        config = Config()
 
         command = InfoCommand(registry, config)
 
@@ -73,7 +73,7 @@ class TestInfoCommand:
     def test_execute_nonexistent_pipeline(self, capsys):
         """Test info for non-existent pipeline."""
         registry = PipelineRegistry()
-        config = CLIConfig({})
+        config = Config()
         command = InfoCommand(registry, config)
 
         args = Mock()
@@ -88,7 +88,7 @@ class TestInfoCommand:
     def test_execute_existing_pipeline(self, capsys):
         """Test info for existing pipeline."""
         registry = PipelineRegistry()
-        config = CLIConfig({})
+        config = Config()
         command = InfoCommand(registry, config)
 
         # Register test pipeline

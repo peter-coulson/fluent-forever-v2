@@ -11,11 +11,11 @@ from pathlib import Path
 
 # Import command classes
 from src.cli.commands import InfoCommand, ListCommand, RunCommand
-from src.cli.config.cli_config import CLIConfig
 from src.cli.utils.validation import validate_arguments
+from src.core.config import Config
 from src.core.exceptions import PipelineError
 from src.core.registry import get_pipeline_registry
-from src.providers.registry import get_provider_registry
+from src.providers.registry import ProviderRegistry
 from src.utils.logging_config import ICONS, setup_logging
 
 
@@ -96,14 +96,11 @@ def main() -> int:
         return 1
 
     # Load configuration
-    config = CLIConfig.load(getattr(args, "config", None))
+    config = Config.load(getattr(args, "config", None))
 
     # Setup registries
     pipeline_registry = get_pipeline_registry()
-    provider_registry = get_provider_registry()
-
-    # Initialize providers from config
-    config.initialize_providers(provider_registry)
+    provider_registry = ProviderRegistry.from_config(config)
 
     # Register pipelines using centralized system
 

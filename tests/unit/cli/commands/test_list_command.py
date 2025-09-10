@@ -3,7 +3,7 @@
 from unittest.mock import Mock
 
 from src.cli.commands.list_command import ListCommand
-from src.cli.config.cli_config import CLIConfig
+from src.core.config import Config
 from src.core.pipeline import Pipeline
 from src.core.registry import PipelineRegistry
 
@@ -54,7 +54,7 @@ class TestListCommand:
     def test_list_command_creation(self):
         """Test list command creation."""
         registry = PipelineRegistry()
-        config = CLIConfig({})
+        config = Config()
 
         command = ListCommand(registry, config)
 
@@ -64,7 +64,7 @@ class TestListCommand:
     def test_execute_empty_registry(self, capsys):
         """Test listing when no pipelines are registered."""
         registry = PipelineRegistry()
-        config = CLIConfig({})
+        config = Config()
         command = ListCommand(registry, config)
 
         args = Mock()
@@ -77,7 +77,7 @@ class TestListCommand:
     def test_execute_with_pipelines(self, capsys):
         """Test listing when pipelines are registered."""
         registry = PipelineRegistry()
-        config = CLIConfig({})
+        config = Config()
         command = ListCommand(registry, config)
 
         # Register test pipelines

@@ -5,9 +5,12 @@ Registry system for managing provider instances and creating provider factories.
 """
 
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from .base.data_provider import DataProvider
+
+if TYPE_CHECKING:
+    from src.core.config import Config
 from .base.media_provider import MediaProvider
 from .base.sync_provider import SyncProvider
 
@@ -150,6 +153,65 @@ class ProviderRegistry:
             },
         }
 
+    @classmethod
+    def from_config(cls, config: "Config") -> "ProviderRegistry":
+        """Create and populate registry from configuration
+
+        Args:
+            config: Config instance with provider configuration
+
+        Returns:
+            ProviderRegistry instance with providers initialized
+        """
+        registry = cls()
+
+        # Initialize data providers
+        data_config = config.get("providers.data", {})
+        if data_config.get("type") == "json":
+            from .data.json_provider import JSONDataProvider
+
+            base_path = Path(data_config.get("base_path", "."))
+            registry.register_data_provider("default", JSONDataProvider(base_path))
+
+        # Initialize media providers with fallback handling
+        media_config = config.get("providers.media", {})
+        media_type = media_config.get("type", "openai")
+
+        if media_type == "openai":
+            from .media.openai_provider import OpenAIProvider
+
+            try:
+                registry.register_media_provider("default", OpenAIProvider())
+            except Exception:
+                # Fallback to mock provider
+                from .media.mock_provider import MockMediaProvider
+
+                registry.register_media_provider("default", MockMediaProvider())
+        else:
+            # Default to mock provider
+            from .media.mock_provider import MockMediaProvider
+
+            registry.register_media_provider("default", MockMediaProvider())
+
+        # Initialize sync providers with fallback handling
+        sync_config = config.get("providers.sync", {})
+        if sync_config.get("type") == "anki":
+            from .sync.anki_provider import AnkiProvider
+
+            try:
+                registry.register_sync_provider("default", AnkiProvider())
+            except Exception:
+                # Fallback to mock provider
+                from .sync.mock_provider import MockSyncProvider
+
+                registry.register_sync_provider("default", MockSyncProvider())
+        else:
+            from .sync.mock_provider import MockSyncProvider
+
+            registry.register_sync_provider("default", MockSyncProvider())
+
+        return registry
+
 
 # Global registry instance
 _global_provider_registry = ProviderRegistry()
@@ -162,213 +224,3 @@ def get_provider_registry() -> ProviderRegistry:
         Global ProviderRegistry instance
     """
     return _global_provider_registry
-
-
-# Factory Classes for Provider Creation
-class DataProviderFactory:
-    """Factory for creating data providers"""
-
-    def __init__(self, config: dict | None = None) -> None:
-        """Initialize factory with configuration
-
-        Args:
-            config: Configuration dictionary
-        """
-        self.config = config or {}
-
-    def create_json_provider(self, base_path: Path) -> DataProvider:
-        """Create JSON data provider
-
-        Args:
-            base_path: Base directory for JSON files
-
-        Returns:
-            JSONDataProvider instance
-        """
-        from .data.json_provider import JSONDataProvider
-
-        return JSONDataProvider(base_path)
-
-    def create_memory_provider(self) -> DataProvider:
-        """Create memory data provider
-
-        Returns:
-            MemoryDataProvider instance
-        """
-        from .data.memory_provider import MemoryDataProvider
-
-        return MemoryDataProvider()
-
-
-class MediaProviderFactory:
-    """Factory for creating media providers"""
-
-    def __init__(self, config: dict | None = None) -> None:
-        """Initialize factory with configuration
-
-        Args:
-            config: Configuration dictionary
-        """
-        self.config = config or {}
-
-    def create_provider(
-        self, provider_name: str, **kwargs: Any
-    ) -> MediaProvider | None:
-        """Create media provider by name
-
-        Args:
-            provider_name: Name of provider ('openai', 'runware', 'forvo', 'mock')
-            **kwargs: Additional arguments for provider constructor
-
-        Returns:
-            MediaProvider instance if successful, None otherwise
-        """
-        if provider_name.lower() == "openai":
-            return self.create_openai_provider(**kwargs)
-        elif provider_name.lower() == "runware":
-            return self.create_runware_provider(**kwargs)
-        elif provider_name.lower() == "forvo":
-            return self.create_forvo_provider(**kwargs)
-        elif provider_name.lower() == "mock":
-            return self.create_mock_provider(**kwargs)
-        else:
-            return None
-
-    def create_openai_provider(self, api_key: str | None = None) -> MediaProvider:
-        """Create OpenAI media provider
-
-        Args:
-            api_key: Optional API key
-
-        Returns:
-            OpenAIMediaProvider instance
-        """
-        from .media.openai_provider import OpenAIProvider
-
-        return OpenAIProvider()
-
-    def create_runware_provider(self, api_key: str | None = None) -> MediaProvider:
-        """Create Runware media provider
-
-        Args:
-            api_key: Optional API key
-
-        Returns:
-            RunwareMediaProvider instance
-        """
-        from .media.runware_provider import RunwareProvider
-
-        return RunwareProvider()
-
-    def create_forvo_provider(self, api_key: str | None = None) -> MediaProvider:
-        """Create Forvo media provider
-
-        Args:
-            api_key: Optional API key
-
-        Returns:
-            ForvoMediaProvider instance
-        """
-        from .media.forvo_provider import ForvoProvider
-
-        return ForvoProvider()
-
-    def create_mock_provider(
-        self, supported_types: list[str] | None = None, should_fail: bool = False
-    ) -> MediaProvider:
-        """Create mock media provider
-
-        Args:
-            supported_types: List of supported media types
-            should_fail: Whether provider should simulate failures
-
-        Returns:
-            MockMediaProvider instance
-        """
-        from .media.mock_provider import MockMediaProvider
-
-        return MockMediaProvider(
-            supported_types=supported_types, should_fail=should_fail
-        )
-
-    def create_provider_with_fallback(
-        self, config: dict[str, Any]
-    ) -> MediaProvider | None:
-        """Create media provider with fallback configuration
-
-        Args:
-            config: Configuration with 'primary' and 'fallback' providers
-
-        Returns:
-            Primary provider if successful, otherwise first working fallback
-        """
-        primary = config.get("primary")
-        fallbacks = config.get("fallback", [])
-
-        # Try primary provider first
-        if primary:
-            try:
-                provider = self.create_provider(primary)
-                if provider:
-                    return provider
-            except Exception:
-                pass
-
-        # Try fallback providers
-        for fallback_name in fallbacks:
-            try:
-                provider = self.create_provider(fallback_name)
-                if provider:
-                    return provider
-            except Exception:
-                continue
-
-        return None
-
-    def get_primary_provider(self) -> MediaProvider | None:
-        """Get primary provider from configuration
-
-        Returns:
-            Primary MediaProvider based on config
-        """
-        image_config = self.config.get("image_generation", {})
-        primary_provider = image_config.get("primary_provider", "openai")
-        return self.create_provider(primary_provider)
-
-
-class SyncProviderFactory:
-    """Factory for creating sync providers"""
-
-    def __init__(self, config: dict | None = None) -> None:
-        """Initialize factory with configuration
-
-        Args:
-            config: Configuration dictionary
-        """
-        self.config = config or {}
-
-    def create_anki_provider(self) -> SyncProvider:
-        """Create Anki sync provider
-
-        Returns:
-            AnkiSyncProvider instance
-        """
-        from .sync.anki_provider import AnkiProvider
-
-        return AnkiProvider()
-
-    def create_mock_provider(
-        self, provider_name: str = "anki", should_fail: bool = False
-    ) -> SyncProvider:
-        """Create mock sync provider
-
-        Args:
-            provider_name: Name of provider being mocked
-            should_fail: Whether provider should simulate failures
-
-        Returns:
-            MockSyncProvider instance
-        """
-        from .sync.mock_provider import MockSyncProvider
-
-        return MockSyncProvider(should_fail=should_fail)

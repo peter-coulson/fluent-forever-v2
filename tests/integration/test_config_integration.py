@@ -33,7 +33,7 @@ class TestPipelineRunnerIntegration:
 
         try:
             # Mock the pipeline runner's config loading
-            with patch("src.cli.pipeline_runner.CLIConfig") as mock_cli_config:
+            with patch("src.cli.pipeline_runner.Config") as mock_config_class:
                 mock_config = MagicMock()
                 mock_config.get.side_effect = lambda key, default=None: {
                     "system.log_level": "info",
@@ -41,7 +41,7 @@ class TestPipelineRunnerIntegration:
                     "providers.media": {"type": "mock"},
                     "providers.sync": {"type": "mock"},
                 }.get(key, default)
-                mock_cli_config.load.return_value = mock_config
+                mock_config_class.load.return_value = mock_config
 
                 # Mock provider registry creation
                 with patch(
