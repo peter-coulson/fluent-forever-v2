@@ -34,8 +34,6 @@ Examples:
   %(prog)s run vocabulary --stage prepare --words por,para
   %(prog)s run vocabulary --stage sync --execute
 
-  # Preview
-  %(prog)s preview vocabulary --card-id lo_neuter_article
         """,
     )
 
@@ -69,17 +67,6 @@ Examples:
         "--dry-run", action="store_true", help="Show what would be done"
     )
 
-    # Preview command
-    preview_parser = subparsers.add_parser("preview", help="Preview cards")
-    preview_parser.add_argument("pipeline", help="Pipeline name")
-    preview_parser.add_argument("--card-id", help="Card ID to preview")
-    preview_parser.add_argument(
-        "--port", type=int, default=8000, help="Preview server port"
-    )
-    preview_parser.add_argument(
-        "--start-server", action="store_true", help="Start preview server"
-    )
-
     return parser
 
 
@@ -95,18 +82,17 @@ def main() -> int:
         parser.print_help()
         return 1
 
-    # Load configuration
-    config = Config.load(getattr(args, "config", None))
-
-    # Setup registries
-    pipeline_registry = get_pipeline_registry()
-    provider_registry = ProviderRegistry.from_config(config)
-
-    # Register pipelines using centralized system
-
-    project_root = Path(__file__).parents[2]
-
     try:
+        # Load configuration
+        config = Config.load(getattr(args, "config", None))
+
+        # Setup registries
+        pipeline_registry = get_pipeline_registry()
+        provider_registry = ProviderRegistry.from_config(config)
+
+        # Register pipelines using centralized system
+
+        project_root = Path(__file__).parents[2]
         # Validate command arguments
         validation_errors = validate_arguments(args.command, args)
         if validation_errors:

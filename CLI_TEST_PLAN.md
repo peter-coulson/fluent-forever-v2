@@ -63,20 +63,22 @@ This document outlines the minimal set of crucial tests needed to validate the C
 - Stage execution timeout scenarios
 - Invalid CLI argument combinations specific to pipelines
 
-### 5. Configuration Management (`CLIConfig`)
+### 5. Configuration Management (`Config`)
 
 #### Critical Tests:
 - **Missing config files**: Default config fallback behavior
 - **Invalid JSON**: Malformed configuration file handling
-- **Provider initialization failures**: Fallback to mock providers
 - **Config file I/O errors**: Permission denied, disk full scenarios
 - **Default config generation**: Ensure sensible defaults are applied
+- **Provider registry initialization**: `ProviderRegistry.from_config()` functionality
+- **Provider initialization failures**: Fallback to mock providers when real providers fail
 
 #### Edge Cases:
 - Config file exists but is empty
 - Config with partial provider definitions
 - Config with invalid provider types
-- Nested configuration key access failures
+- Nested configuration key access with dot notation
+- Missing provider configuration sections
 - Config file modification during runtime
 
 ### 6. Output Formatting (`output.py`)
@@ -132,10 +134,11 @@ This document outlines the minimal set of crucial tests needed to validate the C
 ## Test Data Requirements
 
 ### Minimal Test Fixtures:
-- **Valid config file**: Basic working configuration
+- **Valid config.json file**: Basic working configuration with providers section
 - **Invalid config file**: Malformed JSON for error testing
 - **Mock pipeline registry**: Test pipeline with various stage configurations
 - **Test data files**: Sample input files for validation testing
+- **Provider registry mocks**: Mock registries for testing provider initialization failures
 
 ### Environment Setup:
 - Temporary directories for config testing

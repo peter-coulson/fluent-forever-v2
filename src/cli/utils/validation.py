@@ -33,14 +33,6 @@ def validate_arguments(command: str, args: Any) -> list[str]:
             elif args.stage == "media" and not args.cards:
                 errors.append("--cards is required for media stage")
 
-    elif command == "preview":
-        if not args.pipeline:
-            errors.append("Pipeline name is required for preview command")
-        if not args.start_server and not args.card_id:
-            errors.append(
-                "Either --start-server or --card-id must be specified for preview"
-            )
-
     return errors
 
 
