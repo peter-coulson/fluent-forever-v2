@@ -74,11 +74,13 @@ class TestRunCommand:
 
         # Add mock providers
         mock_data_provider = Mock()
-        mock_media_provider = Mock()
+        mock_audio_provider = Mock()
+        mock_image_provider = Mock()
         mock_sync_provider = Mock()
 
         self.provider_registry.register_data_provider("default", mock_data_provider)
-        self.provider_registry.register_media_provider("default", mock_media_provider)
+        self.provider_registry.register_audio_provider("default", mock_audio_provider)
+        self.provider_registry.register_image_provider("default", mock_image_provider)
         self.provider_registry.register_sync_provider("default", mock_sync_provider)
 
     def test_run_command_creation(self):
@@ -318,7 +320,8 @@ class TestRunCommand:
         # Check providers are in context
         providers = context.get("providers")
         assert "data" in providers
-        assert "media" in providers
+        assert "audio" in providers
+        assert "image" in providers
         assert "sync" in providers
 
     def test_execute_pipeline_stage_success(self):

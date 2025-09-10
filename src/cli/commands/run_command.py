@@ -104,7 +104,8 @@ class RunCommand:
             "providers",
             {
                 "data": self.provider_registry.get_data_provider("default"),
-                "media": self.provider_registry.get_media_provider("default"),
+                "audio": self.provider_registry.get_audio_provider("default"),
+                "image": self.provider_registry.get_image_provider("default"),
                 "sync": self.provider_registry.get_sync_provider("default"),
             },
         )

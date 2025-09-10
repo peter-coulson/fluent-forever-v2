@@ -12,9 +12,11 @@
       "type": "json",
       "base_path": "."
     },
-    "media": {
-      "type": "openai",
-      "primary": "runware"
+    "audio": {
+      "type": "forvo"
+    },
+    "image": {
+      "type": "runware"
     },
     "sync": {
       "type": "anki"

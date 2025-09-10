@@ -20,7 +20,8 @@ class ProviderRegistry:
 
     def __init__(self) -> None:
         self._data_providers: dict[str, DataProvider] = {}
-        self._media_providers: dict[str, MediaProvider] = {}
+        self._audio_providers: dict[str, MediaProvider] = {}
+        self._image_providers: dict[str, MediaProvider] = {}
         self._sync_providers: dict[str, SyncProvider] = {}
 
     # Data Provider Methods
@@ -48,18 +49,18 @@ class ProviderRegistry:
         """List all registered data provider names"""
         return list(self._data_providers.keys())
 
-    # Media Provider Methods
-    def register_media_provider(self, name: str, provider: MediaProvider) -> None:
-        """Register a media provider
+    # Audio Provider Methods
+    def register_audio_provider(self, name: str, provider: MediaProvider) -> None:
+        """Register an audio provider
 
         Args:
             name: Provider name
-            provider: MediaProvider instance
+            provider: MediaProvider instance that supports audio
         """
-        self._media_providers[name] = provider
+        self._audio_providers[name] = provider
 
-    def get_media_provider(self, name: str) -> MediaProvider | None:
-        """Get media provider by name
+    def get_audio_provider(self, name: str) -> MediaProvider | None:
+        """Get audio provider by name
 
         Args:
             name: Provider name
@@ -67,26 +68,36 @@ class ProviderRegistry:
         Returns:
             MediaProvider instance if found, None otherwise
         """
-        return self._media_providers.get(name)
+        return self._audio_providers.get(name)
 
-    def list_media_providers(self) -> list[str]:
-        """List all registered media provider names"""
-        return list(self._media_providers.keys())
+    def list_audio_providers(self) -> list[str]:
+        """List all registered audio provider names"""
+        return list(self._audio_providers.keys())
 
-    def get_media_providers_by_type(self, media_type: str) -> list[MediaProvider]:
-        """Get all media providers that support a specific media type
+    # Image Provider Methods
+    def register_image_provider(self, name: str, provider: MediaProvider) -> None:
+        """Register an image provider
 
         Args:
-            media_type: Media type to filter by ('image', 'audio', etc.)
+            name: Provider name
+            provider: MediaProvider instance that supports images
+        """
+        self._image_providers[name] = provider
+
+    def get_image_provider(self, name: str) -> MediaProvider | None:
+        """Get image provider by name
+
+        Args:
+            name: Provider name
 
         Returns:
-            List of MediaProvider instances that support the type
+            MediaProvider instance if found, None otherwise
         """
-        return [
-            provider
-            for provider in self._media_providers.values()
-            if provider.supports_type(media_type)
-        ]
+        return self._image_providers.get(name)
+
+    def list_image_providers(self) -> list[str]:
+        """List all registered image provider names"""
+        return list(self._image_providers.keys())
 
     # Sync Provider Methods
     def register_sync_provider(self, name: str, provider: SyncProvider) -> None:
@@ -117,7 +128,8 @@ class ProviderRegistry:
     def clear_all(self) -> None:
         """Clear all registered providers"""
         self._data_providers.clear()
-        self._media_providers.clear()
+        self._audio_providers.clear()
+        self._image_providers.clear()
         self._sync_providers.clear()
 
     def get_provider_info(self) -> dict[str, Any]:
@@ -131,21 +143,13 @@ class ProviderRegistry:
                 "count": len(self._data_providers),
                 "names": list(self._data_providers.keys()),
             },
-            "media_providers": {
-                "count": len(self._media_providers),
-                "names": list(self._media_providers.keys()),
-                "by_type": {
-                    "image": [
-                        name
-                        for name, provider in self._media_providers.items()
-                        if provider.supports_type("image")
-                    ],
-                    "audio": [
-                        name
-                        for name, provider in self._media_providers.items()
-                        if provider.supports_type("audio")
-                    ],
-                },
+            "audio_providers": {
+                "count": len(self._audio_providers),
+                "names": list(self._audio_providers.keys()),
+            },
+            "image_providers": {
+                "count": len(self._image_providers),
+                "names": list(self._image_providers.keys()),
             },
             "sync_providers": {
                 "count": len(self._sync_providers),
@@ -173,18 +177,37 @@ class ProviderRegistry:
             base_path = Path(data_config.get("base_path", "."))
             registry.register_data_provider("default", JSONDataProvider(base_path))
 
-        # Initialize media providers
-        media_config = config.get("providers.media", {})
-        media_type = media_config.get("type", "openai")
+        # Initialize audio providers (optional)
+        audio_config = config.get("providers.audio", {})
+        if audio_config:  # Only create if configured
+            audio_type = audio_config.get("type", "forvo")
 
-        if media_type == "openai":
-            from .media.openai_provider import OpenAIProvider
+            if audio_type == "forvo":
+                from .audio.forvo_provider import ForvoProvider
 
-            registry.register_media_provider("default", OpenAIProvider())
-        else:
-            raise ValueError(
-                f"Unsupported media provider type: {media_type}. Only 'openai' is supported."
-            )
+                registry.register_audio_provider("default", ForvoProvider())
+            else:
+                raise ValueError(
+                    f"Unsupported audio provider type: {audio_type}. Supported: 'forvo'"
+                )
+
+        # Initialize image providers (optional)
+        image_config = config.get("providers.image", {})
+        if image_config:  # Only create if configured
+            image_type = image_config.get("type", "runware")
+
+            if image_type == "runware":
+                from .image.runware_provider import RunwareProvider
+
+                registry.register_image_provider("default", RunwareProvider())
+            elif image_type == "openai":
+                from .image.openai_provider import OpenAIProvider
+
+                registry.register_image_provider("default", OpenAIProvider())
+            else:
+                raise ValueError(
+                    f"Unsupported image provider type: {image_type}. Supported: 'runware', 'openai'"
+                )
 
         # Initialize sync providers
         sync_config = config.get("providers.sync", {})

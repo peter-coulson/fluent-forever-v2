@@ -23,15 +23,9 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
     def __init__(self) -> None:
         BaseAPIClient.__init__(self, "Forvo")
 
-        # Handle both old and new config structure during migration
+        # Handle both old and new config structure
         if "apis" in self.config and "forvo" in self.config["apis"]:
             self.api_config = self.config["apis"]["forvo"]
-        elif (
-            "providers" in self.config
-            and "media" in self.config["providers"]
-            and "forvo" in self.config["providers"]["media"]
-        ):
-            self.api_config = self.config["providers"]["media"]["forvo"]
         else:
             # Fallback config
             self.api_config = {
