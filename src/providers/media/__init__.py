@@ -3,6 +3,7 @@ Media providers for different media generation services.
 """
 
 from .forvo_provider import ForvoProvider
-from .mock_provider import MockMediaProvider
+from .openai_provider import OpenAIProvider
+from .runware_provider import RunwareProvider
 
-__all__ = ["ForvoProvider", "MockMediaProvider"]
+__all__ = ["ForvoProvider", "OpenAIProvider", "RunwareProvider"]

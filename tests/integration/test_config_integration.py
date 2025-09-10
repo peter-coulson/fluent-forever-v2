@@ -22,8 +22,8 @@ class TestPipelineRunnerIntegration:
             "system": {"log_level": "info"},
             "providers": {
                 "data": {"type": "json", "base_path": "."},
-                "media": {"type": "mock"},
-                "sync": {"type": "mock"},
+                "media": {"type": "openai"},
+                "sync": {"type": "anki"},
             },
         }
 
@@ -38,8 +38,8 @@ class TestPipelineRunnerIntegration:
                 mock_config.get.side_effect = lambda key, default=None: {
                     "system.log_level": "info",
                     "providers.data": {"type": "json", "base_path": "."},
-                    "providers.media": {"type": "mock"},
-                    "providers.sync": {"type": "mock"},
+                    "providers.media": {"type": "openai"},
+                    "providers.sync": {"type": "anki"},
                 }.get(key, default)
                 mock_config_class.load.return_value = mock_config
 
@@ -69,34 +69,60 @@ class TestPipelineRunnerIntegration:
 
     def test_config_changes_reflected_in_providers(self):
         """Test that config changes are properly reflected in initialized providers"""
-        # Test different provider configurations
-        configs = [
-            {"providers": {"media": {"type": "mock"}, "sync": {"type": "mock"}}},
-            {"providers": {"media": {"type": "openai"}, "sync": {"type": "anki"}}},
-        ]
 
-        for config_data in configs:
-            with tempfile.NamedTemporaryFile(
-                mode="w", suffix=".json", delete=False
-            ) as f:
-                json.dump(config_data, f)
-                config_path = f.name
+        config_data = {
+            "providers": {"media": {"type": "openai"}, "sync": {"type": "anki"}}
+        }
 
-            try:
-                config = Config(config_path)
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
 
-                # Test that different configs would produce different registries
-                # (This will fail until implementation is complete)
-                try:
-                    registry = ProviderRegistry.from_config(config)
-                    # If this works, verify different configs produce different providers
-                    assert registry is not None
-                except AttributeError:
-                    # Expected until from_config method is implemented
-                    pass
+        try:
+            config = Config(config_path)
 
-            finally:
-                Path(config_path).unlink()
+            # Mock the providers to avoid requiring actual API keys/services
+            with (
+                patch(
+                    "src.providers.media.openai_provider.OpenAIProvider"
+                ) as mock_openai,
+                patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
+            ):
+                registry = ProviderRegistry.from_config(config)
+
+                # Verify registry was created and providers were initialized
+                assert registry is not None
+                assert registry.get_media_provider("default") is not None
+                assert registry.get_sync_provider("default") is not None
+
+                # Verify providers were called
+                mock_openai.assert_called_once()
+                mock_anki.assert_called_once()
+
+        finally:
+            Path(config_path).unlink()
+
+    def test_config_unsupported_provider_types_fail_fast(self):
+        """Test that unsupported provider types cause immediate failure"""
+        config_data = {
+            "providers": {"media": {"type": "unsupported"}, "sync": {"type": "anki"}}
+        }
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+
+            # Should raise ValueError for unsupported provider type
+            with pytest.raises(
+                ValueError, match="Unsupported media provider type: unsupported"
+            ):
+                ProviderRegistry.from_config(config)
+
+        finally:
+            Path(config_path).unlink()
 
 
 class TestConfigWorkflowEndToEnd:
@@ -109,8 +135,8 @@ class TestConfigWorkflowEndToEnd:
             "system": {"log_level": "debug", "max_workers": 2},
             "providers": {
                 "data": {"type": "json", "base_path": "${DATA_PATH}"},
-                "media": {"type": "mock", "supported_types": ["image", "audio"]},
-                "sync": {"type": "mock"},
+                "media": {"type": "openai"},
+                "sync": {"type": "anki"},
             },
         }
 
@@ -127,8 +153,13 @@ class TestConfigWorkflowEndToEnd:
                 assert config.get("system.log_level") == "debug"
                 assert config.get("providers.data.base_path") == "/tmp/test_data"
 
-                # Test provider registry creation (will fail until implemented)
-                try:
+                # Test provider registry creation with mocked providers
+                with (
+                    patch(
+                        "src.providers.media.openai_provider.OpenAIProvider"
+                    ) as mock_openai,
+                    patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
+                ):
                     registry = ProviderRegistry.from_config(config)
 
                     # Verify providers were created with correct config
@@ -140,9 +171,9 @@ class TestConfigWorkflowEndToEnd:
                     assert media_provider is not None
                     assert sync_provider is not None
 
-                except AttributeError:
-                    # Expected until implementation is complete
-                    pass
+                    # Verify providers were initialized
+                    mock_openai.assert_called_once()
+                    mock_anki.assert_called_once()
 
         finally:
             Path(config_path).unlink()
@@ -174,12 +205,17 @@ class TestConfigWorkflowEndToEnd:
         try:
             config = Config(empty_config_path)
             # Should handle missing provider sections gracefully
-            try:
+            with (
+                patch(
+                    "src.providers.media.openai_provider.OpenAIProvider"
+                ) as mock_openai,
+                patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
+            ):
                 registry = ProviderRegistry.from_config(config)
                 # Should create default providers even with empty config
                 assert registry is not None
-            except AttributeError:
-                # Expected until implementation is complete
-                pass
+                # Verify defaults were used
+                mock_openai.assert_called_once()
+                mock_anki.assert_called_once()
         finally:
             Path(empty_config_path).unlink()

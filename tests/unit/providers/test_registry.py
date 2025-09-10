@@ -262,23 +262,20 @@ class TestProviderRegistry:
         retrieved = registry2.get_data_provider("test")
         assert retrieved is provider
 
-
-class TestProviderRegistryFromConfig:
-    """Test cases for ProviderRegistry.from_config method."""
-
-    def test_from_config_basic_functionality(self):
-        """Test from_config method directly creates providers without factories"""
+    def test_from_config_unsupported_provider_types(self):
+        """Test that unsupported provider types raise ValueError"""
         import json
         import tempfile
         from pathlib import Path
 
+        import pytest
         from src.core.config import Config
 
+        # Test unsupported media provider
         config_data = {
             "providers": {
-                "data": {"type": "json", "base_path": "."},
-                "media": {"type": "mock"},
-                "sync": {"type": "mock"},
+                "media": {"type": "unsupported"},
+                "sync": {"type": "anki"},
             }
         }
 
@@ -288,26 +285,92 @@ class TestProviderRegistryFromConfig:
 
         try:
             config = Config(config_path)
-            registry = ProviderRegistry.from_config(config)
-
-            # Verify providers were created
-            assert registry.get_data_provider("default") is not None
-            assert registry.get_media_provider("default") is not None
-            assert registry.get_sync_provider("default") is not None
-
-            # Verify correct types
-            data_provider = registry.get_data_provider("default")
-            assert data_provider.__class__.__name__ == "JSONDataProvider"
+            with pytest.raises(
+                ValueError, match="Unsupported media provider type: unsupported"
+            ):
+                ProviderRegistry.from_config(config)
         finally:
             Path(config_path).unlink()
 
-    def test_from_config_fallback_behavior(self):
-        """Test provider initialization falls back to mock when real provider fails"""
+        # Test unsupported sync provider
+        config_data = {
+            "providers": {
+                "media": {"type": "openai"},
+                "sync": {"type": "unsupported"},
+            }
+        }
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+            with pytest.raises(
+                ValueError, match="Unsupported sync provider type: unsupported"
+            ):
+                ProviderRegistry.from_config(config)
+        finally:
+            Path(config_path).unlink()
+
+
+class TestProviderRegistryFromConfig:
+    """Test cases for ProviderRegistry.from_config method."""
+
+    def test_from_config_basic_functionality(self):
+        """Test from_config method creates providers with valid configuration"""
         import json
         import tempfile
         from pathlib import Path
         from unittest.mock import patch
 
+        from src.core.config import Config
+
+        config_data = {
+            "providers": {
+                "data": {"type": "json", "base_path": "."},
+                "media": {"type": "openai"},
+                "sync": {"type": "anki"},
+            }
+        }
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+
+            # Mock the providers to avoid requiring actual API keys/Anki
+            with (
+                patch(
+                    "src.providers.media.openai_provider.OpenAIProvider"
+                ) as mock_openai,
+                patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
+            ):
+                registry = ProviderRegistry.from_config(config)
+
+                # Verify providers were created
+                assert registry.get_data_provider("default") is not None
+                assert registry.get_media_provider("default") is not None
+                assert registry.get_sync_provider("default") is not None
+
+                # Verify correct types and initialization
+                data_provider = registry.get_data_provider("default")
+                assert data_provider.__class__.__name__ == "JSONDataProvider"
+                mock_openai.assert_called_once()
+                mock_anki.assert_called_once()
+        finally:
+            Path(config_path).unlink()
+
+    def test_from_config_provider_failure(self):
+        """Test provider initialization fails fast when providers cannot be created"""
+        import json
+        import tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+
+        import pytest
         from src.core.config import Config
 
         config_data = {
@@ -324,33 +387,24 @@ class TestProviderRegistryFromConfig:
         try:
             config = Config(config_path)
 
-            # Mock provider imports to simulate failures
+            # Mock provider imports to simulate failures and expect exception
             with (
                 patch(
                     "src.providers.media.openai_provider.OpenAIProvider",
                     side_effect=Exception("API key missing"),
                 ),
-                patch(
-                    "src.providers.sync.anki_provider.AnkiProvider",
-                    side_effect=Exception("Anki not running"),
-                ),
+                pytest.raises(Exception, match="API key missing"),
             ):
-                registry = ProviderRegistry.from_config(config)
-
-            # Should fallback to mock providers
-            media_provider = registry.get_media_provider("default")
-            sync_provider = registry.get_sync_provider("default")
-
-            assert media_provider.__class__.__name__ == "MockMediaProvider"
-            assert sync_provider.__class__.__name__ == "MockSyncProvider"
+                ProviderRegistry.from_config(config)
         finally:
             Path(config_path).unlink()
 
     def test_from_config_missing_sections(self):
-        """Test graceful handling of missing provider configuration sections"""
+        """Test handling of missing provider configuration sections"""
         import json
         import tempfile
         from pathlib import Path
+        from unittest.mock import patch
 
         from src.core.config import Config
 
@@ -363,15 +417,22 @@ class TestProviderRegistryFromConfig:
 
         try:
             config = Config(config_path)
-            registry = ProviderRegistry.from_config(config)
 
-            # Should create default providers even without config
-            assert registry.get_media_provider("default") is not None
-            assert registry.get_sync_provider("default") is not None
+            # Mock the providers to avoid requiring actual API keys/Anki
+            with (
+                patch(
+                    "src.providers.media.openai_provider.OpenAIProvider"
+                ) as mock_openai,
+                patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
+            ):
+                registry = ProviderRegistry.from_config(config)
 
-            # Should use defaults for missing data provider config
-            data_provider = registry.get_data_provider("default")
-            if data_provider:  # Only if data section was handled
-                assert data_provider.__class__.__name__ == "JSONDataProvider"
+                # Should create default providers using default types
+                assert registry.get_media_provider("default") is not None
+                assert registry.get_sync_provider("default") is not None
+
+                # Should use defaults (openai for media, anki for sync)
+                mock_openai.assert_called_once()
+                mock_anki.assert_called_once()
         finally:
             Path(config_path).unlink()

@@ -173,42 +173,31 @@ class ProviderRegistry:
             base_path = Path(data_config.get("base_path", "."))
             registry.register_data_provider("default", JSONDataProvider(base_path))
 
-        # Initialize media providers with fallback handling
+        # Initialize media providers
         media_config = config.get("providers.media", {})
         media_type = media_config.get("type", "openai")
 
         if media_type == "openai":
             from .media.openai_provider import OpenAIProvider
 
-            try:
-                registry.register_media_provider("default", OpenAIProvider())
-            except Exception:
-                # Fallback to mock provider
-                from .media.mock_provider import MockMediaProvider
-
-                registry.register_media_provider("default", MockMediaProvider())
+            registry.register_media_provider("default", OpenAIProvider())
         else:
-            # Default to mock provider
-            from .media.mock_provider import MockMediaProvider
+            raise ValueError(
+                f"Unsupported media provider type: {media_type}. Only 'openai' is supported."
+            )
 
-            registry.register_media_provider("default", MockMediaProvider())
-
-        # Initialize sync providers with fallback handling
+        # Initialize sync providers
         sync_config = config.get("providers.sync", {})
-        if sync_config.get("type") == "anki":
+        sync_type = sync_config.get("type", "anki")
+
+        if sync_type == "anki":
             from .sync.anki_provider import AnkiProvider
 
-            try:
-                registry.register_sync_provider("default", AnkiProvider())
-            except Exception:
-                # Fallback to mock provider
-                from .sync.mock_provider import MockSyncProvider
-
-                registry.register_sync_provider("default", MockSyncProvider())
+            registry.register_sync_provider("default", AnkiProvider())
         else:
-            from .sync.mock_provider import MockSyncProvider
-
-            registry.register_sync_provider("default", MockSyncProvider())
+            raise ValueError(
+                f"Unsupported sync provider type: {sync_type}. Only 'anki' is supported."
+            )
 
         return registry
 
