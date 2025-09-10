@@ -71,7 +71,7 @@ class TestPipelineRunnerIntegration:
         """Test that config changes are properly reflected in initialized providers"""
 
         config_data = {
-            "providers": {"media": {"type": "openai"}, "sync": {"type": "anki"}}
+            "providers": {"image": {"type": "openai"}, "sync": {"type": "anki"}}
         }
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
@@ -84,7 +84,7 @@ class TestPipelineRunnerIntegration:
             # Mock the providers to avoid requiring actual API keys/services
             with (
                 patch(
-                    "src.providers.media.openai_provider.OpenAIProvider"
+                    "src.providers.image.openai_provider.OpenAIProvider"
                 ) as mock_openai,
                 patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
             ):
@@ -92,7 +92,7 @@ class TestPipelineRunnerIntegration:
 
                 # Verify registry was created and providers were initialized
                 assert registry is not None
-                assert registry.get_media_provider("default") is not None
+                assert registry.get_image_provider("default") is not None
                 assert registry.get_sync_provider("default") is not None
 
                 # Verify providers were called
@@ -105,7 +105,7 @@ class TestPipelineRunnerIntegration:
     def test_config_unsupported_provider_types_fail_fast(self):
         """Test that unsupported provider types cause immediate failure"""
         config_data = {
-            "providers": {"media": {"type": "unsupported"}, "sync": {"type": "anki"}}
+            "providers": {"image": {"type": "unsupported"}, "sync": {"type": "anki"}}
         }
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
@@ -117,7 +117,7 @@ class TestPipelineRunnerIntegration:
 
             # Should raise ValueError for unsupported provider type
             with pytest.raises(
-                ValueError, match="Unsupported media provider type: unsupported"
+                ValueError, match="Unsupported image provider type: unsupported"
             ):
                 ProviderRegistry.from_config(config)
 
@@ -135,7 +135,7 @@ class TestConfigWorkflowEndToEnd:
             "system": {"log_level": "debug", "max_workers": 2},
             "providers": {
                 "data": {"type": "json", "base_path": "${DATA_PATH}"},
-                "media": {"type": "openai"},
+                "image": {"type": "openai"},
                 "sync": {"type": "anki"},
             },
         }
@@ -156,7 +156,7 @@ class TestConfigWorkflowEndToEnd:
                 # Test provider registry creation with mocked providers
                 with (
                     patch(
-                        "src.providers.media.openai_provider.OpenAIProvider"
+                        "src.providers.image.openai_provider.OpenAIProvider"
                     ) as mock_openai,
                     patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
                 ):
@@ -164,11 +164,11 @@ class TestConfigWorkflowEndToEnd:
 
                     # Verify providers were created with correct config
                     data_provider = registry.get_data_provider("default")
-                    media_provider = registry.get_media_provider("default")
+                    image_provider = registry.get_image_provider("default")
                     sync_provider = registry.get_sync_provider("default")
 
                     assert data_provider is not None
-                    assert media_provider is not None
+                    assert image_provider is not None
                     assert sync_provider is not None
 
                     # Verify providers were initialized
@@ -205,17 +205,11 @@ class TestConfigWorkflowEndToEnd:
         try:
             config = Config(empty_config_path)
             # Should handle missing provider sections gracefully
-            with (
-                patch(
-                    "src.providers.media.openai_provider.OpenAIProvider"
-                ) as mock_openai,
-                patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
-            ):
-                registry = ProviderRegistry.from_config(config)
-                # Should create default providers even with empty config
-                assert registry is not None
-                # Verify defaults were used
-                mock_openai.assert_called_once()
-                mock_anki.assert_called_once()
+            registry = ProviderRegistry.from_config(config)
+            # Should create default providers even with empty config
+            assert registry is not None
+            # With empty config, only data provider should be created by default
+            # Image and audio providers are optional and won't be created without config
+            assert registry.get_data_provider("default") is not None
         finally:
             Path(empty_config_path).unlink()

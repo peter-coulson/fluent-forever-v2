@@ -176,6 +176,10 @@ class ProviderRegistry:
 
             base_path = Path(data_config.get("base_path", "."))
             registry.register_data_provider("default", JSONDataProvider(base_path))
+        elif not data_config:  # Create default data provider when no config
+            from .data.json_provider import JSONDataProvider
+
+            registry.register_data_provider("default", JSONDataProvider(Path(".")))
 
         # Initialize audio providers (optional)
         audio_config = config.get("providers.audio", {})

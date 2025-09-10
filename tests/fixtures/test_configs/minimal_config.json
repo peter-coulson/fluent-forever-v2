@@ -1,0 +1,11 @@
+{
+  "providers": {
+    "data": {
+      "type": "json",
+      "base_path": "./test_data"
+    },
+    "sync": {
+      "type": "anki"
+    }
+  }
+}

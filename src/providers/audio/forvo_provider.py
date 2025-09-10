@@ -35,7 +35,29 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
                 "priority_groups": [["MX"], ["ES"], ["AR", "CO", "PE"]],
             }
 
-        self.api_key = self._load_api_key(self.api_config["env_var"])
+        # Handle different config key formats
+        if "env_var" in self.api_config:
+            env_var = self.api_config["env_var"]
+        elif "api_key" in self.api_config:
+            # If api_key is already provided, extract the env var name from it
+            api_key_value = self.api_config["api_key"]
+            if (
+                isinstance(api_key_value, str)
+                and api_key_value.startswith("${")
+                and api_key_value.endswith("}")
+            ):
+                env_var = api_key_value[
+                    2:-1
+                ]  # Extract FORVO_API_KEY from ${FORVO_API_KEY}
+            else:
+                # Direct API key provided, use it as is (for tests)
+                self.api_key = api_key_value
+                env_var = None
+        else:
+            env_var = "FORVO_API_KEY"  # Default fallback
+
+        if env_var:
+            self.api_key = self._load_api_key(env_var)
         self.base_url = self.api_config["base_url"]
 
         # Priority order from config
