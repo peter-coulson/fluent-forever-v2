@@ -88,8 +88,8 @@ class TestPipelineProviderIntegration:
         # Execute stage - should fail gracefully
         result = stage.execute(context)
         assert not result.success
-        assert "audio" in result.message
-        assert "not available" in result.message
+        assert "audio" in str(result.errors)
+        assert "validation failed" in result.message.lower()
 
     def test_pipeline_context_data_flow(self):
         """Test that data flows correctly between stages via context."""

@@ -2,6 +2,8 @@
 
 from typing import Any
 
+from src.utils.logging_config import ICONS, get_logger
+
 from .exceptions import PipelineAlreadyRegisteredError, PipelineNotFoundError
 from .pipeline import Pipeline
 
@@ -11,19 +13,31 @@ class PipelineRegistry:
 
     def __init__(self) -> None:
         self._pipelines: dict[str, Pipeline] = {}
+        self.logger = get_logger("core.registry")
 
     def register(self, pipeline: Pipeline) -> None:
         """Register a pipeline."""
+        self.logger.info(f"{ICONS['gear']} Registering pipeline '{pipeline.name}'")
+
         if pipeline.name in self._pipelines:
+            self.logger.error(
+                f"{ICONS['cross']} Pipeline '{pipeline.name}' already registered"
+            )
             raise PipelineAlreadyRegisteredError(
                 f"Pipeline '{pipeline.name}' already registered"
             )
 
         self._pipelines[pipeline.name] = pipeline
+        self.logger.info(
+            f"{ICONS['check']} Pipeline '{pipeline.name}' registered successfully"
+        )
 
     def get(self, name: str) -> Pipeline:
         """Get pipeline by name."""
+        self.logger.debug(f"Retrieving pipeline '{name}'")
+
         if name not in self._pipelines:
+            self.logger.error(f"{ICONS['cross']} Pipeline '{name}' not found")
             raise PipelineNotFoundError(f"Pipeline '{name}' not found")
 
         return self._pipelines[name]
@@ -39,6 +53,9 @@ class PipelineRegistry:
     def get_pipeline_info(self, name: str) -> dict[str, Any]:
         """Get information about a pipeline."""
         if not self.has_pipeline(name):
+            self.logger.error(
+                f"{ICONS['cross']} Pipeline '{name}' not found for info request"
+            )
             raise PipelineNotFoundError(f"Pipeline '{name}' not found")
 
         pipeline = self._pipelines[name]

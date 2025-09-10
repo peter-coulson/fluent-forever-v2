@@ -22,6 +22,7 @@ class ValidationStage(Stage):
         Args:
             data_key: Key in context for data to validate
         """
+        super().__init__()
         self.data_key = data_key
         self.logger = get_logger(f"stages.validation.{self.__class__.__name__.lower()}")
 
@@ -46,8 +47,10 @@ class ValidationStage(Stage):
         """
         pass
 
-    def execute(self, context: PipelineContext) -> StageResult:
+    def _execute_impl(self, context: PipelineContext) -> StageResult:
         """Execute validation on data from context"""
+        self.logger.info(f"{ICONS['gear']} Executing validation stage '{self.name}'")
+
         data = context.get(self.data_key)
         if data is None:
             return StageResult(
@@ -58,6 +61,7 @@ class ValidationStage(Stage):
             )
 
         # Validate data
+        self.logger.debug("Starting data validation...")
         try:
             errors = self.validate_data(data)
         except Exception as e:
@@ -69,6 +73,12 @@ class ValidationStage(Stage):
             )
 
         if errors:
+            self.logger.error(
+                f"{ICONS['cross']} Validation failed with {len(errors)} errors"
+            )
+            for error in errors:
+                self.logger.error(f"  - {error}")
+
             # Check if errors are structural (data format) or content validation issues
             structural_error_keywords = [
                 "must be a dictionary",
@@ -110,10 +120,11 @@ class ValidationStage(Stage):
                     errors=errors,
                 )
 
-        self.logger.info(f"{ICONS['check']} Validation passed")
-        return StageResult(
-            status=StageStatus.SUCCESS,
-            message="Validation passed",
-            data={"validation_status": "passed"},
-            errors=[],
-        )
+        else:
+            self.logger.info(f"{ICONS['check']} Validation passed")
+            return StageResult(
+                status=StageStatus.SUCCESS,
+                message="Validation passed",
+                data={"validation_status": "passed"},
+                errors=[],
+            )

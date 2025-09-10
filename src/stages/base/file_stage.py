@@ -30,6 +30,7 @@ class FileLoadStage(Stage):
             required: Whether the file must exist
             default_value: Default value if file doesn't exist and not required
         """
+        super().__init__()
         self.file_key = file_key
         self.required = required
         self.default_value = default_value or {}
@@ -43,8 +44,10 @@ class FileLoadStage(Stage):
     def display_name(self) -> str:
         return f"Load {self.file_key.replace('_', ' ').title()}"
 
-    def execute(self, context: PipelineContext) -> StageResult:
+    def _execute_impl(self, context: PipelineContext) -> StageResult:
         """Load JSON file from path specified in context"""
+        self.logger.info(f"{ICONS['gear']} Executing file stage '{self.name}'")
+
         file_path_str = context.get(self.file_key)
         if not file_path_str:
             return StageResult(
@@ -55,9 +58,11 @@ class FileLoadStage(Stage):
             )
 
         file_path = Path(file_path_str)
+        self.logger.info(f"{ICONS['file']} Operating on file: {file_path}")
 
         # Check if file exists
         if not file_path.exists():
+            self.logger.warning(f"{ICONS['warning']} File does not exist: {file_path}")
             if self.required:
                 return StageResult(
                     status=StageStatus.FAILURE,
@@ -88,7 +93,8 @@ class FileLoadStage(Stage):
             data_key = self.file_key.replace("_path", "").replace("_file", "")
             context.set(data_key, data)
 
-            self.logger.info(f"{ICONS['check']} Loaded {file_path}")
+            self.logger.info(f"{ICONS['check']} File operation completed")
+            self.logger.debug(f"Loaded {len(data)} items from {file_path}")
             return StageResult(
                 status=StageStatus.SUCCESS,
                 message=f"Loaded file: {file_path}",
@@ -124,6 +130,7 @@ class FileSaveStage(Stage):
             file_key: Key in context for file path
             create_dirs: Whether to create parent directories
         """
+        super().__init__()
         self.data_key = data_key
         self.file_key = file_key
         self.create_dirs = create_dirs
@@ -137,8 +144,10 @@ class FileSaveStage(Stage):
     def display_name(self) -> str:
         return f"Save {self.data_key.replace('_', ' ').title()}"
 
-    def execute(self, context: PipelineContext) -> StageResult:
+    def _execute_impl(self, context: PipelineContext) -> StageResult:
         """Save data to JSON file"""
+        self.logger.info(f"{ICONS['gear']} Executing file stage '{self.name}'")
+
         # Get data to save
         data = context.get(self.data_key)
         if data is None:
@@ -160,6 +169,7 @@ class FileSaveStage(Stage):
             )
 
         file_path = Path(file_path_str)
+        self.logger.info(f"{ICONS['file']} Operating on file: {file_path}")
 
         # Create directories if needed
         if self.create_dirs:
@@ -170,7 +180,10 @@ class FileSaveStage(Stage):
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
 
-            self.logger.info(f"{ICONS['check']} Saved {file_path}")
+            self.logger.info(f"{ICONS['check']} File operation completed")
+            self.logger.debug(
+                f"Saved {len(data) if isinstance(data, list | dict) else 'unknown'} items to {file_path}"
+            )
             return StageResult(
                 status=StageStatus.SUCCESS,
                 message=f"Saved file: {file_path}",
@@ -179,6 +192,7 @@ class FileSaveStage(Stage):
             )
 
         except Exception as e:
+            self.logger.error(f"{ICONS['cross']} File save failed: {e}")
             return StageResult(
                 status=StageStatus.FAILURE,
                 message=f"Failed to save file: {file_path}",

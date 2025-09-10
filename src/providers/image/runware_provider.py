@@ -12,12 +12,15 @@ from src.providers.base.media_provider import MediaProvider, MediaRequest, Media
 class RunwareProvider(MediaProvider):
     """Runware media provider placeholder"""
 
+    def __init__(self) -> None:
+        super().__init__()
+
     @property
     def supported_types(self) -> list[str]:
         """Media types supported by Runware provider"""
         return ["image"]
 
-    def generate_media(self, request: MediaRequest) -> MediaResult:
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         """Generate media using Runware API (placeholder)"""
         return MediaResult(
             success=False,
@@ -47,7 +50,7 @@ class RunwareProvider(MediaProvider):
 
     def generate_batch(self, requests: list[MediaRequest]) -> list[MediaResult]:
         """Generate batch media (placeholder)"""
-        return [self.generate_media(req) for req in requests]
+        return [self._generate_media_impl(req) for req in requests]
 
     def _download_image(self, url: str, output_path: Path | None = None) -> Path:
         """Download image from URL (placeholder method for testing)"""

@@ -11,6 +11,7 @@ class MockStage(Stage):
     """Mock stage for testing."""
 
     def __init__(self, name):
+        super().__init__()
         self._name = name
 
     @property
@@ -21,7 +22,7 @@ class MockStage(Stage):
     def display_name(self) -> str:
         return f"Mock {self._name.title()} Stage"
 
-    def execute(self, context) -> StageResult:
+    def _execute_impl(self, context) -> StageResult:
         return StageResult.success_result(f"{self._name} completed")
 
     def validate_context(self, context) -> list:

@@ -95,16 +95,21 @@ class TestProviderWorkflows:
 
     def test_e2e_media_provider_connection_failure(self):
         """Test external service unavailable scenarios."""
+        from src.providers.base.media_provider import MediaRequest
+
         provider = MockMediaProvider("audio")
 
-        # Test normal connection
-        assert provider.test_connection()
+        # Test normal operation
+        request = MediaRequest(type="audio", content="test", params={})
+        result = provider.generate_media(request)
+        assert result.success
 
-        # Simulate connection failure
+        # Simulate service failure
         provider.should_fail = True
 
-        # Test connection failure
-        assert not provider.test_connection()
+        # Test service failure
+        result = provider.generate_media(request)
+        assert not result.success
 
     def test_e2e_media_provider_generation_workflow(self):
         """Test complete media generation workflow."""
@@ -144,7 +149,7 @@ class TestProviderWorkflows:
         result = provider.generate_media(request)
 
         assert not result.success
-        assert "unsupported" in result.error.lower()
+        assert "not supported" in result.error.lower()
 
     def test_e2e_sync_provider_workflow(self):
         """Test complete sync provider workflow."""
@@ -192,14 +197,17 @@ class TestProviderWorkflows:
         """Test authentication error scenarios."""
         # This test simulates authentication failures that might occur
         # with real providers (though our mocks don't implement actual auth)
+        from src.providers.base.media_provider import MediaRequest
 
         provider = MockMediaProvider("audio")
 
         # Simulate authentication failure
         provider.should_fail = True
 
-        # Connection test should fail (simulating auth issue)
-        assert not provider.test_connection()
+        # Media generation should fail (simulating auth issue)
+        request = MediaRequest(type="audio", content="test", params={})
+        result = provider.generate_media(request)
+        assert not result.success
 
         # Service operations should fail
         from src.providers.base.media_provider import MediaRequest
@@ -277,5 +285,9 @@ class TestProviderWorkflows:
 
         # Mock providers don't use real environment variables,
         # but this tests the environment is accessible
+        from src.providers.base.media_provider import MediaRequest
+
         provider = MockMediaProvider("audio")
-        assert provider.test_connection()  # Should work regardless
+        request = MediaRequest(type="audio", content="test", params={})
+        result = provider.generate_media(request)
+        assert result.success  # Should work regardless

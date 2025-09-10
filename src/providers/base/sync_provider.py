@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from src.utils.logging_config import ICONS, get_logger
+
 
 @dataclass
 class SyncRequest:
@@ -47,13 +49,33 @@ class SyncResult:
 class SyncProvider(ABC):
     """Abstract interface for sync targets"""
 
-    @abstractmethod
+    def __init__(self) -> None:
+        self.logger = get_logger(f"providers.sync.{self.__class__.__name__.lower()}")
+
     def test_connection(self) -> bool:
         """Test connection to sync target
 
         Returns:
             True if connection is successful
         """
+        self.logger.info(f"{ICONS['gear']} Testing connection to sync service...")
+
+        try:
+            result = self._test_connection_impl()
+
+            if result:
+                self.logger.info(f"{ICONS['check']} Connection test successful")
+            else:
+                self.logger.error(f"{ICONS['cross']} Connection test failed")
+
+            return result
+        except Exception as e:
+            self.logger.error(f"{ICONS['cross']} Connection test error: {e}")
+            return False
+
+    @abstractmethod
+    def _test_connection_impl(self) -> bool:
+        """Implementation-specific connection test"""
         pass
 
     @abstractmethod
@@ -81,7 +103,6 @@ class SyncProvider(ABC):
         """
         pass
 
-    @abstractmethod
     def sync_cards(self, cards: list[dict]) -> SyncResult:
         """Sync card data to target
 
@@ -91,6 +112,33 @@ class SyncProvider(ABC):
         Returns:
             SyncResult indicating success/failure
         """
+        card_count = len(cards)
+        self.logger.info(f"{ICONS['gear']} Syncing {card_count} cards...")
+
+        try:
+            result = self._sync_cards_impl(cards)
+
+            if result.success:
+                self.logger.info(
+                    f"{ICONS['check']} Sync completed: {result.processed_count}/{card_count} cards processed"
+                )
+                if hasattr(result, "metadata") and result.metadata:
+                    self.logger.debug(f"Sync stats: {result.metadata}")
+            else:
+                self.logger.error(
+                    f"{ICONS['cross']} Sync failed: {result.error_message}"
+                )
+
+            return result
+        except Exception as e:
+            self.logger.error(f"{ICONS['cross']} Sync operation failed: {e}")
+            return SyncResult(
+                success=False, processed_count=0, metadata={}, error_message=str(e)
+            )
+
+    @abstractmethod
+    def _sync_cards_impl(self, cards: list[dict]) -> SyncResult:
+        """Implementation-specific card syncing"""
         pass
 
     @abstractmethod

@@ -69,6 +69,7 @@ class TestPipelineExceptions:
 
         class ContextPreservingStage(Stage):
             def __init__(self, name, error_to_raise=None):
+                super().__init__()
                 self._name = name
                 self._error_to_raise = error_to_raise
 
@@ -80,7 +81,7 @@ class TestPipelineExceptions:
             def display_name(self) -> str:
                 return f"Context Preserving {self._name}"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 if self._error_to_raise:
                     raise self._error_to_raise
                 return StageResult.success_result("Success")

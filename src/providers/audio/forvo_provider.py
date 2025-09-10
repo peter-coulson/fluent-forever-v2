@@ -21,6 +21,7 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
     """Forvo media provider for Spanish pronunciation audio"""
 
     def __init__(self) -> None:
+        MediaProvider.__init__(self)
         BaseAPIClient.__init__(self, "Forvo")
 
         # Handle both old and new config structure
@@ -106,7 +107,7 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
             "supported_countries": self.country_priorities,
         }
 
-    def generate_media(self, request: MediaRequest) -> MediaResult:
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         """
         Generate audio media using Forvo API
 

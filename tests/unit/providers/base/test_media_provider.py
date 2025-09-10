@@ -9,18 +9,14 @@ from src.providers.base.media_provider import MediaProvider, MediaRequest, Media
 class MockMediaProvider(MediaProvider):
     """Mock media provider for testing interface."""
 
+    def __init__(self):
+        super().__init__()
+
     @property
     def supported_types(self) -> list[str]:
         return ["image", "audio"]
 
-    def generate_media(self, request: MediaRequest) -> MediaResult:
-        if not self.supports_type(request.type):
-            return MediaResult(
-                success=False,
-                file_path=None,
-                metadata={},
-                error=f"Unsupported type: {request.type}",
-            )
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         return MediaResult(
             success=True,
             file_path=Path(f"test_{request.type}.file"),
@@ -162,7 +158,7 @@ class TestMediaProvider:
 
         assert not result.success
         assert result.file_path is None
-        assert "Unsupported type: video" in result.error
+        assert "not supported" in result.error
 
     def test_generate_image_convenience_method(self):
         """Test generate_image convenience method."""
@@ -216,13 +212,14 @@ class TestMediaProvider:
 
         class ParameterTrackingProvider(MediaProvider):
             def __init__(self):
+                super().__init__()
                 self.last_request = None
 
             @property
             def supported_types(self) -> list[str]:
                 return ["image", "audio"]
 
-            def generate_media(self, request: MediaRequest) -> MediaResult:
+            def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
                 self.last_request = request
                 return MediaResult(success=True, file_path=None, metadata={})
 

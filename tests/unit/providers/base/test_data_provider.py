@@ -8,14 +8,15 @@ class MockDataProvider(DataProvider):
     """Mock data provider for testing."""
 
     def __init__(self):
+        super().__init__()
         self.data_store = {}
 
-    def load_data(self, identifier: str) -> dict:
+    def _load_data_impl(self, identifier: str) -> dict:
         if identifier not in self.data_store:
             raise ValueError(f"Data '{identifier}' not found")
         return self.data_store[identifier]
 
-    def save_data(self, identifier: str, data: dict) -> bool:
+    def _save_data_impl(self, identifier: str, data: dict) -> bool:
         self.data_store[identifier] = data
         return True
 

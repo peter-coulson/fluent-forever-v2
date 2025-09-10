@@ -3,6 +3,8 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+from src.utils.logging_config import ICONS, get_context_logger, log_performance
+
 from .context import PipelineContext
 from .exceptions import StageNotFoundError
 from .stages import Stage, StageResult
@@ -34,32 +36,61 @@ class Pipeline(ABC):
         """Get a stage instance by name."""
         pass
 
+    @log_performance("fluent_forever.core.pipeline")
     def execute_stage(self, stage_name: str, context: PipelineContext) -> StageResult:
         """Execute a specific stage with context."""
+        logger = get_context_logger("core.pipeline", context.pipeline_name)
+
+        logger.info(
+            f"{ICONS['gear']} Executing stage '{stage_name}' in pipeline '{self.name}'"
+        )
+
         try:
+            # Before stage retrieval
+            logger.debug(f"Retrieving stage '{stage_name}'...")
             stage = self.get_stage(stage_name)
+            logger.debug(f"Stage '{stage_name}' retrieved successfully")
+
             pipeline_context = context
 
             # Validate context for this stage
+            logger.debug("Validating context for stage execution...")
             validation_errors = stage.validate_context(pipeline_context)
             if validation_errors:
+                logger.error(
+                    f"{ICONS['cross']} Context validation failed for stage '{stage_name}': {validation_errors}"
+                )
                 return StageResult.failure(
                     f"Context validation failed for stage '{stage_name}'",
                     validation_errors,
                 )
 
+            logger.debug("Context validation passed")
+
             # Execute the stage
+            logger.info(f"{ICONS['gear']} Starting stage '{stage_name}' execution...")
             result = stage.execute(pipeline_context)
 
             # Mark stage as complete if successful
             if result.status.value == "success":
+                logger.info(
+                    f"{ICONS['check']} Stage '{stage_name}' completed successfully"
+                )
                 pipeline_context.mark_stage_complete(stage_name)
+            else:
+                logger.error(
+                    f"{ICONS['cross']} Stage '{stage_name}' failed: {result.message}"
+                )
 
             return result
 
         except StageNotFoundError as e:
+            logger.error(f"{ICONS['cross']} Stage '{stage_name}' not found: {str(e)}")
             return StageResult.failure(str(e))
         except Exception as e:
+            logger.error(
+                f"{ICONS['cross']} Unexpected error in stage '{stage_name}': {str(e)}"
+            )
             return StageResult.failure(
                 f"Unexpected error in stage '{stage_name}': {str(e)}"
             )

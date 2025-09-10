@@ -15,9 +15,10 @@ class MemoryDataProvider(DataProvider):
 
     def __init__(self) -> None:
         """Initialize memory data provider"""
+        super().__init__()
         self._data: dict[str, dict[str, Any]] = {}
 
-    def load_data(self, identifier: str) -> dict[str, Any]:
+    def _load_data_impl(self, identifier: str) -> dict[str, Any]:
         """Load data from memory
 
         Args:
@@ -30,7 +31,7 @@ class MemoryDataProvider(DataProvider):
             return copy.deepcopy(self._data[identifier])
         return {}
 
-    def save_data(self, identifier: str, data: dict[str, Any]) -> bool:
+    def _save_data_impl(self, identifier: str, data: dict[str, Any]) -> bool:
         """Save data to memory
 
         Args:

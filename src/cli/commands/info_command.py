@@ -5,6 +5,7 @@ from typing import Any
 from src.cli.utils.output import format_key_value_pairs, format_list, print_error
 from src.core.config import Config
 from src.core.registry import PipelineRegistry
+from src.utils.logging_config import ICONS, get_logger
 
 
 class InfoCommand:
@@ -19,6 +20,7 @@ class InfoCommand:
         """
         self.registry = registry
         self.config = config
+        self.logger = get_logger("cli.commands.info")
 
     def execute(self, args: Any) -> int:
         """Execute info command.
@@ -29,8 +31,13 @@ class InfoCommand:
         Returns:
             Exit code
         """
+        self.logger.info(
+            f"{ICONS['search']} Getting info for pipeline '{args.pipeline}'"
+        )
+
         try:
             info = self.registry.get_pipeline_info(args.pipeline)
+            self.logger.debug(f"Retrieved pipeline info: {info}")
 
             # Basic pipeline information
             pairs = [
@@ -71,8 +78,14 @@ class InfoCommand:
                                     )
                                 print(format_key_value_pairs(stage_pairs, indent=""))
                             else:
+                                self.logger.warning(
+                                    f"{ICONS['warning']} No detailed info available for stage '{stage_name}'"
+                                )
                                 print(f"  {stage_name}: No detailed info available")
                         except Exception as e:
+                            self.logger.error(
+                                f"{ICONS['cross']} Error getting stage info for '{stage_name}': {e}"
+                            )
                             print(f"  {stage_name}: Error getting stage info - {e}")
                 else:
                     # Simple stage list
@@ -83,5 +96,8 @@ class InfoCommand:
             return 0
 
         except Exception as e:
+            self.logger.error(
+                f"{ICONS['cross']} Pipeline '{args.pipeline}' not found: {e}"
+            )
             print_error(f"Pipeline '{args.pipeline}' not found: {e}")
             return 1

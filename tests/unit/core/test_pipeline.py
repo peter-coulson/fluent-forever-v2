@@ -13,6 +13,7 @@ class MockStage(Stage):
     """Mock stage for testing."""
 
     def __init__(self, name, success=True, validation_errors=None):
+        super().__init__()
         self._name = name
         self._success = success
         self._validation_errors = validation_errors or []
@@ -25,7 +26,7 @@ class MockStage(Stage):
     def display_name(self) -> str:
         return f"Mock {self._name.title()} Stage"
 
-    def execute(self, context: PipelineContext) -> StageResult:
+    def _execute_impl(self, context: PipelineContext) -> StageResult:
         if self._success:
             return StageResult.success_result(
                 f"{self._name} completed", {self._name: True}

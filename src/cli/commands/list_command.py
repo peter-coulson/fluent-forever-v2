@@ -5,6 +5,7 @@ from typing import Any
 from src.cli.utils.output import format_table, print_info
 from src.core.config import Config
 from src.core.registry import PipelineRegistry
+from src.utils.logging_config import ICONS, get_logger
 
 
 class ListCommand:
@@ -19,6 +20,7 @@ class ListCommand:
         """
         self.registry = registry
         self.config = config
+        self.logger = get_logger("cli.commands.list")
 
     def execute(self, args: Any) -> int:
         """Execute list command.
@@ -29,7 +31,10 @@ class ListCommand:
         Returns:
             Exit code
         """
+        self.logger.info(f"{ICONS['search']} Discovering available pipelines...")
         pipelines = self.registry.list_pipelines()
+        pipeline_count = len(pipelines)
+        self.logger.info(f"{ICONS['check']} Found {pipeline_count} pipeline(s)")
 
         if not pipelines:
             print_info("No pipelines registered")
@@ -55,6 +60,9 @@ class ListCommand:
                 info = self.registry.get_pipeline_info(pipeline)
                 print(f"  - {pipeline}: {info.get('description', 'No description')}")
             except Exception as e:
+                self.logger.warning(
+                    f"{ICONS['warning']} Error getting info for pipeline '{pipeline}': {e}"
+                )
                 print(f"  - {pipeline}: Error getting info - {e}")
         return 0
 
@@ -81,6 +89,9 @@ class ListCommand:
                     ]
                 )
             except Exception as e:
+                self.logger.warning(
+                    f"{ICONS['warning']} Error getting detailed info for pipeline '{pipeline_name}': {e}"
+                )
                 rows.append([pipeline_name, f"Error: {e}", "N/A", "N/A", "N/A"])
 
         headers = ["Name", "Display Name", "Stages", "Anki Note Type", "Data File"]

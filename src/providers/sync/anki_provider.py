@@ -21,6 +21,7 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
     """Anki sync provider for card and template synchronization"""
 
     def __init__(self) -> None:
+        SyncProvider.__init__(self)
         BaseAPIClient.__init__(self, "AnkiConnect")
 
         # Handle both old and new config structure during migration
@@ -49,7 +50,7 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
         """Sync targets supported by Anki provider"""
         return ["anki"]
 
-    def test_connection(self) -> bool:
+    def _test_connection_impl(self) -> bool:
         """Test AnkiConnect connection and try to launch Anki if needed"""
         # First try to connect
         if self._check_connection():
@@ -145,7 +146,7 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
             media_data.append({"filename": file_path.name, "path": str(file_path)})
         return self._sync_media(media_data, {})
 
-    def sync_cards(self, cards: list[dict]) -> SyncResult:
+    def _sync_cards_impl(self, cards: list[dict]) -> SyncResult:
         """Sync card data to Anki (abstract method implementation)"""
         return self._sync_cards(cards, {})
 

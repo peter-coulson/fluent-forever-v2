@@ -12,12 +12,15 @@ from src.providers.base.media_provider import MediaProvider, MediaRequest, Media
 class OpenAIProvider(MediaProvider):
     """OpenAI media provider placeholder"""
 
+    def __init__(self) -> None:
+        super().__init__()
+
     @property
     def supported_types(self) -> list[str]:
         """Media types supported by OpenAI provider"""
         return ["image", "audio"]
 
-    def generate_media(self, request: MediaRequest) -> MediaResult:
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         """Generate media using OpenAI API (placeholder)"""
         return MediaResult(
             success=False,

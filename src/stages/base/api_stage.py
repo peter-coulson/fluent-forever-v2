@@ -27,11 +27,16 @@ class APIStage(Stage):
         self.required = required
         self.logger = get_logger(f"stages.api.{self.__class__.__name__.lower()}")
 
-    def execute(self, context: PipelineContext) -> StageResult:
+    def _execute_impl(self, context: PipelineContext) -> StageResult:
         """Execute API stage with provider from context"""
+        self.logger.info(f"{ICONS['gear']} Executing API stage '{self.name}'")
+
         # Get provider from context
         provider = context.get(f"providers.{self.provider_key}")
         if not provider and self.required:
+            self.logger.error(
+                f"{ICONS['cross']} Required provider '{self.provider_key}' not available"
+            )
             return StageResult(
                 status=StageStatus.FAILURE,
                 message=f"Provider {self.provider_key} not available",
@@ -41,7 +46,7 @@ class APIStage(Stage):
         elif not provider:
             # Optional provider not available
             self.logger.info(
-                f"{ICONS['info']} Provider {self.provider_key} not available, skipping"
+                f"{ICONS['info']} Optional provider '{self.provider_key}' not available, skipping"
             )
             return StageResult(
                 status=StageStatus.SUCCESS,
@@ -50,8 +55,19 @@ class APIStage(Stage):
                 errors=[],
             )
 
+        self.logger.info(
+            f"{ICONS['gear']} Making API call using {self.provider_key} provider..."
+        )
+
         try:
-            return self.execute_api_call(context, provider)
+            result = self.execute_api_call(context, provider)
+
+            if result.success:
+                self.logger.info(f"{ICONS['check']} API call completed successfully")
+            else:
+                self.logger.error(f"{ICONS['cross']} API call failed: {result.message}")
+
+            return result
         except Exception as e:
             self.logger.error(f"{ICONS['cross']} API call failed: {e}")
             return StageResult(

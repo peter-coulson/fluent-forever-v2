@@ -21,11 +21,12 @@ class JSONDataProvider(DataProvider):
         Args:
             base_path: Directory containing JSON files
         """
+        super().__init__()
         self.base_path = Path(base_path)
         self.base_path.mkdir(parents=True, exist_ok=True)
 
-    def load_data(self, identifier: str) -> dict[str, Any]:
-        """Load data from JSON file
+    def _load_data_impl(self, identifier: str) -> dict[str, Any]:
+        """Load data from JSON file implementation
 
         Args:
             identifier: Filename without .json extension
@@ -48,8 +49,8 @@ class JSONDataProvider(DataProvider):
         except (OSError, json.JSONDecodeError) as e:
             raise ValueError(f"Error loading {identifier}: {e}") from e
 
-    def save_data(self, identifier: str, data: dict[str, Any]) -> bool:
-        """Save data to JSON file
+    def _save_data_impl(self, identifier: str, data: dict[str, Any]) -> bool:
+        """Save data to JSON file implementation
 
         Args:
             identifier: Filename without .json extension
@@ -72,7 +73,7 @@ class JSONDataProvider(DataProvider):
             return True
         except (OSError, TypeError) as e:
             # TypeError can occur if data contains non-serializable objects
-            print(f"Error saving {identifier}: {e}")
+            self.logger.error(f"Error saving {identifier}: {e}")
             return False
 
     def exists(self, identifier: str) -> bool:

@@ -10,6 +10,7 @@ from src.core.context import PipelineContext
 from src.core.pipeline import Pipeline
 from src.core.registry import PipelineRegistry
 from src.providers.registry import ProviderRegistry
+from src.utils.logging_config import ICONS, get_logger
 
 
 class RunCommand:
@@ -34,6 +35,7 @@ class RunCommand:
         self.provider_registry = provider_registry
         self.project_root = project_root
         self.config = config
+        self.logger = get_logger("cli.commands.run")
 
     def execute(self, args: Any) -> int:
         """Execute run command.
@@ -44,6 +46,10 @@ class RunCommand:
         Returns:
             Exit code
         """
+        self.logger.info(
+            f"{ICONS['gear']} Executing pipeline '{args.pipeline}' stage '{args.stage}'"
+        )
+
         # Validate general CLI arguments
         validation_errors = validate_arguments("run", args)
         if validation_errors:
@@ -54,7 +60,11 @@ class RunCommand:
         # Get pipeline from registry
         try:
             pipeline = self.pipeline_registry.get(args.pipeline)
+            self.logger.info(f"{ICONS['check']} Pipeline '{args.pipeline}' loaded")
         except Exception as e:
+            self.logger.error(
+                f"{ICONS['cross']} Pipeline '{args.pipeline}' not found: {e}"
+            )
             print_error(f"Pipeline '{args.pipeline}' not found: {e}")
             return 1
 
@@ -67,13 +77,18 @@ class RunCommand:
                 return 1
 
         # Create execution context
+        self.logger.debug("Creating pipeline context...")
         context = self._create_context(args)
+        self.logger.debug("Pipeline context created successfully")
 
         # Let pipeline populate context from CLI arguments
         pipeline.populate_context_from_cli(context, args)
 
         # Handle dry-run
         if getattr(args, "dry_run", False):
+            self.logger.info(
+                f"{ICONS['info']} DRY RUN: Would execute stage '{args.stage}' on pipeline '{args.pipeline}'"
+            )
             print_warning(
                 f"DRY RUN: Would execute stage '{args.stage}' on pipeline '{args.pipeline}'"
             )
@@ -81,7 +96,15 @@ class RunCommand:
             return 0
 
         # Execute stage
-        return self._execute_pipeline_stage(pipeline, args.stage, context)
+        self.logger.info(f"{ICONS['gear']} Starting stage '{args.stage}' execution...")
+        result = self._execute_pipeline_stage(pipeline, args.stage, context)
+
+        if result == 0:
+            self.logger.info(
+                f"{ICONS['check']} Stage '{args.stage}' completed successfully"
+            )
+
+        return result
 
     def _create_context(self, args: Any) -> PipelineContext:
         """Create pipeline context with providers and basic configuration.

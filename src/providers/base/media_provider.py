@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from src.utils.logging_config import ICONS, get_logger
+
 
 @dataclass
 class MediaRequest:
@@ -44,6 +46,9 @@ class MediaResult:
 class MediaProvider(ABC):
     """Abstract interface for media generation"""
 
+    def __init__(self) -> None:
+        self.logger = get_logger(f"providers.media.{self.__class__.__name__.lower()}")
+
     @property
     @abstractmethod
     def supported_types(self) -> list[str]:
@@ -54,7 +59,6 @@ class MediaProvider(ABC):
         """
         pass
 
-    @abstractmethod
     def generate_media(self, request: MediaRequest) -> MediaResult:
         """Generate media from request
 
@@ -64,6 +68,43 @@ class MediaProvider(ABC):
         Returns:
             MediaResult with success status and file path if successful
         """
+        self.logger.info(
+            f"{ICONS['search']} Requesting {request.type} for: {request.content}"
+        )
+
+        if not self.validate_request(request):
+            self.logger.error(
+                f"{ICONS['cross']} Invalid request for {request.type}: {request.content}"
+            )
+            return MediaResult(
+                success=False,
+                file_path=None,
+                metadata={},
+                error=f"Request not supported by {self.__class__.__name__}",
+            )
+
+        try:
+            # Before API call
+            self.logger.debug(f"Making API request for {request.type}...")
+            result = self._generate_media_impl(request)
+
+            if result.success:
+                self.logger.info(
+                    f"{ICONS['check']} {request.type.capitalize()} generated successfully"
+                )
+            else:
+                self.logger.error(
+                    f"{ICONS['cross']} {request.type.capitalize()} generation failed: {result.error}"
+                )
+
+            return result
+        except Exception as e:
+            self.logger.error(f"{ICONS['cross']} Media request failed: {e}")
+            return MediaResult(success=False, file_path=None, metadata={}, error=str(e))
+
+    @abstractmethod
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
+        """Implementation-specific media generation"""
         pass
 
     @abstractmethod

@@ -15,16 +15,17 @@ class MockDataProvider(DataProvider):
     """Mock data provider for testing"""
 
     def __init__(self):
+        super().__init__()
         self.data_storage: dict[str, dict[str, Any]] = {}
         self.should_fail = False
         self.fail_on_save = False
 
-    def load_data(self, identifier: str) -> dict[str, Any]:
+    def _load_data_impl(self, identifier: str) -> dict[str, Any]:
         if self.should_fail:
             raise ValueError(f"Mock failure loading {identifier}")
         return self.data_storage.get(identifier, {})
 
-    def save_data(self, identifier: str, data: dict[str, Any]) -> bool:
+    def _save_data_impl(self, identifier: str, data: dict[str, Any]) -> bool:
         if self.should_fail or self.fail_on_save:
             return False
         self.data_storage[identifier] = data
@@ -50,6 +51,7 @@ class MockMediaProvider(MediaProvider):
     """Mock media provider for testing"""
 
     def __init__(self, provider_type: str = "audio"):
+        super().__init__()
         self.provider_type = provider_type
         self.should_fail = False
         self.generated_files: list[Path] = []
@@ -58,9 +60,6 @@ class MockMediaProvider(MediaProvider):
     def supported_types(self) -> list[str]:
         return [self.provider_type]
 
-    def test_connection(self) -> bool:
-        return not self.should_fail
-
     def get_service_info(self) -> dict[str, Any]:
         return {
             "service": f"Mock{self.provider_type.title()}Provider",
@@ -68,7 +67,7 @@ class MockMediaProvider(MediaProvider):
             "supported_languages": ["es", "en"],
         }
 
-    def generate_media(self, request: MediaRequest) -> MediaResult:
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         if self.should_fail:
             return MediaResult(
                 success=False,
@@ -121,12 +120,13 @@ class MockSyncProvider(SyncProvider):
     """Mock sync provider for testing"""
 
     def __init__(self):
+        super().__init__()
         self.should_fail = False
         self.synced_data: list[dict[str, Any]] = []
         self.synced_templates: list[dict[str, Any]] = []
         self.synced_media: list[Path] = []
 
-    def test_connection(self) -> bool:
+    def _test_connection_impl(self) -> bool:
         return not self.should_fail
 
     def get_service_info(self) -> dict[str, Any]:
@@ -168,7 +168,7 @@ class MockSyncProvider(SyncProvider):
             metadata={"media_synced": len(media_files)},
         )
 
-    def sync_cards(self, cards: list[dict[str, Any]]) -> SyncResult:
+    def _sync_cards_impl(self, cards: list[dict[str, Any]]) -> SyncResult:
         if self.should_fail:
             return SyncResult(
                 success=False,
@@ -201,6 +201,7 @@ class MockStage(Stage):
     def __init__(
         self, name: str, should_fail: bool = False, requires_provider: str | None = None
     ):
+        super().__init__()
         self._name = name
         self.should_fail = should_fail
         self.requires_provider = requires_provider
@@ -214,7 +215,7 @@ class MockStage(Stage):
     def display_name(self) -> str:
         return f"Mock {self._name.title()} Stage"
 
-    def execute(self, context: PipelineContext) -> StageResult:
+    def _execute_impl(self, context: PipelineContext) -> StageResult:
         self.execution_count += 1
 
         if self.should_fail:
@@ -222,15 +223,6 @@ class MockStage(Stage):
                 f"Mock stage {self.name} failed intentionally",
                 [f"Mock error in {self.name}"],
             )
-
-        # Check for required provider
-        if self.requires_provider:
-            provider = context.get("providers", {}).get(self.requires_provider)
-            if not provider:
-                return StageResult.failure(
-                    f"Required provider {self.requires_provider} not available",
-                    [f"Missing provider: {self.requires_provider}"],
-                )
 
         # Add some data to context
         context.set(f"{self.name}_executed", True)

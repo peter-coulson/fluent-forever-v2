@@ -7,6 +7,8 @@ Replaces all hardcoded CLI scripts with unified command structure.
 """
 
 import argparse
+import logging
+import os
 from pathlib import Path
 
 # Import command classes
@@ -16,7 +18,7 @@ from src.core.config import Config
 from src.core.exceptions import PipelineError
 from src.core.registry import get_pipeline_registry
 from src.providers.registry import ProviderRegistry
-from src.utils.logging_config import ICONS, setup_logging
+from src.utils.logging_config import ICONS, get_logger, setup_logging
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -72,11 +74,21 @@ Examples:
 
 def main() -> int:
     """Main CLI entry point."""
-    setup_logging()
-    logger = setup_logging().getChild("cli.pipeline_runner")
 
     parser = create_parser()
     args = parser.parse_args()
+
+    # Setup logging with verbose mode
+    if getattr(args, "verbose", False) or os.getenv("FLUENT_FOREVER_DEBUG"):
+        setup_logging(level=logging.DEBUG, log_to_file=True)
+    else:
+        setup_logging()
+
+    logger = get_logger("cli.runner")
+    logger.info(f"{ICONS['gear']} Starting Fluent Forever v2 Pipeline Runner")
+
+    logger.info(f"{ICONS['info']} Command: {args.command or 'none'}")
+    logger.debug(f"Full arguments: {vars(args)}")
 
     if not args.command:
         parser.print_help()
@@ -84,11 +96,15 @@ def main() -> int:
 
     try:
         # Load configuration
+        logger.info(f"{ICONS['gear']} Loading configuration...")
         config = Config.load(getattr(args, "config", None))
+        logger.info(f"{ICONS['check']} Configuration loaded successfully")
 
         # Setup registries
+        logger.info(f"{ICONS['gear']} Initializing registries...")
         pipeline_registry = get_pipeline_registry()
         provider_registry = ProviderRegistry.from_config(config)
+        logger.info(f"{ICONS['check']} Registries initialized")
 
         # Register pipelines using centralized system
 
@@ -101,26 +117,32 @@ def main() -> int:
             return 1
 
         # Execute command
+        logger.info(f"{ICONS['gear']} Executing {args.command} command...")
         if args.command == "list":
             command = ListCommand(pipeline_registry, config)
-            return command.execute(args)
+            result = command.execute(args)
         elif args.command == "info":
             info_command = InfoCommand(pipeline_registry, config)
-            return info_command.execute(args)
+            result = info_command.execute(args)
         elif args.command == "run":
             run_command = RunCommand(
                 pipeline_registry, provider_registry, project_root, config
             )
-            return run_command.execute(args)
+            result = run_command.execute(args)
         else:
             logger.error(f"Unknown command: {args.command}")
             return 1
 
+        if result == 0:
+            logger.info(f"{ICONS['check']} Command completed successfully")
+        return result
+
     except PipelineError as e:
-        logger.error(f"{ICONS['cross']} {e}")
+        logger.error(f"{ICONS['cross']} Pipeline error: {e}")
         return 1
     except Exception as e:
         logger.error(f"{ICONS['cross']} Unexpected error: {e}")
+        logger.debug("Full error details:", exc_info=True)
         return 1
 
 

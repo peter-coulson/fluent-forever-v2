@@ -9,10 +9,13 @@ from src.providers.registry import ProviderRegistry, get_provider_registry
 class MockDataProvider(DataProvider):
     """Mock data provider for testing."""
 
-    def load_data(self, identifier: str) -> dict:
+    def __init__(self):
+        super().__init__()
+
+    def _load_data_impl(self, identifier: str) -> dict:
         return {"mock": "data"}
 
-    def save_data(self, identifier: str, data: dict) -> bool:
+    def _save_data_impl(self, identifier: str, data: dict) -> bool:
         return True
 
     def exists(self, identifier: str) -> bool:
@@ -26,13 +29,14 @@ class MockMediaProvider(MediaProvider):
     """Mock media provider for testing."""
 
     def __init__(self, supported_types: list[str] = None):
+        super().__init__()
         self._supported_types = supported_types or ["image"]
 
     @property
     def supported_types(self) -> list[str]:
         return self._supported_types
 
-    def generate_media(self, request: MediaRequest) -> MediaResult:
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         return MediaResult(success=True, file_path=None, metadata={})
 
     def get_cost_estimate(self, requests: list[MediaRequest]) -> dict[str, float]:
@@ -42,11 +46,14 @@ class MockMediaProvider(MediaProvider):
 class MockAudioProvider(MediaProvider):
     """Mock audio-only provider for testing."""
 
+    def __init__(self):
+        super().__init__()
+
     @property
     def supported_types(self) -> list[str]:
         return ["audio"]
 
-    def generate_media(self, request: MediaRequest) -> MediaResult:
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         return MediaResult(success=True, file_path=None, metadata={})
 
     def get_cost_estimate(self, requests: list[MediaRequest]) -> dict[str, float]:
@@ -56,11 +63,14 @@ class MockAudioProvider(MediaProvider):
 class MockImageProvider(MediaProvider):
     """Mock image-only provider for testing."""
 
+    def __init__(self):
+        super().__init__()
+
     @property
     def supported_types(self) -> list[str]:
         return ["image"]
 
-    def generate_media(self, request: MediaRequest) -> MediaResult:
+    def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         return MediaResult(success=True, file_path=None, metadata={})
 
     def get_cost_estimate(self, requests: list[MediaRequest]) -> dict[str, float]:
@@ -70,7 +80,10 @@ class MockImageProvider(MediaProvider):
 class MockSyncProvider(SyncProvider):
     """Mock sync provider for testing."""
 
-    def test_connection(self) -> bool:
+    def __init__(self):
+        super().__init__()
+
+    def _test_connection_impl(self) -> bool:
         return True
 
     def sync_templates(self, note_type: str, templates: list[dict]) -> SyncResult:
@@ -79,7 +92,7 @@ class MockSyncProvider(SyncProvider):
     def sync_media(self, media_files) -> SyncResult:
         return SyncResult(success=True, processed_count=1, metadata={})
 
-    def sync_cards(self, cards: list[dict]) -> SyncResult:
+    def _sync_cards_impl(self, cards: list[dict]) -> SyncResult:
         return SyncResult(success=True, processed_count=len(cards), metadata={})
 
     def list_existing(self, note_type: str) -> list[dict]:

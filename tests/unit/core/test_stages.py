@@ -221,8 +221,11 @@ class TestStageABC:
         with pytest.raises(TypeError):
             IncompleteStage()
 
-        # Class missing execute method
+        # Class missing _execute_impl method
         class PartialStage(Stage):
+            def __init__(self):
+                super().__init__()
+
             @property
             def name(self) -> str:
                 return "partial"
@@ -238,6 +241,9 @@ class TestStageABC:
         """Test that proper concrete implementation works correctly."""
 
         class TestStage(Stage):
+            def __init__(self):
+                super().__init__()
+
             @property
             def name(self) -> str:
                 return "test_stage"
@@ -246,7 +252,7 @@ class TestStageABC:
             def display_name(self) -> str:
                 return "Test Stage"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 return StageResult.success_result("Test executed")
 
         # Should create successfully
@@ -268,7 +274,7 @@ class TestStageABC:
         abstract_methods = Stage.__abstractmethods__
 
         # Should have exactly these abstract members
-        expected_abstracts = {"name", "display_name", "execute"}
+        expected_abstracts = {"name", "display_name", "_execute_impl"}
         assert abstract_methods == expected_abstracts
 
 
@@ -279,6 +285,9 @@ class TestStageDefaultMethods:
         """Test dependencies property empty list default behavior."""
 
         class MockStage(Stage):
+            def __init__(self):
+                super().__init__()
+
             @property
             def name(self) -> str:
                 return "mock"
@@ -287,7 +296,7 @@ class TestStageDefaultMethods:
             def display_name(self) -> str:
                 return "Mock Stage"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 return StageResult.success_result("Mock")
 
         stage = MockStage()
@@ -298,6 +307,9 @@ class TestStageDefaultMethods:
         """Test validate_context method empty error list default."""
 
         class MockStage(Stage):
+            def __init__(self):
+                super().__init__()
+
             @property
             def name(self) -> str:
                 return "mock"
@@ -306,7 +318,7 @@ class TestStageDefaultMethods:
             def display_name(self) -> str:
                 return "Mock Stage"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 return StageResult.success_result("Mock")
 
         stage = MockStage()
@@ -320,6 +332,9 @@ class TestStageDefaultMethods:
         """Test that subclass overriding defaults works properly."""
 
         class CustomStage(Stage):
+            def __init__(self):
+                super().__init__()
+
             @property
             def name(self) -> str:
                 return "custom"
@@ -328,7 +343,7 @@ class TestStageDefaultMethods:
             def display_name(self) -> str:
                 return "Custom Stage"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 return StageResult.success_result("Custom")
 
             @property
@@ -361,6 +376,9 @@ class TestStageIntegration:
         """Test stage execution flow with concrete stage implementation."""
 
         class IntegrationStage(Stage):
+            def __init__(self):
+                super().__init__()
+
             @property
             def name(self) -> str:
                 return "integration_test"
@@ -369,7 +387,7 @@ class TestStageIntegration:
             def display_name(self) -> str:
                 return "Integration Test Stage"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 # Simulate some work
                 context.set("stage_data", {"processed": True})
                 return StageResult.success_result(
@@ -394,6 +412,9 @@ class TestStageIntegration:
         """Test stage with validation errors vs clean validation."""
 
         class ValidatingStage(Stage):
+            def __init__(self):
+                super().__init__()
+
             @property
             def name(self) -> str:
                 return "validating_stage"
@@ -402,7 +423,7 @@ class TestStageIntegration:
             def display_name(self) -> str:
                 return "Validating Stage"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 return StageResult.success_result("Validation passed")
 
             def validate_context(self, context) -> list[str]:
@@ -441,6 +462,9 @@ class TestStageIntegration:
         """Test stage with dependencies list vs empty default."""
 
         class DependentStage(Stage):
+            def __init__(self):
+                super().__init__()
+
             @property
             def name(self) -> str:
                 return "dependent_stage"
@@ -449,7 +473,7 @@ class TestStageIntegration:
             def display_name(self) -> str:
                 return "Dependent Stage"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 return StageResult.success_result("Executed with dependencies")
 
             @property
@@ -475,6 +499,7 @@ class TestStageIntegration:
 
         class ErrorStage(Stage):
             def __init__(self, should_raise=False):
+                super().__init__()
                 self.should_raise = should_raise
 
             @property
@@ -485,7 +510,7 @@ class TestStageIntegration:
             def display_name(self) -> str:
                 return "Error Stage"
 
-            def execute(self, context):
+            def _execute_impl(self, context):
                 if self.should_raise:
                     raise ValueError("Simulated execution error")
                 return StageResult.success_result("No error")

@@ -1,5 +1,6 @@
 """Stage base classes and interfaces for pipeline execution."""
 
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
@@ -7,6 +8,8 @@ from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from src.core.context import PipelineContext
+
+from src.utils.logging_config import ICONS, get_logger
 
 
 class StageStatus(Enum):
@@ -81,6 +84,9 @@ class StageResult:
 class Stage(ABC):
     """Abstract base class for pipeline stages."""
 
+    def __init__(self) -> None:
+        self.logger = get_logger(f"stages.{self.__class__.__name__.lower()}")
+
     @property
     @abstractmethod
     def name(self) -> str:
@@ -93,9 +99,47 @@ class Stage(ABC):
         """Human-readable stage name."""
         pass
 
-    @abstractmethod
     def execute(self, context: "PipelineContext") -> StageResult:
         """Execute this stage with the given context."""
+        self.logger.info(f"{ICONS['gear']} Executing stage '{self.name}'")
+
+        # Validate context first
+        validation_errors = self.validate_context(context)
+        if validation_errors:
+            self.logger.error(
+                f"{ICONS['cross']} Stage '{self.name}' validation failed: {validation_errors}"
+            )
+            return StageResult.failure("Context validation failed", validation_errors)
+
+        # Add timing
+        start_time = time.time()
+
+        try:
+            result = self._execute_impl(context)
+            duration = time.time() - start_time
+
+            if result.success:
+                self.logger.info(
+                    f"{ICONS['check']} Stage '{self.name}' completed",
+                    extra={"duration": duration},
+                )
+            else:
+                self.logger.error(
+                    f"{ICONS['cross']} Stage '{self.name}' failed: {result.message}"
+                )
+
+            return result
+        except Exception as e:
+            duration = time.time() - start_time
+            self.logger.error(
+                f"{ICONS['cross']} Stage '{self.name}' error: {e}",
+                extra={"duration": duration},
+            )
+            raise
+
+    @abstractmethod
+    def _execute_impl(self, context: "PipelineContext") -> StageResult:
+        """Actual stage implementation to be overridden by subclasses."""
         pass
 
     @property

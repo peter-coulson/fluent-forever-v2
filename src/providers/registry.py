@@ -7,6 +7,8 @@ Registry system for managing provider instances and creating provider factories.
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from src.utils.logging_config import ICONS, get_logger, log_performance
+
 from .base.data_provider import DataProvider
 
 if TYPE_CHECKING:
@@ -23,6 +25,7 @@ class ProviderRegistry:
         self._audio_providers: dict[str, MediaProvider] = {}
         self._image_providers: dict[str, MediaProvider] = {}
         self._sync_providers: dict[str, SyncProvider] = {}
+        self.logger = get_logger("providers.registry")
 
     # Data Provider Methods
     def register_data_provider(self, name: str, provider: DataProvider) -> None:
@@ -158,6 +161,7 @@ class ProviderRegistry:
         }
 
     @classmethod
+    @log_performance("fluent_forever.providers.registry")
     def from_config(cls, config: "Config") -> "ProviderRegistry":
         """Create and populate registry from configuration
 
@@ -167,21 +171,28 @@ class ProviderRegistry:
         Returns:
             ProviderRegistry instance with providers initialized
         """
+        logger = get_logger("providers.registry")
+        logger.info(f"{ICONS['gear']} Initializing providers from configuration...")
+
         registry = cls()
 
         # Initialize data providers
+        logger.info(f"{ICONS['gear']} Setting up data providers...")
         data_config = config.get("providers.data", {})
         if data_config.get("type") == "json":
             from .data.json_provider import JSONDataProvider
 
             base_path = Path(data_config.get("base_path", "."))
             registry.register_data_provider("default", JSONDataProvider(base_path))
+            logger.info(f"{ICONS['check']} Registered JSON data provider")
         elif not data_config:  # Create default data provider when no config
             from .data.json_provider import JSONDataProvider
 
             registry.register_data_provider("default", JSONDataProvider(Path(".")))
+            logger.info(f"{ICONS['check']} Registered default JSON data provider")
 
         # Initialize audio providers (optional)
+        logger.info(f"{ICONS['gear']} Setting up audio providers...")
         audio_config = config.get("providers.audio", {})
         if audio_config:  # Only create if configured
             audio_type = audio_config.get("type", "forvo")
@@ -190,12 +201,16 @@ class ProviderRegistry:
                 from .audio.forvo_provider import ForvoProvider
 
                 registry.register_audio_provider("default", ForvoProvider())
+                logger.info(f"{ICONS['check']} Registered {audio_type} audio provider")
             else:
                 raise ValueError(
                     f"Unsupported audio provider type: {audio_type}. Supported: 'forvo'"
                 )
+        else:
+            logger.info(f"{ICONS['info']} No audio provider configured")
 
         # Initialize image providers (optional)
+        logger.info(f"{ICONS['gear']} Setting up image providers...")
         image_config = config.get("providers.image", {})
         if image_config:  # Only create if configured
             image_type = image_config.get("type", "runware")
@@ -204,16 +219,21 @@ class ProviderRegistry:
                 from .image.runware_provider import RunwareProvider
 
                 registry.register_image_provider("default", RunwareProvider())
+                logger.info(f"{ICONS['check']} Registered {image_type} image provider")
             elif image_type == "openai":
                 from .image.openai_provider import OpenAIProvider
 
                 registry.register_image_provider("default", OpenAIProvider())
+                logger.info(f"{ICONS['check']} Registered {image_type} image provider")
             else:
                 raise ValueError(
                     f"Unsupported image provider type: {image_type}. Supported: 'runware', 'openai'"
                 )
+        else:
+            logger.info(f"{ICONS['info']} No image provider configured")
 
         # Initialize sync providers
+        logger.info(f"{ICONS['gear']} Setting up sync providers...")
         sync_config = config.get("providers.sync", {})
         sync_type = sync_config.get("type", "anki")
 
@@ -221,11 +241,13 @@ class ProviderRegistry:
             from .sync.anki_provider import AnkiProvider
 
             registry.register_sync_provider("default", AnkiProvider())
+            logger.info(f"{ICONS['check']} Registered {sync_type} sync provider")
         else:
             raise ValueError(
                 f"Unsupported sync provider type: {sync_type}. Only 'anki' is supported."
             )
 
+        logger.info(f"{ICONS['check']} All providers initialized successfully")
         return registry
 
 
