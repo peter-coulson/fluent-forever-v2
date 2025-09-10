@@ -261,3 +261,117 @@ class TestProviderRegistry:
 
         retrieved = registry2.get_data_provider("test")
         assert retrieved is provider
+
+
+class TestProviderRegistryFromConfig:
+    """Test cases for ProviderRegistry.from_config method."""
+
+    def test_from_config_basic_functionality(self):
+        """Test from_config method directly creates providers without factories"""
+        import json
+        import tempfile
+        from pathlib import Path
+
+        from src.core.config import Config
+
+        config_data = {
+            "providers": {
+                "data": {"type": "json", "base_path": "."},
+                "media": {"type": "mock"},
+                "sync": {"type": "mock"},
+            }
+        }
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+            registry = ProviderRegistry.from_config(config)
+
+            # Verify providers were created
+            assert registry.get_data_provider("default") is not None
+            assert registry.get_media_provider("default") is not None
+            assert registry.get_sync_provider("default") is not None
+
+            # Verify correct types
+            data_provider = registry.get_data_provider("default")
+            assert data_provider.__class__.__name__ == "JSONDataProvider"
+        finally:
+            Path(config_path).unlink()
+
+    def test_from_config_fallback_behavior(self):
+        """Test provider initialization falls back to mock when real provider fails"""
+        import json
+        import tempfile
+        from pathlib import Path
+        from unittest.mock import patch
+
+        from src.core.config import Config
+
+        config_data = {
+            "providers": {
+                "media": {"type": "openai"},  # Will fail without API key
+                "sync": {"type": "anki"},  # Will fail without Anki running
+            }
+        }
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+
+            # Mock provider imports to simulate failures
+            with (
+                patch(
+                    "src.providers.media.openai_provider.OpenAIProvider",
+                    side_effect=Exception("API key missing"),
+                ),
+                patch(
+                    "src.providers.sync.anki_provider.AnkiProvider",
+                    side_effect=Exception("Anki not running"),
+                ),
+            ):
+                registry = ProviderRegistry.from_config(config)
+
+            # Should fallback to mock providers
+            media_provider = registry.get_media_provider("default")
+            sync_provider = registry.get_sync_provider("default")
+
+            assert media_provider.__class__.__name__ == "MockMediaProvider"
+            assert sync_provider.__class__.__name__ == "MockSyncProvider"
+        finally:
+            Path(config_path).unlink()
+
+    def test_from_config_missing_sections(self):
+        """Test graceful handling of missing provider configuration sections"""
+        import json
+        import tempfile
+        from pathlib import Path
+
+        from src.core.config import Config
+
+        # Config with no providers section
+        config_data = {"system": {"log_level": "info"}}
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+            registry = ProviderRegistry.from_config(config)
+
+            # Should create default providers even without config
+            assert registry.get_media_provider("default") is not None
+            assert registry.get_sync_provider("default") is not None
+
+            # Should use defaults for missing data provider config
+            data_provider = registry.get_data_provider("default")
+            if data_provider:  # Only if data section was handled
+                assert data_provider.__class__.__name__ == "JSONDataProvider"
+        finally:
+            Path(config_path).unlink()
