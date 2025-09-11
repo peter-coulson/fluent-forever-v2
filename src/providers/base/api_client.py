@@ -62,9 +62,17 @@ class BaseAPIClient(ABC):
                 with open(config_path, encoding="utf-8") as f:
                     cls._shared_config = json.load(f)
                 logger.debug(f"Loaded shared config from {config_path}")
-            except Exception as e:
+            except FileNotFoundError as e:
                 logger.warning(
                     f"{ICONS['warning']} Config file not found at {config_path}, using empty config: {e}"
+                )
+                cls._shared_config = {}
+                # Re-raise if this is being called directly (not from constructor)
+                if config_path != Path(__file__).parents[3] / "config.json":
+                    raise
+            except Exception as e:
+                logger.warning(
+                    f"{ICONS['warning']} Config file error at {config_path}, using empty config: {e}"
                 )
                 cls._shared_config = {}
 
@@ -97,15 +105,22 @@ class BaseAPIClient(ABC):
         # Store timeout for use in requests
         self.timeout = base_config.get("timeout", 30)
 
-    def _load_api_key(self, env_var: str) -> str:
+    def _load_api_key(self, env_var: str, allow_testing: bool = True) -> str:
         """Load API key from environment variable"""
         api_key = os.getenv(env_var)
         if not api_key:
-            # For tests and development, provide a more graceful fallback
             logger.warning(
-                f"{ICONS['warning']} API key not found: {env_var} environment variable not set, using placeholder for testing"
+                f"{ICONS['warning']} API key not found: {env_var} environment variable not set"
             )
-            return f"test_key_{env_var.lower()}"
+
+            # Allow testing fallback unless explicitly disabled
+            if allow_testing and (
+                os.getenv("PYTEST_CURRENT_TEST") is not None
+                or os.getenv("TESTING", "").lower() in ("1", "true", "yes")
+            ):
+                return f"test_key_{env_var.lower()}"
+
+            raise APIError(f"Missing API key: {env_var} environment variable not set")
         return api_key
 
     def _make_request(

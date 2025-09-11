@@ -85,7 +85,7 @@ class TestBaseAPIClient:
         with patch.object(BaseAPIClient, "load_config", return_value={}):
             client = MockAPIClient("TestService")
             with pytest.raises(APIError, match="Missing API key"):
-                client._load_api_key("MISSING_API_KEY")
+                client._load_api_key("MISSING_API_KEY", allow_testing=False)
 
     @patch("requests.Session.request")
     def test_successful_request(self, mock_request):
