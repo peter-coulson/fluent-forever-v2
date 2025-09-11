@@ -34,21 +34,33 @@ For pipeline architecture, see: `context/modules/core/pipeline.md`
 ### Stage Implementation Pattern
 ```python
 class CustomStage(Stage):
-    def execute(self, context: PipelineContext) -> PipelineContext:
-        # Implementation here
-        return context
+    def _execute_impl(self, context: PipelineContext) -> StageResult:
+        # Core implementation here - logging/timing handled by base class
+        # Get input data
+        input_data = context.get('input_key', default_value)
 
-    def validate_inputs(self, context: PipelineContext) -> bool:
-        # Validation logic
-        pass
+        # Process data...
+
+        # Store result
+        context.set('output_key', processed_data)
+
+        return StageResult.success_result("Stage completed successfully")
+
+    def validate_context(self, context: PipelineContext) -> list[str]:
+        # Return list of error strings (empty = valid)
+        errors = []
+        if not context.get('required_key'):
+            errors.append("Missing required_key in context")
+        return errors
 ```
 
 ### Stage Dependencies
-- Override `get_dependencies()` for stage ordering
+- Override `dependencies` property for stage ordering
 - Use `context.get()` and `context.set()` for data passing
-- Implement error handling and logging
+- Built-in logging and timing via `self.logger` and `execute()` wrapper
+- Implement `_execute_impl()` for core logic, not `execute()`
 
-**Base stage**: `src/core/stages.py:81`
+**Base stage**: `src/core/stages.py:84`
 **Context handling**: See `context/modules/core/context.md`
 
 ## Configuration Patterns
@@ -73,9 +85,13 @@ Follow existing patterns:
 ```python
 def test_custom_stage():
     stage = CustomStage()
-    context = PipelineContext({'input': 'test'})
-    result = stage.execute(context)
-    assert result.get('output') == 'expected'
+    context = PipelineContext(pipeline_name="test", project_root=Path("/tmp"))
+    context.set('input_key', 'test_value')
+
+    result = stage.execute(context)  # Uses built-in wrapper with logging/timing
+
+    assert result.success
+    assert context.get('output_key') == 'expected_value'
 ```
 
 **Location**: `tests/unit/test_<component>.py`

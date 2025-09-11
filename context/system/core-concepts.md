@@ -12,13 +12,14 @@
 - **Properties**: `name`, `display_name`, `stages`, `data_file`, `anki_note_type`
 - **Key methods**: `execute_stage()`, `get_stage()`, `validate_cli_args()`
 
-### Stage (`src/core/stages.py:81`)
+### Stage (`src/core/stages.py:84`)
 **Individual processing units within pipelines**
 - Execute specific learning workflow tasks (prepare data, generate media, sync)
-- Validate required context data before execution
+- Built-in logging, performance timing, and validation via concrete `execute()` wrapper
+- Subclasses implement abstract `_execute_impl()` for core stage logic
 - Return structured results with status (SUCCESS, FAILURE, PARTIAL, SKIPPED)
 - **Properties**: `name`, `display_name`, `dependencies`
-- **Key methods**: `execute()`, `validate_context()`
+- **Key methods**: `execute()` (concrete), `_execute_impl()` (abstract), `validate_context()`
 
 ### PipelineContext (`src/core/context.py:11`)
 **Execution state container passed between stages**
@@ -33,9 +34,18 @@
 - **Factory methods**: `success_result()`, `failure()`, `partial()`, `skipped()`
 - **Properties**: `status`, `message`, `data`, `errors`, `success`
 
+## Logging System (`src/utils/logging_config.py`)
+**Comprehensive logging infrastructure with performance monitoring**
+- Context-aware logging with pipeline-specific identification via `get_context_logger()`
+- Performance timing decorators for method execution monitoring via `log_performance()`
+- Environment-based configuration with module-specific log levels
+- Colored console output with icons for visual status indicators
+- **Key functions**: `setup_logging()`, `get_logger()`, `get_context_logger()`, `log_performance()`
+- **Components**: `ColoredFormatter`, `PerformanceFormatter`, `ContextualError`
+
 ## Provider System
 
-### Provider Registry (`src/providers/registry.py:18`)
+### Provider Registry (`src/providers/registry.py:20`)
 **Central management for external service integrations**
 - Factory pattern for creating provider instances from configuration
 - Type-specific registries: data, media (audio/image), sync providers

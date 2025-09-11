@@ -5,7 +5,7 @@ Implements the fundamental abstractions for the pipeline system: base classes fo
 
 ## Implementation Architecture
 
-### Registry Pattern (`src/core/registry.py:9`)
+### Registry Pattern (`src/core/registry.py:11`)
 **Central component discovery and management**
 - **PipelineRegistry**: Registers and provides access to pipeline implementations
 - **Global instance**: Singleton pattern via `get_pipeline_registry()`
@@ -19,11 +19,18 @@ Implements the fundamental abstractions for the pipeline system: base classes fo
 - **Access patterns**: Dot notation via `get()`, provider-specific via `get_provider()`
 - **Integration**: Injected into `PipelineContext` for stage access
 
-### Exception Hierarchy (`src/core/exceptions.py:4-37`)
+### Exception Hierarchy (`src/core/exceptions.py:4-34`)
 **Structured error handling for pipeline operations**
 - **Base exceptions**: `PipelineError`, `StageError`, `ContextError`
 - **Specific errors**: `StageNotFoundError`, `ConfigurationError`, `ValidationError`
 - **Error propagation**: Stage errors bubble up through pipeline execution
+
+### Logging Integration (`src/utils/logging_config.py`)
+**Context-aware logging with performance monitoring**
+- **Stage logging**: Automatic logger creation for each stage instance
+- **Context logging**: Pipeline-specific loggers via `get_context_logger()`
+- **Performance tracking**: Built-in timing for stage execution
+- **Visual indicators**: Icons and colored output for status display
 
 ## Implementation Entry Points
 
@@ -35,9 +42,11 @@ Implements the fundamental abstractions for the pipeline system: base classes fo
 
 ### Stage Development
 - **Base class**: Inherit from `Stage` abstract class
-- **Core methods**: Implement `execute()` and `validate_context()`
+- **Core methods**: Implement `_execute_impl()` (not `execute()`) and `validate_context()`
+- **Built-in features**: Automatic logging, timing, and validation via `execute()` wrapper
 - **Dependencies**: Override `dependencies` property for stage ordering
 - **Results**: Return `StageResult` with appropriate status and data
+- **Logging**: Access stage logger via `self.logger` for custom logging
 
 ### Configuration Integration
 - **Provider settings**: Use `config.get_provider(name)` for external service configuration

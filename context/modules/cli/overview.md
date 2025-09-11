@@ -8,9 +8,10 @@ Universal command-line interface providing consistent access to all pipeline ope
 
 ### Entry Point
 **Universal CLI coordinator** (`src/cli/pipeline_runner.py:main()`)
-- Command registration and argument parsing
-- Global configuration and registry initialization
-- Consistent error handling and output formatting
+- Command registration and argument parsing with verbose mode support
+- Enhanced logging setup with environment configuration and file output
+- Global configuration and registry initialization with comprehensive logging
+- Consistent error handling and output formatting with visual status indicators
 
 ### Command Classes
 **Separate implementations** in `src/cli/commands/` for each command type:
@@ -57,9 +58,11 @@ cli run vocabulary --stage prepare --words por,para
 
 ### Error Handling and Output
 - **Validation**: Pre-execution validation with actionable error messages
-- **Progress Feedback**: Visual icons and progress indicators for long operations
+- **Progress Feedback**: Visual icons (🔧⚙️✅❌) and progress indicators for long operations
 - **Structured Output**: Consistent formatting for success, warning, and error states
-- **Verbose Mode**: Detailed logging and execution information when requested
+- **Verbose Mode**: Debug-level logging with file output via `--verbose` flag or `FLUENT_FOREVER_DEBUG`
+- **Environment Configuration**: Module-specific log levels via environment variables
+- **Performance Tracking**: Execution timing displayed for operations when verbose enabled
 
 ## Extension Support
 

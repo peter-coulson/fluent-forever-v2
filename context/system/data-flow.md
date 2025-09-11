@@ -4,20 +4,23 @@
 
 ### CLI Command → Pipeline Execution
 1. **CLI Entry**: Command parsing and validation (`src/cli/`)
-2. **Config Loading**: `Config.load()` with environment variable substitution
-3. **Provider Registry**: `ProviderRegistry.from_config()` initializes providers
-4. **Context Creation**: `PipelineContext` with `project_root`, `pipeline_name`
-5. **Pipeline Selection**: Concrete pipeline instance (vocabulary/conjugation)
-6. **Stage Execution**: Sequential `pipeline.execute_stage()` calls
+2. **Logging Setup**: `setup_logging()` with verbose mode and environment configuration
+3. **Config Loading**: `Config.load()` with environment variable substitution
+4. **Provider Registry**: `ProviderRegistry.from_config()` initializes providers with logging
+5. **Context Creation**: `PipelineContext` with `project_root`, `pipeline_name`
+6. **Pipeline Selection**: Concrete pipeline instance (vocabulary/conjugation)
+7. **Stage Execution**: Sequential `pipeline.execute_stage()` calls with performance timing
 
-### Stage Execution Pattern (`src/core/pipeline.py:37`)
+### Stage Execution Pattern (`src/core/stages.py:104`)
 ```
-Context Validation → Stage.execute() → Result Processing → Context Update
+Context Validation → Logging Setup → Performance Timing → Stage._execute_impl() → Result Processing → Context Update
 ```
 
 - **Input**: `PipelineContext` with accumulated data from previous stages
-- **Validation**: `stage.validate_context()` checks required data/dependencies
-- **Execution**: `stage.execute(context)` returns `StageResult`
+- **Pre-execution**: Context-aware logger created, validation via `stage.validate_context()`
+- **Timing Start**: Performance timer started for execution monitoring
+- **Core Execution**: `stage._execute_impl(context)` contains actual stage logic
+- **Logging**: Success/failure status logged with performance duration and visual icons
 - **State Update**: Success → `context.mark_stage_complete()`, failure → `context.add_error()`
 
 ### Context Management

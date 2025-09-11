@@ -12,7 +12,7 @@ Common error patterns and solutions for Fluent Forever V2.
 2. Verify previous stages populate required context keys
 3. Review stage dependency declarations
 
-**Debug**: Enable debug logging with `LOG_LEVEL=DEBUG`
+**Debug**: Enable debug logging with `--verbose` flag or `FLUENT_FOREVER_DEBUG=true`
 
 ### Configuration Validation Errors
 **Error**: `ConfigError: Invalid configuration for pipeline 'X'`
@@ -92,9 +92,9 @@ python -m src.cli.main validate-config config/pipeline.json
 ## Performance Issues
 
 ### Slow Pipeline Execution
-**Diagnostics**: Enable profiling with `LOG_LEVEL=DEBUG`, identify bottleneck stages
+**Diagnostics**: Enable performance timing with `--verbose` flag, identify bottleneck stages via execution logs
 
-**Optimization**: Implement caching, use concurrent processing, optimize algorithms
+**Optimization**: Implement caching, use concurrent processing, optimize algorithms, review stage timing logs
 
 ### Provider Rate Limiting
 **Symptoms**: Intermittent failures, 429 errors
@@ -122,8 +122,19 @@ python -m src.cli.main validate-config config/pipeline.json
 
 ### Enable Comprehensive Logging
 ```bash
-export LOG_LEVEL=DEBUG
-export LOG_FORMAT=detailed
+# Enable verbose mode with file logging
+cli run vocabulary --verbose
+
+# Or via environment variable
+export FLUENT_FOREVER_DEBUG=true
+
+# Module-specific logging levels
+export FLUENT_FOREVER_STAGES_LOG_LEVEL=DEBUG
+export FLUENT_FOREVER_PROVIDERS_LOG_LEVEL=INFO
+export FLUENT_FOREVER_CLI_LOG_LEVEL=DEBUG
+
+# Enable log file output
+export FLUENT_FOREVER_LOG_TO_FILE=true
 ```
 
 ### Isolate Problem Components
