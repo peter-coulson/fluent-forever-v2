@@ -4,6 +4,6 @@ Pipeline-based Spanish learning system integrating Anki, audio/image providers, 
 
 ## Context Navigation
 
-- **System Understanding**: `context/system/overview.md` → core concepts → data flow
-- **Module Work**: `context/modules/[core|providers|cli]/overview.md` → specific components
-- **Implementation**: `context/workflows/common-tasks.md` → extending → troubleshooting
+- **System Understanding**: `context/system/overview.md` → `core-concepts.md` → `data-flow.md`
+- **Module Implementation**: `context/modules/[core|providers|cli|pipelines]/overview.md`
+- **Practical Usage**: `context/workflows/common-tasks.md` → `extending.md` → `troubleshooting.md`

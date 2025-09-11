@@ -2,15 +2,23 @@
 
 ## Architecture
 
-Universal pipeline runner with command-based structure providing consistent interface for all learning workflow operations. Built around three core commands (run, info, list) that interact with the pipeline registry system.
+Universal command-line interface providing consistent access to all pipeline operations. Built around three core commands (`run`, `info`, `list`) that interact with the pipeline and provider registry systems.
 
 ## Command Structure
 
-- **Entry Point**: `src/cli/pipeline_runner.py:main()` - Universal CLI coordinator
-- **Command Classes**: Separate implementations in `src/cli/commands/` for each command type
-- **Registry Integration**: Direct connection to pipeline registry for discovery and execution
+### Entry Point
+**Universal CLI coordinator** (`src/cli/pipeline_runner.py:main()`)
+- Command registration and argument parsing
+- Global configuration and registry initialization
+- Consistent error handling and output formatting
 
-## Main Commands
+### Command Classes
+**Separate implementations** in `src/cli/commands/` for each command type:
+- Dependency injection of registries and configuration
+- Consistent `execute(args)` interface returning exit codes
+- Shared validation and output utilities
+
+## Core Commands
 
 | Command | Purpose | Key Features |
 |---------|---------|--------------|
@@ -18,47 +26,46 @@ Universal pipeline runner with command-based structure providing consistent inte
 | `info` | Show pipeline details | Stage listing, metadata display, detailed stage info |
 | `list` | Discover pipelines | Simple/detailed views, registry enumeration |
 
-## Integration Patterns
+## System Integration
 
 ### Pipeline System Integration
-- **Context Creation**: `src/cli/commands/run_command.py:86-113` creates `PipelineContext` with providers
-- **Stage Execution**: Delegates to pipeline's `execute_stage()` method
-- **Validation**: Two-tier validation (CLI args + pipeline-specific args)
+- **Context Creation**: Builds `PipelineContext` with providers and configuration
+- **Stage Execution**: Delegates to pipeline's `execute_stage()` method with proper error handling
+- **Validation**: Two-tier validation (CLI arguments + pipeline-specific validation)
 
 ### Provider System Integration
-- **Registry Access**: Gets providers from `ProviderRegistry.from_config()`
-- **Context Injection**: Adds data/audio/image/sync providers to execution context
-- **Default Provider Selection**: Uses "default" provider for each category
+- **Registry Access**: Retrieves providers from `ProviderRegistry.from_config()`
+- **Context Injection**: Injects data/audio/image/sync providers into execution context
+- **Default Selection**: Uses "default" provider configuration for each provider type
 
-## User Interaction Patterns
+## User Experience
 
-### Discovery Workflow
+### Discovery and Execution
 ```bash
-# List available pipelines
+# Discover available pipelines
 cli list --detailed
 
-# Get pipeline information
+# Get detailed pipeline information
 cli info vocabulary --stages
-```
 
-### Execution Workflow
-```bash
-# Dry run to preview
+# Preview execution without side effects
 cli run vocabulary --stage prepare --words por,para --dry-run
 
-# Execute stage
+# Execute pipeline stage
 cli run vocabulary --stage prepare --words por,para
 ```
 
-### Error Handling
-- **Validation Errors**: Pre-execution validation with clear error messages
-- **Pipeline Errors**: Wrapped exceptions with contextual information
-- **Icon-based Output**: Visual feedback using emoji icons for success/error/warning states
+### Error Handling and Output
+- **Validation**: Pre-execution validation with actionable error messages
+- **Progress Feedback**: Visual icons and progress indicators for long operations
+- **Structured Output**: Consistent formatting for success, warning, and error states
+- **Verbose Mode**: Detailed logging and execution information when requested
 
-## Key Features
+## Extension Support
 
-- **Unified Interface**: Single entry point replaces hardcoded pipeline scripts
-- **Dynamic Discovery**: Pipeline registration enables runtime discovery
-- **Configurable**: Supports custom config files and verbose output
-- **Dry-run Support**: Preview execution plans without side effects
-- **Extensible**: New commands can be added via command class pattern
+- **Unified Interface**: Single entry point for all pipeline operations
+- **Dynamic Discovery**: Runtime pipeline and provider discovery via registries
+- **Command Pattern**: New commands can be added following established patterns
+- **Configuration-Driven**: Behavior controlled via JSON configuration files
+
+See `context/modules/cli/commands.md` for implementation details and `context/workflows/extending-cli.md` for extension patterns.

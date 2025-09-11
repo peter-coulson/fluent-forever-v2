@@ -1,11 +1,11 @@
 # Troubleshooting
 
-Common error patterns, solutions, and diagnostic approaches for Fluent Forever V2.
+Common error patterns and solutions for Fluent Forever V2.
 
 ## Pipeline Execution Failures
 
 ### Stage Dependencies Not Met
-**Error Pattern**: `DependencyError: Required context key 'X' not found`
+**Error**: `DependencyError: Required context key 'X' not found`
 
 **Solution**:
 1. Check stage ordering in pipeline configuration
@@ -15,28 +15,19 @@ Common error patterns, solutions, and diagnostic approaches for Fluent Forever V
 **Debug**: Enable debug logging with `LOG_LEVEL=DEBUG`
 
 ### Configuration Validation Errors
-**Error Pattern**: `ConfigError: Invalid configuration for pipeline 'X'`
+**Error**: `ConfigError: Invalid configuration for pipeline 'X'`
 
-**Common Causes**:
-- Missing required configuration keys
-- Invalid file paths
-- Malformed YAML syntax
+**Common Causes**: Missing configuration keys, invalid file paths, malformed JSON syntax
 
 **Solution**:
 ```bash
-python -m src.cli.main validate-config config/pipeline.yml
+python -m src.cli.main validate-config config/pipeline.json
 ```
-
-**Config validation**: `src/core/config.py:25`
 
 ### Memory Issues with Large Datasets
 **Symptoms**: Process killed, out of memory errors
 
-**Solutions**:
-- Implement batch processing in custom stages
-- Reduce concurrent operations
-- Use streaming data processing patterns
-- Monitor memory usage during execution
+**Solutions**: Implement batch processing, reduce concurrent operations, use streaming patterns
 
 ## Provider Integration Problems
 
@@ -49,8 +40,6 @@ python -m src.cli.main validate-config config/pipeline.yml
 3. Test connection: `curl http://localhost:8765`
 4. Verify `ANKI_CONNECT_URL` environment variable
 
-**Provider**: `src/providers/sync/anki_provider.py:40`
-
 ### Audio Provider API Errors
 **ElevenLabs Errors**:
 - `401 Unauthorized`: Check `ELEVENLABS_API_KEY`
@@ -61,159 +50,73 @@ python -m src.cli.main validate-config config/pipeline.yml
 - `401`: Verify `AZURE_SPEECH_KEY` and `AZURE_SPEECH_REGION`
 - `403`: Check subscription and quota limits
 
-**Debug Command**:
-```bash
-python -m src.cli.main test-provider audio elevenlabs
-```
-
 ### Image Generation Timeouts
 **Error**: `ImageGenerationTimeout: Request exceeded maximum time`
 
-**Solutions**:
-- Increase timeout configuration
-- Verify API key and quota
-- Check network connectivity
-- Implement retry with exponential backoff
-
-**Configuration**: Provider timeout settings in YAML configs
+**Solutions**: Increase timeout configuration, verify API key and quota, implement retry with exponential backoff
 
 ## CLI Usage Problems
 
 ### Command Not Found
 **Error**: `Command 'X' not found`
 
-**Solutions**:
-1. Check command registration in `src/cli/main.py:20`
-2. Verify command module imports
-3. Check for typos in command names
+**Solutions**: Check command registration, verify module imports, check for typos
 
 ### Invalid Arguments
 **Error**: `InvalidArgument: Required argument 'X' missing`
 
-**Diagnostics**:
-- Use `--help` flag to see required arguments
-- Check argument parsing in command implementation
-- Verify click decorator configuration
-
-**CLI structure**: See `context/modules/cli/commands.md`
+**Diagnostics**: Use `--help` flag, check argument parsing in command implementation
 
 ### Permission Errors
 **Error**: `PermissionError: Access denied to file/directory`
 
-**Solutions**:
-- Check file/directory permissions
-- Verify write access to output directories
-- Ensure process has required filesystem permissions
+**Solutions**: Check file/directory permissions, verify write access to output directories
 
 ## Configuration Issues
 
 ### Environment Variable Problems
 **Missing Variables**: System fails to start
 
-**Validation**:
-```bash
-python -c "from src.core.config import validate_environment; validate_environment()"
-```
+**Common Issues**: `.env` file not loaded, variables not exported, incorrect variable names
 
-**Common Issues**:
-- `.env` file not loaded
-- Variables not exported in shell
-- Incorrect variable names or formats
+### JSON Syntax Errors
+**Error**: `json.JSONError: Invalid JSON syntax`
 
-### YAML Syntax Errors
-**Error**: `yaml.YAMLError: Invalid YAML syntax`
-
-**Solutions**:
-1. Validate YAML syntax with online validator
-2. Check indentation (spaces vs tabs)
-3. Verify quoted strings and special characters
-4. Review YAML structure against examples
+**Solutions**: Validate JSON syntax, check quotes and commas, review structure against examples
 
 ### File Path Resolution
 **Error**: `FileNotFoundError: Config file not found`
 
-**Solutions**:
-- Use absolute paths in configuration
-- Verify current working directory
-- Check file permissions and existence
-- Review path resolution logic
+**Solutions**: Use absolute paths, verify current working directory, check file permissions
 
 ## Performance Issues
 
 ### Slow Pipeline Execution
-**Diagnostics**:
-1. Enable profiling: `LOG_LEVEL=DEBUG`
-2. Identify bottleneck stages
-3. Monitor provider response times
-4. Check data processing efficiency
+**Diagnostics**: Enable profiling with `LOG_LEVEL=DEBUG`, identify bottleneck stages
 
-**Optimization Strategies**:
-- Implement caching for expensive operations
-- Use concurrent processing where safe
-- Optimize data structures and algorithms
-- Consider provider rate limits
+**Optimization**: Implement caching, use concurrent processing, optimize algorithms
 
 ### Provider Rate Limiting
 **Symptoms**: Intermittent failures, 429 errors
 
-**Solutions**:
-- Implement exponential backoff retry
-- Reduce concurrent requests
-- Add request rate limiting
-- Consider provider upgrade or alternatives
-
-**Implementation**: Add retry logic in provider base classes
+**Solutions**: Implement exponential backoff retry, reduce concurrent requests
 
 ## Data Processing Errors
 
 ### Malformed Input Data
 **Error**: `DataValidationError: Invalid data format`
 
-**Solutions**:
-1. Validate input data schema
-2. Implement data sanitization
-3. Add error recovery mechanisms
-4. Provide clear error messages
-
-**Data validation**: Implement in pipeline stages
+**Solutions**: Validate input data schema, implement data sanitization, add error recovery
 
 ### Character Encoding Issues
 **Error**: `UnicodeDecodeError: Invalid character encoding`
 
-**Solutions**:
-- Specify encoding explicitly (`utf-8`)
-- Validate source file encoding
-- Implement encoding detection
-- Add fallback encoding handling
+**Solutions**: Specify encoding explicitly (`utf-8`), validate source file encoding
 
 ### Large File Processing
 **Symptoms**: Long processing times, memory issues
 
-**Solutions**:
-- Implement streaming file processing
-- Use chunked data processing
-- Add progress indicators
-- Consider file format optimization
-
-## System Integration Issues
-
-### Database Connection Problems
-**If using databases**: Connection timeouts, authentication errors
-
-**Solutions**:
-- Verify connection parameters
-- Check network connectivity
-- Test credentials separately
-- Review connection pooling settings
-
-### External Service Dependencies
-**Symptoms**: Cascading failures, service unavailable errors
-
-**Solutions**:
-- Implement circuit breaker patterns
-- Add service health checks
-- Provide graceful degradation
-- Cache external service responses
+**Solutions**: Implement streaming file processing, use chunked data processing
 
 ## Debugging Strategies
 
@@ -234,17 +137,11 @@ export LOG_FORMAT=detailed
 python -m cProfile -o profile.stats -m src.cli.main <command>
 ```
 
-### Provider Testing
-Test each provider individually:
-```bash
-python -m src.cli.main test-provider <type> <name>
-```
-
 ## Prevention Strategies
 
 ### Configuration Validation
 - Validate all configuration files on startup
-- Implement schema validation for YAML configs
+- Implement schema validation for JSON configs
 - Test configuration changes in isolated environment
 
 ### Error Handling Patterns
@@ -258,8 +155,3 @@ python -m src.cli.main test-provider <type> <name>
 - Integration tests for provider connections
 - End-to-end pipeline testing
 - Performance regression testing
-
-For system architecture details, see:
-- `context/system/overview.md`
-- `context/modules/core/overview.md`
-- `context/modules/providers/overview.md`

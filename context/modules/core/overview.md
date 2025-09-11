@@ -1,49 +1,52 @@
 # Core Module Overview
 
 ## Purpose
-Core module provides fundamental abstractions for the Fluent Forever V2 pipeline system. Defines base classes, execution context, configuration management, and registry patterns used throughout the application.
+Implements the fundamental abstractions for the pipeline system: base classes for pipelines and stages, execution context management, configuration loading, and component registries.
 
-## Key Classes
+## Implementation Architecture
 
-### Pipeline System
-- **Pipeline** (`src/core/pipeline.py:11`): Abstract base class for learning workflows
-- **PipelineRegistry** (`src/core/registry.py:9`): Registry for managing pipeline implementations
-- **Stage** (`src/core/stages.py:81`): Abstract base class for pipeline execution steps
+### Registry Pattern (`src/core/registry.py:9`)
+**Central component discovery and management**
+- **PipelineRegistry**: Registers and provides access to pipeline implementations
+- **Global instance**: Singleton pattern via `get_pipeline_registry()`
+- **Discovery methods**: `list_pipelines()`, `get_pipeline_info()`, `has_pipeline()`
+- **Registration**: `register()` method for adding new pipeline types
 
-### Data Management
-- **PipelineContext** (`src/core/context.py:9`): Execution context for data flow between stages
-- **StageResult** (`src/core/stages.py:22`): Result container for stage execution outcomes
-- **Config** (`src/core/config.py:13`): Configuration loader with environment variable substitution
+### Configuration System (`src/core/config.py:13`)
+**JSON-based configuration with environment variable support**
+- **Loading**: Automatic `config.json` detection with fallback handling
+- **Environment substitution**: `${VAR}` and `${VAR:default}` pattern processing
+- **Access patterns**: Dot notation via `get()`, provider-specific via `get_provider()`
+- **Integration**: Injected into `PipelineContext` for stage access
 
-### Status & Error Handling
-- **StageStatus** (`src/core/stages.py:12`): Enum for stage execution states (SUCCESS, FAILURE, PARTIAL, SKIPPED)
-- **Core exceptions** (`src/core/exceptions.py:4-37`): Hierarchy of pipeline, stage, and context errors
+### Exception Hierarchy (`src/core/exceptions.py:4-37`)
+**Structured error handling for pipeline operations**
+- **Base exceptions**: `PipelineError`, `StageError`, `ContextError`
+- **Specific errors**: `StageNotFoundError`, `ConfigurationError`, `ValidationError`
+- **Error propagation**: Stage errors bubble up through pipeline execution
 
-## Component Relationships
+## Implementation Entry Points
 
-```
-Pipeline -> executes -> Stages -> produce -> StageResults
-    ↓                      ↓                     ↓
-PipelineContext <- shared data <- StageStatus/Errors
-    ↓
-Config (provides provider/system settings)
-```
+### Pipeline Development
+- **Base class**: Inherit from `Pipeline` abstract class
+- **Required methods**: `get_stage()`, `validate_cli_args()`, `populate_context_from_cli()`
+- **Registration**: Add to registry in initialization code
+- **Stage management**: Implement stage discovery and instantiation
 
-## Entry Points
+### Stage Development
+- **Base class**: Inherit from `Stage` abstract class
+- **Core methods**: Implement `execute()` and `validate_context()`
+- **Dependencies**: Override `dependencies` property for stage ordering
+- **Results**: Return `StageResult` with appropriate status and data
 
-### Working with Pipelines
-- Pipeline registration: `PipelineRegistry.register()` (`src/core/registry.py:15`)
-- Stage execution: `Pipeline.execute_stage()` (`src/core/pipeline.py:37`)
-- Global registry access: `get_pipeline_registry()` (`src/core/registry.py:63`)
+### Configuration Integration
+- **Provider settings**: Use `config.get_provider(name)` for external service configuration
+- **System settings**: Use `config.get_system_settings()` for application configuration
+- **Environment**: Leverage `${VAR}` substitution for sensitive values like API keys
 
-### Extending the System
-- New pipeline types: Inherit from `Pipeline` abstract class
-- New stage types: Inherit from `Stage` abstract class
-- Configuration access: `Config.get()` and `Config.get_provider()` methods
+### Context Usage
+- **Data flow**: Use `context.get()`/`context.set()` for inter-stage communication
+- **Error handling**: Use `context.add_error()` for stage-level error accumulation
+- **Completion tracking**: Automatic via `context.mark_stage_complete()`
 
-### Context Flow
-All pipeline execution flows through `PipelineContext` which maintains:
-- Stage completion tracking
-- Error accumulation
-- Shared data between stages
-- Configuration and CLI arguments
+See `context/system/core-concepts.md` for component definitions and relationships.
