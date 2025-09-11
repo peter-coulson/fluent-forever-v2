@@ -7,10 +7,9 @@ The provider system abstracts external service integrations using pluggable comp
 ## Provider Categories
 
 ### Data Providers
-**Abstract data sources (JSON, databases, memory)**
+**Abstract data sources (JSON, databases)**
 - Local file storage with JSON formatting
 - Database connections and query interfaces
-- In-memory data structures for testing
 
 ### Media Providers
 **Audio/image generation from external APIs**

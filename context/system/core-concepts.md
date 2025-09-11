@@ -53,7 +53,7 @@
 - Default provider selection and configuration-based instantiation
 
 ### Provider Types
-- **DataProvider** (`src/providers/base/data_provider.py:11`): JSON, database, memory storage
+- **DataProvider** (`src/providers/base/data_provider.py:13`): JSON, database storage
 - **MediaProvider** (`src/providers/base/media_provider.py:44`): Audio/image generation APIs
 - **SyncProvider** (`src/providers/base/sync_provider.py:47`): Anki, flashcard system integration
 
