@@ -1,19 +1,28 @@
 # Vocabulary System Creation Planning
 
-## Creation Goal
+## Project Overview
 
+### Creation Goal
 To build an automated vocabulary flashcard creation system, that requires manual user prompts for image generation as a deliberate feature to improve memorability of flashcard generation.
 
-## High Level Method
+### System Overview
+The system processes Spanish vocabulary through a multi-stage pipeline, transforming dictionary data into flashcards with generated media content.
 
-### Required Data Providers
-- Español.jsonl: A read only spanish dictionary containing all vocabualry related data inputs for the cards
-- vocabulary.json: An internal database storing all card information including all field values.
-- word_queue.json: An internal database storing the upcoming words to process in the queue. Contains nearly filled cards, missing only the prompts for media generation.
-- spanish_dictionary.json: A frequency dictionary of Spanish, used for deciding the order of the word queue based on utility of each word.
+## Data Architecture
 
-## Required from Dictionary per Sense:
+### Data Sources and Providers
+- **Español.jsonl**: A read only spanish dictionary containing all vocabualry related data inputs for the cards
+- **vocabulary.json**: An internal database storing all card information including all field values.
+- **word_queue.json**: An internal database storing the upcoming words to process in the queue. Contains nearly filled cards, missing only the prompts for media generation.
+- **spanish_dictionary.json**: A frequency dictionary of Spanish, used for deciding the order of the word queue based on utility of each word.
 
+### External Data Sources
+- **Image from Prompt**: Generated per sense
+- **Native Audio**: Generated per word
+
+### Data Schema and Field Mappings
+
+#### Required from Dictionary per Sense:
 - **Word**: Pulled from root key "word"
 - **Sense ID**: For debugging purposes
 - **IPA**: Pulled from root key "sounds" with the correct "raw_tags"
@@ -24,12 +33,8 @@ To build an automated vocabulary flashcard creation system, that requires manual
 - **Type**: Found under key "pos" as a string. Denotes tye type such as "noun"
 - **Gender**: If gender applies to the word, it can be found under "tags" inside a list as ["masculine"] or ["feminine"]
 
-## Pulled from APIs
-- **Image from Prompt**: Generated per sense
-- **Native Audio**: Generated per word
-
-## Fields in vocabulary.json:
-### Mappings from the dictionary
+#### Updated Fields and Sources for vocabulary.json Cards:
+**Existing fields:**
 - "SpanishWord": word
 - "MeaningID": Transliations field formatted to be all lowercase, commas removed, and spaces replaced with underscores
 - "MonolingualDef": Spanish Definition
@@ -41,20 +46,20 @@ To build an automated vocabulary flashcard creation system, that requires manual
 - "ImageFile": cardID + .png
 - "WordAudio": SpanishWord + .mp3
 
-## New Fields
+**New Fields:**
 - "Translations": Every translation that maps to the meaning id joined with commas. E.g. ""call, name, refer to""
 - "Type": Pulled directly from Dictionary
 - "Gender": Optional, pulled from the dictionary if it is the correct type
 - "SenseID": For debugging or future reference, will not be visible
 
-### Removals:
+**Removals:**
 - "UsageNote"
 - "WordAudioAlt"
 - "MeaningContext"
 
-## Architecture & Workflow
+## Pipeline Architecture
 
-### Pipeline Stage Architecture
+### Processing Stages Overview
 The vocabulary pipeline divides processing into five modular stages:
 1) **Stage 1**: Word Selection
 2) **Stage 2**: Word Processing (Spanish dict to word queue)
@@ -62,12 +67,14 @@ The vocabulary pipeline divides processing into five modular stages:
 4) **Stage 4**: Media Generation & Vocabulary Update
 5) **Stage 5**: Anki Sync
 
+## Implementation Details
+
 ### Stage 1 & 2: Word Selection and Processing
 #### Word Queue Structure
 - The word queue entries will be a sequencial list of meanings with the same keys the meanings for words in vocabulary.json
 - Every entry will be filled with the exception of Prompt and Gender which is an optional field that may be empty
 
-#### Modular Architecture
+#### Processing Architecture
 The word queue population is divided into two distinct stages:
 
 **Stage 1: Word Selection**
@@ -93,7 +100,7 @@ Universal processing regardless of Stage 1 source:
 - **WordQueuePopulator**: Creates queue entries, filters duplicate CardIDs
 - Appends new meaning instances to word_queue.json with vocabulary.json field structure
 
-#### Stage 1: Word Selection Workflows
+#### Stage 1 Detailed Workflows
 
 **Rank-Based/Filter Workflow:**
 - Input the number of new words and optional filters
@@ -109,7 +116,7 @@ Universal processing regardless of Stage 1 source:
 - No vocabulary filtering (enables reprocessing)
 - Output: Raw word list → Stage 2
 
-#### Stage 2: Universal Word Processing
+#### Stage 2 Detailed Processing
 - **DictionaryFetcher**: Retrieves and validates each word's dictionary data
 - **Sense Processing**: Apply sense grouping algorithm
   - **Critical Problem**: Dictionary contains all possible senses. We need only the most essential ones.
@@ -128,4 +135,4 @@ Will leave undefined for now. Options are either the user directly editing the w
 We generate the media as part of this pipeline. This would constitue a form of sync as described above. It should validate prompts are a certain number of characters to prevent accidental typos. Then it should validate that the media with the same name is not already in the media folder and the CardID is not already in vocabulary. Then proceed to generate all media. Once all media is generated, update vocabulary.
 
 ### Stage 5: Anki Sync
-This logic will remain largely unchanged
+To be decided
