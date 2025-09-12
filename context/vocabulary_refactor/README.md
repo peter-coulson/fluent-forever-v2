@@ -1,12 +1,16 @@
-# Vocabulary Refactor Planning
+# Vocabulary System Creation Planning
 
-## Refactor Goal
+## Creation Goal
 
-To eliminate all manual inputs and claude usage outside of prompt writing
+To build an automated vocabulary flashcard creation system, that requires manual user prompts for image generation as a deliberate feature to improve memorability of flashcard generation.
 
 ## High Level Method
 
-All required inputs should be available in the Español.jsonl dictionary. By pulling the pipeline inputs from the dictionary we can eliminate all generation. Improving performance and efficiency.
+### Required Data Providers
+- Español.jsonl: A read only spanish dictionary containing all vocabualry related data inputs for the cards
+- vocabulary.json: An internal database storing all card information including all field values.
+- word_queue.json: An internal database storing the upcoming words to process in the queue. Contains nearly filled cards, missing only the prompts for media generation.
+- spanish_dictionary.json: A frequency dictionary of Spanish, used for deciding the order of the word queue based on utility of each word.
 
 ## Required from Dictionary per Sense:
 
@@ -48,36 +52,7 @@ All required inputs should be available in the Español.jsonl dictionary. By pul
 - "WordAudioAlt"
 - "MeaningContext"
 
-## New Architecture & Workflow
-
-### Integration with Core Pipeline Framework
-The vocabulary pipeline implements the core framework's `Pipeline` abstract class and uses the `Stage` system for modular execution. This provides:
-- **Unified CLI Interface**: `python -m cli.pipeline run vocabulary --stage word_selection`
-- **Context Management**: Automatic provider integration (data, media, sync)
-- **Error Handling**: Standardized `StageResult` with status/message/errors
-- **Registry Integration**: Auto-discovery via `python -m cli.pipeline list`
-
-### High-Level Code Structure
-```
-src/
-├── core/              # Keep - pipeline framework (Stage, Pipeline, StageResult)
-├── apis/              # Keep - external API clients
-├── cli/               # Keep - unified CLI with pipeline runner
-├── config/            # Keep - configuration management
-├── utils/             # Keep - shared utilities
-├── validation/        # Keep - validation framework
-├── pipelines/
-│   └── vocabulary/    # COMPLETELY REBUILT - implements core.Pipeline
-│       ├── vocabulary_pipeline.py  # Main VocabularyPipeline class
-│       ├── stages/                 # Individual Stage implementations
-│       │   ├── word_selection.py      # Stage 1: Word Selection
-│       │   ├── word_processing.py     # Stage 2: Word Processing
-│       │   ├── prompt_creation.py     # Stage 3: Prompt Creation
-│       │   ├── media_generation.py    # Stage 4: Media Generation
-│       │   └── anki_sync.py           # Stage 5: Anki Sync
-│       └── data/                   # Data models & validation
-└── sync/              # Keep - sync utilities
-```
+## Architecture & Workflow
 
 ### Pipeline Stage Architecture
 The vocabulary pipeline divides processing into five modular stages:
@@ -154,179 +129,3 @@ We generate the media as part of this pipeline. This would constitue a form of s
 
 ### Stage 5: Anki Sync
 This logic will remain largely unchanged
-
-## Core Pipeline Integration
-
-### VocabularyPipeline Implementation
-The main pipeline class implements the core framework's abstract `Pipeline` class:
-
-```python
-# src/pipelines/vocabulary/vocabulary_pipeline.py
-from core.pipeline import Pipeline
-from core.stages import Stage, StageResult
-from core.context import PipelineContext
-
-class VocabularyPipeline(Pipeline):
-    @property
-    def name(self) -> str:
-        return "vocabulary"
-
-    @property
-    def display_name(self) -> str:
-        return "Spanish Vocabulary Cards"
-
-    @property
-    def stages(self) -> List[str]:
-        return ["word_selection", "word_processing", "prompt_creation",
-                "media_generation", "anki_sync"]
-
-    @property
-    def data_file(self) -> str:
-        return "vocabulary.json"
-
-    @property
-    def anki_note_type(self) -> str:
-        return "Spanish Vocabulary"
-
-    def get_stage(self, stage_name: str) -> Stage:
-        # Return appropriate stage implementation
-        if stage_name == "word_selection":
-            return WordSelectionStage()
-        elif stage_name == "word_processing":
-            return WordProcessingStage()  # Complex orchestrator
-        # ... etc
-```
-
-### Stage Data Handoffs via PipelineContext
-
-**Stage 1 → Stage 2 Handoff:**
-```python
-# Stage 1 (WordSelectionStage) produces:
-context.set("selected_words", ["por", "para", "cuando"])
-context.set("selection_method", "rank_based")  # or "direct_input"
-context.set("filters_applied", {"pos": ["noun", "verb"], "frequency_min": 100})
-
-# Stage 2 (WordProcessingStage) consumes:
-selected_words = context.get("selected_words")
-# Returns:
-context.set("processed_entries", [
-    {
-        "SpanishWord": "por",
-        "MeaningID": "by_for_through",
-        "MonolingualDef": "Para indicar causa...",
-        "CardID": "por_by_for_through",
-        # ... complete vocabulary.json structure minus prompt
-    }
-])
-context.set("word_queue_updated", True)
-```
-
-**Stage 2 → Stage 3 Handoff:**
-```python
-# Stage 2 output available in word_queue.json
-# Stage 3 (PromptCreationStage) processes queue entries with empty prompts:
-context.set("pending_prompts", ["por_by_for_through", "para_for_to"])
-# After user input:
-context.set("prompts_completed", ["por_by_for_through"])
-context.set("prompts_skipped", ["para_for_to"])
-```
-
-**Stage 3 → Stage 4 Handoff:**
-```python
-# Stage 4 (MediaGenerationStage) processes entries with prompts:
-ready_cards = context.get("prompts_completed", [])
-# Validates prompts, generates media, updates vocabulary.json:
-context.set("media_generated", {
-    "images": ["por_by_for_through.png"],
-    "audio": ["por.mp3"]
-})
-context.set("vocabulary_updated", True)
-```
-
-**Stage 4 → Stage 5 Handoff:**
-```python
-# Stage 5 (AnkiSyncStage) syncs completed vocabulary entries:
-completed_cards = context.get("media_generated", {})
-# Syncs to Anki and returns results:
-context.set("anki_sync_results", {
-    "cards_added": 1,
-    "cards_updated": 0,
-    "errors": []
-})
-```
-
-### CLI Integration Examples
-
-**Run individual stages:**
-```bash
-# Stage 1: Select words
-python -m cli.pipeline run vocabulary --stage word_selection --words "por,para,cuando"
-
-# Stage 2: Process dictionary data
-python -m cli.pipeline run vocabulary --stage word_processing
-
-# Stage 3: Create prompts (manual intervention)
-python -m cli.pipeline run vocabulary --stage prompt_creation
-
-# Stage 4: Generate media and update vocabulary
-python -m cli.pipeline run vocabulary --stage media_generation --execute
-
-# Stage 5: Sync to Anki
-python -m cli.pipeline run vocabulary --stage anki_sync --execute
-```
-
-**Pipeline info and discovery:**
-```bash
-# List all available pipelines
-python -m cli.pipeline list
-
-# Get vocabulary pipeline information
-python -m cli.pipeline info vocabulary --stages
-
-# Preview cards
-python -m cli.pipeline preview vocabulary --card-id por_by_for_through
-```
-
-### Error Handling and Validation
-Each stage implements standardized error handling via `StageResult`:
-
-```python
-class WordProcessingStage(Stage):
-    def execute(self, context: PipelineContext) -> StageResult:
-        try:
-            # Complex Phase 2 processing logic here
-            processor = WordProcessor()
-            result = processor.process_words(context.get("selected_words"))
-
-            return StageResult.success(
-                f"Processed {len(result.entries)} word entries",
-                {"processed_entries": result.entries}
-            )
-        except ValidationError as e:
-            return StageResult.failure(
-                "Word processing validation failed",
-                errors=e.errors
-            )
-        except Exception as e:
-            return StageResult.failure(f"Unexpected error: {str(e)}")
-```
-
-### Stage Dependencies and Validation
-Stages can declare dependencies and validate context:
-
-```python
-class MediaGenerationStage(Stage):
-    @property
-    def dependencies(self) -> List[str]:
-        return ["word_processing", "prompt_creation"]
-
-    def validate_context(self, context: PipelineContext) -> List[str]:
-        errors = []
-        if not context.get("prompts_completed"):
-            errors.append("No completed prompts found")
-        if not Path("word_queue.json").exists():
-            errors.append("word_queue.json not found")
-        return errors
-```
-
-This architecture provides the flexibility needed for vocabulary's complex processing while integrating cleanly with the core pipeline framework.
