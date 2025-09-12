@@ -5,26 +5,34 @@
 ### ProviderRegistry Class (`src/providers/registry.py:20`)
 
 Central registry managing provider instances by category:
-- **Data Providers**: `_data_providers` dictionary
+- **Data Providers**: `_data_providers` dictionary with enhanced registration
 - **Audio Providers**: `_audio_providers` dictionary
 - **Image Providers**: `_image_providers` dictionary
 - **Sync Providers**: `_sync_providers` dictionary
+- **Data Provider Configs**: `_data_provider_configs` dictionary for file conflict validation
 
 ### Registration Pattern
 
 **Per-Category Methods:**
-- `register_{type}_provider(name: str, provider: Instance)` - Store provider
+- `register_{type}_provider(name: str, provider: Instance, config: dict | None)` - Store provider with optional config
 - `get_{type}_provider(name: str) -> Provider | None` - Retrieve provider
 - `list_{type}_providers() -> list[str]` - Enumerate registered names
 
+**Enhanced Data Provider Registration:**
+- Accepts optional `config` parameter for file conflict validation
+- Automatically validates file assignments via `_validate_file_conflicts()`
+- Prevents overlapping file management between multiple data providers
+
 **Default Naming**: Most providers registered with name `"default"` for consistent lookup
 
-## Factory Method (`src/providers/registry.py:258`)
+## Factory Method (`src/providers/registry.py:291`)
 
 `from_config(config: Config) -> ProviderRegistry` creates populated registry:
 
 ### Data Provider Setup
-- **Named Providers**: JSONDataProvider instances with pipeline assignments
+- **Named Providers**: JSONDataProvider instances with pipeline assignments and permission control
+- **Enhanced Configuration**: Supports `files` array and `read_only` boolean fields
+- **File Conflict Validation**: Automatically validates provider file assignments during creation
 - **Fallback**: Creates JSONDataProvider in current directory when no config
 
 ### Media Provider Setup (Optional)
@@ -71,6 +79,8 @@ Most providers registered with `"default"` name, allowing consistent lookup:
 ### Configuration Validation (`src/providers/registry.py:273`)
 Registry factory enforces new configuration format:
 - **Required Format**: `providers.{type}.{name}` with mandatory `pipelines` field
+- **Data Provider Extensions**: Optional `files` array for file-specific access, `read_only` boolean for write protection
+- **File Conflict Detection**: Validates no file overlaps between multiple data providers during initialization
 - **Old Format Rejection**: Detects and rejects legacy configurations with helpful error messages
 - **Default Fallback**: Creates default providers when no configuration sections present
 

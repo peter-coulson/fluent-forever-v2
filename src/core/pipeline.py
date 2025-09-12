@@ -36,6 +36,64 @@ class Pipeline(ABC):
         """Get a stage instance by name."""
         pass
 
+    @property
+    def phases(self) -> dict[str, list[str]]:
+        """Mapping of phase names to stage lists. Override to define custom phases.
+
+        Returns:
+            Dict mapping phase names to lists of stage names
+        """
+        return {}
+
+    @log_performance("fluent_forever.core.pipeline")
+    def execute_phase(
+        self, phase_name: str, context: PipelineContext
+    ) -> list[StageResult]:
+        """Execute all stages in a phase sequentially.
+
+        Args:
+            phase_name: Name of phase to execute
+            context: Pipeline context shared between stages
+
+        Returns:
+            List of stage results from executed stages
+
+        Raises:
+            ValueError: If phase_name is not found in phases
+        """
+        logger = get_context_logger("core.pipeline", context.pipeline_name)
+
+        if phase_name not in self.phases:
+            available_phases = list(self.phases.keys())
+            error_msg = f"Phase '{phase_name}' not found in pipeline '{self.name}'. Available phases: {available_phases}"
+            logger.error(f"{ICONS['cross']} {error_msg}")
+            raise ValueError(error_msg)
+
+        stage_names = self.phases[phase_name]
+        logger.info(
+            f"{ICONS['gear']} Executing phase '{phase_name}' with stages: {stage_names}"
+        )
+
+        results = []
+        for stage_name in stage_names:
+            logger.info(
+                f"{ICONS['gear']} Executing stage '{stage_name}' in phase '{phase_name}'"
+            )
+            result = self.execute_stage(stage_name, context)
+            results.append(result)
+
+            # Stop execution if stage fails (unless partial success)
+            if result.status.value not in ["success", "partial"]:
+                logger.error(
+                    f"{ICONS['cross']} Stage '{stage_name}' failed, stopping phase execution"
+                )
+                break
+
+        logger.info(
+            f"{ICONS['check']} Phase '{phase_name}' completed with {len(results)} stage results"
+        )
+        return results
+
     @log_performance("fluent_forever.core.pipeline")
     def execute_stage(self, stage_name: str, context: PipelineContext) -> StageResult:
         """Execute a specific stage with context."""
@@ -122,6 +180,19 @@ class Pipeline(ABC):
             }
         except StageNotFoundError:
             return {}
+
+    def get_phase_info(self, phase_name: str) -> dict[str, Any]:
+        """Get information about a specific phase."""
+        if phase_name not in self.phases:
+            return {}
+
+        stage_names = self.phases[phase_name]
+        return {
+            "name": phase_name,
+            "display_name": phase_name.replace("_", " ").title(),
+            "stages": stage_names,
+            "stage_count": len(stage_names),
+        }
 
     @abstractmethod
     def validate_cli_args(self, args: Any) -> list[str]:

@@ -13,6 +13,9 @@ class TestJSONDataProvider:
         provider = JSONDataProvider(tmp_path)
         assert provider.base_path == tmp_path
         assert provider.base_path.exists()
+        # Test default values for new parameters
+        assert provider.is_read_only is False
+        assert provider.managed_files == []
 
     def test_save_and_load_data(self, tmp_path):
         """Test saving and loading JSON data."""
@@ -100,3 +103,21 @@ class TestJSONDataProvider:
         loaded = provider.load_data("unicode")
 
         assert loaded == unicode_data
+
+    def test_provider_creation_with_new_parameters(self, tmp_path):
+        """Test JSON provider creation with new Phase 2 parameters."""
+        # Test with read_only parameter
+        provider_ro = JSONDataProvider(tmp_path, read_only=True)
+        assert provider_ro.is_read_only is True
+        assert provider_ro.managed_files == []
+
+        # Test with managed_files parameter
+        files = ["file1", "file2"]
+        provider_files = JSONDataProvider(tmp_path, managed_files=files)
+        assert provider_files.is_read_only is False
+        assert provider_files.managed_files == files
+
+        # Test with both parameters
+        provider_both = JSONDataProvider(tmp_path, read_only=True, managed_files=files)
+        assert provider_both.is_read_only is True
+        assert provider_both.managed_files == files

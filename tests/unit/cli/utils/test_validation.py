@@ -55,21 +55,53 @@ class TestValidateArguments:
 
         assert "Pipeline name is required for run command" in errors
 
-    def test_validate_run_command_missing_stage(self):
-        """Test run command missing stage name."""
+    def test_validate_run_command_missing_stage_and_phase(self):
+        """Test run command missing both stage and phase."""
         args = Mock()
         args.pipeline = "test_pipeline"
         args.stage = None
+        args.phase = None
 
         errors = validate_arguments("run", args)
 
-        assert "Stage name is required for run command" in errors
+        assert "Either --stage or --phase is required for run command" in errors
+
+    def test_validate_run_command_with_stage_only(self):
+        """Test run command with only stage provided."""
+        args = Mock()
+        args.pipeline = "test_pipeline"
+        args.stage = "sync"
+        args.phase = None
+        args.dry_run = False
+        args.words = None
+        args.cards = None
+
+        errors = validate_arguments("run", args)
+
+        # Should have no errors for valid stage-only execution
+        assert len(errors) == 0
+
+    def test_validate_run_command_with_phase_only(self):
+        """Test run command with only phase provided."""
+        args = Mock()
+        args.pipeline = "test_pipeline"
+        args.stage = None
+        args.phase = "preparation"
+        args.dry_run = False
+        args.words = None
+        args.cards = None
+
+        errors = validate_arguments("run", args)
+
+        # Should have no errors for valid phase-only execution
+        assert len(errors) == 0
 
     def test_validate_run_command_prepare_stage_missing_words(self):
         """Test run command prepare stage missing words."""
         args = Mock()
         args.pipeline = "test_pipeline"
         args.stage = "prepare"
+        args.phase = None
         args.dry_run = False
         args.words = None
 
@@ -82,6 +114,7 @@ class TestValidateArguments:
         args = Mock()
         args.pipeline = "test_pipeline"
         args.stage = "media"
+        args.phase = None
         args.dry_run = False
         args.cards = None
 
@@ -94,6 +127,7 @@ class TestValidateArguments:
         args = Mock()
         args.pipeline = "test_pipeline"
         args.stage = "prepare"
+        args.phase = None
         args.dry_run = True
         args.words = None  # Would normally cause error
 

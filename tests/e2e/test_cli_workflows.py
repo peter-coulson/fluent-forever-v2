@@ -194,3 +194,46 @@ class TestCLIWorkflows:
 
         assert result.returncode == 0
         assert "Traceback" not in result.stderr
+
+    def test_e2e_phase_argument_validation(self):
+        """Test that phase vs stage argument validation works."""
+        # Test run command with both --stage and --phase should fail
+        result = self.run_cli_command(
+            ["run", "vocabulary", "--stage", "prepare", "--phase", "full"]
+        )
+
+        assert result.returncode != 0
+        assert "Traceback" not in result.stderr
+
+        # Test run command with neither --stage nor --phase should fail
+        result = self.run_cli_command(["run", "vocabulary"])
+
+        assert result.returncode != 0
+        assert "Traceback" not in result.stderr
+
+    def test_e2e_phase_dry_run(self):
+        """Test phase execution in dry-run mode."""
+        result = self.run_cli_command(
+            ["run", "mock", "--phase", "preparation", "--dry-run"]
+        )
+
+        # Should not crash even with non-existent pipeline in dry-run
+        assert "Traceback" not in result.stderr
+
+    def test_e2e_phase_help_text(self):
+        """Test that phase functionality is documented in help."""
+        result = self.run_cli_command(["run", "--help"])
+
+        assert result.returncode == 0
+        assert "--phase" in result.stdout
+        assert "phase" in result.stdout.lower() or "Phase" in result.stdout
+
+    def test_e2e_phase_execution_error_handling(self):
+        """Test that phase execution errors are handled gracefully."""
+        # Test with non-existent pipeline and phase
+        result = self.run_cli_command(["run", "nonexistent", "--phase", "full"])
+
+        assert result.returncode != 0
+        assert "Traceback" not in result.stderr
+        # Should have some error output
+        assert result.stdout.strip() != "" or result.stderr.strip() != ""

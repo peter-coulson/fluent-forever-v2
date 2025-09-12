@@ -32,9 +32,13 @@ Examples:
   %(prog)s list
   %(prog)s info vocabulary
 
-  # Execution
+  # Single stage execution
   %(prog)s run vocabulary --stage prepare --words por,para
   %(prog)s run vocabulary --stage sync --execute
+
+  # Phase execution (multiple stages)
+  %(prog)s run vocabulary --phase preparation
+  %(prog)s run vocabulary --phase full --dry-run
 
         """,
     )
@@ -62,9 +66,14 @@ Examples:
     )
 
     # Run command
-    run_parser = subparsers.add_parser("run", help="Run pipeline stage")
+    run_parser = subparsers.add_parser("run", help="Run pipeline stage or phase")
     run_parser.add_argument("pipeline", help="Pipeline name")
-    run_parser.add_argument("--stage", required=True, help="Stage to execute")
+
+    # Create mutually exclusive group for stage vs phase
+    execution_group = run_parser.add_mutually_exclusive_group(required=True)
+    execution_group.add_argument("--stage", help="Single stage to execute")
+    execution_group.add_argument("--phase", help="Phase (group of stages) to execute")
+
     run_parser.add_argument(
         "--dry-run", action="store_true", help="Show what would be done"
     )

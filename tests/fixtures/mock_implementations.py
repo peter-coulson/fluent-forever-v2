@@ -279,6 +279,19 @@ class MockPipeline(Pipeline):
         return [stage.name for stage in self._stages]
 
     @property
+    def phases(self) -> dict[str, list[str]]:
+        """Mock phases for testing."""
+        if len(self._stages) >= 3:
+            return {
+                "preparation": [self._stages[0].name, self._stages[1].name],
+                "completion": [self._stages[2].name],
+                "full": [stage.name for stage in self._stages],
+            }
+        return {
+            "full": [stage.name for stage in self._stages],
+        }
+
+    @property
     def data_file(self) -> str:
         return f"{self._name}.json"
 

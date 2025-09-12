@@ -3,10 +3,15 @@
 ## Data Providers
 
 ### JSONDataProvider (`src/providers/data/json_provider.py:15`)
-- **Purpose**: Local file-based data persistence using JSON format
-- **Configuration**: `base_path` directory for JSON files
-- **Features**: Auto-backup with timestamps (`src/providers/data/json_provider.py:100`), pretty-printed output
+- **Purpose**: Local file-based data persistence using JSON format with permission control
+- **Configuration**:
+  - `base_path` directory for JSON files
+  - `read_only: bool` - Optional write protection (default: False)
+  - `managed_files: list[str]` - Optional file access restrictions (default: None = all files)
+- **Permission System**: Enforces read-only protection and file-specific access control
+- **Features**: Auto-backup with timestamps, pretty-printed output
 - **File Handling**: Identifier maps to `{identifier}.json`, graceful empty file handling
+- **Access Validation**: Validates file access permissions on all operations
 - **Thread Safety**: File-based operations, concurrent access considerations needed
 
 ## Media Providers

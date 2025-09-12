@@ -23,11 +23,11 @@ def validate_arguments(command: str, args: Any) -> list[str]:
     elif command == "run":
         if not args.pipeline:
             errors.append("Pipeline name is required for run command")
-        if not args.stage:
-            errors.append("Stage name is required for run command")
+        if not args.stage and not args.phase:
+            errors.append("Either --stage or --phase is required for run command")
 
-        # Validate stage-specific arguments (skip for dry-run)
-        if not getattr(args, "dry_run", False):
+        # Validate stage-specific arguments (skip for dry-run and phase execution)
+        if not getattr(args, "dry_run", False) and args.stage:
             if args.stage == "prepare" and not args.words:
                 errors.append("--words is required for prepare stage")
             elif args.stage == "media" and not args.cards:

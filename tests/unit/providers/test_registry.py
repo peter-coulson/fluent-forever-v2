@@ -205,6 +205,22 @@ class TestProviderRegistry:
         assert registry.list_image_providers() == []
         assert registry.list_sync_providers() == []
 
+    def test_register_data_provider_with_config(self):
+        """Test registering data provider with configuration (Phase 2 enhancement)."""
+        registry = ProviderRegistry()
+        provider = MockDataProvider()
+        config = {"files": ["file1", "file2"], "read_only": True}
+
+        # Register with config
+        registry.register_data_provider("test", provider, config)
+
+        # Verify provider is registered
+        assert registry.get_data_provider("test") is provider
+
+        # Verify config is stored (internal implementation detail)
+        assert hasattr(registry, "_data_provider_configs")
+        assert registry._data_provider_configs.get("test") == config
+
     def test_get_provider_info(self):
         """Test getting comprehensive provider information."""
         registry = ProviderRegistry()

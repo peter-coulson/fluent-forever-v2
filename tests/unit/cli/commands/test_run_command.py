@@ -15,15 +15,26 @@ from src.providers.registry import ProviderRegistry
 class MockPipeline(Pipeline):
     """Mock pipeline for testing."""
 
-    def __init__(self, name="test", validation_errors=None, execution_result=None):
+    def __init__(
+        self,
+        name="test",
+        validation_errors=None,
+        execution_result=None,
+        phase_results=None,
+    ):
         self._name = name
         self.validation_errors = validation_errors or []
         self.execution_result = execution_result or StageResult.success_result(
             "Success"
         )
+        self.phase_results = phase_results or [
+            StageResult.success_result("Stage 1"),
+            StageResult.success_result("Stage 2"),
+        ]
         self.validate_called = False
         self.populate_called = False
         self.show_plan_called = False
+        self.execute_phase_called = False
 
     @property
     def name(self) -> str:
@@ -60,6 +71,22 @@ class MockPipeline(Pipeline):
     @property
     def anki_note_type(self) -> str:
         return f"Mock {self._name.title()}"
+
+    @property
+    def phases(self) -> dict[str, list[str]]:
+        """Mock phases for testing."""
+        return {
+            "preparation": ["prepare", "process"],
+            "completion": ["finish"],
+            "full": ["prepare", "process", "finish"],
+        }
+
+    def execute_phase(self, phase_name: str, context: PipelineContext):
+        """Mock phase execution."""
+        self.execute_phase_called = True
+        if phase_name not in self.phases:
+            raise ValueError(f"Phase '{phase_name}' not found")
+        return self.phase_results
 
 
 class TestRunCommand:
@@ -488,3 +515,112 @@ class TestRunCommand:
         assert (
             pipeline.populate_called
         )  # Should have been called with providers available
+
+    def test_execute_phase_success(self):
+        """Test successful phase execution via CLI."""
+        pipeline = MockPipeline("test")
+        self.pipeline_registry.register(pipeline)
+
+        command = RunCommand(
+            self.pipeline_registry,
+            self.provider_registry,
+            self.project_root,
+            self.config,
+        )
+
+        args = Mock()
+        args.pipeline = "test"
+        args.stage = None
+        args.phase = "preparation"
+        args.dry_run = False
+
+        with patch("src.cli.utils.validation.validate_arguments", return_value=[]):
+            result = command.execute(args)
+
+        assert result == 0
+        assert pipeline.execute_phase_called
+
+    def test_execute_phase_failure(self):
+        """Test phase execution with stage failures."""
+
+        # Create phase results with one failure
+        phase_results = [
+            StageResult.success_result("Stage 1 success"),
+            StageResult.failure("Stage 2 failed", ["Error in stage 2"]),
+        ]
+
+        pipeline = MockPipeline("test", phase_results=phase_results)
+        self.pipeline_registry.register(pipeline)
+
+        command = RunCommand(
+            self.pipeline_registry,
+            self.provider_registry,
+            self.project_root,
+            self.config,
+        )
+
+        args = Mock()
+        args.pipeline = "test"
+        args.stage = None
+        args.phase = "preparation"
+        args.dry_run = False
+
+        with patch(
+            "src.cli.utils.validation.validate_arguments", return_value=[]
+        ), patch("src.cli.commands.run_command.print_error") as mock_print_error:
+            result = command.execute(args)
+
+        assert result == 1
+        assert pipeline.execute_phase_called
+        mock_print_error.assert_called()
+
+    def test_execute_phase_invalid_phase(self):
+        """Test executing non-existent phase."""
+        pipeline = MockPipeline("test")
+        self.pipeline_registry.register(pipeline)
+
+        command = RunCommand(
+            self.pipeline_registry,
+            self.provider_registry,
+            self.project_root,
+            self.config,
+        )
+
+        args = Mock()
+        args.pipeline = "test"
+        args.stage = None
+        args.phase = "nonexistent"
+        args.dry_run = False
+
+        with patch(
+            "src.cli.utils.validation.validate_arguments", return_value=[]
+        ), patch("src.cli.commands.run_command.print_error") as mock_print_error:
+            result = command.execute(args)
+
+        assert result == 1
+        mock_print_error.assert_called()
+
+    def test_phase_dry_run(self):
+        """Test dry run with phase execution."""
+        pipeline = MockPipeline("test")
+        self.pipeline_registry.register(pipeline)
+
+        command = RunCommand(
+            self.pipeline_registry,
+            self.provider_registry,
+            self.project_root,
+            self.config,
+        )
+
+        args = Mock()
+        args.pipeline = "test"
+        args.stage = None
+        args.phase = "preparation"
+        args.dry_run = True
+
+        with patch("src.cli.utils.validation.validate_arguments", return_value=[]):
+            result = command.execute(args)
+
+        assert result == 0
+        assert pipeline.show_plan_called
+        assert not pipeline.execute_phase_called

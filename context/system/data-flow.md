@@ -35,9 +35,15 @@ Context Validation → Logging Setup → Performance Timing → Stage._execute_i
 **Pipeline-Filtered Access**: Only providers assigned to current pipeline via `context.get("providers")`
 **Service Calls**: Provider methods called within stage execution using filtered provider dict
 **Access Control**: Unauthorized providers not available to pipeline stages
+**Permission Enforcement**: Data providers validate file access and read-only permissions on all operations
+- Read-only providers reject write operations with `PermissionError`
+- File-restricted providers validate access with `ValueError` for unauthorized files
+- Permission validation occurs before data operations are attempted
 **Error Handling**: Provider failures captured in `StageResult.failure()`
 
 ### Configuration Flow
-- **Load Time**: JSON config → environment substitution → provider initialization
+- **Load Time**: JSON config → environment substitution → enhanced provider initialization
+- **File Conflict Validation**: Registry validates data provider file assignments during initialization
+- **Permission Setup**: Data providers configured with read-only and file access restrictions
 - **Runtime**: `context.config` accessible to all stages
 - **Provider Config**: `config.get_provider("forvo")` for service-specific settings

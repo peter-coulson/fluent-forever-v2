@@ -83,6 +83,15 @@ class MockPipeline(Pipeline):
     def show_cli_execution_plan(self, context, args) -> None:
         pass
 
+    @property
+    def phases(self) -> dict[str, list[str]]:
+        """Mock phases for testing."""
+        return {
+            "preparation": ["prepare", "process"],
+            "completion": ["finish"],
+            "full": ["prepare", "process", "finish"],
+        }
+
 
 class TestPipeline:
     """Test cases for Pipeline base class."""
@@ -187,3 +196,56 @@ class TestPipeline:
 
         assert result2.status == StageStatus.FAILURE
         assert "runtime_error" not in context.completed_stages
+
+    def test_execute_phase_success(self):
+        """Test successful phase execution with multiple stages."""
+        pipeline = MockPipeline()
+        context = PipelineContext(pipeline_name="test", project_root=Path("/test"))
+
+        results = pipeline.execute_phase("preparation", context)
+
+        assert len(results) == 2
+        assert all(result.status == StageStatus.SUCCESS for result in results)
+        assert "prepare" in context.completed_stages
+        assert "process" in context.completed_stages
+
+    def test_execute_phase_invalid_phase(self):
+        """Test executing non-existent phase raises ValueError."""
+        pipeline = MockPipeline()
+        context = PipelineContext(pipeline_name="test", project_root=Path("/test"))
+
+        with pytest.raises(ValueError) as exc_info:
+            pipeline.execute_phase("nonexistent", context)
+
+        assert "Phase 'nonexistent' not found" in str(exc_info.value)
+        assert "Available phases: " in str(exc_info.value)
+
+    def test_execute_phase_failure_stops_execution(self):
+        """Test phase execution stops on stage failure."""
+        pipeline = MockPipeline()
+        # Make the first stage in preparation phase fail
+        pipeline._stages["prepare"] = MockStage("prepare", success=False)
+        context = PipelineContext(pipeline_name="test", project_root=Path("/test"))
+
+        results = pipeline.execute_phase("preparation", context)
+
+        # Should only have one result (the failed stage)
+        assert len(results) == 1
+        assert results[0].status == StageStatus.FAILURE
+        assert "prepare" not in context.completed_stages
+        assert "process" not in context.completed_stages
+
+    def test_get_phase_info(self):
+        """Test getting phase information."""
+        pipeline = MockPipeline()
+
+        phase_info = pipeline.get_phase_info("preparation")
+
+        assert phase_info["name"] == "preparation"
+        assert phase_info["display_name"] == "Preparation"
+        assert phase_info["stages"] == ["prepare", "process"]
+        assert phase_info["stage_count"] == 2
+
+        # Test invalid phase
+        invalid_info = pipeline.get_phase_info("nonexistent")
+        assert invalid_info == {}

@@ -26,17 +26,24 @@ class ProviderRegistry:
         self._image_providers: dict[str, MediaProvider] = {}
         self._sync_providers: dict[str, SyncProvider] = {}
         self._provider_pipeline_assignments: dict[str, list[str]] = {}
+        self._data_provider_configs: dict[str, dict[str, Any]] = {}
         self.logger = get_logger("providers.registry")
 
     # Data Provider Methods
-    def register_data_provider(self, name: str, provider: DataProvider) -> None:
+    def register_data_provider(
+        self, name: str, provider: DataProvider, config: dict[str, Any] | None = None
+    ) -> None:
         """Register a data provider
 
         Args:
             name: Provider name
             provider: DataProvider instance
+            config: Optional provider configuration for file conflict validation
         """
         self._data_providers[name] = provider
+        if config:
+            self._data_provider_configs[name] = config
+            self._validate_file_conflicts()
 
     def get_data_provider(self, name: str) -> DataProvider | None:
         """Get data provider by name
@@ -136,6 +143,7 @@ class ProviderRegistry:
         self._image_providers.clear()
         self._sync_providers.clear()
         self._provider_pipeline_assignments.clear()
+        self._data_provider_configs.clear()
 
     def get_provider_info(self) -> dict[str, Any]:
         """Get information about all registered providers
@@ -253,6 +261,31 @@ class ProviderRegistry:
                 filtered[name] = provider
         return filtered
 
+    def _validate_file_conflicts(self) -> None:
+        """Validate that no files are managed by multiple data providers
+
+        Raises:
+            ValueError: If file conflicts are detected
+        """
+        file_assignments: dict[str, str] = {}
+        conflicts: list[str] = []
+
+        for provider_name, config in self._data_provider_configs.items():
+            managed_files = config.get("files", [])
+            if not managed_files:  # Skip providers that manage all files
+                continue
+
+            for file_id in managed_files:
+                if file_id in file_assignments:
+                    conflicts.append(
+                        f"File '{file_id}' managed by both '{file_assignments[file_id]}' and '{provider_name}'"
+                    )
+                else:
+                    file_assignments[file_id] = provider_name
+
+        if conflicts:
+            raise ValueError(f"File conflicts detected: {'; '.join(conflicts)}")
+
     @classmethod
     @log_performance("fluent_forever.providers.registry")
     def from_config(cls, config: "Config") -> "ProviderRegistry":
@@ -304,17 +337,26 @@ class ProviderRegistry:
 
                 provider_type = data_config.get("type", "json")
                 pipelines = data_config.get("pipelines", [])
+                files = data_config.get("files", [])
+                read_only = data_config.get("read_only", False)
 
                 if provider_type == "json":
                     from .data.json_provider import JSONDataProvider
 
                     base_path = Path(data_config.get("base_path", "."))
+                    provider = JSONDataProvider(
+                        base_path, read_only=read_only, managed_files=files
+                    )
+
                     registry.register_data_provider(
-                        provider_name, JSONDataProvider(base_path)
+                        provider_name,
+                        provider,
+                        config={"files": files, "read_only": read_only},
                     )
                     registry.set_pipeline_assignments("data", provider_name, pipelines)
                     logger.info(
-                        f"{ICONS['check']} Registered JSON data provider '{provider_name}' for pipelines {pipelines}"
+                        f"{ICONS['check']} Registered JSON data provider '{provider_name}' "
+                        f"for pipelines {pipelines} (read_only={read_only}, files={files})"
                     )
                 else:
                     raise ValueError(f"Unsupported data provider type: {provider_type}")

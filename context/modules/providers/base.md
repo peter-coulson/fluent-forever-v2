@@ -2,16 +2,24 @@
 
 ## Abstract Interfaces
 
-### DataProvider (`src/providers/base/data_provider.py:11`)
+### DataProvider (`src/providers/base/data_provider.py:13`)
 
-Core interface for data persistence:
-- `load_data(identifier: str) -> dict[str, Any]` - Load by key/filename
-- `save_data(identifier: str, data: dict) -> bool` - Persist data
+Core interface for data persistence with permission system:
+- `load_data(identifier: str) -> dict[str, Any]` - Load by key/filename (`src/providers/base/data_provider.py:21`)
+- `save_data(identifier: str, data: dict) -> bool` - Persist data (`src/providers/base/data_provider.py:52`)
 - `exists(identifier: str) -> bool` - Check data availability
 - `list_identifiers() -> list[str]` - Enumerate available data
 - `backup_data(identifier: str) -> str | None` - Optional backup creation
 
-### MediaProvider (`src/providers/base/media_provider.py:44`)
+**Permission System:**
+- `is_read_only: bool` - Property to check write protection status
+- `managed_files: list[str]` - Property for file-specific access control
+- `set_read_only(read_only: bool)` - Configure write protection
+- `set_managed_files(files: list[str])` - Set file access restrictions
+- `validate_file_access(identifier: str)` - Validate file access permissions (`src/providers/base/data_provider.py:145`)
+- `_check_write_permission(identifier: str)` - Internal write permission validation (`src/providers/base/data_provider.py:160`)
+
+### MediaProvider (`src/providers/base/media_provider.py:46`)
 
 Interface for media generation with typed requests:
 - `supported_types: list[str]` - Media types ("audio", "image")
@@ -23,7 +31,7 @@ Interface for media generation with typed requests:
 - `MediaRequest` (`src/providers/base/media_provider.py:14`) - Type, content, params, output path
 - `MediaResult` (`src/providers/base/media_provider.py:31`) - Success flag, file path, metadata, error
 
-### SyncProvider (`src/providers/base/sync_provider.py:47`)
+### SyncProvider (`src/providers/base/sync_provider.py:49`)
 
 Interface for external system synchronization:
 - `test_connection() -> bool` - Verify target availability

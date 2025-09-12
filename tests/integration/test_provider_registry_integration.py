@@ -43,6 +43,9 @@ class TestProviderRegistryIntegration:
         data_provider = registry.get_data_provider("default")
         assert data_provider is not None
         assert data_provider.__class__.__name__ == "JSONDataProvider"
+        # Verify default Phase 2 values
+        assert data_provider.is_read_only is False
+        assert data_provider.managed_files == []
 
         # Verify sync provider was created
         sync_provider = registry.get_sync_provider("default")
@@ -262,3 +265,61 @@ class TestProviderRegistryIntegration:
         # Verify all providers cleared
         assert registry.get_data_provider("test") is None
         assert len(registry.list_data_providers()) == 0
+
+    def test_provider_registry_enhanced_config_phase2(self, tmp_path):
+        """Test loading providers with Phase 2 enhanced configuration."""
+        # Create enhanced config with read_only and files fields
+        config_path = tmp_path / "enhanced_config.json"
+        config_content = f"""{{
+            "providers": {{
+                "data": {{
+                    "source_data": {{
+                        "type": "json",
+                        "base_path": "{tmp_path / 'sources'}",
+                        "files": ["dictionary", "reference"],
+                        "read_only": true,
+                        "pipelines": ["vocabulary"]
+                    }},
+                    "working_data": {{
+                        "type": "json",
+                        "base_path": "{tmp_path / 'work'}",
+                        "files": ["queue", "progress"],
+                        "read_only": false,
+                        "pipelines": ["vocabulary"]
+                    }}
+                }},
+                "sync": {{
+                    "anki": {{
+                        "type": "anki",
+                        "pipelines": ["*"]
+                    }}
+                }}
+            }}
+        }}"""
+        config_path.write_text(config_content)
+
+        # Load config and create registry
+        config = Config.load(str(config_path))
+        registry = ProviderRegistry.from_config(config)
+
+        # Verify source data provider (read-only)
+        source_provider = registry.get_data_provider("source_data")
+        assert source_provider is not None
+        assert source_provider.is_read_only is True
+        assert source_provider.managed_files == ["dictionary", "reference"]
+
+        # Verify working data provider (read-write)
+        working_provider = registry.get_data_provider("working_data")
+        assert working_provider is not None
+        assert working_provider.is_read_only is False
+        assert working_provider.managed_files == ["queue", "progress"]
+
+        # Test pipeline filtering works with enhanced providers
+        vocab_providers = registry.get_providers_for_pipeline("vocabulary")
+        assert "source_data" in vocab_providers["data"]
+        assert "working_data" in vocab_providers["data"]
+
+        # Test that other pipelines don't have access
+        other_providers = registry.get_providers_for_pipeline("conjugation")
+        assert "source_data" not in other_providers["data"]
+        assert "working_data" not in other_providers["data"]

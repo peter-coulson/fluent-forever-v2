@@ -16,16 +16,12 @@ Choose appropriate base class:
 ### 2. Provider Implementation
 ```python
 class CustomProvider(DataProvider):
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config):
         super().__init__(config)
-
-    def fetch_data(self, query: str) -> List[Dict]:
-        # Implementation here
-        pass
 ```
 
 ### 3. Register Provider and Configure Pipeline Access
-Add to `src/providers/registry.py:258` factory method and configure with named provider format:
+Add to `src/providers/registry.py:291` factory method and configure with named provider format:
 ```json
 {
   "providers": {
@@ -33,6 +29,8 @@ Add to `src/providers/registry.py:258` factory method and configure with named p
       "custom_data": {
         "type": "custom_data",
         "api_key": "${CUSTOM_API_KEY}",
+        "files": ["custom_dataset", "lookups"],
+        "read_only": false,
         "pipelines": ["vocabulary"]
       }
     }
@@ -44,10 +42,11 @@ Add to `src/providers/registry.py:258` factory method and configure with named p
 
 ## Provider Base Classes
 
-### DataProvider (`src/providers/base/data_provider.py:11`)
-**Abstract data sources (JSON, databases, memory)**
-- **Interface**: `load_data()`, `save_data()`, `exists()`, `list_identifiers()`
-- **Implementation example**: `JSONDataProvider` for local file storage
+### DataProvider (`src/providers/base/data_provider.py:13`)
+**Abstract data sources with permission system (JSON, databases, memory)**
+- **Core Interface**: `load_data()`, `save_data()`, `exists()`, `list_identifiers()`
+- **Permission System**: `is_read_only`, `managed_files`, `validate_file_access()`, `_check_write_permission()`
+- **Implementation example**: `JSONDataProvider` with read-only and file access controls
 
 ### MediaProvider (`src/providers/base/media_provider.py:44`)
 **Audio/image generation from external APIs**
@@ -78,10 +77,18 @@ Add to `src/providers/registry.py:258` factory method and configure with named p
 
 ### Configuration Integration
 - Use named provider configuration with required `pipelines` field
+- **Enhanced Data Providers**: Optional `files` array and `read_only` boolean for permission control
 - Add provider-specific configuration to JSON schema
 - Use environment variables for sensitive data (API keys)
 - Specify pipeline assignments: `["*"]` for all pipelines or specific pipeline names
 - Follow existing naming conventions
+
+### Permission Patterns (Data Providers)
+- **Read-only providers**: Set `read_only: true` for source data protection
+- **File-specific providers**: Use `files` array to restrict access to specific identifiers
+- **File conflict prevention**: Registry validates no overlapping file assignments
+- **Permission enforcement**: Override `load_data()`, `save_data()` to call validation methods
+- **Error handling**: Use `PermissionError` for read-only, `ValueError` for file access violations
 
 ### Error Handling
 - Use structured exception types from base classes
@@ -92,22 +99,21 @@ Add to `src/providers/registry.py:258` factory method and configure with named p
 ## Testing Provider Integrations
 
 ### Unit Testing
-```python
-def test_custom_provider():
-    config = {'api_key': 'test_key'}
-    provider = CustomProvider(config)
-    result = provider.fetch_data('test_query')
-    assert result is not None
-```
+Test provider methods with mock configurations and validate return values.
 
 ### Integration Testing
-- Test actual API connections (with test credentials)
+- Test API connections with credentials
 - Validate request/response formats
 - Check error handling and retry logic
-- Test configuration loading and validation
 
 ### Mock Testing
 Create mocks for external services in `tests/mocks/` for reliable unit testing
+
+### Permission System Testing (Data Providers)
+**Unit Tests**: Test read-only protection with `pytest.raises(PermissionError)`
+**File Access Tests**: Test file restrictions with `pytest.raises(ValueError, match="not managed")`
+**Registry Tests**: Test file conflict detection during provider registration
+**Test Files**: See `tests/unit/providers/base/test_data_provider_permissions.py`, `tests/unit/providers/test_registry_file_conflicts.py`
 
 ## Extension Guidelines
 
@@ -125,21 +131,12 @@ Create mocks for external services in `tests/mocks/` for reliable unit testing
 
 ### Performance Optimization
 - Implement connection pooling for HTTP clients
-- Use async operations where beneficial
-- Cache expensive operations
-- Monitor and log performance metrics
+- Cache expensive operations and monitor performance metrics
 
-## External Service Integration
-
-### Common Integration Patterns
+## Extension Patterns
 1. Abstract service behind provider interface
 2. Implement authentication/authorization
 3. Add retry logic and error handling
 4. Create provider registry entry
 5. Add configuration validation
-
-### Service-Specific Considerations
-- **Audio Services**: Handle different audio formats, quality settings
-- **Image Services**: Manage image dimensions, formats, generation parameters
-- **Sync Services**: Handle bulk operations, incremental updates
-- **Data Services**: Support different data formats, query languages
+6. **Audio/Image/Sync Services**: Handle format-specific requirements and bulk operations

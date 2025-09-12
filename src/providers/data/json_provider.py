@@ -15,15 +15,27 @@ from src.providers.base.data_provider import DataProvider
 class JSONDataProvider(DataProvider):
     """Provide data from JSON files"""
 
-    def __init__(self, base_path: Path):
+    def __init__(
+        self,
+        base_path: Path,
+        read_only: bool = False,
+        managed_files: list[str] | None = None,
+    ):
         """Initialize JSON data provider
 
         Args:
             base_path: Directory containing JSON files
+            read_only: Whether provider is read-only
+            managed_files: List of file identifiers this provider manages (None = all files)
         """
         super().__init__()
         self.base_path = Path(base_path)
         self.base_path.mkdir(parents=True, exist_ok=True)
+
+        # Set permissions and file management
+        self.set_read_only(read_only)
+        if managed_files is not None:
+            self.set_managed_files(managed_files)
 
     def _load_data_impl(self, identifier: str) -> dict[str, Any]:
         """Load data from JSON file implementation
@@ -85,18 +97,25 @@ class JSONDataProvider(DataProvider):
         Returns:
             True if file exists, False otherwise
         """
+        self.validate_file_access(identifier)
         return (self.base_path / f"{identifier}.json").exists()
 
     def list_identifiers(self) -> list[str]:
         """List all JSON files (without .json extension)
 
         Returns:
-            List of identifiers for all JSON files
+            List of identifiers for all JSON files (filtered by managed files if set)
         """
         if not self.base_path.exists():
             return []
 
-        return [f.stem for f in self.base_path.glob("*.json")]
+        all_files = [f.stem for f in self.base_path.glob("*.json")]
+
+        # If managed files is set, only return files in that list that exist
+        if self._managed_files:
+            return [f for f in all_files if f in self._managed_files]
+
+        return all_files
 
     def backup_data(self, identifier: str) -> str | None:
         """Create backup of JSON file
