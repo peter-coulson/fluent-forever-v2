@@ -1,13 +1,23 @@
-# Stage 1: Configuration Architecture Foundation
+# Stage 1: Configuration Architecture Foundation (TDD)
+
+**REQUIRED READING**: First read `general_context.md` for architectural patterns and principles.
 
 ## Overview
-Establish the core dependency injection pattern for MediaProvider configuration. This foundational change sets the architectural pattern that all subsequent stages will build upon.
+Using Test-Driven Development, establish the core dependency injection pattern for MediaProvider configuration. This foundational stage follows RED → GREEN → REFACTOR cycles to build the architectural pattern that all subsequent stages depend upon.
+
+## TDD Methodology
+**Reference Implementation**: Use the detailed TDD prompts in `implementation_prompts.md` for this stage.
+
+This stage follows strict TDD:
+1. **RED**: Write failing tests for configuration injection pattern
+2. **GREEN**: Implement minimal code to pass tests
+3. **REFACTOR**: Clean up implementation while maintaining passing tests
 
 ## Objectives
-- Implement constructor-based configuration injection for MediaProvider base class
-- Establish fail-fast configuration validation framework
-- Remove runtime configuration loading patterns in favor of construction-time injection
-- Maintain backward compatibility with existing provider implementations
+- Implement constructor-based configuration injection using TDD approach
+- Establish fail-fast configuration validation framework through test specifications
+- Create clean foundation that removes need for runtime configuration loading
+- Maintain backward compatibility through optional constructor parameters
 
 ## Scope Boundaries
 
@@ -112,40 +122,32 @@ def validate_config(self, config: dict[str, Any]) -> None:
         raise ValueError(f"Invalid model: {config['model']}")
 ```
 
-## Testing Strategy
+## TDD Testing Strategy
 
-### 1.5 Unit Test Plan
+### Test-First Development
+Following the TDD approach, this stage is driven by the test specifications in `implementation_prompts.md`.
 
-**Test File**: `tests/unit/providers/base/test_media_provider_config.py`
+**Test Infrastructure**: Uses the foundation established in Stage 0, including:
+- `ProviderTestBase` for common testing patterns
+- Configuration fixtures for various scenarios
+- Mock utilities for isolated testing
 
-**Test Cases**:
-1. **Constructor Tests**:
-   - Test with None config (backward compatibility)
-   - Test with empty dict config
-   - Test with valid config
-   - Test abstract class cannot be instantiated
+**TDD Cycle Implementation**:
+1. **RED Phase**: Write comprehensive failing tests for configuration injection
+2. **GREEN Phase**: Implement minimal MediaProvider changes to pass tests
+3. **REFACTOR Phase**: Clean up implementation while maintaining test success
 
-2. **Validation Framework Tests**:
-   - Test abstract validate_config method exists
-   - Test _setup_from_config method exists
-   - Test method signatures are correct
+### Test Coverage Areas
+- Constructor configuration injection with various config scenarios
+- Abstract method enforcement for validate_config()
+- Backward compatibility with existing provider instantiation
+- Error handling for invalid configurations
+- Configuration flow from constructor through validation
 
-3. **Integration Tests**:
-   - Mock concrete provider with config validation
-   - Test configuration flow from constructor to validation
-   - Test validation errors are properly raised
-
-### 1.6 Existing Provider Compatibility Tests
-
-**Test Approach**:
-- Run existing provider tests to ensure no regression
-- Verify existing providers still instantiate correctly
-- Check that existing provider methods continue to work
-
-**Files to Test**:
-- `src/providers/audio/forvo_provider.py`
-- `src/providers/image/openai_provider.py`
-- `src/providers/image/runware_provider.py`
+### Validation Approach
+- All new tests must pass before proceeding to Stage 2
+- Existing provider tests must continue passing (no regressions)
+- Implementation must follow patterns specified in `general_context.md`
 
 ## Testing Gateway
 

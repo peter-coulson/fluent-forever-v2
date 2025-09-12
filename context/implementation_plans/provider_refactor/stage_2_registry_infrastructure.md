@@ -1,13 +1,23 @@
-# Stage 2: Registry Infrastructure
+# Stage 2: Registry Infrastructure (TDD)
+
+**REQUIRED READING**: First read `general_context.md` for architectural patterns and principles.
 
 ## Overview
-Transform the provider registry from hardcoded initialization to dynamic loading with configuration injection. This stage eliminates ~80 lines of duplicate code and establishes the foundation for flexible provider management.
+Using Test-Driven Development, transform the provider registry from hardcoded initialization to dynamic loading with configuration injection. This stage follows RED → GREEN → REFACTOR cycles to eliminate ~80 lines of duplicate code and establish flexible provider management.
+
+## TDD Methodology
+**Reference Implementation**: Use the detailed TDD prompts in `implementation_prompts.md` for this stage.
+
+This stage follows strict TDD building on Stage 1 foundation:
+1. **RED**: Write failing tests for dynamic registry functionality
+2. **GREEN**: Implement minimal code to pass tests
+3. **REFACTOR**: Remove duplicate code while maintaining passing tests
 
 ## Objectives
-- Implement dynamic provider loading with import mapping
-- Remove duplicate provider setup code across audio/image/sync types
-- Establish configuration extraction and injection at registry level
-- Maintain full backward compatibility with existing provider instances
+- Implement dynamic provider loading through test-driven specification
+- Remove duplicate provider setup code guided by test requirements
+- Establish configuration injection at registry level via TDD
+- Complete foundation cleanup with legacy code removal
 
 ## Scope Boundaries
 
