@@ -14,6 +14,7 @@ The system processes Spanish vocabulary through a multi-stage pipeline, transfor
 - **Español.jsonl**: A read only spanish dictionary containing all vocabualry related data inputs for the cards
 - **vocabulary.json**: An internal database storing all card information including all field values.
 - **word_queue.json**: An internal database storing the upcoming words to process in the queue. Contains nearly filled cards, missing only the prompts for media generation.
+- **prompts_staging.json**: Where the user inputs media prompts to be generated for the cards.
 - **spanish_dictionary.json**: A frequency dictionary of Spanish, used for deciding the order of the word queue based on utility of each word.
 
 ### External Data Sources
@@ -60,12 +61,11 @@ The system processes Spanish vocabulary through a multi-stage pipeline, transfor
 ## Pipeline Architecture
 
 ### Processing Stages Overview
-The vocabulary pipeline divides processing into five modular stages:
+The vocabulary pipeline divides processing into four modular stages:
 1) **Stage 1**: Word Selection
-2) **Stage 2**: Word Processing (Spanish dict to word queue)
-3) **Stage 3**: Prompt Creation
-4) **Stage 4**: Media Generation & Vocabulary Update
-5) **Stage 5**: Anki Sync
+2) **Stage 2**: Word Processing (Spanish dict to word queue + prompt staging)
+3) **Stage 3**: Media Generation & Vocabulary Update
+4) **Stage 4**: Anki Sync
 
 ## Implementation Details
 
@@ -127,12 +127,34 @@ Universal processing regardless of Stage 1 source:
   - **Sense Selection**: For each group, select the first sense number that has an example sentence. If no senses in the group have examples, use the first sense number and log a warning.
 - **WordQueuePopulator**: Creates queue entries, filters duplicate CardIDs against vocabulary.json and current queue
 - For each selected sense, appends a new meaning instance to word_queue.json with vocabulary.json field structure
+- **Prompt Staging Update**: Automatically updates prompts_staging.json after word_queue.json changes
+  - **Staging Format**: `{"CardID": "prompt text"}` (ready), `{"CardID": ""}` (waiting), `{"CardID": null}` (skip)
+  - Preserve existing prompts for unchanged CardIDs
+  - Add new entries as `"CardID": ""` for newly added words
+  - Validate staging keys match current queue CardIDs
+  - Remove obsolete entries from staging file
 
-### Stage 3: Prompt Creation
-Will leave undefined for now. Options are either the user directly editing the word queue and calling a sync script that checks for any words where the prompt value is filled. Or we create some other batch file where the user inputs the CardID: "prompt". We also need some skip word function. I think this would probably be easiest to have some cli script for skipping word queue where we input the words to be skipped --skipped-words ya,yo,hay
+### Stage 3: Media Generation & Vocabulary Update
+#### Processing Flow:
+- **Prompt Validation & Import**:
+  - Load and validate `prompts_staging.json` format and content
+  - **Validation Rules**: minimum/maximum prompt length, JSON syntax, CardID existence
+  - **Skip Processing**: Process entries where `value === null`
+    - Move corresponding words to `vocabulary.json.skipped_words` array
+    - Update `total_skipped` count in vocabulary metadata
+    - Remove from both `word_queue.json` and staging file
+  - **Prompt Import**: Import validated prompts into `word_queue.json` where prompt is non-empty string
+- **Media Generation**:
+  - Process queue entries with filled prompts
+  - Generate images using validated prompts via image providers
+  - Generate audio using word data via audio providers
+  - Validate media files don't already exist and CardIDs aren't in vocabulary.json
+- **Vocabulary Update**:
+  - Move completed entries from `word_queue.json` to `vocabulary.json`
+  - Update vocabulary metadata (total cards, last updated, etc.)
+- **Staging Cleanup**:
+  - Remove processed CardIDs from `prompts_staging.json` (both completed prompts and skipped entries)
+  - Maintain staging file for any remaining unprocessed entries (`""` values)
 
-### Stage 4: Media Generation & Vocabulary Update
-We generate the media as part of this pipeline. This would constitue a form of sync as described above. It should validate prompts are a certain number of characters to prevent accidental typos. Then it should validate that the media with the same name is not already in the media folder and the CardID is not already in vocabulary. Then proceed to generate all media. Once all media is generated, update vocabulary.
-
-### Stage 5: Anki Sync
+### Stage 4: Anki Sync
 To be decided
