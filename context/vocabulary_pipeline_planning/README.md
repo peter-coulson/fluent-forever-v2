@@ -61,11 +61,12 @@ The system processes Spanish vocabulary through a multi-stage pipeline, transfor
 ## Pipeline Architecture
 
 ### Processing Stages Overview
-The vocabulary pipeline divides processing into four modular stages:
+The vocabulary pipeline divides processing into five modular stages:
 1) **Stage 1**: Word Selection
 2) **Stage 2**: Word Processing (Spanish dict to word queue + prompt staging)
-3) **Stage 3**: Media Generation & Vocabulary Update
-4) **Stage 4**: Anki Sync
+3) **Stage 3**: Media Generation
+4) **Stage 4**: Vocabulary Sync
+5) **Stage 5**: Anki Sync
 
 ## Implementation Details
 
@@ -134,7 +135,7 @@ Universal processing regardless of Stage 1 source:
   - Validate staging keys match current queue CardIDs
   - Remove obsolete entries from staging file
 
-### Stage 3: Media Generation & Vocabulary Update
+### Stage 3: Media Generation
 #### Processing Flow:
 - **Prompt Validation & Import**:
   - Load and validate `prompts_staging.json` format and content
@@ -144,17 +145,62 @@ Universal processing regardless of Stage 1 source:
     - Update `total_skipped` count in vocabulary metadata
     - Remove from both `word_queue.json` and staging file
   - **Prompt Import**: Import validated prompts into `word_queue.json` where prompt is non-empty string
-- **Media Generation**:
+- **Media Generation & Regeneration**:
   - Process queue entries with filled prompts
+  - **Regeneration Logic**: Detect existing media files and prompt changes
+    - If media exists and prompt changed: regenerate media files
+    - If media missing: generate new media files
+    - Log regeneration activities for user visibility
   - Generate images using validated prompts via image providers
   - Generate audio using word data via audio providers
-  - Validate media files don't already exist and CardIDs aren't in vocabulary.json
-- **Vocabulary Update**:
-  - Move completed entries from `word_queue.json` to `vocabulary.json`
-  - Update vocabulary metadata (total cards, last updated, etc.)
-- **Staging Cleanup**:
-  - Remove processed CardIDs from `prompts_staging.json` (both completed prompts and skipped entries)
-  - Maintain staging file for any remaining unprocessed entries (`""` values)
+  - Update `word_queue.json` with actual prompts used and `status: "media_generated"`
+- **Queue Status Update**:
+  - Update processed entries with `status: "media_generated"` and timestamp
+  - Entries remain in `word_queue.json` for review/approval workflow
 
-### Stage 4: Anki Sync
+#### Enhanced Data Structure
+Add status tracking to `word_queue.json` entries:
+```json
+{
+  "CardID": "llamar_call_name_refer_to",
+  "status": "media_generated",
+  "media_generated_at": "2024-01-15T10:30:00Z",
+  // ... existing fields
+}
+```
+
+Status values: `"pending_prompts"` → `"media_generated"` → (Stage 4 processing)
+
+### Stage 4: Vocabulary Sync
+#### Processing Flow:
+- **Review & Approval Processing**:
+  - Process queue entries with `status: "media_generated"`
+  - Apply approval workflow (CLI review commands, bulk approval, etc.)
+  - Future: Frontend integration for image review interface
+- **Vocabulary Update**:
+  - Move approved entries from `word_queue.json` to `vocabulary.json`
+  - Update vocabulary metadata (total cards, last updated, etc.)
+  - Remove processed entries from word queue
+- **Staging Cleanup**:
+  - Synchronize `prompts_staging.json` with current `word_queue.json` state
+  - Remove entries for completed/approved cards
+  - Maintain staging file for remaining unprocessed entries
+  - Add new entries as `"CardID": ""` for newly queued words
+
+#### Review Commands (CLI Interface)
+```bash
+# Review pending media
+pipeline review-media
+
+# Regenerate specific card media
+pipeline regenerate-media llamar_call_name_refer_to
+
+# Bulk approve all pending
+pipeline approve-media --all
+
+# Interactive approval workflow
+pipeline approve-media --interactive
+```
+
+### Stage 5: Anki Sync
 To be decided
