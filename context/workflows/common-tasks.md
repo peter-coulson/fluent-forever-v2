@@ -26,24 +26,33 @@ For technical details, see: `context/modules/core/pipeline.md`
 
 ## Provider Configuration
 
-### Anki Integration
-1. Configure deck settings in pipeline YAML files
-2. Set `ANKI_CONNECT_URL` environment variable if non-default
-3. Ensure AnkiConnect addon installed and running
+### Named Provider Format (Required)
+All providers must use the new named configuration format:
+```json
+{
+  "providers": {
+    "data": {
+      "default": {"type": "json", "base_path": ".", "pipelines": ["*"]}
+    },
+    "audio": {
+      "forvo": {"type": "forvo", "pipelines": ["vocabulary"]}
+    },
+    "sync": {
+      "anki": {"type": "anki", "pipelines": ["*"]}
+    }
+  }
+}
+```
 
-**Provider location**: `src/providers/sync/anki_provider.py:25`
+### Pipeline Assignment Control
+- **Required Field**: Each provider must specify `pipelines` array
+- **Wildcard Support**: Use `["*"]` for all pipelines
+- **Access Control**: Providers only available to assigned pipelines
 
-### Audio Provider Setup
-**ElevenLabs**: Set `ELEVENLABS_API_KEY` environment variable
-**Azure**: Configure `AZURE_SPEECH_KEY` and `AZURE_SPEECH_REGION`
+### Legacy Configuration Migration
+Old configuration format no longer supported. Update existing configs using the named provider structure above.
 
-**Implementation**: `src/providers/audio/` directory
-
-### Image Generation
-**DALL-E**: Set `OPENAI_API_KEY` environment variable
-**Alternative**: Configure other image providers in provider registry
-
-**Provider registry**: `src/providers/registry.py:18`
+**Provider registry**: `src/providers/registry.py:25`
 
 For provider details, see: `context/modules/providers/implementations.md`
 

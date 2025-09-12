@@ -6,10 +6,11 @@
 1. **CLI Entry**: Command parsing and validation (`src/cli/`)
 2. **Logging Setup**: `setup_logging()` with verbose mode and environment configuration
 3. **Config Loading**: `Config.load()` with environment variable substitution
-4. **Provider Registry**: `ProviderRegistry.from_config()` initializes providers with logging
+4. **Provider Registry**: `ProviderRegistry.from_config()` initializes providers with pipeline assignments
 5. **Context Creation**: `PipelineContext` with `project_root`, `pipeline_name`
-6. **Pipeline Selection**: Concrete pipeline instance (vocabulary/conjugation)
-7. **Stage Execution**: Sequential `pipeline.execute_stage()` calls with performance timing
+6. **Provider Filtering**: `registry.get_providers_for_pipeline()` injects only authorized providers
+7. **Pipeline Selection**: Concrete pipeline instance (vocabulary/conjugation)
+8. **Stage Execution**: Sequential `pipeline.execute_stage()` calls with performance timing
 
 ### Stage Execution Pattern (`src/core/stages.py:104`)
 ```
@@ -31,8 +32,9 @@ Context Validation → Logging Setup → Performance Timing → Stage._execute_i
 - Stage N: Sync to Anki → `context.data['anki_cards']`
 
 ### Provider Interactions
-**Registry Lookup**: `registry.get_audio_provider("default")`
-**Service Calls**: Provider methods called within stage execution
+**Pipeline-Filtered Access**: Only providers assigned to current pipeline via `context.get("providers")`
+**Service Calls**: Provider methods called within stage execution using filtered provider dict
+**Access Control**: Unauthorized providers not available to pipeline stages
 **Error Handling**: Provider failures captured in `StageResult.failure()`
 
 ### Configuration Flow

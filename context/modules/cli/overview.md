@@ -35,40 +35,22 @@ Universal command-line interface providing consistent access to all pipeline ope
 - **Validation**: Two-tier validation (CLI arguments + pipeline-specific validation)
 
 ### Provider System Integration
-- **Registry Access**: Retrieves providers from `ProviderRegistry.from_config()`
-- **Context Injection**: Injects data/audio/image/sync providers into execution context
-- **Default Selection**: Uses "default" provider configuration for each provider type
+- **Registry Access**: Retrieves providers from `ProviderRegistry.from_config()` with pipeline assignments
+- **Filtered Context Injection**: Injects only pipeline-authorized providers via `get_providers_for_pipeline()`
+- **Named Provider Support**: Uses named provider configuration with required `pipelines` field
 
 ## User Experience
 
-### Discovery and Execution
-```bash
-# Discover available pipelines
-cli list --detailed
+### Key Features
+- **Discovery**: `cli list --detailed` shows available pipelines
+- **Execution**: `cli run pipeline --stage name` executes with context
+- **Preview**: `--dry-run` flag previews operations safely
+- **Validation**: Pre-execution validation with clear error messages
 
-# Get detailed pipeline information
-cli info vocabulary --stages
-
-# Preview execution without side effects
-cli run vocabulary --stage prepare --words por,para --dry-run
-
-# Execute pipeline stage
-cli run vocabulary --stage prepare --words por,para
-```
-
-### Error Handling and Output
-- **Validation**: Pre-execution validation with actionable error messages
-- **Progress Feedback**: Visual icons (🔧⚙️✅❌) and progress indicators for long operations
-- **Structured Output**: Consistent formatting for success, warning, and error states
-- **Verbose Mode**: Debug-level logging with file output via `--verbose` flag or `FLUENT_FOREVER_DEBUG`
-- **Environment Configuration**: Module-specific log levels via environment variables
-- **Performance Tracking**: Execution timing displayed for operations when verbose enabled
-
-## Extension Support
-
-- **Unified Interface**: Single entry point for all pipeline operations
-- **Dynamic Discovery**: Runtime pipeline and provider discovery via registries
-- **Command Pattern**: New commands can be added following established patterns
-- **Configuration-Driven**: Behavior controlled via JSON configuration files
+### Error Handling
+- **Progress Feedback**: Visual icons and status indicators
+- **Structured Output**: Consistent formatting for all states
+- **Verbose Mode**: Debug logging via `--verbose` or `FLUENT_FOREVER_DEBUG`
+- **Performance Tracking**: Execution timing when verbose enabled
 
 See `context/modules/cli/commands.md` for implementation details and `context/workflows/extending-cli.md` for extension patterns.

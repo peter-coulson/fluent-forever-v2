@@ -71,7 +71,10 @@ class TestPipelineRunnerIntegration:
         """Test that config changes are properly reflected in initialized providers"""
 
         config_data = {
-            "providers": {"image": {"type": "openai"}, "sync": {"type": "anki"}}
+            "providers": {
+                "image": {"openai": {"type": "openai", "pipelines": ["*"]}},
+                "sync": {"anki": {"type": "anki", "pipelines": ["*"]}},
+            }
         }
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
@@ -105,7 +108,10 @@ class TestPipelineRunnerIntegration:
     def test_config_unsupported_provider_types_fail_fast(self):
         """Test that unsupported provider types cause immediate failure"""
         config_data = {
-            "providers": {"image": {"type": "unsupported"}, "sync": {"type": "anki"}}
+            "providers": {
+                "image": {"unsupported": {"type": "unsupported", "pipelines": ["*"]}},
+                "sync": {"anki": {"type": "anki", "pipelines": ["*"]}},
+            }
         }
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:

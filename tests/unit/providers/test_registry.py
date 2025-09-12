@@ -309,11 +309,13 @@ class TestProviderRegistry:
         import pytest
         from src.core.config import Config
 
-        # Test unsupported audio provider - just check that the right exception is raised
+        # Test unsupported audio provider - using new format
         config_data = {
             "providers": {
-                "audio": {"type": "unsupported"},
-                "sync": {"type": "anki"},
+                "audio": {
+                    "unsupported_audio": {"type": "unsupported", "pipelines": ["*"]}
+                },
+                "sync": {"anki": {"type": "anki", "pipelines": ["*"]}},
             }
         }
 
@@ -330,11 +332,13 @@ class TestProviderRegistry:
         finally:
             Path(config_path).unlink()
 
-        # Test unsupported image provider - just check that the right exception is raised
+        # Test unsupported image provider - using new format
         config_data = {
             "providers": {
-                "image": {"type": "unsupported"},
-                "sync": {"type": "anki"},
+                "image": {
+                    "unsupported_image": {"type": "unsupported", "pipelines": ["*"]}
+                },
+                "sync": {"anki": {"type": "anki", "pipelines": ["*"]}},
             }
         }
 
@@ -351,10 +355,12 @@ class TestProviderRegistry:
         finally:
             Path(config_path).unlink()
 
-        # Test unsupported sync provider
+        # Test unsupported sync provider - using new format
         config_data = {
             "providers": {
-                "sync": {"type": "unsupported"},
+                "sync": {
+                    "unsupported_sync": {"type": "unsupported", "pipelines": ["*"]}
+                }
             }
         }
 
@@ -376,7 +382,7 @@ class TestProviderRegistryFromConfig:
     """Test cases for ProviderRegistry.from_config method."""
 
     def test_from_config_basic_functionality(self):
-        """Test from_config method creates providers with valid configuration"""
+        """Test from_config method creates providers with valid new configuration format"""
         import json
         import tempfile
         from pathlib import Path
@@ -386,10 +392,14 @@ class TestProviderRegistryFromConfig:
 
         config_data = {
             "providers": {
-                "data": {"type": "json", "base_path": "."},
-                "audio": {"type": "forvo"},
-                "image": {"type": "runware"},
-                "sync": {"type": "anki"},
+                "data": {
+                    "default": {"type": "json", "base_path": ".", "pipelines": ["*"]}
+                },
+                "audio": {"forvo": {"type": "forvo", "pipelines": ["vocabulary"]}},
+                "image": {"runware": {"type": "runware", "pipelines": ["*"]}},
+                "sync": {
+                    "anki": {"type": "anki", "pipelines": ["vocabulary", "conjugation"]}
+                },
             }
         }
 
@@ -410,11 +420,11 @@ class TestProviderRegistryFromConfig:
             ):
                 registry = ProviderRegistry.from_config(config)
 
-                # Verify providers were created
+                # Verify providers were created with correct names
                 assert registry.get_data_provider("default") is not None
-                assert registry.get_audio_provider("default") is not None
-                assert registry.get_image_provider("default") is not None
-                assert registry.get_sync_provider("default") is not None
+                assert registry.get_audio_provider("forvo") is not None
+                assert registry.get_image_provider("runware") is not None
+                assert registry.get_sync_provider("anki") is not None
 
                 # Verify correct types and initialization
                 data_provider = registry.get_data_provider("default")
@@ -422,6 +432,17 @@ class TestProviderRegistryFromConfig:
                 mock_forvo.assert_called_once()
                 mock_runware.assert_called_once()
                 mock_anki.assert_called_once()
+
+                # Verify pipeline assignments were set correctly
+                assert registry.get_pipeline_assignments("data", "default") == ["*"]
+                assert registry.get_pipeline_assignments("audio", "forvo") == [
+                    "vocabulary"
+                ]
+                assert registry.get_pipeline_assignments("image", "runware") == ["*"]
+                assert registry.get_pipeline_assignments("sync", "anki") == [
+                    "vocabulary",
+                    "conjugation",
+                ]
         finally:
             Path(config_path).unlink()
 
@@ -437,9 +458,9 @@ class TestProviderRegistryFromConfig:
 
         config_data = {
             "providers": {
-                "audio": {"type": "forvo"},  # Will fail without API key
-                "image": {"type": "runware"},  # Will fail without API key
-                "sync": {"type": "anki"},  # Will fail without Anki running
+                "audio": {"forvo": {"type": "forvo", "pipelines": ["*"]}},
+                "image": {"runware": {"type": "runware", "pipelines": ["*"]}},
+                "sync": {"anki": {"type": "anki", "pipelines": ["*"]}},
             }
         }
 
@@ -467,12 +488,189 @@ class TestProviderRegistryFromConfig:
         import json
         import tempfile
         from pathlib import Path
+
+        import pytest
+        from src.core.config import Config
+
+        # Config with no providers section should fail
+        config_data = {"system": {"log_level": "info"}}
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+
+            # Should fail when no providers section exists
+            with pytest.raises(ValueError, match="No providers configuration found"):
+                ProviderRegistry.from_config(config)
+        finally:
+            Path(config_path).unlink()
+
+
+class TestProviderRegistryPipelineAssignments:
+    """Test cases for pipeline assignment functionality."""
+
+    def test_set_pipeline_assignments(self):
+        """Test setting pipeline assignments for providers."""
+        registry = ProviderRegistry()
+
+        # Test setting assignments for different provider types
+        registry.set_pipeline_assignments("data", "test", ["vocabulary", "conjugation"])
+        registry.set_pipeline_assignments("audio", "forvo", ["vocabulary"])
+        registry.set_pipeline_assignments("image", "runware", ["*"])
+        registry.set_pipeline_assignments("sync", "anki", ["vocabulary", "conjugation"])
+
+        # Verify assignments are stored correctly
+        assert registry.get_pipeline_assignments("data", "test") == [
+            "vocabulary",
+            "conjugation",
+        ]
+        assert registry.get_pipeline_assignments("audio", "forvo") == ["vocabulary"]
+        assert registry.get_pipeline_assignments("image", "runware") == ["*"]
+        assert registry.get_pipeline_assignments("sync", "anki") == [
+            "vocabulary",
+            "conjugation",
+        ]
+
+        # Test overwriting existing assignments
+        registry.set_pipeline_assignments("data", "test", ["conjugation"])
+        assert registry.get_pipeline_assignments("data", "test") == ["conjugation"]
+
+    def test_get_pipeline_assignments(self):
+        """Test retrieving pipeline assignments."""
+        registry = ProviderRegistry()
+
+        # Test getting assignments for assigned providers
+        registry.set_pipeline_assignments("audio", "forvo", ["vocabulary"])
+        assignments = registry.get_pipeline_assignments("audio", "forvo")
+        assert assignments == ["vocabulary"]
+
+        # Test getting assignments for unassigned providers (should return ["*"] for universal access)
+        unassigned = registry.get_pipeline_assignments("audio", "unassigned")
+        assert unassigned == ["*"]
+
+    def test_get_providers_for_pipeline_with_assignments(self):
+        """Test filtering providers by pipeline assignments."""
+        registry = ProviderRegistry()
+
+        # Register providers with specific pipeline assignments
+        data_provider1 = MockDataProvider()
+        data_provider2 = MockDataProvider()
+        audio_provider = MockAudioProvider()
+        image_provider = MockImageProvider()
+        sync_provider = MockSyncProvider()
+
+        registry.register_data_provider("vocab_data", data_provider1)
+        registry.register_data_provider("conjugation_data", data_provider2)
+        registry.register_audio_provider("forvo", audio_provider)
+        registry.register_image_provider("runware", image_provider)
+        registry.register_sync_provider("anki", sync_provider)
+
+        # Set pipeline assignments
+        registry.set_pipeline_assignments("data", "vocab_data", ["vocabulary"])
+        registry.set_pipeline_assignments("data", "conjugation_data", ["conjugation"])
+        registry.set_pipeline_assignments("audio", "forvo", ["vocabulary"])
+        registry.set_pipeline_assignments("image", "runware", ["vocabulary"])
+        registry.set_pipeline_assignments("sync", "anki", ["vocabulary", "conjugation"])
+
+        # Test vocabulary pipeline gets assigned providers
+        vocab_providers = registry.get_providers_for_pipeline("vocabulary")
+        assert "vocab_data" in vocab_providers["data"]
+        assert "conjugation_data" not in vocab_providers["data"]
+        assert "forvo" in vocab_providers["audio"]
+        assert "runware" in vocab_providers["image"]
+        assert "anki" in vocab_providers["sync"]
+
+        # Test conjugation pipeline gets assigned providers
+        conjugation_providers = registry.get_providers_for_pipeline("conjugation")
+        assert "vocab_data" not in conjugation_providers["data"]
+        assert "conjugation_data" in conjugation_providers["data"]
+        assert "forvo" not in conjugation_providers["audio"]
+        assert "runware" not in conjugation_providers["image"]
+        assert "anki" in conjugation_providers["sync"]
+
+    def test_get_providers_for_pipeline_with_wildcard(self):
+        """Test wildcard '*' assignments work for all pipelines."""
+        registry = ProviderRegistry()
+
+        # Register providers with wildcard assignment
+        data_provider = MockDataProvider()
+        audio_provider = MockAudioProvider()
+
+        registry.register_data_provider("universal_data", data_provider)
+        registry.register_audio_provider("universal_audio", audio_provider)
+
+        # Set wildcard assignments
+        registry.set_pipeline_assignments("data", "universal_data", ["*"])
+        registry.set_pipeline_assignments("audio", "universal_audio", ["*"])
+
+        # Test providers appear for any pipeline
+        vocab_providers = registry.get_providers_for_pipeline("vocabulary")
+        assert "universal_data" in vocab_providers["data"]
+        assert "universal_audio" in vocab_providers["audio"]
+
+        conjugation_providers = registry.get_providers_for_pipeline("conjugation")
+        assert "universal_data" in conjugation_providers["data"]
+        assert "universal_audio" in conjugation_providers["audio"]
+
+        # Test with any random pipeline name
+        random_providers = registry.get_providers_for_pipeline("random_pipeline")
+        assert "universal_data" in random_providers["data"]
+        assert "universal_audio" in random_providers["audio"]
+
+    def test_get_providers_for_pipeline_no_assignments_defaults_universal(self):
+        """Test providers without assignments default to universal access."""
+        registry = ProviderRegistry()
+
+        # Register providers without explicit assignments
+        data_provider = MockDataProvider()
+        audio_provider = MockAudioProvider()
+
+        registry.register_data_provider("default_data", data_provider)
+        registry.register_audio_provider("default_audio", audio_provider)
+
+        # Test providers appear for all pipelines (backward compatibility)
+        vocab_providers = registry.get_providers_for_pipeline("vocabulary")
+        assert "default_data" in vocab_providers["data"]
+        assert "default_audio" in vocab_providers["audio"]
+
+        conjugation_providers = registry.get_providers_for_pipeline("conjugation")
+        assert "default_data" in conjugation_providers["data"]
+        assert "default_audio" in conjugation_providers["audio"]
+
+    def test_from_config_with_pipeline_assignments(self):
+        """Test loading config with new pipeline assignment format."""
+        import json
+        import tempfile
+        from pathlib import Path
         from unittest.mock import patch
 
         from src.core.config import Config
 
-        # Config with no providers section
-        config_data = {"system": {"log_level": "info"}}
+        # Test config with named providers and pipeline assignments
+        config_data = {
+            "providers": {
+                "data": {
+                    "vocab_data": {
+                        "type": "json",
+                        "base_path": ".",
+                        "pipelines": ["vocabulary"],
+                    },
+                    "conjugation_data": {
+                        "type": "json",
+                        "base_path": ".",
+                        "pipelines": ["conjugation"],
+                    },
+                },
+                "audio": {"forvo": {"type": "forvo", "pipelines": ["vocabulary"]}},
+                "image": {"runware": {"type": "runware", "pipelines": ["*"]}},
+                "sync": {
+                    "anki": {"type": "anki", "pipelines": ["vocabulary", "conjugation"]}
+                },
+            }
+        }
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump(config_data, f)
@@ -483,24 +681,114 @@ class TestProviderRegistryFromConfig:
 
             # Mock the providers to avoid requiring actual API keys/Anki
             with (
-                patch("src.providers.audio.forvo_provider.ForvoProvider") as mock_forvo,
-                patch(
-                    "src.providers.image.runware_provider.RunwareProvider"
-                ) as mock_runware,
-                patch("src.providers.sync.anki_provider.AnkiProvider") as mock_anki,
+                patch("src.providers.audio.forvo_provider.ForvoProvider"),
+                patch("src.providers.image.runware_provider.RunwareProvider"),
+                patch("src.providers.sync.anki_provider.AnkiProvider"),
             ):
                 registry = ProviderRegistry.from_config(config)
 
-                # Should NOT create providers when not configured
-                assert registry.get_audio_provider("default") is None
-                assert registry.get_image_provider("default") is None
-                assert (
-                    registry.get_sync_provider("default") is not None
-                )  # Sync is always created
+                # Verify providers were created with correct names
+                assert registry.get_data_provider("vocab_data") is not None
+                assert registry.get_data_provider("conjugation_data") is not None
+                assert registry.get_audio_provider("forvo") is not None
+                assert registry.get_image_provider("runware") is not None
+                assert registry.get_sync_provider("anki") is not None
 
-                # Should only create sync provider when missing providers config
-                mock_forvo.assert_not_called()
-                mock_runware.assert_not_called()
-                mock_anki.assert_called_once()
+                # Verify pipeline assignments were stored correctly
+                assert registry.get_pipeline_assignments("data", "vocab_data") == [
+                    "vocabulary"
+                ]
+                assert registry.get_pipeline_assignments(
+                    "data", "conjugation_data"
+                ) == ["conjugation"]
+                assert registry.get_pipeline_assignments("audio", "forvo") == [
+                    "vocabulary"
+                ]
+                assert registry.get_pipeline_assignments("image", "runware") == ["*"]
+                assert registry.get_pipeline_assignments("sync", "anki") == [
+                    "vocabulary",
+                    "conjugation",
+                ]
+
+        finally:
+            Path(config_path).unlink()
+
+    def test_from_config_old_format_fails(self):
+        """Test old config format fails with clear error message."""
+        import json
+        import tempfile
+        from pathlib import Path
+
+        import pytest
+        from src.core.config import Config
+
+        # Test config in old format without pipeline assignments
+        config_data = {
+            "providers": {
+                "data": {"type": "json", "base_path": "."},
+                "audio": {"type": "forvo"},
+                "image": {"type": "runware"},
+                "sync": {"type": "anki"},
+            }
+        }
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+
+            # Should fail with clear error message for old format
+            with pytest.raises(
+                ValueError, match="Configuration uses old format.*named provider"
+            ):
+                ProviderRegistry.from_config(config)
+
+        finally:
+            Path(config_path).unlink()
+
+    def test_from_config_missing_pipelines_field_fails(self):
+        """Test config missing pipelines field fails."""
+        import json
+        import tempfile
+        from pathlib import Path
+
+        import pytest
+        from src.core.config import Config
+
+        # Test config with new structure but missing pipelines field
+        config_data = {
+            "providers": {
+                "data": {
+                    "vocab_data": {
+                        "type": "json",
+                        "base_path": ".",
+                        # Missing pipelines field
+                    }
+                },
+                "sync": {
+                    "anki": {
+                        "type": "anki",
+                        "pipelines": ["*"],  # This one has pipelines
+                    }
+                },
+            }
+        }
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+            json.dump(config_data, f)
+            config_path = f.name
+
+        try:
+            config = Config(config_path)
+
+            # Should fail with clear error message for missing pipelines field
+            with pytest.raises(
+                ValueError,
+                match="Provider 'vocab_data'.*missing required 'pipelines' field",
+            ):
+                ProviderRegistry.from_config(config)
+
         finally:
             Path(config_path).unlink()

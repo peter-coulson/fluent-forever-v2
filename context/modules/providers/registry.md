@@ -2,7 +2,7 @@
 
 ## Registry Architecture
 
-### ProviderRegistry Class (`src/providers/registry.py:18`)
+### ProviderRegistry Class (`src/providers/registry.py:20`)
 
 Central registry managing provider instances by category:
 - **Data Providers**: `_data_providers` dictionary
@@ -19,35 +19,36 @@ Central registry managing provider instances by category:
 
 **Default Naming**: Most providers registered with name `"default"` for consistent lookup
 
-## Factory Method (`src/providers/registry.py:161`)
+## Factory Method (`src/providers/registry.py:258`)
 
 `from_config(config: Config) -> ProviderRegistry` creates populated registry:
 
 ### Data Provider Setup
-- **Default**: JSONDataProvider with configurable base_path (`src/providers/registry.py:177`)
+- **Named Providers**: JSONDataProvider instances with pipeline assignments
 - **Fallback**: Creates JSONDataProvider in current directory when no config
 
 ### Media Provider Setup (Optional)
-- **Audio**: ForvoProvider when `providers.audio.type = "forvo"` (`src/providers/registry.py:189`)
-- **Image**: RunwareProvider or OpenAIProvider based on config type (`src/providers/registry.py:203`)
+- **Audio**: ForvoProvider instances with pipeline restrictions
+- **Image**: RunwareProvider or OpenAIProvider instances with pipeline assignments
 - **Conditional**: Only created when configuration sections present
 
 ### Sync Provider Setup (Required)
-- **Default**: AnkiProvider when `providers.sync.type = "anki"` (`src/providers/registry.py:220`)
+- **Named Providers**: AnkiProvider instances with configurable pipeline access
 - **Validation**: Raises error for unsupported sync types
 
 ## Global Registry Pattern
 
-### Singleton Access (`src/providers/registry.py:236`)
+### Pipeline-Filtered Access (`src/providers/registry.py:194`)
 - `get_provider_registry() -> ProviderRegistry` - Global instance
 - **Initialization**: Lazy-loaded on first access
 - **Thread Safety**: Single global instance shared across system
 
 ### Usage in Pipelines
-Registry injected into pipeline context, stages access via:
+Filtered providers injected into pipeline context, stages access via:
 ```python
-data_provider = context.provider_registry.get_data_provider("default")
-audio_provider = context.provider_registry.get_audio_provider("default")
+providers = context.get("providers")
+data_provider = providers["data"]["provider_name"]
+audio_provider = providers["audio"]["provider_name"]
 ```
 
 ## Provider Discovery
@@ -59,7 +60,7 @@ Most providers registered with `"default"` name, allowing consistent lookup:
 - Image: Optional, type determined by config
 - Sync: Always present (AnkiProvider default)
 
-### Provider Information (`src/providers/registry.py:135`)
+### Provider Information (`src/providers/registry.py:162`)
 `get_provider_info()` returns registry state:
 - Provider counts by category
 - Registered provider names
@@ -67,11 +68,11 @@ Most providers registered with `"default"` name, allowing consistent lookup:
 
 ## Configuration-Based Selection
 
-### Legacy Support (`src/providers/registry.py:173`)
-Registry factory handles config structure migration:
-- Old: `providers.data.type = "json"`
-- New: Structured provider config sections
-- Fallback: Default providers when config absent
+### Configuration Validation (`src/providers/registry.py:273`)
+Registry factory enforces new configuration format:
+- **Required Format**: `providers.{type}.{name}` with mandatory `pipelines` field
+- **Old Format Rejection**: Detects and rejects legacy configurations with helpful error messages
+- **Default Fallback**: Creates default providers when no configuration sections present
 
 ### Type Mapping
 Configuration `type` field maps to provider classes:

@@ -45,12 +45,13 @@
 
 ## Provider System
 
-### Provider Registry (`src/providers/registry.py:20`)
-**Central management for external service integrations**
-- Factory pattern for creating provider instances from configuration
+### Provider Registry (`src/providers/registry.py:25`)
+**Central management for external service integrations with pipeline-based access control**
+- Factory pattern for creating provider instances from named configuration
 - Type-specific registries: data, media (audio/image), sync providers
+- **Pipeline Assignment System**: Providers can be restricted to specific pipelines via `pipelines` config
+- **Filtered Access**: `get_providers_for_pipeline()` returns only authorized providers
 - Global singleton access via `get_provider_registry()`
-- Default provider selection and configuration-based instantiation
 
 ### Provider Types
 - **DataProvider** (`src/providers/base/data_provider.py:13`): JSON, database storage
@@ -60,6 +61,7 @@
 ## Configuration System (`src/core/config.py:13`)
 **Environment-aware settings management**
 - JSON-based configuration with `${VAR}` and `${VAR:default}` substitution
+- **Named Provider Format**: `providers.{type}.{name}` structure with required `pipelines` field
 - Recursive processing of nested dictionaries and lists
 - Provider-specific settings via `get_provider()` method
 - Graceful degradation for missing configuration files

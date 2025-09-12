@@ -24,10 +24,20 @@ class CustomProvider(DataProvider):
         pass
 ```
 
-### 3. Register Provider
-Add to `src/providers/registry.py:161`:
-```python
-'custom_data': CustomProvider,
+### 3. Register Provider and Configure Pipeline Access
+Add to `src/providers/registry.py:258` factory method and configure with named provider format:
+```json
+{
+  "providers": {
+    "data": {
+      "custom_data": {
+        "type": "custom_data",
+        "api_key": "${CUSTOM_API_KEY}",
+        "pipelines": ["vocabulary"]
+      }
+    }
+  }
+}
 ```
 
 **Provider patterns**: See `context/modules/providers/base.md`
@@ -67,9 +77,10 @@ Add to `src/providers/registry.py:161`:
 6. Add documentation and examples
 
 ### Configuration Integration
+- Use named provider configuration with required `pipelines` field
 - Add provider-specific configuration to JSON schema
 - Use environment variables for sensitive data (API keys)
-- Implement graceful fallbacks for missing configuration
+- Specify pipeline assignments: `["*"]` for all pipelines or specific pipeline names
 - Follow existing naming conventions
 
 ### Error Handling

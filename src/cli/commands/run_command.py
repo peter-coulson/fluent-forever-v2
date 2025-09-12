@@ -122,16 +122,11 @@ class RunCommand:
             args=vars(args),
         )
 
-        # Add providers to context
-        context.set(
-            "providers",
-            {
-                "data": self.provider_registry.get_data_provider("default"),
-                "audio": self.provider_registry.get_audio_provider("default"),
-                "image": self.provider_registry.get_image_provider("default"),
-                "sync": self.provider_registry.get_sync_provider("default"),
-            },
+        # Add filtered providers to context
+        filtered_providers = self.provider_registry.get_providers_for_pipeline(
+            args.pipeline
         )
+        context.set("providers", filtered_providers)
 
         return context
 

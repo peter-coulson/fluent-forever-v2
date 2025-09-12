@@ -22,7 +22,7 @@ Commands implemented as classes following command pattern. Each command receives
 - **Preview**: `pipeline.show_cli_execution_plan()` displays planned operations
 - **Safety**: Prevents accidental execution of destructive operations
 
-### Context Creation (`_create_context()`)
+### Context Creation (`_create_context()` - Line 109)
 ```python
 # Key components injected into context
 context = PipelineContext(
@@ -32,13 +32,9 @@ context = PipelineContext(
     args=vars(args)
 )
 
-# Provider injection
-providers = {
-    "data": provider_registry.get_data_provider("default"),
-    "audio": provider_registry.get_audio_provider("default"),
-    "image": provider_registry.get_image_provider("default"),
-    "sync": provider_registry.get_sync_provider("default")
-}
+# Filtered provider injection based on pipeline assignments
+filtered_providers = provider_registry.get_providers_for_pipeline(args.pipeline)
+context.set("providers", filtered_providers)
 ```
 
 ## Info Command (`src/cli/commands/info_command.py`)
@@ -52,22 +48,8 @@ providers = {
 - **Stage Info**: With `--stages` flag, shows stage names, display names, dependencies
 
 ### Information Display
-- **Metadata**: Key-value pairs using `format_key_value_pairs()`
-- **Stage List**: Simple list or detailed per-stage information
-- **Error Handling**: Graceful fallbacks for missing stage information
-
-### Implementation Details
-```python
-# Basic pipeline information structure
-info = {
-    "name": pipeline.name,
-    "display_name": pipeline.display_name,
-    "description": pipeline.get_description(),
-    "stages": pipeline.stages,
-    "data_file": pipeline.data_file,
-    "anki_note_type": pipeline.anki_note_type
-}
-```
+- **Metadata**: Key-value pairs with stage details
+- **Stage Info**: Optional detailed per-stage information via `--stages` flag
 
 ## List Command (`src/cli/commands/list_command.py`)
 
@@ -80,21 +62,13 @@ info = {
 - **Detailed Mode**: Table format with name, display name, stage count, Anki note type, data file
 
 ### Table Formatting
-- **Headers**: Name, Display Name, Stages, Anki Note Type, Data File
-- **Data Extraction**: Pulls info from registry, handles missing data gracefully
-- **Formatting**: Uses `format_table()` utility for aligned output
+Uses `format_table()` utility with headers: Name, Display Name, Stages, Anki Note Type, Data File
 
-## Command Argument Patterns
-
-### Global Arguments
-- `--config`: Custom configuration file path
-- `--verbose`: Enable verbose output
-- `--dry-run`: Preview mode without execution
-
-### Command-Specific Arguments
-- **run**: `pipeline`, `--stage`, command arguments passed through to pipeline
-- **info**: `pipeline`, `--stages` for detailed stage information
-- **list**: `--detailed` for table format output
+## Key Arguments
+- **Global**: `--config`, `--verbose`, `--dry-run`
+- **run**: `pipeline`, `--stage`, plus pipeline-specific arguments
+- **info**: `pipeline`, `--stages` for detailed output
+- **list**: `--detailed` for table format
 
 ## Error Handling Strategy
 

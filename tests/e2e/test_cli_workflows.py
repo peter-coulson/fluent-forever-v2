@@ -17,8 +17,14 @@ class TestCLIWorkflows:
         config_path = tmp_path / "test_config.json"
         config_content = {
             "providers": {
-                "data": {"type": "json", "base_path": str(tmp_path / "data")},
-                "sync": {"type": "anki"},
+                "data": {
+                    "default": {
+                        "type": "json",
+                        "base_path": str(tmp_path / "data"),
+                        "pipelines": ["*"],
+                    }
+                },
+                "sync": {"anki": {"type": "anki", "pipelines": ["*"]}},
             }
         }
         config_path.write_text(json.dumps(config_content))

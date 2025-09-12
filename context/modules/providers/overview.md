@@ -25,18 +25,20 @@ The provider system abstracts external service integrations using pluggable comp
 
 ## Registry & Factory Pattern
 
-**Central provider management** (`src/providers/registry.py:18`):
+**Central provider management with pipeline access control** (`src/providers/registry.py:25`):
 - Type-specific registration for each provider category
-- Name-based lookup with default fallbacks
-- Configuration-driven provider instantiation
+- **Pipeline Assignment System**: Named providers with configurable pipeline restrictions
+- **Filtered Access**: `get_providers_for_pipeline()` returns only authorized providers
+- Configuration-driven provider instantiation with required `pipelines` field
 - Global singleton access for system-wide availability
 
 ## Pipeline Integration
 
 Providers integrate seamlessly with the pipeline system:
-- **Context injection**: Provider registry passed to pipeline execution context
-- **Stage access**: Individual stages request specific providers as needed
-- **Type safety**: Providers validate requests and return structured results
-- **Error handling**: Graceful degradation when providers are unavailable or misconfigured
+- **Filtered Context Injection**: Only pipeline-authorized providers injected via `get_providers_for_pipeline()`
+- **Access Control**: Named providers configured with `pipelines` field restrict access
+- **Stage Access**: Individual stages access pre-filtered provider dict from context
+- **Type Safety**: Providers validate requests and return structured results
+- **Error Handling**: Graceful degradation when providers are unavailable or unauthorized
 
 See `context/modules/providers/` for implementation details and `context/workflows/extending-providers.md` for extension patterns.

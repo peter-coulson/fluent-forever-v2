@@ -377,3 +377,114 @@ class TestRunCommand:
         result = command.execute(args)
 
         assert result == 0
+
+    def test_create_context_with_filtered_providers(self):
+        """Test context creation uses filtered providers."""
+        command = RunCommand(
+            self.pipeline_registry,
+            self.provider_registry,
+            self.project_root,
+            self.config,
+        )
+
+        # Set up providers with specific pipeline assignments
+        self.provider_registry.set_pipeline_assignments(
+            "data", "default", ["vocabulary"]
+        )
+        self.provider_registry.set_pipeline_assignments(
+            "audio", "default", ["conjugation"]
+        )
+        self.provider_registry.set_pipeline_assignments("image", "default", ["*"])
+        self.provider_registry.set_pipeline_assignments(
+            "sync", "default", ["vocabulary", "conjugation"]
+        )
+
+        args = Mock()
+        args.pipeline = "vocabulary"
+        args.stage = "prepare"
+
+        context = command._create_context(args)
+
+        assert isinstance(context, PipelineContext)
+        assert context.pipeline_name == "vocabulary"
+        assert context.project_root == self.project_root
+
+        # Check that only vocabulary-assigned providers are in context
+        providers = context.get("providers")
+        assert "data" in providers and providers["data"]["default"] is not None
+        assert (
+            "audio" in providers and len(providers["audio"]) == 0
+        )  # Not assigned to vocabulary
+        assert (
+            "image" in providers and providers["image"]["default"] is not None
+        )  # Wildcard
+        assert "sync" in providers and providers["sync"]["default"] is not None
+
+    def test_create_context_with_no_assigned_providers(self):
+        """Test context creation when no providers assigned to pipeline."""
+        command = RunCommand(
+            self.pipeline_registry,
+            self.provider_registry,
+            self.project_root,
+            self.config,
+        )
+
+        # Set up providers not assigned to test pipeline
+        self.provider_registry.set_pipeline_assignments(
+            "data", "default", ["conjugation"]
+        )
+        self.provider_registry.set_pipeline_assignments(
+            "audio", "default", ["conjugation"]
+        )
+        self.provider_registry.set_pipeline_assignments(
+            "image", "default", ["conjugation"]
+        )
+        self.provider_registry.set_pipeline_assignments(
+            "sync", "default", ["conjugation"]
+        )
+
+        args = Mock()
+        args.pipeline = "vocabulary"  # Different from assigned pipelines
+        args.stage = "prepare"
+
+        context = command._create_context(args)
+
+        # Check that provider dictionaries are empty for unassigned pipeline
+        providers = context.get("providers")
+        assert len(providers["data"]) == 0
+        assert len(providers["audio"]) == 0
+        assert len(providers["image"]) == 0
+        assert len(providers["sync"]) == 0
+
+    def test_execute_with_wildcard_providers(self):
+        """Test execution with wildcard-assigned providers."""
+        success_result = StageResult.success_result(
+            "Stage completed with wildcard providers"
+        )
+        pipeline = MockPipeline(execution_result=success_result)
+        self.pipeline_registry.register(pipeline)
+
+        # Set up providers with wildcard assignment
+        self.provider_registry.set_pipeline_assignments("data", "default", ["*"])
+        self.provider_registry.set_pipeline_assignments("audio", "default", ["*"])
+        self.provider_registry.set_pipeline_assignments("image", "default", ["*"])
+        self.provider_registry.set_pipeline_assignments("sync", "default", ["*"])
+
+        command = RunCommand(
+            self.pipeline_registry,
+            self.provider_registry,
+            self.project_root,
+            self.config,
+        )
+
+        args = Mock()
+        args.pipeline = "test"
+        args.stage = "prepare"
+        args.dry_run = False
+
+        result = command.execute(args)
+
+        assert result == 0
+        assert (
+            pipeline.populate_called
+        )  # Should have been called with providers available

@@ -25,6 +25,7 @@ class ProviderRegistry:
         self._audio_providers: dict[str, MediaProvider] = {}
         self._image_providers: dict[str, MediaProvider] = {}
         self._sync_providers: dict[str, SyncProvider] = {}
+        self._provider_pipeline_assignments: dict[str, list[str]] = {}
         self.logger = get_logger("providers.registry")
 
     # Data Provider Methods
@@ -134,6 +135,7 @@ class ProviderRegistry:
         self._audio_providers.clear()
         self._image_providers.clear()
         self._sync_providers.clear()
+        self._provider_pipeline_assignments.clear()
 
     def get_provider_info(self) -> dict[str, Any]:
         """Get information about all registered providers
@@ -160,6 +162,97 @@ class ProviderRegistry:
             },
         }
 
+    # Pipeline Assignment Methods
+    def set_pipeline_assignments(
+        self, provider_type: str, provider_name: str, pipelines: list[str]
+    ) -> None:
+        """Set pipeline assignments for a provider.
+
+        Args:
+            provider_type: Type of provider ("data", "audio", "image", "sync")
+            provider_name: Name of the provider
+            pipelines: List of pipeline names or ["*"] for all pipelines
+        """
+        key = f"{provider_type}:{provider_name}"
+        self._provider_pipeline_assignments[key] = pipelines
+
+    def get_pipeline_assignments(
+        self, provider_type: str, provider_name: str
+    ) -> list[str]:
+        """Get pipeline assignments for a provider.
+
+        Args:
+            provider_type: Type of provider ("data", "audio", "image", "sync")
+            provider_name: Name of the provider
+
+        Returns:
+            List of pipeline names or ["*"] for universal access (default)
+        """
+        key = f"{provider_type}:{provider_name}"
+        return self._provider_pipeline_assignments.get(key, ["*"])
+
+    def get_providers_for_pipeline(
+        self, pipeline_name: str
+    ) -> dict[str, dict[str, Any]]:
+        """Return filtered providers dict for specific pipeline.
+
+        Args:
+            pipeline_name: Name of the pipeline requesting providers
+
+        Returns:
+            Dictionary with filtered providers for each type
+        """
+        return {
+            "data": self._get_filtered_data_providers(pipeline_name),
+            "audio": self._get_filtered_audio_providers(pipeline_name),
+            "image": self._get_filtered_image_providers(pipeline_name),
+            "sync": self._get_filtered_sync_providers(pipeline_name),
+        }
+
+    def _get_filtered_data_providers(
+        self, pipeline_name: str
+    ) -> dict[str, DataProvider]:
+        """Filter data providers by pipeline assignment."""
+        filtered = {}
+        for name, provider in self._data_providers.items():
+            assignments = self.get_pipeline_assignments("data", name)
+            if "*" in assignments or pipeline_name in assignments:
+                filtered[name] = provider
+        return filtered
+
+    def _get_filtered_audio_providers(
+        self, pipeline_name: str
+    ) -> dict[str, MediaProvider]:
+        """Filter audio providers by pipeline assignment."""
+        filtered = {}
+        for name, provider in self._audio_providers.items():
+            assignments = self.get_pipeline_assignments("audio", name)
+            if "*" in assignments or pipeline_name in assignments:
+                filtered[name] = provider
+        return filtered
+
+    def _get_filtered_image_providers(
+        self, pipeline_name: str
+    ) -> dict[str, MediaProvider]:
+        """Filter image providers by pipeline assignment."""
+        filtered = {}
+        for name, provider in self._image_providers.items():
+            assignments = self.get_pipeline_assignments("image", name)
+            if "*" in assignments or pipeline_name in assignments:
+                filtered[name] = provider
+        return filtered
+
+    def _get_filtered_sync_providers(
+        self, pipeline_name: str
+    ) -> dict[str, SyncProvider]:
+        """Filter sync providers by pipeline assignment."""
+        filtered = {}
+        for name, provider in self._sync_providers.items():
+            assignments = self.get_pipeline_assignments("sync", name)
+            if "*" in assignments or pipeline_name in assignments:
+                filtered[name] = provider
+        return filtered
+
     @classmethod
     @log_performance("fluent_forever.providers.registry")
     def from_config(cls, config: "Config") -> "ProviderRegistry":
@@ -170,82 +263,169 @@ class ProviderRegistry:
 
         Returns:
             ProviderRegistry instance with providers initialized
+
+        Raises:
+            ValueError: If configuration uses old format or is invalid
         """
         logger = get_logger("providers.registry")
         logger.info(f"{ICONS['gear']} Initializing providers from configuration...")
 
         registry = cls()
 
+        # Get providers config - must exist
+        providers_config = config.get("providers", {})
+        if not providers_config:
+            raise ValueError(
+                "No providers configuration found. Please add 'providers' section to your configuration."
+            )
+
+        # Check for old configuration format and fail with helpful message
+        for provider_type, provider_config in providers_config.items():
+            if (
+                provider_type in ["data", "audio", "image", "sync"]
+                and isinstance(provider_config, dict)
+                and "type" in provider_config
+            ):  # Old format detection
+                raise ValueError(
+                    f"Configuration uses old format for '{provider_type}' provider. "
+                    f"Please update to use named provider format: "
+                    f"'{provider_type}': {{'provider_name': {{'type': 'provider_type', 'pipelines': ['pipeline1']}}}}"
+                )
+
         # Initialize data providers
         logger.info(f"{ICONS['gear']} Setting up data providers...")
-        data_config = config.get("providers.data", {})
-        if data_config.get("type") == "json":
-            from .data.json_provider import JSONDataProvider
+        data_configs = providers_config.get("data", {})
+        if data_configs:
+            for provider_name, data_config in data_configs.items():
+                if "pipelines" not in data_config:
+                    raise ValueError(
+                        f"Provider '{provider_name}' is missing required 'pipelines' field"
+                    )
 
-            base_path = Path(data_config.get("base_path", "."))
-            registry.register_data_provider("default", JSONDataProvider(base_path))
-            logger.info(f"{ICONS['check']} Registered JSON data provider")
-        elif not data_config:  # Create default data provider when no config
+                provider_type = data_config.get("type", "json")
+                pipelines = data_config.get("pipelines", [])
+
+                if provider_type == "json":
+                    from .data.json_provider import JSONDataProvider
+
+                    base_path = Path(data_config.get("base_path", "."))
+                    registry.register_data_provider(
+                        provider_name, JSONDataProvider(base_path)
+                    )
+                    registry.set_pipeline_assignments("data", provider_name, pipelines)
+                    logger.info(
+                        f"{ICONS['check']} Registered JSON data provider '{provider_name}' for pipelines {pipelines}"
+                    )
+                else:
+                    raise ValueError(f"Unsupported data provider type: {provider_type}")
+        else:
+            # Create default data provider if none configured
             from .data.json_provider import JSONDataProvider
 
             registry.register_data_provider("default", JSONDataProvider(Path(".")))
-            logger.info(f"{ICONS['check']} Registered default JSON data provider")
+            registry.set_pipeline_assignments("data", "default", ["*"])
+            logger.info(
+                f"{ICONS['check']} Registered default JSON data provider for all pipelines"
+            )
 
         # Initialize audio providers (optional)
         logger.info(f"{ICONS['gear']} Setting up audio providers...")
-        audio_config = config.get("providers.audio", {})
-        if audio_config:  # Only create if configured
+        audio_configs = providers_config.get("audio", {})
+        for provider_name, audio_config in audio_configs.items():
+            if "pipelines" not in audio_config:
+                raise ValueError(
+                    f"Provider '{provider_name}' is missing required 'pipelines' field"
+                )
+
             audio_type = audio_config.get("type", "forvo")
+            pipelines = audio_config.get("pipelines", [])
 
             if audio_type == "forvo":
                 from .audio.forvo_provider import ForvoProvider
 
-                registry.register_audio_provider("default", ForvoProvider())
-                logger.info(f"{ICONS['check']} Registered {audio_type} audio provider")
+                registry.register_audio_provider(provider_name, ForvoProvider())
+                registry.set_pipeline_assignments("audio", provider_name, pipelines)
+                logger.info(
+                    f"{ICONS['check']} Registered {audio_type} audio provider '{provider_name}' for pipelines {pipelines}"
+                )
             else:
                 raise ValueError(
                     f"Unsupported audio provider type: {audio_type}. Supported: 'forvo'"
                 )
-        else:
-            logger.info(f"{ICONS['info']} No audio provider configured")
+
+        if not audio_configs:
+            logger.info(f"{ICONS['info']} No audio providers configured")
 
         # Initialize image providers (optional)
         logger.info(f"{ICONS['gear']} Setting up image providers...")
-        image_config = config.get("providers.image", {})
-        if image_config:  # Only create if configured
+        image_configs = providers_config.get("image", {})
+        for provider_name, image_config in image_configs.items():
+            if "pipelines" not in image_config:
+                raise ValueError(
+                    f"Provider '{provider_name}' is missing required 'pipelines' field"
+                )
+
             image_type = image_config.get("type", "runware")
+            pipelines = image_config.get("pipelines", [])
 
             if image_type == "runware":
                 from .image.runware_provider import RunwareProvider
 
-                registry.register_image_provider("default", RunwareProvider())
-                logger.info(f"{ICONS['check']} Registered {image_type} image provider")
+                registry.register_image_provider(provider_name, RunwareProvider())
+                registry.set_pipeline_assignments("image", provider_name, pipelines)
+                logger.info(
+                    f"{ICONS['check']} Registered {image_type} image provider '{provider_name}' for pipelines {pipelines}"
+                )
             elif image_type == "openai":
                 from .image.openai_provider import OpenAIProvider
 
-                registry.register_image_provider("default", OpenAIProvider())
-                logger.info(f"{ICONS['check']} Registered {image_type} image provider")
+                registry.register_image_provider(provider_name, OpenAIProvider())
+                registry.set_pipeline_assignments("image", provider_name, pipelines)
+                logger.info(
+                    f"{ICONS['check']} Registered {image_type} image provider '{provider_name}' for pipelines {pipelines}"
+                )
             else:
                 raise ValueError(
                     f"Unsupported image provider type: {image_type}. Supported: 'runware', 'openai'"
                 )
-        else:
-            logger.info(f"{ICONS['info']} No image provider configured")
 
-        # Initialize sync providers
+        if not image_configs:
+            logger.info(f"{ICONS['info']} No image providers configured")
+
+        # Initialize sync providers (required)
         logger.info(f"{ICONS['gear']} Setting up sync providers...")
-        sync_config = config.get("providers.sync", {})
-        sync_type = sync_config.get("type", "anki")
-
-        if sync_type == "anki":
+        sync_configs = providers_config.get("sync", {})
+        if not sync_configs:
+            # Create default sync provider if none configured
             from .sync.anki_provider import AnkiProvider
 
             registry.register_sync_provider("default", AnkiProvider())
-            logger.info(f"{ICONS['check']} Registered {sync_type} sync provider")
-        else:
-            raise ValueError(
-                f"Unsupported sync provider type: {sync_type}. Only 'anki' is supported."
+            registry.set_pipeline_assignments("sync", "default", ["*"])
+            logger.info(
+                f"{ICONS['check']} Registered default anki sync provider for all pipelines"
             )
+        else:
+            for provider_name, sync_config in sync_configs.items():
+                if "pipelines" not in sync_config:
+                    raise ValueError(
+                        f"Provider '{provider_name}' is missing required 'pipelines' field"
+                    )
+
+                sync_type = sync_config.get("type", "anki")
+                pipelines = sync_config.get("pipelines", [])
+
+                if sync_type == "anki":
+                    from .sync.anki_provider import AnkiProvider
+
+                    registry.register_sync_provider(provider_name, AnkiProvider())
+                    registry.set_pipeline_assignments("sync", provider_name, pipelines)
+                    logger.info(
+                        f"{ICONS['check']} Registered {sync_type} sync provider '{provider_name}' for pipelines {pipelines}"
+                    )
+                else:
+                    raise ValueError(
+                        f"Unsupported sync provider type: {sync_type}. Only 'anki' is supported."
+                    )
 
         logger.info(f"{ICONS['check']} All providers initialized successfully")
         return registry
