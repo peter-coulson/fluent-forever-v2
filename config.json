@@ -9,17 +9,29 @@
   },
   "providers": {
     "data": {
-      "type": "json",
-      "base_path": "."
+      "default": {
+        "type": "json",
+        "base_path": ".",
+        "pipelines": ["*"]
+      }
     },
     "audio": {
-      "type": "forvo"
+      "default": {
+        "type": "forvo",
+        "pipelines": ["*"]
+      }
     },
     "image": {
-      "type": "runware"
+      "default": {
+        "type": "runware",
+        "pipelines": ["*"]
+      }
     },
     "sync": {
-      "type": "anki"
+      "default": {
+        "type": "anki",
+        "pipelines": ["*"]
+      }
     }
   },
   "apis": {

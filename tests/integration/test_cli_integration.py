@@ -251,8 +251,11 @@ class TestCLIRegistryIntegration:
         config_content = """{
             "providers": {
                 "data": {
-                    "type": "json",
-                    "base_path": "./test_data"
+                    "default": {
+                        "type": "json",
+                        "base_path": "./test_data",
+                        "pipelines": ["*"]
+                    }
                 }
             }
         }"""

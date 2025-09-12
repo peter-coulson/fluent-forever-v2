@@ -19,11 +19,17 @@ class TestProviderRegistryIntegration:
         config_content = """{
             "providers": {
                 "data": {
-                    "type": "json",
-                    "base_path": "./test_data"
+                    "default": {
+                        "type": "json",
+                        "base_path": "./test_data",
+                        "pipelines": ["*"]
+                    }
                 },
                 "sync": {
-                    "type": "anki"
+                    "default": {
+                        "type": "anki",
+                        "pipelines": ["*"]
+                    }
                 }
             }
         }"""
@@ -54,17 +60,29 @@ class TestProviderRegistryIntegration:
         config_content = """{
             "providers": {
                 "data": {
-                    "type": "json",
-                    "base_path": "./test_data"
+                    "default": {
+                        "type": "json",
+                        "base_path": "./test_data",
+                        "pipelines": ["*"]
+                    }
                 },
                 "audio": {
-                    "type": "forvo"
+                    "default": {
+                        "type": "forvo",
+                        "pipelines": ["*"]
+                    }
                 },
                 "image": {
-                    "type": "runware"
+                    "default": {
+                        "type": "runware",
+                        "pipelines": ["*"]
+                    }
                 },
                 "sync": {
-                    "type": "anki"
+                    "default": {
+                        "type": "anki",
+                        "pipelines": ["*"]
+                    }
                 }
             }
         }"""
@@ -81,25 +99,16 @@ class TestProviderRegistryIntegration:
         assert registry.get_sync_provider("default") is not None
 
     def test_provider_registry_missing_config(self, tmp_path):
-        """Test handling missing configuration file gracefully."""
+        """Test error handling for missing configuration file."""
         # Use non-existent config path
         non_existent_path = tmp_path / "missing_config.json"
 
         # Load config (should create empty config)
         config = Config.load(str(non_existent_path))
-        registry = ProviderRegistry.from_config(config)
 
-        # Only data provider should be created (with default config)
-        data_provider = registry.get_data_provider("default")
-        assert data_provider is not None  # Should create with default base_path
-
-        # No other providers should be created
-        assert registry.get_audio_provider("default") is None
-        assert registry.get_image_provider("default") is None
-
-        # Sync provider should still be created as it's default
-        sync_provider = registry.get_sync_provider("default")
-        assert sync_provider is not None
+        # Should raise ValueError for missing providers configuration
+        with pytest.raises(ValueError, match="No providers configuration found"):
+            ProviderRegistry.from_config(config)
 
     def test_provider_registry_optional_providers(self, tmp_path):
         """Test that audio/image providers are optional, data/sync required."""
@@ -108,8 +117,11 @@ class TestProviderRegistryIntegration:
         config_content = """{
             "providers": {
                 "data": {
-                    "type": "json",
-                    "base_path": "./test_data"
+                    "default": {
+                        "type": "json",
+                        "base_path": "./test_data",
+                        "pipelines": ["*"]
+                    }
                 }
             }
         }"""
@@ -136,11 +148,17 @@ class TestProviderRegistryIntegration:
         config_content = """{
             "providers": {
                 "data": {
-                    "type": "json",
-                    "base_path": "./test_data"
+                    "default": {
+                        "type": "json",
+                        "base_path": "./test_data",
+                        "pipelines": ["*"]
+                    }
                 },
                 "audio": {
-                    "type": "unsupported_audio_type"
+                    "default": {
+                        "type": "unsupported_audio_type",
+                        "pipelines": ["*"]
+                    }
                 }
             }
         }"""
@@ -165,8 +183,11 @@ class TestProviderRegistryIntegration:
             config_content = """{
                 "providers": {
                     "data": {
-                        "type": "json",
-                        "base_path": "${TEST_DATA_PATH}"
+                        "default": {
+                            "type": "json",
+                            "base_path": "${TEST_DATA_PATH}",
+                            "pipelines": ["*"]
+                        }
                     }
                 }
             }"""

@@ -21,9 +21,11 @@ class TestPipelineRunnerIntegration:
         config_data = {
             "system": {"log_level": "info"},
             "providers": {
-                "data": {"type": "json", "base_path": "."},
-                "media": {"type": "openai"},
-                "sync": {"type": "anki"},
+                "data": {
+                    "default": {"type": "json", "base_path": ".", "pipelines": ["*"]}
+                },
+                "audio": {"default": {"type": "openai", "pipelines": ["*"]}},
+                "sync": {"default": {"type": "anki", "pipelines": ["*"]}},
             },
         }
 
@@ -37,9 +39,17 @@ class TestPipelineRunnerIntegration:
                 mock_config = MagicMock()
                 mock_config.get.side_effect = lambda key, default=None: {
                     "system.log_level": "info",
-                    "providers.data": {"type": "json", "base_path": "."},
-                    "providers.media": {"type": "openai"},
-                    "providers.sync": {"type": "anki"},
+                    "providers.data": {
+                        "default": {
+                            "type": "json",
+                            "base_path": ".",
+                            "pipelines": ["*"],
+                        }
+                    },
+                    "providers.audio": {
+                        "default": {"type": "openai", "pipelines": ["*"]}
+                    },
+                    "providers.sync": {"default": {"type": "anki", "pipelines": ["*"]}},
                 }.get(key, default)
                 mock_config_class.load.return_value = mock_config
 
@@ -95,8 +105,8 @@ class TestPipelineRunnerIntegration:
 
                 # Verify registry was created and providers were initialized
                 assert registry is not None
-                assert registry.get_image_provider("default") is not None
-                assert registry.get_sync_provider("default") is not None
+                assert registry.get_image_provider("openai") is not None
+                assert registry.get_sync_provider("anki") is not None
 
                 # Verify providers were called
                 mock_openai.assert_called_once()
@@ -140,9 +150,15 @@ class TestConfigWorkflowEndToEnd:
         config_data = {
             "system": {"log_level": "debug", "max_workers": 2},
             "providers": {
-                "data": {"type": "json", "base_path": "${DATA_PATH}"},
-                "image": {"type": "openai"},
-                "sync": {"type": "anki"},
+                "data": {
+                    "default": {
+                        "type": "json",
+                        "base_path": "${DATA_PATH}",
+                        "pipelines": ["*"],
+                    }
+                },
+                "image": {"default": {"type": "openai", "pipelines": ["*"]}},
+                "sync": {"default": {"type": "anki", "pipelines": ["*"]}},
             },
         }
 
@@ -157,7 +173,9 @@ class TestConfigWorkflowEndToEnd:
 
                 # Verify config loading
                 assert config.get("system.log_level") == "debug"
-                assert config.get("providers.data.base_path") == "/tmp/test_data"
+                assert (
+                    config.get("providers.data.default.base_path") == "/tmp/test_data"
+                )
 
                 # Test provider registry creation with mocked providers
                 with (
@@ -210,12 +228,8 @@ class TestConfigWorkflowEndToEnd:
 
         try:
             config = Config(empty_config_path)
-            # Should handle missing provider sections gracefully
-            registry = ProviderRegistry.from_config(config)
-            # Should create default providers even with empty config
-            assert registry is not None
-            # With empty config, only data provider should be created by default
-            # Image and audio providers are optional and won't be created without config
-            assert registry.get_data_provider("default") is not None
+            # Should raise ValueError for empty config with no providers section
+            with pytest.raises(ValueError, match="No providers configuration found"):
+                ProviderRegistry.from_config(config)
         finally:
             Path(empty_config_path).unlink()
