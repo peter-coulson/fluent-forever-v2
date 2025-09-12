@@ -3,6 +3,45 @@
 ## Overview
 This document outlines a high-level implementation plan for refactoring the image and media provider system to support batch processing, unified interfaces, and proper file validation.
 
+## Configuration Injection Architecture
+
+### Core Principle: Constructor-Based Configuration
+All providers will receive their configuration at instantiation time through the registry, following proper dependency injection patterns and eliminating runtime configuration loading.
+
+#### Provider Initialization Pattern
+```python
+# MediaProvider Base Class
+class MediaProvider(ABC):
+    def __init__(self, config: dict[str, Any]):
+        self.config = config
+        self.validate_config(config)  # Fail-fast validation
+        self._setup_from_config()    # Initialize from validated config
+
+    @abstractmethod
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Validate provider-specific configuration. Raise ValueError if invalid."""
+        pass
+
+    def _setup_from_config(self) -> None:
+        """Setup provider from validated config. Override if needed."""
+        pass
+```
+
+#### Registry Integration
+```python
+# In ProviderRegistry.from_config()
+provider_config = {k: v for k, v in audio_config.items()
+                  if k not in ['type', 'pipelines']}
+provider = ForvoProvider(provider_config)  # Config injected at construction
+registry.register_audio_provider(provider_name, provider)
+```
+
+#### Benefits
+- **Early Validation**: Configuration errors caught at startup, not during execution
+- **Clean Dependencies**: Providers get exactly what they need at construction time
+- **Fail-Fast**: Eliminates runtime configuration loading and fallback logic
+- **Testability**: Easy to mock provider-specific configuration for testing
+
 ## Current State Analysis
 
 ### Existing Provider Structure
@@ -158,18 +197,56 @@ This document outlines a high-level implementation plan for refactoring the imag
 
 ### Phase 3: Architecture Enhancements
 
-#### 3.1 Provider Registry Updates
-- **Simple Provider Registration**:
-  - Basic provider capability flags (batch_supported)
-  - Rate limit configuration per provider
-  - Structure for future fallback provider chains
+#### 3.1 Dynamic Provider Registry Refactor
+**Problem**: Current registry has ~80 lines of duplicate code for audio/image/sync provider initialization with hardcoded provider type matching.
 
-#### 3.2 Configuration Management
-- **Centralized Configuration**:
-  - Move all configuration loading to MediaProvider base class
-  - Standardized API key loading with fail-fast behavior
-  - Provider-specific settings loaded via base class methods
-  - Remove all static data and hardcoded values from provider implementations
+**Solution**: Dynamic provider loading with configuration injection and import mapping.
+
+- **Provider Registry Mapping**:
+```python
+MEDIA_PROVIDER_REGISTRY = {
+    "audio": {
+        "forvo": ("providers.audio.forvo_provider", "ForvoProvider"),
+    },
+    "image": {
+        "openai": ("providers.image.openai_provider", "OpenAIProvider"),
+        "runware": ("providers.image.runware_provider", "RunwareProvider"),
+    },
+    "sync": {
+        "anki": ("providers.sync.anki_provider", "AnkiProvider"),
+    }
+}
+```
+
+- **Dynamic Provider Creation**:
+  - `_create_media_provider(type, subtype, config)` - dynamic import with importlib
+  - Provider-specific config extraction and injection at construction time
+  - Consistent error handling for unknown provider types
+
+- **Unified Registration Method**:
+  - `_setup_media_providers()` replaces all duplicated audio/image/sync setup code
+  - Single loop handles all media provider types generically
+  - Eliminates hardcoded if/elif chains for provider type matching
+
+- **Benefits**:
+  - **Code Reduction**: Eliminates ~80 lines of duplicate provider setup code
+  - **Extensibility**: New providers require only registry mapping entry
+  - **Dynamic Loading**: Only imports configured providers (no unused dependencies)
+  - **Config Injection**: Providers receive validated configuration at construction time
+  - **Consistency**: Uniform error messages and logging across all provider types
+
+#### 3.2 Configuration Management (Updated for Constructor Injection)
+- **Registry-Based Configuration Loading**:
+  - Configuration extracted from provider config during registry initialization
+  - Provider-specific config passed to constructor (excludes 'type', 'pipelines' metadata)
+  - Fail-fast validation in provider `validate_config()` method at construction time
+  - Remove all runtime configuration loading and fallback logic from providers
+
+- **Provider Configuration Structure**:
+  - Providers receive only the configuration they need (not full system config)
+  - API keys, settings, and parameters validated during construction
+  - No static data or hardcoded values in provider implementations
+  - Clear separation between registry metadata ('type', 'pipelines') and provider config
 
 #### 3.3 Error Handling and Resilience
 - **Basic Error Recovery**:
