@@ -10,7 +10,7 @@
 5. **Context Creation**: `PipelineContext` with `project_root`, `pipeline_name`
 6. **Provider Filtering**: `registry.get_providers_for_pipeline()` injects only authorized providers
 7. **Pipeline Selection**: Concrete pipeline instance (vocabulary/conjugation)
-8. **Stage Execution**: Sequential `pipeline.execute_stage()` calls with performance timing
+8. **Execution**: Single stage via `pipeline.execute_stage()` or multiple stages via `pipeline.execute_phase()` with performance timing
 
 ### Stage Execution Pattern (`src/core/stages.py:104`)
 ```
@@ -23,6 +23,18 @@ Context Validation → Logging Setup → Performance Timing → Stage._execute_i
 - **Core Execution**: `stage._execute_impl(context)` contains actual stage logic
 - **Logging**: Success/failure status logged with performance duration and visual icons
 - **State Update**: Success → `context.mark_stage_complete()`, failure → `context.add_error()`
+
+### Phase Execution Pattern (`src/core/pipeline.py:49`)
+```
+Phase Validation → Sequential Stage Execution → Result Aggregation → Fail-Fast Logic → Context Accumulation
+```
+
+- **Input**: `PipelineContext` shared across all stages in phase
+- **Validation**: Phase name validated against `pipeline.phases` dictionary
+- **Sequential Processing**: Each stage in phase executed via `execute_stage()` with shared context
+- **Fail-Fast**: Phase stops execution if any stage fails (unless partial success)
+- **Result Aggregation**: List of `StageResult` objects returned for analysis
+- **Context Efficiency**: Single context instance reused across all phase stages
 
 ### Context Management
 **Data Accumulation**: Each stage adds data via `context.set(key, value)`

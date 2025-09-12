@@ -9,8 +9,17 @@
 - Orchestrates multi-stage learning processes (vocabulary, conjugation)
 - Manages stage execution and data flow between processing steps
 - Provides CLI integration with argument validation and dry-run support
-- **Properties**: `name`, `display_name`, `stages`, `data_file`, `anki_note_type`
-- **Key methods**: `execute_stage()`, `get_stage()`, `validate_cli_args()`
+- **Sequential Execution**: Phase support for executing multiple stages with shared context
+- **Properties**: `name`, `display_name`, `stages`, `phases`, `data_file`, `anki_note_type`
+- **Key methods**: `execute_stage()`, `execute_phase()`, `get_stage()`, `get_phase_info()`, `validate_cli_args()`
+
+### Phase (Pipeline Concept)
+**Named groupings of stages for sequential execution**
+- Configurable stage collections defined by pipeline implementation
+- Enable efficient batch processing with shared context between stages
+- Support fail-fast behavior: phase stops if any stage fails (unless partial success)
+- **Common patterns**: `preparation`, `media_generation`, `completion`, `full`
+- **Properties**: `name`, `stages` (list), `stage_count`
 
 ### Stage (`src/core/stages.py:84`)
 **Individual processing units within pipelines**
@@ -28,7 +37,7 @@
 - Contains configuration, CLI arguments, and provider references
 - **Properties**: `pipeline_name`, `project_root`, `data`, `completed_stages`, `errors`
 
-### StageResult (`src/core/stages.py:22`)
+### StageResult (`src/core/stages.py:25`)
 **Result container for stage execution outcomes**
 - Encapsulates execution status, messages, data, and errors
 - **Factory methods**: `success_result()`, `failure()`, `partial()`, `skipped()`

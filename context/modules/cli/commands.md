@@ -7,7 +7,7 @@ Commands implemented as classes following command pattern. Each command receives
 ## Run Command (`src/cli/commands/run_command.py`)
 
 ### Core Functionality
-- **Purpose**: Execute specific pipeline stages with full context setup
+- **Purpose**: Execute specific pipeline stages or phases with full context setup
 - **Key Method**: `execute(args)` - Main execution coordinator
 - **Context Creation**: `_create_context()` builds `PipelineContext` with providers and configuration
 
@@ -15,14 +15,14 @@ Commands implemented as classes following command pattern. Each command receives
 1. **Validation**: `validate_arguments()` for CLI args, `pipeline.validate_cli_args()` for pipeline-specific args
 2. **Context Setup**: Creates context with providers, project root, config, and args
 3. **Pipeline Integration**: `pipeline.populate_context_from_cli()` adds pipeline-specific data
-4. **Stage Execution**: Delegates to `pipeline.execute_stage()` with prepared context
+4. **Execution**: Delegates to `pipeline.execute_stage()` or `pipeline.execute_phase()` with prepared context
 
 ### Dry-run Functionality
 - **Activation**: `--dry-run` flag skips validation and execution
 - **Preview**: `pipeline.show_cli_execution_plan()` displays planned operations
 - **Safety**: Prevents accidental execution of destructive operations
 
-### Context Creation (`_create_context()` - Line 109)
+### Context Creation (`_create_context()` - Line 124)
 ```python
 # Key components injected into context
 context = PipelineContext(
@@ -66,7 +66,7 @@ Uses `format_table()` utility with headers: Name, Display Name, Stages, Anki Not
 
 ## Key Arguments
 - **Global**: `--config`, `--verbose`, `--dry-run`
-- **run**: `pipeline`, `--stage`, plus pipeline-specific arguments
+- **run**: `pipeline`, `--stage` OR `--phase`, plus pipeline-specific arguments
 - **info**: `pipeline`, `--stages` for detailed output
 - **list**: `--detailed` for table format
 

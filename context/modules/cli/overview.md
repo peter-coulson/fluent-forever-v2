@@ -23,7 +23,7 @@ Universal command-line interface providing consistent access to all pipeline ope
 
 | Command | Purpose | Key Features |
 |---------|---------|--------------|
-| `run` | Execute pipeline stages | Context creation, provider injection, dry-run support |
+| `run` | Execute pipeline stages or phases | Context creation, provider injection, dry-run support, sequential execution |
 | `info` | Show pipeline details | Stage listing, metadata display, detailed stage info |
 | `list` | Discover pipelines | Simple/detailed views, registry enumeration |
 
@@ -31,7 +31,7 @@ Universal command-line interface providing consistent access to all pipeline ope
 
 ### Pipeline System Integration
 - **Context Creation**: Builds `PipelineContext` with providers and configuration
-- **Stage Execution**: Delegates to pipeline's `execute_stage()` method with proper error handling
+- **Stage/Phase Execution**: Delegates to pipeline's `execute_stage()` or `execute_phase()` methods with proper error handling
 - **Validation**: Two-tier validation (CLI arguments + pipeline-specific validation)
 
 ### Provider System Integration
@@ -43,7 +43,7 @@ Universal command-line interface providing consistent access to all pipeline ope
 
 ### Key Features
 - **Discovery**: `cli list --detailed` shows available pipelines
-- **Execution**: `cli run pipeline --stage name` executes with context
+- **Execution**: `cli run pipeline --stage name` or `cli run pipeline --phase name` executes with context
 - **Preview**: `--dry-run` flag previews operations safely
 - **Validation**: Pre-execution validation with clear error messages
 
