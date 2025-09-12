@@ -60,6 +60,10 @@ class MockMediaProvider(MediaProvider):
     def supported_types(self) -> list[str]:
         return [self.provider_type]
 
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Mock validation - accept any config for testing."""
+        pass
+
     def get_service_info(self) -> dict[str, Any]:
         return {
             "service": f"Mock{self.provider_type.title()}Provider",

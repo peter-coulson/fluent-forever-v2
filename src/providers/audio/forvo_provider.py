@@ -85,6 +85,11 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
         """Media types supported by Forvo provider"""
         return ["audio"]
 
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Validate Forvo provider configuration - minimal implementation for backward compatibility."""
+        # For backward compatibility, allow empty config (uses legacy config loading)
+        pass
+
     def test_connection(self) -> bool:
         """Test Forvo API connection"""
         try:

@@ -5,6 +5,7 @@ Placeholder for Runware-based media generation
 """
 
 from pathlib import Path
+from typing import Any
 
 from src.providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
 
@@ -19,6 +20,11 @@ class RunwareProvider(MediaProvider):
     def supported_types(self) -> list[str]:
         """Media types supported by Runware provider"""
         return ["image"]
+
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Validate Runware provider configuration - minimal implementation for backward compatibility."""
+        # For backward compatibility, allow empty config (placeholder implementation)
+        pass
 
     def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         """Generate media using Runware API (placeholder)"""

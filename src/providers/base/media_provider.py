@@ -44,10 +44,44 @@ class MediaResult:
 
 
 class MediaProvider(ABC):
-    """Abstract interface for media generation"""
+    """Abstract interface for media generation with configuration injection.
 
-    def __init__(self) -> None:
+    This class provides a standardized interface for media generation services
+    (images, audio, etc.) with constructor-based configuration injection and
+    fail-fast validation patterns.
+
+    The configuration flow follows this pattern:
+    1. Constructor accepts optional config dictionary
+    2. Config is validated through abstract validate_config() method (fail-fast)
+    3. Provider is set up using _setup_from_config() method
+    4. Provider is ready for use
+
+    Concrete providers must implement:
+    - validate_config(): Provider-specific configuration validation
+    - supported_types: List of media types this provider supports
+    - _generate_media_impl(): Core media generation logic
+    - get_cost_estimate(): Cost estimation for batch requests
+    """
+
+    def __init__(self, config: dict[str, Any] | None = None) -> None:
+        """Initialize provider with configuration injection.
+
+        Args:
+            config: Provider-specific configuration dict. If None, defaults to empty dict.
+                   Configuration is validated immediately to fail fast on invalid setup.
+
+        Raises:
+            ValueError: If configuration is invalid (raised by validate_config)
+            KeyError: If required configuration keys are missing (raised by validate_config)
+        """
+        self.config = config or {}
         self.logger = get_logger(f"providers.media.{self.__class__.__name__.lower()}")
+
+        # Fail-fast validation pattern - validate config before proceeding
+        self.validate_config(self.config)
+
+        # Setup provider from validated configuration
+        self._setup_from_config()
 
     @property
     @abstractmethod
@@ -101,6 +135,56 @@ class MediaProvider(ABC):
         except Exception as e:
             self.logger.error(f"{ICONS['cross']} Media request failed: {e}")
             return MediaResult(success=False, file_path=None, metadata={}, error=str(e))
+
+    @abstractmethod
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Validate provider-specific configuration (fail-fast pattern).
+
+        This method implements fail-fast validation of provider configuration.
+        It should check all required configuration keys and validate their values
+        to ensure the provider can operate correctly.
+
+        The validation should be strict and explicit:
+        - Check for required keys and raise KeyError if missing
+        - Validate value types and formats, raise ValueError if invalid
+        - No silent fallbacks or default substitutions
+        - Clear, helpful error messages that guide user to fix issues
+
+        Example implementation pattern:
+            ```python
+            def validate_config(self, config: dict[str, Any]) -> None:
+                if "api_key" not in config or not config["api_key"]:
+                    raise ValueError("Missing required config key: api_key")
+
+                if "model" in config and config["model"] not in ["valid-model-1", "valid-model-2"]:
+                    raise ValueError(f"Invalid model: {config['model']}")
+            ```
+
+        Args:
+            config: Configuration dictionary to validate. May be empty dict
+                   for backward compatibility with existing providers.
+
+        Raises:
+            ValueError: If configuration values are invalid (wrong type, format, etc.)
+            KeyError: If required configuration keys are missing
+        """
+        pass
+
+    def _setup_from_config(self) -> None:  # noqa: B027
+        """Setup provider from validated configuration.
+
+        This method is called after configuration validation and should initialize
+        any provider-specific state based on the validated configuration.
+
+        The default implementation is a no-op. Override in concrete providers
+        that need configuration-based initialization (e.g., setting up API clients,
+        configuring rate limiters, initializing caches).
+
+        Note:
+            This method is only called if validate_config() passes successfully,
+            ensuring that configuration is valid before setup begins.
+        """
+        # Default no-op implementation - override in concrete providers if needed
 
     @abstractmethod
     def _generate_media_impl(self, request: MediaRequest) -> MediaResult:

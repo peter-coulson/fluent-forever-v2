@@ -1,6 +1,7 @@
 """Unit tests for Media Provider interface."""
 
 from pathlib import Path
+from typing import Any
 
 import pytest
 from src.providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
@@ -15,6 +16,10 @@ class MockMediaProvider(MediaProvider):
     @property
     def supported_types(self) -> list[str]:
         return ["image", "audio"]
+
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Mock validation - accept any config for testing."""
+        pass
 
     def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         return MediaResult(
@@ -218,6 +223,10 @@ class TestMediaProvider:
             @property
             def supported_types(self) -> list[str]:
                 return ["image", "audio"]
+
+            def validate_config(self, config: dict[str, Any]) -> None:
+                """Accept any config for testing."""
+                pass
 
             def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
                 self.last_request = request

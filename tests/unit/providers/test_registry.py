@@ -1,5 +1,7 @@
 """Unit tests for Provider Registry."""
 
+from typing import Any
+
 from src.providers.base.data_provider import DataProvider
 from src.providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
 from src.providers.base.sync_provider import SyncProvider, SyncResult
@@ -36,6 +38,10 @@ class MockMediaProvider(MediaProvider):
     def supported_types(self) -> list[str]:
         return self._supported_types
 
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Mock validation - accept any config for testing."""
+        pass
+
     def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         return MediaResult(success=True, file_path=None, metadata={})
 
@@ -53,6 +59,10 @@ class MockAudioProvider(MediaProvider):
     def supported_types(self) -> list[str]:
         return ["audio"]
 
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Mock validation - accept any config for testing."""
+        pass
+
     def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         return MediaResult(success=True, file_path=None, metadata={})
 
@@ -69,6 +79,10 @@ class MockImageProvider(MediaProvider):
     @property
     def supported_types(self) -> list[str]:
         return ["image"]
+
+    def validate_config(self, config: dict[str, Any]) -> None:
+        """Mock validation - accept any config for testing."""
+        pass
 
     def _generate_media_impl(self, request: MediaRequest) -> MediaResult:
         return MediaResult(success=True, file_path=None, metadata={})
