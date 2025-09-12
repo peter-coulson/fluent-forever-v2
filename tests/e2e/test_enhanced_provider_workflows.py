@@ -1,4 +1,4 @@
-"""End-to-end tests for Phase 2 enhanced data provider workflows."""
+"""End-to-end tests for enhanced data provider workflows."""
 
 import json
 from unittest.mock import patch
@@ -9,11 +9,11 @@ from src.core.context import PipelineContext
 from src.providers.registry import ProviderRegistry
 
 
-class TestPhase2Workflows:
-    """End-to-end workflow tests for Phase 2 functionality."""
+class TestEnhancedDataProviderWorkflows:
+    """End-to-end workflow tests for enhanced data provider functionality."""
 
-    def test_vocabulary_pipeline_with_multiple_data_providers(self, tmp_path):
-        """Test complete vocabulary workflow with multiple data providers."""
+    def test_vocabulary_workflow_with_multiple_data_providers(self, tmp_path):
+        """Test complete vocabulary workflow with multiple named data providers."""
         # Setup directory structure
         sources_dir = tmp_path / "sources"
         working_dir = tmp_path / "working"
@@ -318,9 +318,9 @@ class TestPhase2Workflows:
         with pytest.raises(PermissionError, match="provider is read-only"):
             system_provider.save_data("system_defaults", {"modified": "config"})
 
-    def test_config_migration_from_phase1(self, tmp_path):
-        """Test that Phase 1 configurations work seamlessly in Phase 2."""
-        # Create Phase 1 style configuration (no files/read_only fields)
+    def test_legacy_config_compatibility(self, tmp_path):
+        """Test that legacy single provider configurations work with enhanced features."""
+        # Create legacy style configuration (no files/read_only fields)
         config_content = {
             "providers": {
                 "data": {
@@ -344,14 +344,16 @@ class TestPhase2Workflows:
         with patch("src.providers.audio.forvo_provider.ForvoProvider"):
             registry = ProviderRegistry.from_config(config)
 
-        # Verify provider works with default Phase 2 settings
+        # Verify provider works with default enhanced settings
         data_provider = registry.get_data_provider("default")
         assert data_provider is not None
-        assert data_provider.is_read_only is False  # Default value
-        assert data_provider.managed_files == []  # Default value (no restrictions)
+        assert (
+            data_provider.is_read_only is False
+        )  # Default value for backward compatibility
+        assert data_provider.managed_files == []  # Default value (no file restrictions)
 
         # Should work with any file (backward compatibility)
-        test_data = {"phase1": "compatibility"}
+        test_data = {"legacy": "compatibility"}
         assert data_provider.save_data("any_file", test_data) is True
         assert data_provider.load_data("any_file") == test_data
 
