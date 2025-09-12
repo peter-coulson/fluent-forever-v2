@@ -114,7 +114,7 @@ class TestProviderRegistryIntegration:
             ProviderRegistry.from_config(config)
 
     def test_provider_registry_optional_providers(self, tmp_path):
-        """Test that audio/image providers are optional, data/sync required."""
+        """Test that all providers are only present when explicitly configured."""
         # Create config with only data provider
         config_path = tmp_path / "data_only_config.json"
         config_content = """{
@@ -137,12 +137,12 @@ class TestProviderRegistryIntegration:
         # Data provider should be present
         assert registry.get_data_provider("default") is not None
 
-        # Optional providers should be None
+        # Optional providers should be None when not configured
         assert registry.get_audio_provider("default") is None
         assert registry.get_image_provider("default") is None
 
-        # Sync provider should be present (default)
-        assert registry.get_sync_provider("default") is not None
+        # Sync provider should also be None when not configured (no defaults)
+        assert registry.get_sync_provider("default") is None
 
     def test_provider_registry_invalid_provider_type(self, tmp_path):
         """Test failure on unsupported provider types."""

@@ -4,6 +4,7 @@ Provider Registry
 Registry system for managing provider instances and creating provider factories.
 """
 
+import importlib
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -15,6 +16,20 @@ if TYPE_CHECKING:
     from src.core.config import Config
 from .base.media_provider import MediaProvider
 from .base.sync_provider import SyncProvider
+
+# Provider registry mapping for dynamic loading
+MEDIA_PROVIDER_REGISTRY = {
+    "audio": {
+        "forvo": ("providers.audio.forvo_provider", "ForvoProvider"),
+    },
+    "image": {
+        "openai": ("providers.image.openai_provider", "OpenAIProvider"),
+        "runware": ("providers.image.runware_provider", "RunwareProvider"),
+    },
+    "sync": {
+        "anki": ("providers.sync.anki_provider", "AnkiProvider"),
+    },
+}
 
 
 class ProviderRegistry:
@@ -28,6 +43,7 @@ class ProviderRegistry:
         self._provider_pipeline_assignments: dict[str, list[str]] = {}
         self._data_provider_configs: dict[str, dict[str, Any]] = {}
         self.logger = get_logger("providers.registry")
+        self.config: dict[str, Any] = {}
 
     # Data Provider Methods
     def register_data_provider(
@@ -286,6 +302,152 @@ class ProviderRegistry:
         if conflicts:
             raise ValueError(f"File conflicts detected: {'; '.join(conflicts)}")
 
+    def _create_media_provider(
+        self, provider_type: str, provider_name: str, config: dict[str, Any]
+    ) -> Any:
+        """Dynamically create media provider instance with configuration injection.
+
+        Args:
+            provider_type: Type of provider (audio, image, sync)
+            provider_name: Name of provider instance (can be different from provider type)
+            config: Full provider configuration dict
+
+        Returns:
+            Provider instance with injected configuration
+
+        Raises:
+            ValueError: If provider type/name not found in registry
+            ImportError: If provider module cannot be imported
+        """
+        if provider_type not in MEDIA_PROVIDER_REGISTRY:
+            raise ValueError(f"Unknown provider type: {provider_type}")
+
+        # Use the type field from config to determine the actual provider class
+        provider_type_name = config.get("type", provider_name)
+        if provider_type_name not in MEDIA_PROVIDER_REGISTRY[provider_type]:
+            raise ValueError(f"Unknown {provider_type} provider: {provider_type_name}")
+
+        module_path, class_name = MEDIA_PROVIDER_REGISTRY[provider_type][
+            provider_type_name
+        ]
+
+        # Dynamic import
+        module = importlib.import_module(f"src.{module_path}")
+        provider_class = getattr(module, class_name)
+
+        # Extract provider-specific config (exclude registry metadata)
+        provider_config = {
+            k: v for k, v in config.items() if k not in ["type", "pipelines"]
+        }
+
+        # Create provider instance
+        # Note: Current providers don't accept config parameters yet (Stage 1 pending)
+        # They load configuration through BaseAPIClient or other mechanisms
+        try:
+            # Try with config injection first (for Stage 1+ providers)
+            return provider_class(provider_config)
+        except TypeError:
+            # Fallback to parameterless constructor for legacy providers
+            return provider_class()
+
+    def _extract_provider_configs(self) -> dict[str, dict[str, dict]]:
+        """Extract provider configurations organized by type.
+
+        Returns:
+            Dict structure: {provider_type: {provider_name: config}}
+
+        Raises:
+            ValueError: If unsupported provider types are found
+        """
+        providers_config: dict[str, dict[str, dict]] = {}
+
+        for provider_type in ["audio", "image", "sync"]:
+            providers_config[provider_type] = {}
+            type_config = self.config.get("providers", {}).get(provider_type, {})
+
+            for provider_name, config in type_config.items():
+                if isinstance(config, dict):
+                    # Check if the provider type is supported (look at "type" field, not provider name)
+                    provider_type_name = config.get("type", provider_name)
+                    if provider_type_name in MEDIA_PROVIDER_REGISTRY.get(
+                        provider_type, {}
+                    ):
+                        providers_config[provider_type][provider_name] = config
+                    else:
+                        # Raise error for unsupported provider types (for backward compatibility)
+                        supported_types = list(
+                            MEDIA_PROVIDER_REGISTRY.get(provider_type, {}).keys()
+                        )
+                        if provider_type == "audio":
+                            raise ValueError(
+                                f"Unsupported audio provider type: {provider_type_name}. Supported: {', '.join(repr(t) for t in supported_types)}"
+                            )
+                        elif provider_type == "image":
+                            raise ValueError(
+                                f"Unsupported image provider type: {provider_type_name}. Supported: {', '.join(repr(t) for t in supported_types)}"
+                            )
+                        elif provider_type == "sync":
+                            raise ValueError(
+                                f"Unsupported sync provider type: {provider_type_name}. Only {', '.join(repr(t) for t in supported_types)} is supported."
+                            )
+
+        return providers_config
+
+    def _register_provider_by_type(
+        self, provider_type: str, provider_name: str, provider: Any
+    ) -> None:
+        """Register provider instance in appropriate registry.
+
+        Args:
+            provider_type: Type of provider (audio, image, sync)
+            provider_name: Name of provider instance
+            provider: Provider instance to register
+        """
+        if provider_type == "audio":
+            self.register_audio_provider(provider_name, provider)
+        elif provider_type == "image":
+            self.register_image_provider(provider_name, provider)
+        elif provider_type == "sync":
+            self.register_sync_provider(provider_name, provider)
+        else:
+            raise ValueError(f"Unknown provider type for registration: {provider_type}")
+
+    def _setup_media_providers(self) -> None:
+        """Setup all media providers using dynamic loading and config injection."""
+        provider_configs = self._extract_provider_configs()
+
+        for provider_type in ["audio", "image", "sync"]:
+            self.logger.info(f"{ICONS['gear']} Setting up {provider_type} providers...")
+            type_configs = provider_configs.get(provider_type, {})
+
+            if not type_configs:
+                self.logger.info(
+                    f"{ICONS['info']} No {provider_type} providers configured"
+                )
+            else:
+                for provider_name, config in type_configs.items():
+                    # Validate pipeline field
+                    if "pipelines" not in config:
+                        raise ValueError(
+                            f"Provider '{provider_name}' is missing required 'pipelines' field"
+                        )
+
+                    pipelines = config.get("pipelines", [])
+                    provider = self._create_media_provider(
+                        provider_type, provider_name, config
+                    )
+                    self._register_provider_by_type(
+                        provider_type, provider_name, provider
+                    )
+                    self.set_pipeline_assignments(
+                        provider_type, provider_name, pipelines
+                    )
+
+                    provider_type_name = config.get("type", provider_name)
+                    self.logger.info(
+                        f"{ICONS['check']} Registered {provider_type_name} {provider_type} provider '{provider_name}' for pipelines {pipelines}"
+                    )
+
     @classmethod
     @log_performance("fluent_forever.providers.registry")
     def from_config(cls, config: "Config") -> "ProviderRegistry":
@@ -304,6 +466,7 @@ class ProviderRegistry:
         logger.info(f"{ICONS['gear']} Initializing providers from configuration...")
 
         registry = cls()
+        registry.config = config._config_data
 
         # Get providers config - must exist
         providers_config = config.get("providers", {})
@@ -361,113 +524,10 @@ class ProviderRegistry:
                 else:
                     raise ValueError(f"Unsupported data provider type: {provider_type}")
         else:
-            # Create default data provider if none configured
-            from .data.json_provider import JSONDataProvider
+            logger.info(f"{ICONS['info']} No data providers configured")
 
-            registry.register_data_provider("default", JSONDataProvider(Path(".")))
-            registry.set_pipeline_assignments("data", "default", ["*"])
-            logger.info(
-                f"{ICONS['check']} Registered default JSON data provider for all pipelines"
-            )
-
-        # Initialize audio providers (optional)
-        logger.info(f"{ICONS['gear']} Setting up audio providers...")
-        audio_configs = providers_config.get("audio", {})
-        for provider_name, audio_config in audio_configs.items():
-            if "pipelines" not in audio_config:
-                raise ValueError(
-                    f"Provider '{provider_name}' is missing required 'pipelines' field"
-                )
-
-            audio_type = audio_config.get("type", "forvo")
-            pipelines = audio_config.get("pipelines", [])
-
-            if audio_type == "forvo":
-                from .audio.forvo_provider import ForvoProvider
-
-                registry.register_audio_provider(provider_name, ForvoProvider())
-                registry.set_pipeline_assignments("audio", provider_name, pipelines)
-                logger.info(
-                    f"{ICONS['check']} Registered {audio_type} audio provider '{provider_name}' for pipelines {pipelines}"
-                )
-            else:
-                raise ValueError(
-                    f"Unsupported audio provider type: {audio_type}. Supported: 'forvo'"
-                )
-
-        if not audio_configs:
-            logger.info(f"{ICONS['info']} No audio providers configured")
-
-        # Initialize image providers (optional)
-        logger.info(f"{ICONS['gear']} Setting up image providers...")
-        image_configs = providers_config.get("image", {})
-        for provider_name, image_config in image_configs.items():
-            if "pipelines" not in image_config:
-                raise ValueError(
-                    f"Provider '{provider_name}' is missing required 'pipelines' field"
-                )
-
-            image_type = image_config.get("type", "runware")
-            pipelines = image_config.get("pipelines", [])
-
-            if image_type == "runware":
-                from .image.runware_provider import RunwareProvider
-
-                registry.register_image_provider(provider_name, RunwareProvider())
-                registry.set_pipeline_assignments("image", provider_name, pipelines)
-                logger.info(
-                    f"{ICONS['check']} Registered {image_type} image provider '{provider_name}' for pipelines {pipelines}"
-                )
-            elif image_type == "openai":
-                from .image.openai_provider import OpenAIProvider
-
-                registry.register_image_provider(provider_name, OpenAIProvider())
-                registry.set_pipeline_assignments("image", provider_name, pipelines)
-                logger.info(
-                    f"{ICONS['check']} Registered {image_type} image provider '{provider_name}' for pipelines {pipelines}"
-                )
-            else:
-                raise ValueError(
-                    f"Unsupported image provider type: {image_type}. Supported: 'runware', 'openai'"
-                )
-
-        if not image_configs:
-            logger.info(f"{ICONS['info']} No image providers configured")
-
-        # Initialize sync providers (required)
-        logger.info(f"{ICONS['gear']} Setting up sync providers...")
-        sync_configs = providers_config.get("sync", {})
-        if not sync_configs:
-            # Create default sync provider if none configured
-            from .sync.anki_provider import AnkiProvider
-
-            registry.register_sync_provider("default", AnkiProvider())
-            registry.set_pipeline_assignments("sync", "default", ["*"])
-            logger.info(
-                f"{ICONS['check']} Registered default anki sync provider for all pipelines"
-            )
-        else:
-            for provider_name, sync_config in sync_configs.items():
-                if "pipelines" not in sync_config:
-                    raise ValueError(
-                        f"Provider '{provider_name}' is missing required 'pipelines' field"
-                    )
-
-                sync_type = sync_config.get("type", "anki")
-                pipelines = sync_config.get("pipelines", [])
-
-                if sync_type == "anki":
-                    from .sync.anki_provider import AnkiProvider
-
-                    registry.register_sync_provider(provider_name, AnkiProvider())
-                    registry.set_pipeline_assignments("sync", provider_name, pipelines)
-                    logger.info(
-                        f"{ICONS['check']} Registered {sync_type} sync provider '{provider_name}' for pipelines {pipelines}"
-                    )
-                else:
-                    raise ValueError(
-                        f"Unsupported sync provider type: {sync_type}. Only 'anki' is supported."
-                    )
+        # Setup media providers using unified method
+        registry._setup_media_providers()
 
         logger.info(f"{ICONS['check']} All providers initialized successfully")
         return registry
