@@ -89,7 +89,12 @@ def main() -> int:
 
     # Setup logging with verbose mode
     if getattr(args, "verbose", False) or os.getenv("FLUENT_FOREVER_DEBUG"):
-        setup_logging(level=logging.DEBUG, log_to_file=True)
+        # Only enable file logging in verbose mode if not in test environment
+        # or if explicitly requested via environment variable
+        enable_file_logging = (
+            os.getenv("FLUENT_FOREVER_LOG_TO_FILE", "false").lower() == "true"
+        )
+        setup_logging(level=logging.DEBUG, log_to_file=enable_file_logging)
     else:
         setup_logging()
 

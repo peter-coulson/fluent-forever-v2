@@ -114,8 +114,10 @@ class TestSetupLogging:
         assert logger1 is logger2
         assert len(logger2.handlers) == initial_handler_count
 
-    def test_file_logging_activation(self, tmp_path):
+    def test_file_logging_activation(self, tmp_path, monkeypatch):
         """Test file handler created when log_to_file=True."""
+        # Force file logging in test environment
+        monkeypatch.setenv("FLUENT_FOREVER_FORCE_FILE_LOG", "true")
         log_file = tmp_path / "test.log"
 
         logger = setup_logging(log_to_file=True, log_file_path=log_file)
@@ -131,8 +133,10 @@ class TestSetupLogging:
         assert file_handler is not None
         assert Path(file_handler.baseFilename) == log_file
 
-    def test_directory_creation(self, tmp_path):
+    def test_directory_creation(self, tmp_path, monkeypatch):
         """Test log directory created when it doesn't exist."""
+        # Force file logging in test environment
+        monkeypatch.setenv("FLUENT_FOREVER_FORCE_FILE_LOG", "true")
         log_dir = tmp_path / "logs" / "nested"
         log_file = log_dir / "test.log"
 
@@ -143,8 +147,10 @@ class TestSetupLogging:
         assert log_dir.exists()
         assert log_file.exists()
 
-    def test_level_propagation(self, tmp_path):
+    def test_level_propagation(self, tmp_path, monkeypatch):
         """Test specified log level applies to both console and file handlers."""
+        # Force file logging in test environment
+        monkeypatch.setenv("FLUENT_FOREVER_FORCE_FILE_LOG", "true")
         log_file = tmp_path / "test.log"
         test_level = logging.WARNING
 
@@ -197,3 +203,26 @@ class TestGetLogger:
         for module in test_cases:
             logger = get_logger(module)
             assert logger.name == f"fluent_forever.{module}"
+
+    def test_test_environment_detection(self):
+        """Test that test environment is correctly detected and prevents file logging."""
+        # This should not create any file handlers in test environment
+        logger = setup_logging(log_to_file=True)
+
+        # Should only have console handler in test environment
+        assert len(logger.handlers) == 1
+        assert isinstance(logger.handlers[0], logging.StreamHandler)
+        assert not isinstance(logger.handlers[0], logging.FileHandler)
+
+    def test_forced_file_logging_in_tests(self, tmp_path, monkeypatch):
+        """Test that file logging can be forced in test environment."""
+        monkeypatch.setenv("FLUENT_FOREVER_FORCE_FILE_LOG", "true")
+        log_file = tmp_path / "forced.log"
+
+        logger = setup_logging(log_to_file=True, log_file_path=log_file)
+
+        # Should have both console and file handlers when forced
+        assert len(logger.handlers) == 2
+        handler_types = [type(h).__name__ for h in logger.handlers]
+        assert "StreamHandler" in handler_types
+        assert "FileHandler" in handler_types

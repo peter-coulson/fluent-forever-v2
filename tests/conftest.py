@@ -10,6 +10,40 @@ from unittest.mock import Mock, patch
 import pytest
 
 
+@pytest.fixture(scope="session", autouse=True)
+def suppress_cli_output():
+    """Global fixture to suppress CLI output and logging."""
+    import os
+    import subprocess
+    from unittest.mock import patch
+
+    original_run = subprocess.run
+
+    def patched_run(*args, **kwargs):
+        # Check if this is a CLI command
+        if (
+            args
+            and isinstance(args[0], list)
+            and len(args[0]) >= 3
+            and args[0][2] == "src.cli.pipeline_runner"
+        ):
+            # Add environment variables to suppress all logging
+            env = kwargs.get("env", os.environ.copy())
+            env["FLUENT_FOREVER_LOG_LEVEL"] = "CRITICAL"  # Even higher than ERROR
+            env["FLUENT_FOREVER_LOG_TO_FILE"] = "false"  # Disable file logging
+            kwargs["env"] = env
+
+        return original_run(*args, **kwargs)
+
+    # Mock CLI output functions to suppress print statements
+    with patch("subprocess.run", patched_run), patch(
+        "src.cli.utils.output.print_success"
+    ), patch("src.cli.utils.output.print_error"), patch(
+        "src.cli.utils.output.print_warning"
+    ), patch("src.cli.utils.output.print_info"):
+        yield
+
+
 @pytest.fixture
 def mock_config():
     """Mock config.json data"""

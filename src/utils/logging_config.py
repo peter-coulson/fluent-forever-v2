@@ -6,6 +6,7 @@ Centralized logging setup for the Fluent Forever v2 system
 
 import functools
 import logging
+import logging.config
 import os
 import sys
 import time
@@ -46,13 +47,84 @@ class ColoredFormatter(logging.Formatter):
         return formatted
 
 
+def get_logging_config(
+    level: int | None = None,
+    log_to_file: bool = False,
+    log_file_path: Path | None = None,
+) -> dict:
+    """
+    Get logging configuration dictionary based on base template
+
+    Args:
+        level: Logging level (default: INFO)
+        log_to_file: Whether to also log to file
+        log_file_path: Path for log file (default: project_root/logs/fluent_forever.log)
+
+    Returns:
+        Logging configuration dictionary
+    """
+    import copy
+
+    # Load environment variables
+    load_dotenv()
+
+    if level is None:
+        level = get_log_level_from_env()
+
+    # Detect test environment and disable file logging by default
+    is_test_env = _is_test_environment()
+
+    # Check environment variable for file logging
+    env_log_to_file = os.getenv("FLUENT_FOREVER_LOG_TO_FILE", "false").lower() == "true"
+
+    # In test environment, never log to file unless explicitly forced
+    if is_test_env:
+        force_file_logging = (
+            os.getenv("FLUENT_FOREVER_FORCE_FILE_LOG", "false").lower() == "true"
+        )
+        if not force_file_logging:
+            log_to_file = False
+        elif env_log_to_file and not log_to_file:
+            log_to_file = True
+    elif env_log_to_file and not log_to_file:
+        log_to_file = True
+
+    level_name = logging.getLevelName(level)
+
+    # Start with base configuration
+    config: dict[str, Any] = copy.deepcopy(LOGGING_CONFIG_BASE)
+
+    # Set log levels
+    config["handlers"]["console"]["level"] = level_name
+    config["loggers"]["fluent_forever"]["level"] = level_name
+
+    # Add file handler if requested
+    if log_to_file:
+        if log_file_path is None:
+            project_root = Path(__file__).parent.parent.parent
+            log_file_path = project_root / "logs" / "fluent_forever.log"
+
+        # Ensure log directory exists
+        log_file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        config["handlers"]["file"] = {
+            "class": "logging.FileHandler",
+            "level": level_name,
+            "formatter": "file",
+            "filename": str(log_file_path),
+        }
+        config["loggers"]["fluent_forever"]["handlers"].append("file")
+
+    return config
+
+
 def setup_logging(
     level: int | None = None,
     log_to_file: bool = False,
     log_file_path: Path | None = None,
 ) -> logging.Logger:
     """
-    Set up logging configuration
+    Set up logging configuration using dictConfig
 
     Args:
         level: Logging level (default: INFO)
@@ -62,52 +134,13 @@ def setup_logging(
     Returns:
         Configured logger
     """
-    # Load environment variables from .env file
-    load_dotenv()
-
-    # Get level from environment if not specified
-    if level is None:
-        level = get_log_level_from_env()
-
-    # Create logger
-    logger = logging.getLogger("fluent_forever")
-    logger.setLevel(level)
-
-    # Clear existing handlers to avoid duplicates
-    logger.handlers.clear()
-
-    # Console handler with colors
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(level)
-
-    # Colored formatter for console
-    console_format = "%(levelname)s %(message)s"
-    console_formatter = ColoredFormatter(console_format)
-    console_handler.setFormatter(console_formatter)
-    logger.addHandler(console_handler)
-
-    # File handler (optional)
-    if log_to_file:
-        if log_file_path is None:
-            project_root = Path(__file__).parent.parent.parent
-            log_file_path = project_root / "logs" / "fluent_forever.log"
-
-        # Create logs directory if it doesn't exist
-        log_file_path.parent.mkdir(parents=True, exist_ok=True)
-
-        file_handler = logging.FileHandler(log_file_path)
-        file_handler.setLevel(level)
-
-        # Plain formatter for file (no colors)
-        file_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-        file_formatter = logging.Formatter(file_format)
-        file_handler.setFormatter(file_formatter)
-        logger.addHandler(file_handler)
+    config = get_logging_config(level, log_to_file, log_file_path)
+    logging.config.dictConfig(config)
 
     # Setup module-specific log levels
     setup_module_log_levels()
 
-    return logger
+    return logging.getLogger("fluent_forever")
 
 
 def get_logger(module_name: str) -> logging.Logger:
@@ -146,6 +179,35 @@ def get_log_level_from_env() -> int:
     """Get log level from environment variable"""
     level_str = os.getenv("FLUENT_FOREVER_LOG_LEVEL", "INFO").upper()
     return getattr(logging, level_str, logging.INFO)
+
+
+def _is_test_environment() -> bool:
+    """
+    Detect if we're running in a test environment
+
+    Returns:
+        True if running in test environment, False otherwise
+    """
+    # Check for pytest running
+    if "pytest" in sys.modules or "PYTEST_CURRENT_TEST" in os.environ:
+        return True
+
+    # Check for common test runners
+    if any(
+        test_indicator in sys.argv[0]
+        for test_indicator in ["pytest", "test", "unittest"]
+    ):
+        return True
+
+    # Check if pytest is in the command line arguments
+    if any("pytest" in arg for arg in sys.argv):
+        return True
+
+    # Check for testing environment variables
+    if os.getenv("TESTING", "").lower() in ("true", "1", "yes"):
+        return True
+
+    return False
 
 
 def setup_module_log_levels() -> None:
@@ -207,6 +269,29 @@ DEFAULT_LOG_LEVELS = {
     "fluent_forever.stages": logging.INFO,
 }
 
+
+# Logging configuration templates
+LOGGING_CONFIG_BASE = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "console": {
+            "()": "src.utils.logging_config.ColoredFormatter",
+            "format": "%(levelname)s %(message)s",
+        },
+        "file": {"format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"},
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "console",
+            "stream": "ext://sys.stdout",
+        }
+    },
+    "loggers": {"fluent_forever": {"handlers": ["console"], "propagate": False}},
+}
+
+# Test logging is now configured via pytest.ini
 
 # Icons for common log messages
 ICONS = {
