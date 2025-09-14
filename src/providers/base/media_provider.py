@@ -203,6 +203,59 @@ class MediaProvider(ABC):
         """
         pass
 
+    def generate_batch(self, requests: list[MediaRequest]) -> list[MediaResult]:
+        """Generate media for batch requests with rate limiting
+
+        This method processes multiple media requests efficiently, applying rate limiting
+        and error handling. The default implementation processes requests sequentially
+        with rate limiting between requests.
+
+        Concrete providers can override this method to implement more efficient
+        batch processing (e.g., parallel processing, bulk API calls).
+
+        Args:
+            requests: List of MediaRequest objects to process
+
+        Returns:
+            List of MediaResult objects corresponding to each request
+        """
+        return self._default_batch_implementation(requests)
+
+    def _default_batch_implementation(
+        self, requests: list[MediaRequest]
+    ) -> list[MediaResult]:
+        """Default sequential batch processing with rate limiting
+
+        This method provides a default implementation for batch processing that:
+        1. Processes requests sequentially to maintain order
+        2. Applies rate limiting between requests if configured
+        3. Handles individual failures gracefully
+        4. Preserves request-to-result correspondence
+
+        Args:
+            requests: List of MediaRequest objects to process
+
+        Returns:
+            List of MediaResult objects, one for each input request
+        """
+        import time
+
+        results = []
+        for i, request in enumerate(requests):
+            # Apply rate limiting (skip delay for first request)
+            if (
+                i > 0
+                and hasattr(self, "_rate_limit_delay")
+                and self._rate_limit_delay > 0
+            ):
+                time.sleep(self._rate_limit_delay)
+
+            # Process individual request
+            result = self.generate_media(request)
+            results.append(result)
+
+        return results
+
     def supports_type(self, media_type: str) -> bool:
         """Check if provider supports media type
 

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Forvo Media Provider
-Handles pronunciation audio downloads for vocabulary
-Migrated from src/apis/forvo_client.py to new provider structure
+Clean Forvo Media Provider
+Handles pronunciation audio downloads with config injection and no fallback logic
 """
 
 from pathlib import Path
@@ -10,75 +9,24 @@ from typing import Any, cast
 
 import requests
 
-from src.providers.base.api_client import APIError, BaseAPIClient
 from src.providers.base.media_provider import MediaProvider, MediaRequest, MediaResult
 from src.utils.logging_config import ICONS, get_logger
 
 logger = get_logger("providers.media.forvo")
 
 
-class ForvoProvider(MediaProvider, BaseAPIClient):
-    """Forvo media provider for Spanish pronunciation audio"""
+class APIError(Exception):
+    """API error for Forvo provider"""
 
-    def __init__(self) -> None:
-        MediaProvider.__init__(self)
-        BaseAPIClient.__init__(self, "Forvo")
+    pass
 
-        # Handle both old and new config structure
-        if "apis" in self.config and "forvo" in self.config["apis"]:
-            self.api_config = self.config["apis"]["forvo"]
-        else:
-            # Fallback config
-            self.api_config = {
-                "env_var": "FORVO_API_KEY",
-                "base_url": "https://apifree.forvo.com",
-                "country_priorities": ["MX", "ES", "AR", "CO", "PE"],
-                "priority_groups": [["MX"], ["ES"], ["AR", "CO", "PE"]],
-            }
 
-        # Handle different config key formats
-        if "env_var" in self.api_config:
-            env_var = self.api_config["env_var"]
-        elif "api_key" in self.api_config:
-            # If api_key is already provided, extract the env var name from it
-            api_key_value = self.api_config["api_key"]
-            if (
-                isinstance(api_key_value, str)
-                and api_key_value.startswith("${")
-                and api_key_value.endswith("}")
-            ):
-                env_var = api_key_value[
-                    2:-1
-                ]  # Extract FORVO_API_KEY from ${FORVO_API_KEY}
-            else:
-                # Direct API key provided, use it as is (for tests)
-                self.api_key = api_key_value
-                env_var = None
-        else:
-            env_var = "FORVO_API_KEY"  # Default fallback
+class ForvoProvider(MediaProvider):
+    """Clean Forvo media provider for Spanish pronunciation audio"""
 
-        if env_var:
-            self.api_key = self._load_api_key(env_var)
-        self.base_url = self.api_config["base_url"]
-
-        # Priority order from config
-        self.country_priorities = self.api_config.get(
-            "country_priorities", ["MX", "ES", "AR"]
-        )
-        # Grouped prioritization
-        cfg_groups = self.api_config.get("priority_groups", [])
-        priorities_set = list(dict.fromkeys(self.country_priorities))
-
-        def sanitize(group: list[str]) -> list[str]:
-            return [c for c in group if c in priorities_set]
-
-        groups = [sanitize(g) for g in cfg_groups if isinstance(g, list)]
-        if not groups:
-            groups = [priorities_set]
-        while len(groups) < 3:
-            groups.append([])
-
-        self.group1, self.group2, self.group3 = groups[:3]
+    def __init__(self, config: dict[str, Any] | None = None) -> None:
+        """Initialize provider with config injection"""
+        super().__init__(config)
 
     @property
     def supported_types(self) -> list[str]:
@@ -86,9 +34,71 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
         return ["audio"]
 
     def validate_config(self, config: dict[str, Any]) -> None:
-        """Validate Forvo provider configuration - minimal implementation for backward compatibility."""
-        # For backward compatibility, allow empty config (uses legacy config loading)
-        pass
+        """Validate Forvo provider configuration with fail-fast pattern"""
+        # Check for required api_key
+        if "api_key" not in config or not config["api_key"]:
+            raise ValueError("Missing required Forvo config key: api_key")
+
+        # Check for required country_priorities
+        if "country_priorities" not in config:
+            raise ValueError("Missing required Forvo config key: country_priorities")
+
+        # Validate country_priorities is not empty
+        if not config["country_priorities"] or len(config["country_priorities"]) == 0:
+            raise ValueError("country_priorities cannot be empty")
+
+    def _setup_from_config(self) -> None:
+        """Setup provider from validated configuration"""
+        self.api_key = self.config["api_key"]
+        self.country_priorities = self.config["country_priorities"]
+        self.base_url = self.config.get("base_url", "https://apifree.forvo.com")
+
+        # Set up priority groups from config
+        priority_groups = self.config.get("priority_groups", [])
+        priorities_set = list(dict.fromkeys(self.country_priorities))
+
+        def sanitize_group(group: list[str]) -> list[str]:
+            return [c for c in group if c in priorities_set]
+
+        if priority_groups:
+            groups = [sanitize_group(g) for g in priority_groups if isinstance(g, list)]
+        else:
+            # Default grouping: split country_priorities into 3 groups
+            third = len(priorities_set) // 3
+            groups = [
+                priorities_set[:third] if third > 0 else [],
+                priorities_set[third : third * 2] if third > 0 else [],
+                priorities_set[third * 2 :] if third > 0 else priorities_set,
+            ]
+
+        # Ensure we have 3 groups
+        while len(groups) < 3:
+            groups.append([])
+
+        self.group1, self.group2, self.group3 = groups[:3]
+
+        # Rate limiting configuration
+        self._rate_limit_delay = self.config.get(
+            "rate_limit_delay", 0.5
+        )  # Default 0.5s for Forvo
+
+    def _make_request(self, method: str, url: str, **kwargs: Any) -> Any:
+        """Make HTTP request with basic error handling"""
+        try:
+            response = requests.request(method, url, timeout=30, **kwargs)
+            response.raise_for_status()
+
+            # Return a simple object with success and data
+            result = type("APIResponse", (), {})()
+            result.success = True
+            result.data = response.json() if response.content else {}
+            return result
+        except Exception as e:
+            result = type("APIResponse", (), {})()
+            result.success = False
+            result.data = {}
+            result.error = str(e)
+            return result
 
     def test_connection(self) -> bool:
         """Test Forvo API connection"""
@@ -98,7 +108,7 @@ class ForvoProvider(MediaProvider, BaseAPIClient):
                 "GET",
                 f"{self.base_url}/key/{self.api_key}/format/json/action/word-pronunciations/word/hola/language/es/country/MX",
             )
-            return response.success
+            return response.success  # type: ignore[no-any-return]
         except Exception as e:
             logger.error(f"{ICONS['cross']} Forvo connection test failed: {e}")
             return False
