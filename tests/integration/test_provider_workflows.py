@@ -153,7 +153,7 @@ class TestProviderWorkflows:
             # ACT: Time both approaches
             # Individual processing
             start_individual = time.time()
-            individual_results = [provider.generate_media(req) for req in requests]
+            _ = [provider.generate_media(req) for req in requests]  # noqa: F841
             individual_time = time.time() - start_individual
 
             # Batch processing (using default implementation)
@@ -305,12 +305,12 @@ class TestProviderPerformanceRequirements:
 
         # Test Forvo provider initialization time
         start_time = time.time()
-        forvo_provider = ForvoProvider({**config})
+        _ = ForvoProvider({**config})
         forvo_init_time = time.time() - start_time
 
         # Test OpenAI provider initialization time
         start_time = time.time()
-        openai_provider = OpenAIProvider({**config})
+        _ = OpenAIProvider({**config})
         openai_init_time = time.time() - start_time
 
         # Assert providers initialize quickly (under 1 second each)

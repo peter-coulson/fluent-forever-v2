@@ -222,7 +222,7 @@ class ForvoProvider(MediaProvider):
                 f"{self.base_url}/key/{self.api_key}/format/json/action/word-pronunciations/word/{word}/language/{language}/country/{preferred_country}",
             )
             if response.success and response.data.get("items"):
-                return cast(list[dict[str, Any]], response.data["items"])
+                return cast("list[dict[str, Any]]", response.data["items"])
 
         # Try without country filter to get all pronunciations
         response = self._make_request(
@@ -231,7 +231,7 @@ class ForvoProvider(MediaProvider):
         )
 
         if response.success and response.data.get("items"):
-            return cast(list[dict[str, Any]], response.data["items"])
+            return cast("list[dict[str, Any]]", response.data["items"])
 
         return []
 

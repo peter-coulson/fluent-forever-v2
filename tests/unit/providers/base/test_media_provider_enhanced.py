@@ -162,7 +162,7 @@ class TestMediaProviderEnhanced:
         with patch.object(provider, "generate_media") as mock_generate:
             mock_generate.return_value = MediaResult(True, Path("/tmp/image.jpg"), {})
 
-            result = provider.generate_image("test prompt", size="1024x1024")
+            _ = provider.generate_image("test prompt", size="1024x1024")
 
             # Verify generate_media was called with correct MediaRequest
             mock_generate.assert_called_once()
@@ -175,7 +175,7 @@ class TestMediaProviderEnhanced:
         with patch.object(provider, "generate_media") as mock_generate:
             mock_generate.return_value = MediaResult(True, Path("/tmp/audio.mp3"), {})
 
-            result = provider.generate_audio("hello", language="es")
+            _ = provider.generate_audio("hello", language="es")
 
             mock_generate.assert_called_once()
             call_args = mock_generate.call_args[0][0]

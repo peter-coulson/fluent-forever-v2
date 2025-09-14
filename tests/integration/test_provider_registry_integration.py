@@ -72,12 +72,16 @@ class TestProviderRegistryIntegration:
                 "audio": {
                     "default": {
                         "type": "forvo",
+                        "api_key": "test-forvo-key",
+                        "country_priorities": ["MX", "ES"],
                         "pipelines": ["*"]
                     }
                 },
                 "image": {
                     "default": {
                         "type": "runware",
+                        "api_key": "test-runware-key",
+                        "model": "runware:100@1",
                         "pipelines": ["*"]
                     }
                 },

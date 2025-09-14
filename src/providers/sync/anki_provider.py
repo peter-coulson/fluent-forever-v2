@@ -179,7 +179,7 @@ class AnkiProvider(SyncProvider, BaseAPIClient):
                 )
 
                 if info_response.success:
-                    return cast(list[dict], info_response.data)
+                    return cast("list[dict]", info_response.data)
 
             return []
 

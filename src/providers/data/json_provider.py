@@ -57,7 +57,7 @@ class JSONDataProvider(DataProvider):
             text_content = file_path.read_text(encoding="utf-8")
             if not text_content.strip():
                 return {}
-            return cast(dict[str, Any], json.loads(text_content))
+            return cast("dict[str, Any]", json.loads(text_content))
         except (OSError, json.JSONDecodeError) as e:
             raise ValueError(f"Error loading {identifier}: {e}") from e
 

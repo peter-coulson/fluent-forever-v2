@@ -79,7 +79,9 @@ class FluentForeverCardType(CardType):
         if not vocab_path.exists():
             logger.warning(f"Data file not found: {vocab_path}")
             return {}
-        return cast(dict[str, Any], json.loads(vocab_path.read_text(encoding="utf-8")))
+        return cast(
+            "dict[str, Any]", json.loads(vocab_path.read_text(encoding="utf-8"))
+        )
 
     def find_card_by_id(
         self, data: dict[str, Any], card_id: str
@@ -88,7 +90,7 @@ class FluentForeverCardType(CardType):
         for _, wdata in data.get("words", {}).items():
             for meaning in wdata.get("meanings", []):
                 if str(meaning.get("CardID", "")).strip() == card_id:
-                    return cast(dict[str, str], meaning)
+                    return cast("dict[str, str]", meaning)
         return None
 
     def list_cards(self, data: dict[str, Any]) -> list[dict[str, str]]:
@@ -141,14 +143,14 @@ class ConjugationCardType(CardType):
                     }
                 }
             }
-        return cast(dict[str, Any], json.loads(conj_path.read_text(encoding="utf-8")))
+        return cast("dict[str, Any]", json.loads(conj_path.read_text(encoding="utf-8")))
 
     def find_card_by_id(
         self, data: dict[str, Any], card_id: str
     ) -> dict[str, str] | None:
         """Find a conjugation card by CardID"""
         conjugations = data.get("conjugations", {})
-        return cast(dict[str, str] | None, conjugations.get(card_id))
+        return cast("dict[str, str] | None", conjugations.get(card_id))
 
     def list_cards(self, data: dict[str, Any]) -> list[dict[str, str]]:
         """List all conjugation cards"""
