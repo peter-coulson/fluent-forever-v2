@@ -101,7 +101,9 @@ class TestForvoProviderClean:
 
         with patch.object(provider, "_make_request") as mock_request, patch(
             "requests.get"
-        ) as mock_download:
+        ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             # Mock API responses
             mock_request.return_value = Mock(
                 success=True,
@@ -157,7 +159,9 @@ class TestForvoProviderClean:
 
         with patch.object(provider, "_make_request") as mock_request, patch(
             "requests.get"
-        ) as mock_download:
+        ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             # Mock API response with multiple pronunciations
             pronunciations = [
                 {
@@ -241,7 +245,9 @@ class TestForvoProviderClean:
 
         with patch.object(provider, "_make_request") as mock_request, patch(
             "requests.get"
-        ) as mock_download:
+        ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             # Mock successful API response
             mock_request.return_value = Mock(
                 success=True,
@@ -423,7 +429,9 @@ class TestForvoProviderClean:
 
         with patch.object(provider, "_make_request") as mock_request, patch(
             "requests.get"
-        ) as mock_download:
+        ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             # Mock API response for specific country
             mock_request.return_value = Mock(
                 success=True,

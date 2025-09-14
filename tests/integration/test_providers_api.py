@@ -103,7 +103,9 @@ class TestProviderAPIIntegration:
             # Mock Forvo API for test environment
             with patch.object(provider, "_make_request") as mock_request, patch(
                 "requests.get"
-            ) as mock_download:
+            ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+                "builtins.open", create=True
+            ):
                 # Mock API response for pronunciations
                 mock_request.return_value = Mock(
                     success=True,
@@ -198,7 +200,9 @@ class TestProviderAPIIntegration:
         # Mock both providers
         with patch.object(forvo_provider, "_make_request") as mock_forvo, patch(
             "requests.get"
-        ) as mock_download, patch("openai.OpenAI") as mock_openai:
+        ) as mock_download, patch("openai.OpenAI") as mock_openai, patch(
+            "pathlib.Path.mkdir"
+        ), patch("builtins.open", create=True):
             # Setup Forvo mocks
             mock_forvo.return_value = Mock(
                 success=True,
@@ -224,7 +228,9 @@ class TestProviderAPIIntegration:
             mock_response.data = [Mock(url="http://example.com/image.jpg")]
             mock_client.images.generate.return_value = mock_response
 
-            with patch("requests.get") as mock_img_download:
+            with patch("requests.get") as mock_img_download, patch(
+                "pathlib.Path.mkdir"
+            ), patch("builtins.open", create=True):
                 mock_img_download.return_value = Mock(
                     status_code=200, content=b"image_data"
                 )

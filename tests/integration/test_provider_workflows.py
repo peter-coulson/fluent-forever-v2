@@ -32,7 +32,9 @@ class TestProviderWorkflows:
         # Mock the API responses to simulate successful workflow
         with patch.object(provider, "_make_request") as mock_request, patch(
             "requests.get"
-        ) as mock_download:
+        ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             # Setup API response mock
             mock_request.return_value = Mock(
                 success=True,
@@ -92,7 +94,9 @@ class TestProviderWorkflows:
             mock_client.images.generate.return_value = mock_response
 
             # Mock image download
-            with patch("requests.get") as mock_download:
+            with patch("requests.get") as mock_download, patch(
+                "pathlib.Path.mkdir"
+            ), patch("builtins.open", create=True):
                 mock_download.return_value = Mock(
                     status_code=200, content=b"mock_image_data"
                 )
@@ -131,7 +135,9 @@ class TestProviderWorkflows:
 
         with patch.object(provider, "_make_request") as mock_request, patch(
             "requests.get"
-        ) as mock_download:
+        ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             # Setup mocks
             mock_request.return_value = Mock(
                 success=True,
@@ -186,7 +192,9 @@ class TestProviderWorkflows:
 
         with patch.object(provider, "_make_request") as mock_request, patch(
             "requests.get"
-        ) as mock_download:
+        ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             # Setup partial failure scenario
             success_response = Mock(
                 success=True,
@@ -339,7 +347,9 @@ class TestProviderPerformanceRequirements:
 
         with patch.object(provider, "_make_request") as mock_request, patch(
             "requests.get"
-        ) as mock_download:
+        ) as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             mock_request.return_value = Mock(
                 success=True,
                 data={

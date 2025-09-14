@@ -282,7 +282,9 @@ class TestOpenAIProviderClean:
         mock_client.images.generate.return_value = mock_response
 
         # Mock download failure
-        with patch("requests.get") as mock_download:
+        with patch("requests.get") as mock_download, patch("pathlib.Path.mkdir"), patch(
+            "builtins.open", create=True
+        ):
             mock_download.side_effect = Exception("Download failed: connection timeout")
 
             result = provider.generate_media(request)
