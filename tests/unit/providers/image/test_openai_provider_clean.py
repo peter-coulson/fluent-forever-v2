@@ -8,9 +8,16 @@ from unittest.mock import Mock, patch
 
 import pytest
 from src.providers.base.media_provider import MediaRequest
-from src.providers.image.openai_provider import OpenAIProvider
+
+try:
+    from src.providers.image.openai_provider import OpenAIProvider
+
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
 
 
+@pytest.mark.skipif(not OPENAI_AVAILABLE, reason="OpenAI provider not available")
 class TestOpenAIProviderClean:
     """Test clean OpenAI provider implementation"""
 
@@ -162,19 +169,8 @@ class TestOpenAIProviderClean:
         mock_response.data = [mock_image]
         mock_client.images.generate.return_value = mock_response
 
-        # Mock image download and file operations
-        with patch("requests.get") as mock_download, patch("pathlib.Path.mkdir"), patch(
-            "builtins.open", create=True
-        ) as mock_open:
-            mock_response = Mock()
-            mock_response.status_code = 200
-            mock_response.raise_for_status.return_value = None
-            mock_response.iter_content.return_value = [b"mock_image_data_12345"]
-            mock_download.return_value = mock_response
-
-            mock_file = Mock()
-            mock_open.return_value.__enter__.return_value = mock_file
-
+        # Download method is globally mocked by conftest.py
+        with patch("src.providers.image.openai_provider.OPENAI_AVAILABLE", True):
             results = provider.generate_batch(requests)
 
             # Assert batch processing completed successfully
@@ -208,37 +204,27 @@ class TestOpenAIProviderClean:
         mock_response.data = [mock_image]
         mock_client.images.generate.return_value = mock_response
 
-        # Mock download and file operations
-        with patch("requests.get") as mock_download, patch("pathlib.Path.mkdir"), patch(
-            "builtins.open", create=True
-        ) as mock_open:
-            mock_dl_response = Mock()
-            mock_dl_response.status_code = 200
-            mock_dl_response.raise_for_status.return_value = None
-            mock_dl_response.iter_content.return_value = [b"actual_image_data"]
-            mock_download.return_value = mock_dl_response
-            mock_file = Mock()
-            mock_open.return_value.__enter__.return_value = mock_file
-
+        # Download method is globally mocked by conftest.py
+        with patch("src.providers.image.openai_provider.OPENAI_AVAILABLE", True):
             result = provider.generate_media(request)
 
-            assert result.success is True
-            assert result.file_path is not None
-            assert result.metadata["model"] == "dall-e-3"
-            assert result.metadata["size"] == "1024x1024"
-            assert result.metadata["quality"] == "hd"
-            assert result.metadata["style"] == "vivid"
-            assert "revised_prompt" in result.metadata
+        assert result.success is True
+        assert result.file_path is not None
+        assert result.metadata["model"] == "dall-e-3"
+        assert result.metadata["size"] == "1024x1024"
+        assert result.metadata["quality"] == "hd"
+        assert result.metadata["style"] == "vivid"
+        assert "revised_prompt" in result.metadata
 
-            # Verify API call parameters for DALL-E 3
-            mock_client.images.generate.assert_called_once_with(
-                model="dall-e-3",
-                prompt="A beautiful sunset over mountains",
-                size="1024x1024",
-                quality="hd",
-                style="vivid",
-                n=1,
-            )
+        # Verify API call parameters for DALL-E 3
+        mock_client.images.generate.assert_called_once_with(
+            model="dall-e-3",
+            prompt="A beautiful sunset over mountains",
+            size="1024x1024",
+            quality="hd",
+            style="vivid",
+            n=1,
+        )
 
     def test_api_error_handling(self):
         """Test: API errors are handled gracefully"""
@@ -257,7 +243,8 @@ class TestOpenAIProviderClean:
         # Simulate OpenAI API error
         mock_client.images.generate.side_effect = Exception("API quota exceeded")
 
-        result = provider.generate_media(request)
+        with patch("src.providers.image.openai_provider.OPENAI_AVAILABLE", True):
+            result = provider.generate_media(request)
 
         assert result.success is False
         assert "API quota exceeded" in result.error
@@ -281,10 +268,8 @@ class TestOpenAIProviderClean:
         mock_response.data = [Mock(url="https://example.com/image.jpg")]
         mock_client.images.generate.return_value = mock_response
 
-        # Mock download failure
-        with patch("requests.get") as mock_download, patch("pathlib.Path.mkdir"), patch(
-            "builtins.open", create=True
-        ):
+        # Mock download method to raise exception directly
+        with patch.object(provider, "_download_image") as mock_download:
             mock_download.side_effect = Exception("Download failed: connection timeout")
 
             result = provider.generate_media(request)

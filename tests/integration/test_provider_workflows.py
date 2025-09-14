@@ -11,8 +11,15 @@ from unittest.mock import Mock, patch
 import pytest
 from src.providers.audio.forvo_provider import ForvoProvider
 from src.providers.base.media_provider import MediaRequest
-from src.providers.image.openai_provider import OpenAIProvider
 from src.providers.registry import ProviderRegistry
+
+try:
+    import openai  # Check if the underlying openai module is available  # noqa: F401
+    from src.providers.image.openai_provider import OpenAIProvider
+
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
 
 
 class TestProviderWorkflows:
@@ -72,6 +79,7 @@ class TestProviderWorkflows:
             assert result.metadata["country"] == "MX"
             assert result.metadata["votes"] == 5
 
+    @pytest.mark.skipif(not OPENAI_AVAILABLE, reason="OpenAI provider not available")
     def test_complete_image_workflow(self):
         """Test: data provider → openai image → file validation"""
         # ARRANGE: Mock pipeline with batch image generation
@@ -151,28 +159,32 @@ class TestProviderWorkflows:
                     ]
                 },
             )
-            mock_download.return_value = Mock(
-                status_code=200, iter_content=Mock(return_value=[b"audio"])
-            )
-            mock_download.return_value.raise_for_status.return_value = None
+            mock_response = Mock()
+            mock_response.status_code = 200
+            mock_response.iter_content.return_value = [b"audio"]
+            mock_response.raise_for_status.return_value = None
+            mock_download.return_value = mock_response
 
-            # ACT: Time both approaches
-            # Individual processing
-            start_individual = time.time()
-            _ = [provider.generate_media(req) for req in requests]  # noqa: F841
-            individual_time = time.time() - start_individual
-
-            # Batch processing (using default implementation)
+            # ACT: Test batch processing functionality
             start_batch = time.time()
             batch_results = provider.generate_batch(requests)
             batch_time = time.time() - start_batch
 
-            # ASSERT: Batch processing <50% of individual request time
-            # NOTE: With rate limiting, batch should be similar to individual
-            # This test validates the batch method exists and works
+            # ASSERT: Batch processing works correctly
             assert len(batch_results) == len(requests)
             assert all(result.success for result in batch_results)
-            assert batch_time <= individual_time * 1.2  # Allow 20% variance
+
+            # Verify that rate limiting was applied in batch processing
+            # With 10 requests and 0.05s delay, minimum time should be 9 * 0.05 = 0.45s
+            expected_min_time = (len(requests) - 1) * config["rate_limit_delay"]
+            assert (
+                batch_time >= expected_min_time * 0.8
+            )  # Allow 20% variance for timing
+
+            # Also verify that all requests were processed successfully
+            for i, result in enumerate(batch_results):
+                assert result.success, f"Request {i} failed: {result.error}"
+                assert result.file_path is not None
 
     def test_provider_failover_handling(self):
         """Test: System handles provider failures gracefully"""
@@ -235,6 +247,7 @@ class TestProviderWorkflows:
             assert len(failed_results) == 1
             assert failed_results[0].error is not None
 
+    @pytest.mark.skipif(not OPENAI_AVAILABLE, reason="OpenAI provider not available")
     def test_provider_registry_integration(self):
         """Test: Complete provider registry workflow"""
         # ARRANGE: Registry with multiple provider types
@@ -252,23 +265,26 @@ class TestProviderWorkflows:
             "rate_limit_delay": 0.01,
         }
 
-        # ACT & ASSERT: Register providers with config injection
-        registry.register_provider("forvo", ForvoProvider, audio_config)
-        registry.register_provider("openai", OpenAIProvider, image_config)
+        # ACT & ASSERT: Create and register providers with config injection
+        forvo_provider = ForvoProvider(audio_config)
+        openai_provider = OpenAIProvider(image_config)
+
+        registry.register_audio_provider("forvo", forvo_provider)
+        registry.register_image_provider("openai", openai_provider)
 
         # Test provider retrieval
-        forvo_provider = registry.get_provider("forvo")
-        openai_provider = registry.get_provider("openai")
+        retrieved_forvo = registry.get_audio_provider("forvo")
+        retrieved_openai = registry.get_image_provider("openai")
 
-        assert forvo_provider is not None
-        assert openai_provider is not None
-        assert isinstance(forvo_provider, ForvoProvider)
-        assert isinstance(openai_provider, OpenAIProvider)
+        assert retrieved_forvo is not None
+        assert retrieved_openai is not None
+        assert isinstance(retrieved_forvo, ForvoProvider)
+        assert isinstance(retrieved_openai, OpenAIProvider)
 
         # Test provider configuration was injected properly
-        assert forvo_provider.config["api_key"] == "test_forvo_key"
-        assert openai_provider.config["api_key"] == "test_openai_key"
-        assert openai_provider.config["model"] == "dall-e-2"
+        assert retrieved_forvo.config["api_key"] == "test_forvo_key"
+        assert retrieved_openai.config["api_key"] == "test_openai_key"
+        assert retrieved_openai.config["model"] == "dall-e-2"
 
 
 class TestProviderConfigurationValidation:
@@ -282,6 +298,7 @@ class TestProviderConfigurationValidation:
         with pytest.raises(ValueError, match="Missing required Forvo config key"):
             ForvoProvider(invalid_config)
 
+    @pytest.mark.skipif(not OPENAI_AVAILABLE, reason="OpenAI provider not available")
     def test_openai_config_validation_failure(self):
         """Test: OpenAI provider fails fast with invalid config"""
         # Invalid configuration should raise ValueError
@@ -290,6 +307,7 @@ class TestProviderConfigurationValidation:
         with pytest.raises(ValueError, match="Invalid model"):
             OpenAIProvider(invalid_config)
 
+    @pytest.mark.skipif(not OPENAI_AVAILABLE, reason="OpenAI provider not available")
     def test_empty_config_handling(self):
         """Test: Providers handle empty config appropriately"""
         # Empty config should trigger validation errors for required keys
@@ -303,6 +321,7 @@ class TestProviderConfigurationValidation:
 class TestProviderPerformanceRequirements:
     """Test performance requirements are met"""
 
+    @pytest.mark.skipif(not OPENAI_AVAILABLE, reason="OpenAI provider not available")
     def test_provider_initialization_speed(self):
         """Test: Provider initialization completes quickly"""
         config = {

@@ -263,8 +263,8 @@ class TestPrintFunctions:
         print_error("An error occurred")
 
         captured = capsys.readouterr()
-        assert "❌" in captured.out
-        assert "An error occurred" in captured.out
+        assert "❌" in captured.err
+        assert "An error occurred" in captured.err
 
     def test_print_warning(self, capsys):
         """Test warning message printing."""
@@ -292,7 +292,7 @@ class TestPrintFunctions:
         captured = capsys.readouterr()
         # Should contain the emoji icons even with empty messages
         assert "✅" in captured.out
-        assert "❌" in captured.out
+        assert "❌" in captured.err
         assert "⚠️" in captured.out
         assert "ℹ️" in captured.out
 
@@ -317,6 +317,6 @@ class TestPrintFunctions:
 
         captured = capsys.readouterr()
         assert "成功" in captured.out
-        assert "错误" in captured.out
+        assert "错误" in captured.err
         assert "警告" in captured.out
         assert "信息" in captured.out

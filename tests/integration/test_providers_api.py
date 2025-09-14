@@ -27,11 +27,24 @@ class TestProviderAPIIntegration:
             "rate_limit_delay": 4.0,  # Respect OpenAI rate limits
         }
 
-        provider = OpenAIProvider(config)
-
         if api_key.startswith("test-"):
             # Mock the OpenAI client for test environment
-            with patch("openai.OpenAI") as mock_openai_class:
+            # First ensure openai module exists for patching
+            import sys
+            from types import ModuleType
+
+            if "openai" not in sys.modules:
+                openai_mock = ModuleType("openai")
+                openai_mock.OpenAI = type("MockOpenAI", (), {})
+                sys.modules["openai"] = openai_mock
+
+            with (
+                patch("openai.OpenAI") as mock_openai_class,
+                patch("src.providers.image.openai_provider.OPENAI_AVAILABLE", True),
+                patch(
+                    "src.providers.image.openai_provider.openai", sys.modules["openai"]
+                ),
+            ):
                 mock_client = Mock()
                 mock_openai_class.return_value = mock_client
 
@@ -42,11 +55,17 @@ class TestProviderAPIIntegration:
                 ]
                 mock_client.images.generate.return_value = mock_response
 
+                # Create provider after setting up mocks
+                provider = OpenAIProvider(config)
+
                 # Mock image download
                 with patch("requests.get") as mock_download:
-                    mock_download.return_value = Mock(
-                        status_code=200, content=b"mock_image_data_12345"
-                    )
+                    mock_response = Mock()
+                    mock_response.status_code = 200
+                    mock_response.content = b"mock_image_data_12345"
+                    mock_response.iter_content.return_value = [b"mock_image_data_12345"]
+                    mock_response.raise_for_status.return_value = None
+                    mock_download.return_value = mock_response
 
                     request = MediaRequest(
                         type="image",
@@ -72,6 +91,7 @@ class TestProviderAPIIntegration:
                     assert call_kwargs["size"] == "1024x1024"
         else:
             # Real API integration test (only if API key is available)
+            provider = OpenAIProvider(config)
             request = MediaRequest(
                 type="image",
                 content="A simple test image: red circle on white background",
@@ -216,10 +236,11 @@ class TestProviderAPIIntegration:
                     ]
                 },
             )
-            mock_download.return_value = Mock(
-                status_code=200, iter_content=Mock(return_value=[b"audio"])
-            )
-            mock_download.return_value.raise_for_status.return_value = None
+            mock_response = Mock()
+            mock_response.status_code = 200
+            mock_response.iter_content.return_value = [b"audio"]
+            mock_response.raise_for_status.return_value = None
+            mock_download.return_value = mock_response
 
             # Setup OpenAI mocks
             mock_client = Mock()
@@ -230,10 +251,15 @@ class TestProviderAPIIntegration:
 
             with patch("requests.get") as mock_img_download, patch(
                 "pathlib.Path.mkdir"
-            ), patch("builtins.open", create=True):
-                mock_img_download.return_value = Mock(
-                    status_code=200, content=b"image_data"
-                )
+            ), patch("builtins.open", create=True), patch(
+                "src.providers.image.openai_provider.OPENAI_AVAILABLE", True
+            ):
+                mock_img_response = Mock()
+                mock_img_response.status_code = 200
+                mock_img_response.content = b"image_data"
+                mock_img_response.iter_content.return_value = [b"image_data"]
+                mock_img_response.raise_for_status.return_value = None
+                mock_img_download.return_value = mock_img_response
 
                 # Test Forvo rate limiting
                 start_time = time.time()
@@ -337,19 +363,22 @@ class TestProviderConfigurationIntegration:
             "rate_limit_delay": 4.0,
         }
 
-        # Register providers with configuration
-        registry.register_provider("forvo", ForvoProvider, forvo_config)
-        registry.register_provider("openai", OpenAIProvider, openai_config)
+        # Create providers with configuration and register them
+        forvo_provider = ForvoProvider(forvo_config)
+        openai_provider = OpenAIProvider(openai_config)
+
+        registry.register_audio_provider("forvo", forvo_provider)
+        registry.register_image_provider("openai", openai_provider)
 
         # Retrieve and verify configuration injection
-        forvo_provider = registry.get_provider("forvo")
-        openai_provider = registry.get_provider("openai")
+        retrieved_forvo = registry.get_audio_provider("forvo")
+        retrieved_openai = registry.get_image_provider("openai")
 
-        assert forvo_provider.config["api_key"] == "test-forvo-key"
-        assert forvo_provider.config["country_priorities"] == ["MX", "ES"]
+        assert retrieved_forvo.config["api_key"] == "test-forvo-key"
+        assert retrieved_forvo.config["country_priorities"] == ["MX", "ES"]
 
-        assert openai_provider.config["api_key"] == "test-openai-key"
-        assert openai_provider.config["model"] == "dall-e-2"
+        assert retrieved_openai.config["api_key"] == "test-openai-key"
+        assert retrieved_openai.config["model"] == "dall-e-2"
 
     def test_provider_reconfiguration(self):
         """Test: Providers can be reconfigured without registry restart"""

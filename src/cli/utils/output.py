@@ -47,7 +47,9 @@ def print_success(message: str) -> None:
 
 def print_error(message: str) -> None:
     """Print error message with icon."""
-    print(f"❌ {message}")
+    import sys
+
+    print(f"❌ {message}", file=sys.stderr)
 
 
 def print_warning(message: str) -> None:

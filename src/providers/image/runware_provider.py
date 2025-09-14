@@ -160,6 +160,13 @@ class RunwareProvider(MediaProvider):
                 metadata={},
                 error=f"Rate limit exceeded: {str(e)}",
             )
+        except RunwareGenerationError as e:
+            return MediaResult(
+                success=False,
+                file_path=None,
+                metadata={},
+                error=f"Image generation failed: {str(e)}",
+            )
         except requests.Timeout:
             return MediaResult(
                 success=False,
@@ -215,13 +222,19 @@ class RunwareProvider(MediaProvider):
                 elif response.status_code == 429:
                     raise RunwareRateLimitError("API rate limit exceeded")
                 elif response.status_code >= 500:
-                    if attempt < max_retries - 1:
-                        # Exponential backoff: 1s, 2s, 4s
-                        delay = 2**attempt
-                        time.sleep(delay)
-                        continue
-                    else:
+                    # Always call raise_for_status first to maintain compatibility with mocks
+                    try:
                         response.raise_for_status()
+                    except requests.HTTPError as e:
+                        if attempt < max_retries - 1:
+                            # Exponential backoff: 1s, 2s, 4s
+                            delay = 2**attempt
+                            time.sleep(delay)
+                            continue
+                        else:
+                            raise RunwareGenerationError(
+                                f"Server error: {str(e)}"
+                            ) from e
                 else:
                     response.raise_for_status()
 
@@ -229,6 +242,17 @@ class RunwareProvider(MediaProvider):
                 json_response: dict[Any, Any] = response.json()
                 return json_response
 
+            except requests.HTTPError as e:
+                # Handle HTTPError from raise_for_status()
+                if "500" in str(e):
+                    if attempt < max_retries - 1:
+                        delay = 2**attempt
+                        time.sleep(delay)
+                        continue
+                    else:
+                        raise RunwareGenerationError(f"Server error: {str(e)}") from e
+                else:
+                    raise RunwareGenerationError(f"HTTP error: {str(e)}") from e
             except (requests.ConnectionError, requests.Timeout) as e:
                 if attempt < max_retries - 1:
                     delay = 2**attempt

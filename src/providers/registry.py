@@ -433,20 +433,29 @@ class ProviderRegistry:
                         )
 
                     pipelines = config.get("pipelines", [])
-                    provider = self._create_media_provider(
-                        provider_type, provider_name, config
-                    )
-                    self._register_provider_by_type(
-                        provider_type, provider_name, provider
-                    )
-                    self.set_pipeline_assignments(
-                        provider_type, provider_name, pipelines
-                    )
+                    try:
+                        provider = self._create_media_provider(
+                            provider_type, provider_name, config
+                        )
+                        self._register_provider_by_type(
+                            provider_type, provider_name, provider
+                        )
+                        self.set_pipeline_assignments(
+                            provider_type, provider_name, pipelines
+                        )
 
-                    provider_type_name = config.get("type", provider_name)
-                    self.logger.info(
-                        f"{ICONS['check']} Registered {provider_type_name} {provider_type} provider '{provider_name}' for pipelines {pipelines}"
-                    )
+                        provider_type_name = config.get("type", provider_name)
+                        self.logger.info(
+                            f"{ICONS['check']} Registered {provider_type_name} {provider_type} provider '{provider_name}' for pipelines {pipelines}"
+                        )
+                    except (ValueError, TypeError) as e:
+                        # Provider configuration is incomplete or invalid
+                        # Log warning but don't fail the entire registry initialization
+                        provider_type_name = config.get("type", provider_name)
+                        self.logger.warning(
+                            f"{ICONS['warning']} Failed to register {provider_type_name} {provider_type} provider '{provider_name}': {str(e)}"
+                        )
+                        # Continue with other providers rather than failing completely
 
     @classmethod
     @log_performance("fluent_forever.providers.registry")

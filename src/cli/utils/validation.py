@@ -27,10 +27,12 @@ def validate_arguments(command: str, args: Any) -> list[str]:
             errors.append("Either --stage or --phase is required for run command")
 
         # Validate stage-specific arguments (skip for dry-run and phase execution)
+        # Note: Some arguments may not be implemented in the parser yet
         if not getattr(args, "dry_run", False) and args.stage:
-            if args.stage == "prepare" and not args.words:
+            # Only validate arguments that are actually defined in the parser
+            if hasattr(args, "words") and args.stage == "prepare" and not args.words:
                 errors.append("--words is required for prepare stage")
-            elif args.stage == "media" and not args.cards:
+            elif hasattr(args, "cards") and args.stage == "media" and not args.cards:
                 errors.append("--cards is required for media stage")
 
     return errors

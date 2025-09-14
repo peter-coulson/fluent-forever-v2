@@ -122,7 +122,7 @@ class TestCLIRegistryIntegration:
         assert result == 1  # Error exit code
 
         captured = capsys.readouterr()
-        assert "not found" in captured.out
+        assert "not found" in captured.err
 
     def test_info_command_with_stages(
         self, populated_registry, empty_config, mock_args, capsys

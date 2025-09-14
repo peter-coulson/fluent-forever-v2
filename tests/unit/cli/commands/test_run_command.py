@@ -141,7 +141,7 @@ class TestRunCommand:
 
         assert result == 1
         captured = capsys.readouterr()
-        assert "not found" in captured.out
+        assert "not found" in captured.err
 
     def test_execute_validation_errors(self, capsys):
         """Test run with CLI validation errors."""
@@ -164,7 +164,7 @@ class TestRunCommand:
 
             assert result == 1
             captured = capsys.readouterr()
-            assert "Validation error" in captured.out
+            assert "Validation error" in captured.err
 
     def test_execute_pipeline_validation_errors(self, capsys):
         """Test run with pipeline-specific validation errors."""
@@ -188,7 +188,7 @@ class TestRunCommand:
         assert result == 1
         assert pipeline.validate_called
         captured = capsys.readouterr()
-        assert "Pipeline validation error" in captured.out
+        assert "Pipeline validation error" in captured.err
 
     def test_execute_dry_run(self, capsys):
         """Test dry run execution."""
@@ -293,7 +293,7 @@ class TestRunCommand:
 
         assert result == 1
         captured = capsys.readouterr()
-        assert "Pipeline execution failed" in captured.out
+        assert "Pipeline execution failed" in captured.err
         assert "Error 1" in captured.out
         assert "Error 2" in captured.out
 
@@ -319,8 +319,8 @@ class TestRunCommand:
 
         assert result == 1
         captured = capsys.readouterr()
-        assert "Error executing stage" in captured.out
-        assert "Stage execution error" in captured.out
+        assert "Error executing stage" in captured.err
+        assert "Stage execution error" in captured.err
 
     def test_create_context(self):
         """Test context creation."""

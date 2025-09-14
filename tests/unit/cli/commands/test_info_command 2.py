@@ -87,7 +87,7 @@ class TestInfoCommand:
 
         assert result == 1
         captured = capsys.readouterr()
-        assert "not found" in captured.out
+        assert "not found" in captured.err
 
     def test_execute_existing_pipeline(self, capsys):
         """Test info for existing pipeline."""
@@ -220,8 +220,8 @@ class TestInfoCommand:
 
         assert result == 1
         captured = capsys.readouterr()
-        assert "not found" in captured.out
-        assert "Registry error" in captured.out
+        assert "not found" in captured.err
+        assert "Registry error" in captured.err
 
     def test_execute_stage_info_with_dependencies(self, capsys):
         """Test stage info display with dependencies."""

@@ -278,6 +278,76 @@ def temp_workspace():
         yield temp_path
 
 
+@pytest.fixture(autouse=True)
+def isolate_media_downloads(tmp_path, monkeypatch):
+    """Global fixture to isolate all media downloads to temp directories"""
+    # Create temp media directories
+    temp_media = tmp_path / "test_media"
+    temp_images = temp_media / "images"
+    temp_audio = temp_media / "audio"
+
+    temp_media.mkdir()
+    temp_images.mkdir()
+    temp_audio.mkdir()
+
+    # Patch all media provider download methods to use temp directories
+    def mock_download_image_openai(self, url, output_path=None):
+        if output_path is None:
+            import re
+
+            safe_name = re.sub(r"[^a-zA-Z0-9_-]", "_", str(hash(url))[:8])
+            output_path = temp_images / f"openai_{safe_name}.jpg"
+        else:
+            # Redirect to temp directory while preserving filename
+            output_path = temp_images / output_path.name
+
+        # Create mock file with sufficient size for validation
+        output_path.touch()
+        output_path.write_bytes(b"mock_image_data" * 1000)  # 15KB mock file
+        return output_path
+
+    def mock_download_image_runware(self, url, output_path=None):
+        if output_path is None:
+            import hashlib
+
+            prompt_hash = hashlib.md5(url.encode()).hexdigest()[:8]
+            output_path = temp_images / f"runware_{prompt_hash}.png"
+        else:
+            # Redirect to temp directory while preserving filename
+            output_path = temp_images / output_path.name
+
+        # Create mock file with sufficient size for validation
+        output_path.touch()
+        output_path.write_bytes(b"mock_image_data" * 1000)  # 15KB mock file
+        return output_path
+
+    # Mock validation to always pass for downloaded files
+    def mock_validate_file(self, file_path):
+        return file_path.exists() and file_path.stat().st_size > 100
+
+    # Apply patches for both import patterns (src. and direct imports)
+    with patch(
+        "src.providers.image.openai_provider.OpenAIProvider._download_image",
+        mock_download_image_openai,
+    ), patch(
+        "src.providers.image.runware_provider.RunwareProvider._download_image",
+        mock_download_image_runware,
+    ), patch(
+        "providers.image.openai_provider.OpenAIProvider._download_image",
+        mock_download_image_openai,
+    ), patch(
+        "providers.image.runware_provider.RunwareProvider._download_image",
+        mock_download_image_runware,
+    ), patch(
+        "src.providers.image.runware_provider.RunwareProvider._validate_downloaded_file",
+        mock_validate_file,
+    ), patch(
+        "providers.image.runware_provider.RunwareProvider._validate_downloaded_file",
+        mock_validate_file,
+    ):
+        yield temp_media
+
+
 def create_test_config(temp_path: Path):
     """Create minimal test config.json"""
     config = {

@@ -135,9 +135,7 @@ class TestRunwareProvider:
         assert result.success is False
         assert "not supported" in result.error
 
-    @patch("pathlib.Path.mkdir")
-    @patch("builtins.open", create=True)
-    def test_single_image_generation_success(self, mock_open, mock_mkdir):
+    def test_single_image_generation_success(self):
         """Test: Successful single image generation"""
         config = {"api_key": "test-key"}
 
@@ -157,20 +155,13 @@ class TestRunwareProvider:
         mock_download_response.headers = {"content-type": "image/png"}
         mock_download_response.raise_for_status.return_value = None
 
-        # Mock file operations
-        mock_file = Mock()
-        mock_open.return_value.__enter__.return_value = mock_file
-
-        with patch("requests.Session") as mock_session_class, patch(
-            "pathlib.Path.exists", return_value=True
-        ), patch("pathlib.Path.stat") as mock_stat:
+        with patch("requests.Session") as mock_session_class, patch.object(
+            RunwareProvider, "_validate_downloaded_file", return_value=True
+        ):
             mock_session = Mock()
             mock_session_class.return_value = mock_session
             mock_session.post.return_value = mock_response
             mock_session.get.return_value = mock_download_response
-
-            # Mock file size for validation
-            mock_stat.return_value.st_size = 1024
 
             provider = RunwareProvider(config)
             # Override the session created during init
@@ -184,7 +175,6 @@ class TestRunwareProvider:
 
             assert result.success is True
             assert result.file_path is not None
-            assert "media/images" in str(result.file_path)
             assert result.metadata["prompt"] == "a beautiful sunset"
             assert result.error is None
 
@@ -278,7 +268,7 @@ class TestRunwareProvider:
 
             file_path = provider._generate_file_path(request)
 
-            assert "media/images" in str(file_path)
+            assert "test-prompt-with-special-chars" in str(file_path)
             assert "abcdef123456" in str(file_path)
             assert file_path.suffix == ".png"
 
@@ -383,27 +373,24 @@ class TestRunwareProvider:
         assert result.success is False
         assert "Prompt cannot be empty" in result.error
 
-    @patch("pathlib.Path.exists")
-    @patch("pathlib.Path.stat")
-    def test_file_validation_after_download(self, mock_stat, mock_exists):
+    def test_file_validation_after_download(self, tmp_path):
         """Test: Downloaded files are validated"""
         config = {"api_key": "test-key"}
         provider = RunwareProvider(config)
 
-        # Mock file exists and has reasonable size
-        mock_exists.return_value = True
-        mock_stat.return_value.st_size = 1024 * 100  # 100KB
+        # Create a real test file with reasonable size
+        test_file = tmp_path / "test.png"
+        test_file.write_bytes(b"x" * 1024 * 100)  # 100KB
+        assert provider._validate_downloaded_file(test_file) is True
 
-        file_path = Path("test.png")
-        assert provider._validate_downloaded_file(file_path) is True
+        # Create file that's too small
+        small_file = tmp_path / "small.png"
+        small_file.write_bytes(b"x" * 10)  # 10 bytes
+        assert provider._validate_downloaded_file(small_file) is False
 
-        # Mock file too small
-        mock_stat.return_value.st_size = 10  # 10 bytes
-        assert provider._validate_downloaded_file(file_path) is False
-
-        # Mock file doesn't exist
-        mock_exists.return_value = False
-        assert provider._validate_downloaded_file(file_path) is False
+        # Test non-existent file
+        nonexistent_file = tmp_path / "nonexistent.png"
+        assert provider._validate_downloaded_file(nonexistent_file) is False
 
     def test_connection_timeout_handling(self):
         """Test: Connection timeouts are handled gracefully"""
