@@ -32,7 +32,7 @@
 
 ### RunwareProvider (`src/providers/image/runware_provider.py`)
 - **Service**: Runware image generation API
-- **Configuration**: Retrieved from registry factory method (`src/providers/registry.py:203`)
+- **Configuration**: Retrieved from registry factory method (`src/providers/registry.py:453`)
 - **Implementation**: Referenced but not analyzed in current session
 
 ## Sync Providers

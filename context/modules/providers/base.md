@@ -21,11 +21,14 @@ Core interface for data persistence with permission system:
 
 ### MediaProvider (`src/providers/base/media_provider.py:46`)
 
-Interface for media generation with typed requests:
+Configuration injection pattern for media generation:
+- `__init__(config: dict | None)` - Constructor with configuration injection and fail-fast validation
+- `validate_config(config: dict) -> None` - Abstract configuration validation (fail-fast pattern)
+- `_setup_from_config() -> None` - Provider initialization from validated configuration
 - `supported_types: list[str]` - Media types ("audio", "image")
 - `generate_media(request: MediaRequest) -> MediaResult` - Core generation method
+- `generate_batch(requests: list) -> list[MediaResult]` - Batch processing with rate limiting
 - `get_cost_estimate(requests: list) -> dict` - Batch cost calculation
-- Convenience methods: `generate_image()`, `generate_audio()`
 
 **Request/Result Types:**
 - `MediaRequest` (`src/providers/base/media_provider.py:14`) - Type, content, params, output path

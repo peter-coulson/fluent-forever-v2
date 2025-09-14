@@ -21,7 +21,7 @@ class CustomProvider(DataProvider):
 ```
 
 ### 3. Register Provider and Configure Pipeline Access
-Add to `src/providers/registry.py:291` factory method and configure with named provider format:
+Add to `MEDIA_PROVIDER_REGISTRY` mapping for dynamic loading and configure with named provider format:
 ```json
 {
   "providers": {
@@ -48,9 +48,10 @@ Add to `src/providers/registry.py:291` factory method and configure with named p
 - **Permission System**: `is_read_only`, `managed_files`, `validate_file_access()`, `_check_write_permission()`
 - **Implementation example**: `JSONDataProvider` with read-only and file access controls
 
-### MediaProvider (`src/providers/base/media_provider.py:44`)
-**Audio/image generation from external APIs**
-- **Interface**: `generate_media()`, `get_cost_estimate()`, `supported_types`
+### MediaProvider (`src/providers/base/media_provider.py:46`)
+**Audio/image generation with configuration injection**
+- **Configuration Pattern**: Constructor injection with `validate_config()` and `_setup_from_config()`
+- **Core Interface**: `generate_media()`, `generate_batch()`, `get_cost_estimate()`, `supported_types`
 - **Request/Result types**: `MediaRequest`, `MediaResult` for structured communication
 
 ### SyncProvider (`src/providers/base/sync_provider.py:47`)

@@ -12,10 +12,11 @@ The provider system abstracts external service integrations using pluggable comp
 - Database connections and query interfaces
 
 ### Media Providers
-**Audio/image generation from external APIs**
+**Audio/image generation with configuration injection pattern**
+- **Configuration Injection**: Constructor-based config with fail-fast validation
+- **Batch Processing**: Sequential processing with configurable rate limiting
 - Text-to-speech services (Forvo, ElevenLabs, Azure)
 - AI image generation (OpenAI, Runware)
-- Media format conversion and optimization
 
 ### Sync Providers
 **Integration with flashcard and learning systems**
@@ -25,11 +26,13 @@ The provider system abstracts external service integrations using pluggable comp
 
 ## Registry & Factory Pattern
 
-**Central provider management with pipeline access control** (`src/providers/registry.py:25`):
+**Central provider management with dynamic loading and pipeline access control** (`src/providers/registry.py:25`):
+- **Dynamic Loading**: `MEDIA_PROVIDER_REGISTRY` mapping enables runtime provider instantiation
+- **Configuration Processing**: `_extract_provider_configs()` validates and organizes provider configurations by type
 - Type-specific registration for each provider category
 - **Pipeline Assignment System**: Named providers with configurable pipeline restrictions
 - **Filtered Access**: `get_providers_for_pipeline()` returns only authorized providers
-- Configuration-driven provider instantiation with required `pipelines` field
+- Configuration injection with fail-fast validation and provider setup patterns
 - Global singleton access for system-wide availability
 
 ## Pipeline Integration

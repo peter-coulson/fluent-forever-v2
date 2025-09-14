@@ -54,14 +54,15 @@
 
 ## Provider System
 
-### Provider Registry (`src/providers/registry.py:20`)
-**Central management for external service integrations with pipeline-based access control**
-- Factory pattern for creating provider instances from named configuration
+### Provider Registry (`src/providers/registry.py:35`)
+**Central management with dynamic loading and configuration injection**
+- **Dynamic Loading**: `MEDIA_PROVIDER_REGISTRY` mapping enables runtime provider instantiation via `_create_media_provider()`
+- **Configuration Processing**: `_extract_provider_configs()` validates and organizes provider configurations by type
+- **Error Handling**: Strict validation with clear error messages for unsupported provider types
 - Type-specific registries: data, media (audio/image), sync providers
 - **Pipeline Assignment System**: Providers can be restricted to specific pipelines via `pipelines` config
 - **Filtered Access**: `get_providers_for_pipeline()` returns only authorized providers
 - **File Conflict Validation**: `_validate_file_conflicts()` prevents overlapping data provider file assignments
-- **Enhanced Registration**: `register_data_provider()` accepts config parameter for validation
 - Global singleton access via `get_provider_registry()`
 
 ### Provider Types
@@ -69,7 +70,12 @@
   - **Permission Control**: `is_read_only` property, `set_read_only()` method for write protection
   - **File Management**: `managed_files` property, `set_managed_files()` for file-specific access control
   - **Access Validation**: `validate_file_access()`, `_check_write_permission()` methods
-- **MediaProvider** (`src/providers/base/media_provider.py:44`): Audio/image generation APIs
+- **MediaProvider** (`src/providers/base/media_provider.py:46`): **Configuration injection pattern for media generation services**
+  - **Constructor Injection**: `__init__(config)` with fail-fast validation via abstract `validate_config()`
+  - **Setup Pattern**: `_setup_from_config()` initializes provider state from validated configuration
+  - **Batch Processing**: `generate_batch()` with sequential processing and configurable rate limiting
+  - **Core Methods**: `generate_media()`, `get_cost_estimate()`, `supports_type()`, `test_connection()`
+  - **Abstract Interface**: Concrete providers implement validation, media generation, and cost estimation
 - **SyncProvider** (`src/providers/base/sync_provider.py:47`): Anki, flashcard system integration
 
 ## Configuration System (`src/core/config.py:13`)

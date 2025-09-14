@@ -2,9 +2,11 @@
 
 ## Registry Architecture
 
-### ProviderRegistry Class (`src/providers/registry.py:20`)
+### ProviderRegistry Class (`src/providers/registry.py:35`)
 
-Central registry managing provider instances by category:
+Central registry with dynamic loading and configuration injection:
+- **Dynamic Loading**: `MEDIA_PROVIDER_REGISTRY` mapping enables runtime provider instantiation
+- **Configuration Processing**: `_extract_provider_configs()` validates and organizes provider configurations
 - **Data Providers**: `_data_providers` dictionary with enhanced registration
 - **Audio Providers**: `_audio_providers` dictionary
 - **Image Providers**: `_image_providers` dictionary
@@ -25,9 +27,9 @@ Central registry managing provider instances by category:
 
 **Default Naming**: Most providers registered with name `"default"` for consistent lookup
 
-## Factory Method (`src/providers/registry.py:291`)
+## Dynamic Loading System
 
-`from_config(config: Config) -> ProviderRegistry` creates populated registry:
+`from_config(config: Config) -> ProviderRegistry` with dynamic provider instantiation:
 
 ### Data Provider Setup
 - **Named Providers**: JSONDataProvider instances with pipeline assignments and permission control
@@ -35,10 +37,11 @@ Central registry managing provider instances by category:
 - **File Conflict Validation**: Automatically validates provider file assignments during creation
 - **Fallback**: Creates JSONDataProvider in current directory when no config
 
-### Media Provider Setup (Optional)
-- **Audio**: ForvoProvider instances with pipeline restrictions
-- **Image**: RunwareProvider or OpenAIProvider instances with pipeline assignments
-- **Conditional**: Only created when configuration sections present
+### Media Provider Setup (Dynamic)
+- **Dynamic Loading**: Uses `MEDIA_PROVIDER_REGISTRY` mapping for runtime instantiation via `_create_media_provider()`
+- **Configuration Injection**: Providers created with configuration injection and fail-fast validation
+- **Error Handling**: Strict validation with clear error messages for unsupported provider types
+- **Type Detection**: Provider class determined by `type` field in configuration
 
 ### Sync Provider Setup (Required)
 - **Named Providers**: AnkiProvider instances with configurable pipeline access

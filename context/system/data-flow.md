@@ -6,7 +6,7 @@
 1. **CLI Entry**: Command parsing and validation (`src/cli/`)
 2. **Logging Setup**: `setup_logging()` with verbose mode and environment configuration
 3. **Config Loading**: `Config.load()` with environment variable substitution
-4. **Provider Registry**: `ProviderRegistry.from_config()` initializes providers with pipeline assignments
+4. **Provider Registry**: Dynamic provider instantiation via `_create_media_provider()` with configuration injection, fail-fast validation, and pipeline assignments
 5. **Context Creation**: `PipelineContext` with `project_root`, `pipeline_name`
 6. **Provider Filtering**: `registry.get_providers_for_pipeline()` injects only authorized providers
 7. **Pipeline Selection**: Concrete pipeline instance (vocabulary/conjugation)
@@ -54,7 +54,7 @@ Phase Validation → Sequential Stage Execution → Result Aggregation → Fail-
 **Error Handling**: Provider failures captured in `StageResult.failure()`
 
 ### Configuration Flow
-- **Load Time**: JSON config → environment substitution → enhanced provider initialization
+- **Load Time**: JSON config → environment substitution → dynamic provider loading with configuration injection and fail-fast validation
 - **File Conflict Validation**: Registry validates data provider file assignments during initialization
 - **Permission Setup**: Data providers configured with read-only and file access restrictions
 - **Runtime**: `context.config` accessible to all stages
