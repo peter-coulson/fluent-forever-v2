@@ -16,7 +16,7 @@
 
 ## Media Providers
 
-### ForvoProvider (`src/providers/audio/forvo_provider.py:20`)
+### ForvoProvider (`src/providers/audio/forvo_provider.py:24`)
 - **Service**: Forvo pronunciation API for Spanish audio
 - **Authentication**: `FORVO_API_KEY` environment variable
 - **Configuration**: Country priorities for pronunciation selection (`src/providers/audio/forvo_provider.py:57`)
@@ -30,10 +30,16 @@
 - **Cost Structure**: $0.02 per request estimate
 - **Integration**: Inherits MediaProvider interface
 
-### RunwareProvider (`src/providers/image/runware_provider.py`)
-- **Service**: Runware image generation API
-- **Configuration**: Retrieved from registry factory method (`src/providers/registry.py:453`)
-- **Implementation**: Referenced but not analyzed in current session
+### RunwareProvider (`src/providers/image/runware_provider.py:34`)
+- **Service**: Runware AI image generation API with Bearer token authentication
+- **Authentication**: `api_key` required, Bearer token header authentication
+- **Configuration**:
+  - Required: `api_key` (environment variable: `RUNWARE_API_KEY`)
+  - Optional: `model` (default: "runware:100@1"), `image_size` (default: "512x512")
+  - Optional: `steps` (20), `guidance` (7), `rate_limit_delay` (1.0s), `timeout` (30s)
+- **Error Classes**: `RunwareError`, `RunwareAuthError`, `RunwareRateLimitError`, `RunwareGenerationError`
+- **Features**: Session management, rate limiting, model format validation, batch processing
+- **Output**: Generates images to specified output paths with metadata tracking
 
 ## Sync Providers
 

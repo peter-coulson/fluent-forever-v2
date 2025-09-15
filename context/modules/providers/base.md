@@ -27,12 +27,14 @@ Configuration injection pattern for media generation:
 - `_setup_from_config() -> None` - Provider initialization from validated configuration
 - `supported_types: list[str]` - Media types ("audio", "image")
 - `generate_media(request: MediaRequest) -> MediaResult` - Core generation method
+- `generate_image(prompt: str, output_path: Path) -> MediaResult` - Image generation convenience method
+- `generate_audio(text: str, output_path: Path) -> MediaResult` - Audio generation convenience method
 - `generate_batch(requests: list) -> list[MediaResult]` - Batch processing with rate limiting
 - `get_cost_estimate(requests: list) -> dict` - Batch cost calculation
 
 **Request/Result Types:**
-- `MediaRequest` (`src/providers/base/media_provider.py:14`) - Type, content, params, output path
-- `MediaResult` (`src/providers/base/media_provider.py:31`) - Success flag, file path, metadata, error
+- `MediaRequest` (`src/providers/base/media_provider.py:16`) - Type, content, params, **mandatory output_path**
+- `MediaResult` (`src/providers/base/media_provider.py:33`) - Success flag, file path, metadata, error
 
 ### SyncProvider (`src/providers/base/sync_provider.py:49`)
 

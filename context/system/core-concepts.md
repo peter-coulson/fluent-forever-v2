@@ -44,12 +44,14 @@
 - **Properties**: `status`, `message`, `data`, `errors`, `success`
 
 ## Logging System (`src/utils/logging_config.py`)
-**Comprehensive logging infrastructure with performance monitoring**
+**Comprehensive logging infrastructure with performance monitoring and test environment detection**
+- **Configuration Templates**: `get_logging_config()` provides dictConfig-based setup templates
+- **Test Environment Detection**: Automatic test environment detection with file logging disabled
 - Context-aware logging with pipeline-specific identification via `get_context_logger()`
 - Performance timing decorators for method execution monitoring via `log_performance()`
 - Environment-based configuration with module-specific log levels
 - Colored console output with icons for visual status indicators
-- **Key functions**: `setup_logging()`, `get_logger()`, `get_context_logger()`, `log_performance()`
+- **Key functions**: `setup_logging()`, `get_logging_config()`, `get_logger()`, `get_context_logger()`, `log_performance()`
 - **Components**: `ColoredFormatter`, `PerformanceFormatter`, `ContextualError`
 
 ## Provider System
@@ -74,9 +76,10 @@
   - **Constructor Injection**: `__init__(config)` with fail-fast validation via abstract `validate_config()`
   - **Setup Pattern**: `_setup_from_config()` initializes provider state from validated configuration
   - **Batch Processing**: `generate_batch()` with sequential processing and configurable rate limiting
-  - **Core Methods**: `generate_media()`, `get_cost_estimate()`, `supports_type()`, `test_connection()`
+  - **Mandatory Output Paths**: All media generation requires `output_path: Path` parameter
+  - **Core Methods**: `generate_media()`, `generate_image(prompt, output_path)`, `generate_audio(text, output_path)`
   - **Abstract Interface**: Concrete providers implement validation, media generation, and cost estimation
-- **SyncProvider** (`src/providers/base/sync_provider.py:47`): Anki, flashcard system integration
+- **SyncProvider** (`src/providers/base/sync_provider.py:49`): Anki, flashcard system integration
 
 ## Configuration System (`src/core/config.py:13`)
 **Environment-aware settings management**

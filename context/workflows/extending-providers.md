@@ -54,7 +54,7 @@ Add to `MEDIA_PROVIDER_REGISTRY` mapping for dynamic loading and configure with 
 - **Core Interface**: `generate_media()`, `generate_batch()`, `get_cost_estimate()`, `supported_types`
 - **Request/Result types**: `MediaRequest`, `MediaResult` for structured communication
 
-### SyncProvider (`src/providers/base/sync_provider.py:47`)
+### SyncProvider (`src/providers/base/sync_provider.py:49`)
 **Sync content to flashcard systems**
 - **Interface**: `sync_cards()`, `sync_templates()`, `sync_media()`, `test_connection()`
 - **Request/Result types**: `SyncRequest`, `SyncResult` for structured operations

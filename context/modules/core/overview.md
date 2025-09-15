@@ -26,7 +26,9 @@ Implements the fundamental abstractions for the pipeline system: base classes fo
 - **Error propagation**: Stage errors bubble up through pipeline execution
 
 ### Logging Integration (`src/utils/logging_config.py`)
-**Context-aware logging with performance monitoring**
+**Context-aware logging with performance monitoring and environment detection**
+- **Configuration Templates**: `get_logging_config()` for dictConfig-based setup
+- **Test Environment Detection**: Automatic detection with file logging disabled in tests
 - **Stage logging**: Automatic logger creation for each stage instance
 - **Context logging**: Pipeline-specific loggers via `get_context_logger()`
 - **Performance tracking**: Built-in timing for stage execution
