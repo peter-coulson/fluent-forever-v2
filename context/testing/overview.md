@@ -18,4 +18,4 @@ Strategic testing guidance framework implementing Risk-Based Testing principles 
 - **Framework Foundations**: `meta/overview.md` → decision frameworks and maintenance models
 - **Testing Strategy**: `strategy/overview.md` → risk-based patterns and scaffolding lifecycle
 - **Core Infrastructure**: `core-infrastructure/overview.md` → testing strategies for core system components
-- **Test Structure**: `core-infrastructure/test-structure.md` → proposed test folder organization
+- **Test Structure**: `strategy/test-organization.md` → proposed test folder organization
