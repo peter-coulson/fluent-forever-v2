@@ -4,7 +4,6 @@ OpenAI Media Provider
 Clean implementation for OpenAI DALL-E image generation with config injection
 """
 
-import re
 from pathlib import Path
 from typing import Any
 
@@ -131,14 +130,9 @@ class OpenAIProvider(MediaProvider):
                 error=str(e),
             )
 
-    def _download_image(self, url: str, output_path: Path | None = None) -> Path:
+    def _download_image(self, url: str, output_path: Path) -> Path:
         """Download image from URL"""
         import requests
-
-        if output_path is None:
-            # Generate safe filename from prompt
-            safe_name = re.sub(r"[^a-zA-Z0-9_-]", "_", str(hash(url))[:8])
-            output_path = Path(f"media/images/openai_{safe_name}.jpg")
 
         # Ensure directory exists
         output_path.parent.mkdir(parents=True, exist_ok=True)

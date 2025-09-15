@@ -137,7 +137,12 @@ class TestProviderWorkflows:
         provider = ForvoProvider(config)
 
         requests = [
-            MediaRequest(type="audio", content=f"word{i}", params={"language": "es"})
+            MediaRequest(
+                type="audio",
+                content="word{i}",
+                params={"language": "es"},
+                output_path=Path("/tmp/test_word_i_.mp3"),
+            )
             for i in range(10)
         ]
 
@@ -198,7 +203,12 @@ class TestProviderWorkflows:
         provider = ForvoProvider(config)
 
         requests = [
-            MediaRequest(type="audio", content=f"word{i}", params={"language": "es"})
+            MediaRequest(
+                type="audio",
+                content="word{i}",
+                params={"language": "es"},
+                output_path=Path("/tmp/test_word_i_.mp3"),
+            )
             for i in range(5)
         ]
 
@@ -360,7 +370,12 @@ class TestProviderPerformanceRequirements:
 
         # Small batch for efficiency testing
         requests = [
-            MediaRequest(type="audio", content=f"test{i}", params={"language": "es"})
+            MediaRequest(
+                type="audio",
+                content="test{i}",
+                params={"language": "es"},
+                output_path=Path("/tmp/test_test_i_.mp3"),
+            )
             for i in range(3)
         ]
 

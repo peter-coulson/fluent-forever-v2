@@ -94,7 +94,10 @@ class TestForvoProviderClean:
 
         requests = [
             MediaRequest(
-                type="audio", content=word, params={"language": "es", "country": "MX"}
+                type="audio",
+                content=word,
+                params={"language": "es", "country": "MX"},
+                output_path=Path(f"/tmp/test_{word}.mp3"),
             )
             for word in ["hola", "gracias", "por", "favor", "adiós"]
         ]
@@ -154,7 +157,10 @@ class TestForvoProviderClean:
         provider = ForvoProvider(config)
 
         request = MediaRequest(
-            type="audio", content="test_word", params={"language": "es"}
+            type="audio",
+            content="test_word",
+            params={"language": "es"},
+            output_path=Path("/tmp/test_test_word.mp3"),
         )
 
         with patch.object(provider, "_make_request") as mock_request, patch(
@@ -216,7 +222,10 @@ class TestForvoProviderClean:
         provider = ForvoProvider(config)
 
         request = MediaRequest(
-            type="audio", content="test_word", params={"language": "es"}
+            type="audio",
+            content="test_word",
+            params={"language": "es"},
+            output_path=Path("/tmp/test_test_word.mp3"),
         )
 
         with patch.object(provider, "_make_request") as mock_request:
@@ -240,7 +249,10 @@ class TestForvoProviderClean:
         provider = ForvoProvider(config)
 
         request = MediaRequest(
-            type="audio", content="test_word", params={"language": "es"}
+            type="audio",
+            content="test_word",
+            params={"language": "es"},
+            output_path=Path("/tmp/test_test_word.mp3"),
         )
 
         with patch.object(provider, "_make_request") as mock_request, patch(
@@ -278,7 +290,12 @@ class TestForvoProviderClean:
         provider = ForvoProvider(config)
 
         # Test unsupported image request
-        image_request = MediaRequest(type="image", content="Test image", params={})
+        image_request = MediaRequest(
+            type="image",
+            content="Test image",
+            params={},
+            output_path=Path("/tmp/test_Test_image.jpg"),
+        )
 
         result = provider.generate_media(image_request)
 
@@ -300,6 +317,7 @@ class TestForvoProviderClean:
             type="audio",
             content="   ",  # Whitespace only
             params={"language": "es"},
+            output_path=Path("/tmp/test_empty.mp3"),
         )
 
         result = provider.generate_media(empty_request)
@@ -309,7 +327,12 @@ class TestForvoProviderClean:
 
         # Test truly empty content - MediaRequest validation catches this
         with pytest.raises(ValueError, match="Media request content cannot be empty"):
-            MediaRequest(type="audio", content="", params={"language": "es"})
+            MediaRequest(
+                type="audio",
+                content="",
+                params={"language": "es"},
+                output_path=Path("/tmp/test_.mp3"),
+            )
 
     def test_custom_output_path_handling(self):
         """Test: Custom output paths are handled correctly"""
@@ -360,8 +383,8 @@ class TestForvoProviderClean:
             assert result.success is True
             assert result.file_path == custom_path
 
-    def test_default_file_path_generation(self):
-        """Test: Default file paths are generated correctly"""
+    def test_custom_output_path_usage(self):
+        """Test: Provider uses custom output path correctly"""
         config = {
             "api_key": "test-key",
             "country_priorities": ["MX"],
@@ -374,6 +397,7 @@ class TestForvoProviderClean:
             type="audio",
             content="héllo-world",  # Test special characters
             params={"language": "es"},
+            output_path=Path("/tmp/custom_hello_world.mp3"),
         )
 
         with patch.object(provider, "_make_request") as mock_request, patch(
@@ -405,11 +429,9 @@ class TestForvoProviderClean:
             result = provider.generate_media(request)
 
             assert result.success is True
-            # Check that path contains expected elements
-            assert "media/audio" in str(result.file_path)
-            assert "_MX.mp3" in str(result.file_path)
-            # Special characters should be cleaned (alphanumeric + ._- kept)
-            assert "héllo-world" in str(result.file_path)  # é is alphanumeric
+            # Check that the custom output path is used exactly as provided
+            assert result.file_path == Path("/tmp/custom_hello_world.mp3")
+            assert str(result.file_path) == "/tmp/custom_hello_world.mp3"
 
     def test_preferred_country_handling(self):
         """Test: Preferred country parameter is used correctly"""
@@ -425,6 +447,7 @@ class TestForvoProviderClean:
             type="audio",
             content="test_word",
             params={"language": "es", "country": "AR"},  # Specific country requested
+            output_path=Path("/tmp/test_word_ar.mp3"),
         )
 
         with patch.object(provider, "_make_request") as mock_request, patch(
@@ -473,7 +496,12 @@ class TestForvoProviderClean:
         provider = ForvoProvider(config)
 
         requests = [
-            MediaRequest(type="audio", content=f"word{i}", params={"language": "es"})
+            MediaRequest(
+                type="audio",
+                content="word{i}",
+                params={"language": "es"},
+                output_path=Path("/tmp/test_word_i_.mp3"),
+            )
             for i in range(10)
         ]
 

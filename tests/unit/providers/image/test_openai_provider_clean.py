@@ -4,6 +4,7 @@ Clean OpenAI Provider Tests
 Tests the new architecture for OpenAI image generation provider
 """
 
+from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
@@ -73,7 +74,10 @@ class TestOpenAIProviderClean:
 
         requests = [
             MediaRequest(
-                type="image", content=f"Image {i}", params={"size": "1024x1024"}
+                type="image",
+                content=f"Image {i}",
+                params={"size": "1024x1024"},
+                output_path=Path(f"/tmp/test_Image_{i}.jpg"),
             )
             for i in range(5)
         ]
@@ -102,7 +106,12 @@ class TestOpenAIProviderClean:
         provider = OpenAIProvider(config)
 
         # Test unsupported audio request
-        audio_request = MediaRequest(type="audio", content="Hello world", params={})
+        audio_request = MediaRequest(
+            type="audio",
+            content="Hello world",
+            params={},
+            output_path=Path("/tmp/test_Hello_world.mp3"),
+        )
 
         result = provider.generate_media(audio_request)
 
@@ -153,7 +162,10 @@ class TestOpenAIProviderClean:
 
         requests = [
             MediaRequest(
-                type="image", content=f"A test image {i}", params={"size": "1024x1024"}
+                type="image",
+                content=f"A test image {i}",
+                params={"size": "1024x1024"},
+                output_path=Path(f"/tmp/test_A_test_image_{i}.jpg"),
             )
             for i in range(3)
         ]
@@ -190,6 +202,7 @@ class TestOpenAIProviderClean:
             type="image",
             content="A beautiful sunset over mountains",
             params={"size": "1024x1024", "quality": "hd", "style": "vivid"},
+            output_path=Path("/tmp/test_A_beautiful_sunset_o.jpg"),
         )
 
         # Mock the client
@@ -233,7 +246,10 @@ class TestOpenAIProviderClean:
         provider = OpenAIProvider(config)
 
         request = MediaRequest(
-            type="image", content="Test prompt", params={"size": "1024x1024"}
+            type="image",
+            content="Test prompt",
+            params={"size": "1024x1024"},
+            output_path=Path("/tmp/test_Test_prompt.jpg"),
         )
 
         # Mock the client to raise an exception
@@ -257,7 +273,10 @@ class TestOpenAIProviderClean:
         provider = OpenAIProvider(config)
 
         request = MediaRequest(
-            type="image", content="Test prompt", params={"size": "1024x1024"}
+            type="image",
+            content="Test prompt",
+            params={"size": "1024x1024"},
+            output_path=Path("/tmp/test_Test_prompt.jpg"),
         )
 
         # Mock client with successful API response

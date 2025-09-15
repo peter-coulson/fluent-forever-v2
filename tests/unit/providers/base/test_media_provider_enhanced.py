@@ -62,9 +62,24 @@ class TestMediaProviderEnhanced:
         provider = TestableMediaProvider(config)
 
         requests = [
-            MediaRequest(type="test_type", content="item1", params={}),
-            MediaRequest(type="test_type", content="item2", params={}),
-            MediaRequest(type="test_type", content="item3", params={}),
+            MediaRequest(
+                type="test_type",
+                content="item1",
+                params={},
+                output_path=Path("/tmp/test_item1.ext"),
+            ),
+            MediaRequest(
+                type="test_type",
+                content="item2",
+                params={},
+                output_path=Path("/tmp/test_item2.ext"),
+            ),
+            MediaRequest(
+                type="test_type",
+                content="item3",
+                params={},
+                output_path=Path("/tmp/test_item3.ext"),
+            ),
         ]
 
         # ACT: Call batch processing method
@@ -86,12 +101,20 @@ class TestMediaProviderEnhanced:
         provider = TestableMediaProvider(config)
 
         # Test valid request
-        request = MediaRequest(type="test_type", content="valid_content", params={})
+        request = MediaRequest(
+            type="test_type",
+            content="valid_content",
+            params={},
+            output_path=Path("/tmp/test_valid_content.ext"),
+        )
         assert provider.validate_request(request) is True
 
         # Test invalid request (unsupported type)
         invalid_request = MediaRequest(
-            type="unsupported_type", content="content", params={}
+            type="unsupported_type",
+            content="content",
+            params={},
+            output_path=Path("/tmp/test_content.ext"),
         )
         assert provider.validate_request(invalid_request) is False
 
@@ -102,7 +125,12 @@ class TestMediaProviderEnhanced:
         provider = TestableMediaProvider(config)
 
         requests = [
-            MediaRequest(type="test_type", content=f"item{i}", params={})
+            MediaRequest(
+                type="test_type",
+                content=f"item{i}",
+                params={},
+                output_path=Path(f"/tmp/test_item{i}.ext"),
+            )
             for i in range(4)
         ]
 
@@ -162,7 +190,9 @@ class TestMediaProviderEnhanced:
         with patch.object(provider, "generate_media") as mock_generate:
             mock_generate.return_value = MediaResult(True, Path("/tmp/image.jpg"), {})
 
-            _ = provider.generate_image("test prompt", size="1024x1024")
+            _ = provider.generate_image(
+                "test prompt", Path("/tmp/test_image.jpg"), size="1024x1024"
+            )
 
             # Verify generate_media was called with correct MediaRequest
             mock_generate.assert_called_once()
@@ -175,7 +205,9 @@ class TestMediaProviderEnhanced:
         with patch.object(provider, "generate_media") as mock_generate:
             mock_generate.return_value = MediaResult(True, Path("/tmp/audio.mp3"), {})
 
-            _ = provider.generate_audio("hello", language="es")
+            _ = provider.generate_audio(
+                "hello", Path("/tmp/test_audio.mp3"), language="es"
+            )
 
             mock_generate.assert_called_once()
             call_args = mock_generate.call_args[0][0]
@@ -187,17 +219,27 @@ class TestMediaProviderEnhanced:
         """Test: MediaRequest validation works correctly"""
         # Valid request
         valid_request = MediaRequest(
-            type="test_type", content="valid content", params={"param1": "value1"}
+            type="test_type",
+            content="valid content",
+            params={"param1": "value1"},
+            output_path=Path("/tmp/test_valid_content.ext"),
         )
         assert valid_request.type == "test_type"
         assert valid_request.content == "valid content"
 
         # Invalid requests should raise ValueError
         with pytest.raises(ValueError, match="Media request type cannot be empty"):
-            MediaRequest(type="", content="content", params={})
+            MediaRequest(
+                type="",
+                content="content",
+                params={},
+                output_path=Path("/tmp/test_content.ext"),
+            )
 
         with pytest.raises(ValueError, match="Media request content cannot be empty"):
-            MediaRequest(type="test", content="", params={})
+            MediaRequest(
+                type="test", content="", params={}, output_path=Path("/tmp/test_.ext")
+            )
 
     def test_media_result_structure(self):
         """Test: MediaResult structure and validation"""
@@ -233,7 +275,12 @@ class TestMediaProviderEnhanced:
         provider = TestableMediaProvider(config)
 
         requests = [
-            MediaRequest(type="test_type", content=f"item{i}", params={})
+            MediaRequest(
+                type="test_type",
+                content=f"item{i}",
+                params={},
+                output_path=Path(f"/tmp/test_item{i}.ext"),
+            )
             for i in range(5)
         ]
 
@@ -252,7 +299,12 @@ class TestMediaProviderEnhanced:
         with patch.object(provider, "_generate_media_impl") as mock_impl:
             mock_impl.side_effect = Exception("Test exception")
 
-            request = MediaRequest(type="test_type", content="test", params={})
+            request = MediaRequest(
+                type="test_type",
+                content="test",
+                params={},
+                output_path=Path("/tmp/test_test.ext"),
+            )
             result = provider.generate_media(request)
 
             assert result.success is False
@@ -266,7 +318,10 @@ class TestMediaProviderEnhanced:
 
         # Test unsupported media type
         unsupported_request = MediaRequest(
-            type="unsupported_type", content="test content", params={}
+            type="unsupported_type",
+            content="test content",
+            params={},
+            output_path=Path("/tmp/test_unsupported.ext"),
         )
 
         result = provider.generate_media(unsupported_request)
@@ -285,7 +340,12 @@ class TestDefaultBatchImplementation:
         provider = TestableMediaProvider(config)
 
         requests = [
-            MediaRequest(type="test_type", content=f"item{i}", params={})
+            MediaRequest(
+                type="test_type",
+                content=f"item{i}",
+                params={},
+                output_path=Path(f"/tmp/test_item{i}.ext"),
+            )
             for i in range(3)
         ]
 
@@ -317,9 +377,24 @@ class TestDefaultBatchImplementation:
             provider, "_generate_media_impl", side_effect=selective_failure
         ):
             requests = [
-                MediaRequest(type="test_type", content="success1", params={}),
-                MediaRequest(type="test_type", content="fail_me", params={}),
-                MediaRequest(type="test_type", content="success2", params={}),
+                MediaRequest(
+                    type="test_type",
+                    content="success1",
+                    params={},
+                    output_path=Path("/tmp/test_success1.ext"),
+                ),
+                MediaRequest(
+                    type="test_type",
+                    content="fail_me",
+                    params={},
+                    output_path=Path("/tmp/test_fail_me.ext"),
+                ),
+                MediaRequest(
+                    type="test_type",
+                    content="success2",
+                    params={},
+                    output_path=Path("/tmp/test_success2.ext"),
+                ),
             ]
 
             results = provider.generate_batch(requests)
@@ -336,7 +411,12 @@ class TestDefaultBatchImplementation:
         provider = TestableMediaProvider(config)
 
         requests = [
-            MediaRequest(type="test_type", content=f"item_{i:03d}", params={})
+            MediaRequest(
+                type="test_type",
+                content=f"item_{i:03d}",
+                params={},
+                output_path=Path(f"/tmp/test_item_{i:03d}.ext"),
+            )
             for i in range(10)
         ]
 

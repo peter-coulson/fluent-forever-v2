@@ -4,7 +4,6 @@ Runware Media Provider
 Clean implementation for Runware AI image generation with config injection
 """
 
-import hashlib
 import json
 import re
 import time
@@ -117,8 +116,8 @@ class RunwareProvider(MediaProvider):
             # Extract image URL from response
             image_url = api_response["data"]["imageUrl"]
 
-            # Generate file path
-            file_path = self._generate_file_path(request)
+            # Use provided output path
+            file_path = request.output_path
 
             # Download image
             success = self._download_image(image_url, file_path)
@@ -288,23 +287,6 @@ class RunwareProvider(MediaProvider):
 
         except Exception:
             return False
-
-    def _generate_file_path(self, request: MediaRequest) -> Path:
-        """Generate unique file path for image"""
-        # Create content hash for unique naming
-        content_hash = hashlib.md5(request.content.encode()).hexdigest()[:12]
-
-        # Clean content for filename (remove special characters)
-        clean_content = re.sub(r"[^a-zA-Z0-9\s-]", "", request.content)
-        clean_content = re.sub(r"\s+", "-", clean_content)[:50]  # Limit length
-
-        # Add timestamp
-        timestamp = int(time.time())
-
-        # Generate filename
-        filename = f"{clean_content}_{content_hash}_{timestamp}.png"
-
-        return Path("media/images") / filename
 
     def _validate_downloaded_file(self, file_path: Path) -> bool:
         """Validate downloaded image file"""

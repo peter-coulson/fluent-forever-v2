@@ -1,6 +1,7 @@
 """Integration tests for RunwareProvider with mocked API calls."""
 
 import time
+from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
@@ -81,6 +82,7 @@ class TestRunwareIntegration:
             type="image",
             content="a simple red circle on white background",
             params={"language": "en"},
+            output_path=Path("/tmp/test_a_simple_red_circle_.jpg"),
         )
 
         result = provider.generate_media(request)
@@ -106,7 +108,12 @@ class TestRunwareIntegration:
     def test_rate_limiting_compliance(self, provider, mock_session_setup):
         """Test: Rate limiting prevents API overuse"""
         test_requests = [
-            MediaRequest(type="image", content=f"test image {i}", params={})
+            MediaRequest(
+                type="image",
+                content=f"test image {i}",
+                params={},
+                output_path=Path(f"/tmp/test_test_image_{i}.jpg"),
+            )
             for i in range(3)
         ]
 
@@ -136,8 +143,13 @@ class TestRunwareIntegration:
         # Test individual requests
         individual_start = time.time()
         individual_results = []
-        for prompt in test_prompts:
-            request = MediaRequest(type="image", content=prompt, params={})
+        for i, prompt in enumerate(test_prompts):
+            request = MediaRequest(
+                type="image",
+                content=prompt,
+                params={},
+                output_path=Path(f"/tmp/test_individual_{i}.jpg"),
+            )
             result = provider.generate_media(request)
             individual_results.append(result)
             time.sleep(provider._rate_limit_delay)  # Manual rate limiting
@@ -148,8 +160,13 @@ class TestRunwareIntegration:
 
         # Test batch requests
         batch_requests = [
-            MediaRequest(type="image", content=prompt, params={})
-            for prompt in test_prompts
+            MediaRequest(
+                type="image",
+                content=prompt,
+                params={},
+                output_path=Path(f"/tmp/test_batch_{i}.jpg"),
+            )
+            for i, prompt in enumerate(test_prompts)
         ]
 
         batch_start = time.time()
@@ -171,12 +188,19 @@ class TestRunwareIntegration:
         """Test: Error recovery with invalid requests"""
         # Test with empty prompt (should fail validation)
         with pytest.raises(ValueError, match="Media request content cannot be empty"):
-            request = MediaRequest(type="image", content="", params={})
+            request = MediaRequest(
+                type="image", content="", params={}, output_path=Path("/tmp/test_.jpg")
+            )
             provider.generate_media(request)
 
         # Test with extremely long prompt
         very_long_prompt = "test " * 1000  # 5000+ characters
-        request = MediaRequest(type="image", content=very_long_prompt, params={})
+        request = MediaRequest(
+            type="image",
+            content=very_long_prompt,
+            params={},
+            output_path=Path("/tmp/test_very_long_prompt.jpg"),
+        )
         result = provider.generate_media(request)
 
         # Should succeed with mocked API
@@ -199,7 +223,10 @@ class TestRunwareIntegration:
         provider = RunwareProvider(config)
 
         request = MediaRequest(
-            type="image", content="a simple geometric shape", params={}
+            type="image",
+            content="a simple geometric shape",
+            params={},
+            output_path=Path("/tmp/test_a_simple_geometric_s.jpg"),
         )
 
         result = provider.generate_media(request)
@@ -220,7 +247,12 @@ class TestRunwareIntegration:
         import threading
 
         test_requests = [
-            MediaRequest(type="image", content=f"concurrent test {i}", params={})
+            MediaRequest(
+                type="image",
+                content=f"concurrent test {i}",
+                params={},
+                output_path=Path(f"/tmp/test_concurrent_test_{i}.jpg"),
+            )
             for i in range(3)
         ]
 
@@ -271,7 +303,12 @@ class TestRunwareIntegration:
             mock_session.post.return_value = auth_error_response
 
             provider = RunwareProvider(config)
-            request = MediaRequest(type="image", content="test image", params={})
+            request = MediaRequest(
+                type="image",
+                content="test image",
+                params={},
+                output_path=Path("/tmp/test_test_image.jpg"),
+            )
             result = provider.generate_media(request)
 
             assert result.success is False
@@ -331,7 +368,12 @@ class TestRunwareIntegration:
             provider = RunwareProvider(
                 config={"api_key": "test", "rate_limit_delay": 0.1}
             )
-            request = MediaRequest(type="image", content="network test", params={})
+            request = MediaRequest(
+                type="image",
+                content="network test",
+                params={},
+                output_path=Path("/tmp/test_network_test.jpg"),
+            )
             result = provider.generate_media(request)
 
             # Should eventually succeed after retry
@@ -406,6 +448,7 @@ class TestRunwareMockIntegration:
                 type="image",
                 content="a beautiful landscape",
                 params={"style": "photorealistic"},
+                output_path=Path("/tmp/test_a_beautiful_landscape.jpg"),
             )
 
             result = provider.generate_media(request)
@@ -482,9 +525,24 @@ class TestRunwareMockIntegration:
                 provider = RunwareProvider(config)
 
                 test_requests = [
-                    MediaRequest(type="image", content="test 1", params={}),
-                    MediaRequest(type="image", content="test 2", params={}),
-                    MediaRequest(type="image", content="test 3", params={}),
+                    MediaRequest(
+                        type="image",
+                        content="test 1",
+                        params={},
+                        output_path=Path("/tmp/test_test_1.jpg"),
+                    ),
+                    MediaRequest(
+                        type="image",
+                        content="test 2",
+                        params={},
+                        output_path=Path("/tmp/test_test_2.jpg"),
+                    ),
+                    MediaRequest(
+                        type="image",
+                        content="test 3",
+                        params={},
+                        output_path=Path("/tmp/test_test_3.jpg"),
+                    ),
                 ]
 
                 results = provider.generate_batch(test_requests)

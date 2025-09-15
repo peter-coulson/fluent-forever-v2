@@ -129,7 +129,12 @@ class TestRunwareProvider:
         provider = RunwareProvider(config)
 
         # Invalid request type - the base class handles this by returning error result
-        request = MediaRequest(type="audio", content="test", params={})
+        request = MediaRequest(
+            type="audio",
+            content="test",
+            params={},
+            output_path=Path("/tmp/test_test.mp3"),
+        )
 
         result = provider.generate_media(request)
         assert result.success is False
@@ -168,7 +173,10 @@ class TestRunwareProvider:
             provider._session = mock_session
 
             request = MediaRequest(
-                type="image", content="a beautiful sunset", params={"language": "en"}
+                type="image",
+                content="a beautiful sunset",
+                params={"language": "en"},
+                output_path=Path("/tmp/test_sunset.jpg"),
             )
 
             result = provider.generate_media(request)
@@ -195,7 +203,12 @@ class TestRunwareProvider:
         )
         mock_session.post.return_value = mock_response
 
-        request = MediaRequest(type="image", content="test", params={})
+        request = MediaRequest(
+            type="image",
+            content="test",
+            params={},
+            output_path=Path("/tmp/test_test.jpg"),
+        )
         result = provider.generate_media(request)
 
         assert result.success is False
@@ -217,7 +230,13 @@ class TestRunwareProvider:
         provider = RunwareProvider(config)
 
         requests = [
-            MediaRequest(type="image", content=f"test {i}", params={}) for i in range(5)
+            MediaRequest(
+                type="image",
+                content=f"test {i}",
+                params={},
+                output_path=Path(f"/tmp/test_test_{i}.jpg"),
+            )
+            for i in range(5)
         ]
 
         with patch.object(provider, "generate_media") as mock_generate:
@@ -238,8 +257,18 @@ class TestRunwareProvider:
         provider = RunwareProvider(config)
 
         requests = [
-            MediaRequest(type="image", content="test 1", params={}),
-            MediaRequest(type="image", content="test 2", params={}),
+            MediaRequest(
+                type="image",
+                content="test 1",
+                params={},
+                output_path=Path("/tmp/test_test_1.jpg"),
+            ),
+            MediaRequest(
+                type="image",
+                content="test 2",
+                params={},
+                output_path=Path("/tmp/test_test_2.jpg"),
+            ),
         ]
 
         with patch.object(provider, "generate_media") as mock_generate:
@@ -252,25 +281,18 @@ class TestRunwareProvider:
             # Should have rate limiting delay between requests
             mock_sleep.assert_called_with(2.0)
 
-    def test_file_path_generation_format(self):
-        """Test: File path generation follows expected format"""
-        config = {"api_key": "test-key"}
-        provider = RunwareProvider(config)
-
+    def test_output_path_usage(self):
+        """Test: Provider uses the provided output path"""
         request = MediaRequest(
             type="image",
             content="test prompt with special chars!@#",
             params={"language": "en"},
+            output_path=Path("/tmp/test_special_chars.jpg"),
         )
 
-        with patch("hashlib.md5") as mock_md5:
-            mock_md5.return_value.hexdigest.return_value = "abcdef123456"
-
-            file_path = provider._generate_file_path(request)
-
-            assert "test-prompt-with-special-chars" in str(file_path)
-            assert "abcdef123456" in str(file_path)
-            assert file_path.suffix == ".png"
+        # Test that the provider respects the output path
+        assert request.output_path == Path("/tmp/test_special_chars.jpg")
+        assert request.output_path.suffix == ".jpg"
 
     def test_metadata_extraction_comprehensive(self):
         """Test: Complete metadata extraction from API response"""
@@ -349,7 +371,12 @@ class TestRunwareProvider:
         config = {"api_key": "test-key"}
         provider = RunwareProvider(config)
 
-        request = MediaRequest(type="audio", content="test", params={})
+        request = MediaRequest(
+            type="audio",
+            content="test",
+            params={},
+            output_path=Path("/tmp/test_test.mp3"),
+        )
 
         result = provider.generate_media(request)
         assert result.success is False
@@ -362,13 +389,25 @@ class TestRunwareProvider:
 
         # Empty content is caught by MediaRequest validation
         with pytest.raises(ValueError, match="Media request content cannot be empty"):
-            MediaRequest(type="image", content="", params={})
+            MediaRequest(
+                type="image", content="", params={}, output_path=Path("/tmp/test_.jpg")
+            )
 
         with pytest.raises(ValueError, match="Media request content cannot be empty"):
-            MediaRequest(type="image", content=None, params={})
+            MediaRequest(
+                type="image",
+                content=None,
+                params={},
+                output_path=Path("/tmp/test_none.jpg"),
+            )
 
         # Test whitespace-only content
-        request = MediaRequest(type="image", content="   ", params={})
+        request = MediaRequest(
+            type="image",
+            content="   ",
+            params={},
+            output_path=Path("/tmp/test____.jpg"),
+        )
         result = provider.generate_media(request)
         assert result.success is False
         assert "Prompt cannot be empty" in result.error
@@ -405,7 +444,12 @@ class TestRunwareProvider:
             # Override the session created during init
             provider._session = mock_session
 
-            request = MediaRequest(type="image", content="test", params={})
+            request = MediaRequest(
+                type="image",
+                content="test",
+                params={},
+                output_path=Path("/tmp/test_test.jpg"),
+            )
             result = provider.generate_media(request)
 
             assert result.success is False
@@ -432,7 +476,12 @@ class TestRunwareProvider:
             # Override the session created during init
             provider._session = mock_session
 
-            request = MediaRequest(type="image", content="test", params={})
+            request = MediaRequest(
+                type="image",
+                content="test",
+                params={},
+                output_path=Path("/tmp/test_test.jpg"),
+            )
             result = provider.generate_media(request)
 
             assert result.success is False

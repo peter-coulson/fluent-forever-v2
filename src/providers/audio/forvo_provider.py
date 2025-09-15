@@ -168,9 +168,7 @@ class ForvoProvider(MediaProvider):
             best_pronunciation = self._select_best_pronunciation(pronunciations)
 
             # Download the audio file
-            file_path = self._download_audio(
-                word, best_pronunciation, request.output_path
-            )
+            file_path = self._download_audio(best_pronunciation, request.output_path)
 
             metadata = {
                 "word": word,
@@ -270,20 +268,11 @@ class ForvoProvider(MediaProvider):
         # Fallback to first pronunciation if no matches
         return pronunciations[0] if pronunciations else {}
 
-    def _download_audio(
-        self, word: str, pronunciation: dict[str, Any], output_path: Path | None = None
-    ) -> Path:
+    def _download_audio(self, pronunciation: dict[str, Any], output_path: Path) -> Path:
         """Download audio file for pronunciation"""
         audio_url = pronunciation.get("pathmp3")
         if not audio_url:
-            raise APIError(f"No audio URL found for pronunciation of '{word}'")
-
-        # Determine output path
-        if output_path is None:
-            # Create safe filename
-            safe_word = "".join(c for c in word if c.isalnum() or c in "._-").strip()
-            country = pronunciation.get("country", "unknown")
-            output_path = Path(f"media/audio/{safe_word}_{country}.mp3")
+            raise APIError("No audio URL found for pronunciation")
 
         # Ensure directory exists
         output_path.parent.mkdir(parents=True, exist_ok=True)

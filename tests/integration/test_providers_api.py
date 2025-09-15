@@ -6,6 +6,7 @@ Tests integration with actual APIs (where possible) and validates API compliance
 
 import os
 import time
+from pathlib import Path
 from unittest.mock import Mock, patch
 
 from src.providers.audio.forvo_provider import ForvoProvider
@@ -71,6 +72,7 @@ class TestProviderAPIIntegration:
                         type="image",
                         content="A simple red apple on a white background",
                         params={"size": "1024x1024", "quality": "standard"},
+                        output_path=Path("/tmp/test_A_simple_red_apple_o.jpg"),
                     )
 
                     result = provider.generate_media(request)
@@ -96,6 +98,7 @@ class TestProviderAPIIntegration:
                 type="image",
                 content="A simple test image: red circle on white background",
                 params={"size": "1024x1024", "quality": "standard"},
+                output_path=Path("/tmp/test_A_simple_test_image_.jpg"),
             )
 
             result = provider.generate_media(request)
@@ -152,6 +155,7 @@ class TestProviderAPIIntegration:
                     type="audio",
                     content="hola",
                     params={"language": "es", "country": "MX"},
+                    output_path=Path("/tmp/test_hola.mp3"),
                 )
 
                 result = provider.generate_media(request)
@@ -171,7 +175,10 @@ class TestProviderAPIIntegration:
         else:
             # Real Forvo API integration test
             request = MediaRequest(
-                type="audio", content="hola", params={"language": "es", "country": "MX"}
+                type="audio",
+                content="hola",
+                params={"language": "es", "country": "MX"},
+                output_path=Path("/tmp/test_hola.mp3"),
             )
 
             result = provider.generate_media(request)
@@ -206,13 +213,21 @@ class TestProviderAPIIntegration:
         openai_provider = OpenAIProvider(openai_config)
 
         requests = [
-            MediaRequest(type="audio", content=f"word{i}", params={"language": "es"})
+            MediaRequest(
+                type="audio",
+                content=f"word{i}",
+                params={"language": "es"},
+                output_path=Path(f"/tmp/test_word{i}.mp3"),
+            )
             for i in range(3)
         ]
 
         image_requests = [
             MediaRequest(
-                type="image", content=f"Image {i}", params={"size": "1024x1024"}
+                type="image",
+                content=f"Image {i}",
+                params={"size": "1024x1024"},
+                output_path=Path(f"/tmp/test_Image_{i}.jpg"),
             )
             for i in range(3)
         ]
@@ -305,7 +320,10 @@ class TestProviderAPIIntegration:
             )
 
             request = MediaRequest(
-                type="audio", content="test", params={"language": "es"}
+                type="audio",
+                content="test",
+                params={"language": "es"},
+                output_path=Path("/tmp/test_test.mp3"),
             )
 
             result = provider.generate_media(request)
@@ -331,7 +349,10 @@ class TestProviderAPIIntegration:
             mock_request.side_effect = Exception("Connection timeout")
 
             request = MediaRequest(
-                type="audio", content="test", params={"language": "es"}
+                type="audio",
+                content="test",
+                params={"language": "es"},
+                output_path=Path("/tmp/test_test.mp3"),
             )
 
             result = provider.generate_media(request)
@@ -459,7 +480,12 @@ class TestProviderHealthMonitoring:
         forvo_provider = ForvoProvider(forvo_config)
 
         requests = [
-            MediaRequest(type="audio", content=f"word{i}", params={"language": "es"})
+            MediaRequest(
+                type="audio",
+                content=f"word{i}",
+                params={"language": "es"},
+                output_path=Path(f"/tmp/test_word{i}.mp3"),
+            )
             for i in range(5)
         ]
 
@@ -480,7 +506,10 @@ class TestProviderHealthMonitoring:
 
         image_requests = [
             MediaRequest(
-                type="image", content=f"Image {i}", params={"size": "1024x1024"}
+                type="image",
+                content=f"Image {i}",
+                params={"size": "1024x1024"},
+                output_path=Path(f"/tmp/test_Image_{i}.jpg"),
             )
             for i in range(3)
         ]

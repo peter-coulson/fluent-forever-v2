@@ -100,7 +100,12 @@ class TestProviderWorkflows:
         provider = MockMediaProvider("audio")
 
         # Test normal operation
-        request = MediaRequest(type="audio", content="test", params={})
+        request = MediaRequest(
+            type="audio",
+            content="test",
+            params={},
+            output_path=Path("/tmp/test_audio.mp3"),
+        )
         result = provider.generate_media(request)
         assert result.success
 
@@ -144,6 +149,7 @@ class TestProviderWorkflows:
             type="video",  # Not supported
             content="test",
             params={},
+            output_path=Path("/tmp/test_video.mp4"),
         )
 
         result = provider.generate_media(request)
@@ -205,14 +211,24 @@ class TestProviderWorkflows:
         provider.should_fail = True
 
         # Media generation should fail (simulating auth issue)
-        request = MediaRequest(type="audio", content="test", params={})
+        request = MediaRequest(
+            type="audio",
+            content="test",
+            params={},
+            output_path=Path("/tmp/test_audio.mp3"),
+        )
         result = provider.generate_media(request)
         assert not result.success
 
         # Service operations should fail
         from src.providers.base.media_provider import MediaRequest
 
-        request = MediaRequest(type="audio", content="test", params={})
+        request = MediaRequest(
+            type="audio",
+            content="test",
+            params={},
+            output_path=Path("/tmp/test_audio.mp3"),
+        )
 
         result = provider.generate_media(request)
         assert not result.success
@@ -226,9 +242,24 @@ class TestProviderWorkflows:
 
         # Create multiple requests
         requests = [
-            MediaRequest(type="image", content="cat", params={}),
-            MediaRequest(type="image", content="dog", params={}),
-            MediaRequest(type="audio", content="hello", params={}),  # Wrong type
+            MediaRequest(
+                type="image",
+                content="cat",
+                params={},
+                output_path=Path("/tmp/test_cat.jpg"),
+            ),
+            MediaRequest(
+                type="image",
+                content="dog",
+                params={},
+                output_path=Path("/tmp/test_dog.jpg"),
+            ),
+            MediaRequest(
+                type="audio",
+                content="hello",
+                params={},
+                output_path=Path("/tmp/test_hello.mp3"),
+            ),  # Wrong type
         ]
 
         # Get cost estimate
@@ -288,6 +319,11 @@ class TestProviderWorkflows:
         from src.providers.base.media_provider import MediaRequest
 
         provider = MockMediaProvider("audio")
-        request = MediaRequest(type="audio", content="test", params={})
+        request = MediaRequest(
+            type="audio",
+            content="test",
+            params={},
+            output_path=Path("/tmp/test_audio.mp3"),
+        )
         result = provider.generate_media(request)
         assert result.success  # Should work regardless

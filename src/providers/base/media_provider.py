@@ -19,7 +19,7 @@ class MediaRequest:
     type: str  # 'image' or 'audio'
     content: str  # Prompt for images, text for audio
     params: dict[str, Any]  # Provider-specific parameters
-    output_path: Path | None = None
+    output_path: Path  # Mandatory output path for generated media
 
     def __post_init__(self) -> None:
         """Validate request after initialization"""
@@ -279,28 +279,38 @@ class MediaProvider(ABC):
         return self.supports_type(request.type)
 
     # Convenience methods for specific media types
-    def generate_image(self, prompt: str, **kwargs: Any) -> MediaResult:
+    def generate_image(
+        self, prompt: str, output_path: Path, **kwargs: Any
+    ) -> MediaResult:
         """Generate image (convenience method)
 
         Args:
             prompt: Image description
+            output_path: Path where generated image will be saved
             **kwargs: Additional parameters
 
         Returns:
             MediaResult for image generation
         """
-        request = MediaRequest(type="image", content=prompt, params=kwargs)
+        request = MediaRequest(
+            type="image", content=prompt, params=kwargs, output_path=output_path
+        )
         return self.generate_media(request)
 
-    def generate_audio(self, text: str, **kwargs: Any) -> MediaResult:
+    def generate_audio(
+        self, text: str, output_path: Path, **kwargs: Any
+    ) -> MediaResult:
         """Generate audio (convenience method)
 
         Args:
             text: Text to synthesize or word to get pronunciation
+            output_path: Path where generated audio will be saved
             **kwargs: Additional parameters
 
         Returns:
             MediaResult for audio generation
         """
-        request = MediaRequest(type="audio", content=text, params=kwargs)
+        request = MediaRequest(
+            type="audio", content=text, params=kwargs, output_path=output_path
+        )
         return self.generate_media(request)
