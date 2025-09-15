@@ -81,11 +81,11 @@ Examples:
     return parser
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     """Main CLI entry point."""
 
     parser = create_parser()
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     # Setup logging with verbose mode
     if getattr(args, "verbose", False) or os.getenv("FLUENT_FOREVER_DEBUG"):
