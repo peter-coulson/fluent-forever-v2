@@ -22,12 +22,14 @@ Three-tier risk classification for lean development:
 ### Common Pipeline Risk Patterns
 
 **Data Processing Pipelines**: Input → transformation → output → storage
-- **High-Risk**: Source data corruption, synchronization failures, transformation logic errors
-- **Medium-Risk**: Media generation, external provider coordination, template processing
+- **High-Risk**: Source data corruption, synchronization failures, critical transformation logic
+- **Complex**: Data transformation algorithms, validation rule engines
+- **Simple**: Media generation, template processing, basic coordination
 
 **Sequential Processing**: Multi-stage workflows with state dependencies
 - **High-Risk**: State management between stages, dependency validation, error propagation
-- **Medium-Risk**: Stage coordination, resource allocation, performance optimization
+- **Complex**: Stage coordination algorithms, resource allocation logic
+- **Simple**: Basic orchestration, performance monitoring, utility functions
 
 ## Implementation Priorities
 

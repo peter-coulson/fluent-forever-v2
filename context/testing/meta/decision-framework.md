@@ -41,10 +41,10 @@ Apply Impact + Detection Matrix to each system component:
 
 ### Test Strategy Selection
 
-**High-Risk Strategy (Inverted Pyramid)**:
+**High-Risk Strategy (Comprehensive Testing)**:
 - Primary: E2E tests for full system validation
 - Secondary: Integration tests for component interactions
-- Minimal: Unit tests for complex transformation logic only
+- Comprehensive: Unit tests for all public methods and edge cases
 
 **Three-Tier Strategy**: Reference `../strategy/risk-based-testing.md` for complete strategy mapping:
 - **High-Risk**: Comprehensive testing (E2E primary, integration secondary, unit comprehensive)

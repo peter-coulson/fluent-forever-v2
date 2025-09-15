@@ -112,9 +112,9 @@ tests/
 
 ## Key Testing Patterns
 
-**Dual Strategy Approach**:
-- **Pipeline tests**: Primary validation of business logic AND infrastructure through real usage
-- **Core tests**: Infrastructure development and isolated debugging of orchestration patterns
+**Testing Strategy Approach**:
+- **Pipeline tests**: Primary validation of business logic using validated infrastructure
+- **Core tests**: Primary validation of shared infrastructure components (three-tier risk strategy)
 
 **Component Reuse**: Fixtures enable consistent mocking patterns across all test types
 
@@ -129,9 +129,9 @@ tests/
 ## Implementation Priority
 
 1. **Test Fixtures** (`tests/fixtures/`) - Reusable mocks and test data foundation
-2. **Core Infrastructure Tests** (`tests/core/`) - Infrastructure development and orchestration validation
-3. **Pipeline Tests** (`tests/pipelines/`) - Primary validation of business logic AND infrastructure integration
+2. **Core Infrastructure Tests** (`tests/core/`) - Primary validation of shared infrastructure (three-tier strategy)
+3. **Pipeline Tests** (`tests/pipelines/`) - Primary validation of business logic using validated infrastructure
 
 **Unit Test Organization**: Stage-per-file approach for both core components and pipeline stages, enabling clear separation of concerns and focused testing of individual units.
 
-This structure supports both infrastructure development (core tests) and comprehensive system validation (pipeline tests), with stage-level granularity for unit testing.
+This structure supports primary validation of shared infrastructure (core tests) and business logic validation (pipeline tests), with three-tier risk strategy applied throughout.
