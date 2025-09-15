@@ -1,40 +1,33 @@
 # Component Testing Strategy
 
-Risk-based testing assignments for current system components (reference: `../strategy/` for risk assessment frameworks).
+Core infrastructure component classification using three-tier risk framework (reference: `../strategy/risk-based-testing.md` for complete guidelines).
 
-## E2E Testing Components (High Risk - External Integration)
+## High-Risk Components (5-10% - Comprehensive Testing)
 
-**Provider System**
-- MediaProvider: Real API calls to Forvo, OpenAI, Runware
-- SyncProvider: Real Anki integration via AnkiConnect
+**SyncProvider System**
+- Real Anki integration via AnkiConnect - data corruption risk
 - External service authentication and error handling
 
-**Complete CLI Workflows**
-- End-to-end command execution: config loading → registry → context → providers → results
-- Real file system operations and output generation
+**Complete CLI Workflows with File Operations**
+- End-to-end command execution with real file system operations
+- Configuration loading and output generation - data overwrite risk
 
-## Integration Testing Components (Medium Risk - Internal Coordination)
+## Complex Components (10-15% - Good Unit Coverage)
 
-**Registry Systems**
-- ProviderRegistry: Dynamic loading with mocked external services
-- PipelineRegistry: Component discovery and filtering
+**Core Business Logic**
+- Data transformation algorithms
+- Validation rule engines
+- Configuration parsing and resolution logic
 
-**Configuration System**
-- Environment variable resolution and provider configuration injection
+## Simple Components (75-85% - Smoke Tests)
 
-**Context Management**
-- Inter-stage data flow and state management patterns
-- Error accumulation across component boundaries
-
-## Unit Testing Components (Low Risk - Internal Logic)
-
-**Core Components**
-- Pipeline: Stage orchestration logic (mocked context/stages)
-- Stage: Individual processing with mocked context
-- Config: JSON processing and variable substitution
-
-**CLI Commands**
-- Argument parsing and validation (mocked providers)
+**Basic Infrastructure**
+- MediaProvider: API calls to Forvo, OpenAI, Runware (failures are visible)
+- Registry systems: Dynamic loading and component discovery
+- Pipeline: Stage orchestration logic
+- Stage: Individual processing and context handling
+- Context Management: Inter-stage data flow and state handling
+- CLI Commands: Argument parsing and validation
 
 ## Mock Boundaries
 

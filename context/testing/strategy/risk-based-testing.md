@@ -13,10 +13,11 @@ Use **Impact + Detection Matrix** criteria from decision framework for pipeline-
 
 ### Test Strategy Mapping
 
-Tool-to-risk mapping patterns for pipeline components:
+Three-tier risk classification for lean development:
 
-**High-Risk Strategy**: Inverted pyramid - E2E primary, integration secondary, minimal unit
-**Low-Risk Strategy**: Traditional pyramid - unit primary, integration/E2E optional
+**High-Risk Strategy**: Comprehensive testing - E2E primary, integration secondary, unit comprehensive
+**Complex Strategy**: Good unit coverage - test all public methods with typical usage patterns and basic error cases
+**Simple Strategy**: Smoke tests - component loads and basic functionality works
 
 ### Common Pipeline Risk Patterns
 
@@ -31,26 +32,28 @@ Tool-to-risk mapping patterns for pipeline components:
 ## Implementation Priorities
 
 ### Testing Priorities Framework
-1. **Risk Assessment per Component**: Evaluate each stage using detection difficulty + impact + usage frequency
-2. **Graduated Testing Effort**: Match testing intensity to actual risk and development needs
-3. **Critical Workflow Focus**: Prioritize E2E testing for most common/valuable stage combinations
-4. **Context Integration**: Test stage-to-stage data passing for critical workflows
-5. **Component Boundaries**: Use real components for internal systems, mocks for external dependencies
+1. **Three-Tier Risk Assessment**: High-risk (5-10%), Complex (10-15%), Simple (75-85%) classification
+2. **Risk-Driven Coverage**: Match testing intensity to component risk and complexity
+3. **High-Risk Focus**: Comprehensive testing only for critical components (data corruption, business logic)
+4. **Complex Coverage**: Good unit testing for algorithms and transformation logic
+5. **Simple Minimalism**: Smoke tests only for basic infrastructure and utilities
 
-### Stage-Level Testing Guidelines
+### Component Testing Guidelines
 
-**High-Risk Stages** (database writes, data transformation, critical business logic):
-- **Primary**: Integration tests mandatory
-- **Secondary**: E2E tests for workflow validation
-- **Minimal**: Unit tests for complex algorithms
+**High-Risk Components** (5-10% - external data writes, critical business logic, hard-to-debug failures):
+- **Primary**: E2E tests for workflow validation
+- **Secondary**: Integration tests for component interactions
+- **Comprehensive**: Unit tests for all public methods and edge cases
 
-**Medium-Risk Stages** (media generation, API calls):
-- **Primary**: Unit tests preferred
-- **Optional**: Integration tests when convenient
+**Complex Components** (10-15% - algorithms, transformations, validation rules):
+- **Unit**: Test all public methods with typical usage patterns and basic error cases
+- **Integration**: Test when component interacts with other components
+- **Goal**: Enable confident refactoring of complex logic
 
-**Low-Risk Stages** (logging, simple utilities):
-- **Minimal**: Focus on development aids
-- **Optional**: Testing when useful for debugging
+**Simple Components** (75-85% - utilities, basic infrastructure, visible failures):
+- **Smoke**: Component loads and basic functionality works
+- **Minimal**: Focus on breakage detection over comprehensive coverage
+- **Goal**: Catch regressions without maintenance overhead
 
 ### Workflow-Level Testing Strategy
 

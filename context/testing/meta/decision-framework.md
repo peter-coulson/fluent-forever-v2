@@ -13,15 +13,22 @@ High impact AND difficult to detect failures:
 - **Version compatibility breaks** - deployment failures
 - **State corruption** - inconsistent system state
 
-### Low-Risk Categories (Development Aids)
-Immediate detection OR minimal impact:
+### Complex Categories (Good Unit Coverage)
+Algorithms, transformations, and complex business logic:
+- Data transformation algorithms
+- Validation rule engines
+- Parsing and processing logic
+- Business calculation methods
+
+### Simple Categories (Smoke Tests)
+Basic infrastructure with visible failures:
 - Pipeline errors with clear messages
 - Media provider failures (visible)
-- Sync issues (detectable)
-- Performance degradation (observable)
-- Transient network issues (retry-able)
+- Registry loading and discovery
+- CLI parsing and utilities
+- Basic orchestration logic
 
-**Testing Approach**: Permitted but not required - useful for development velocity but should never block deployment.
+**Testing Approach**: Reference `../strategy/risk-based-testing.md` for complete three-tier strategy guidelines.
 
 ### High-Risk Component Assessment
 Apply Impact + Detection Matrix to each system component:
@@ -39,9 +46,10 @@ Apply Impact + Detection Matrix to each system component:
 - Secondary: Integration tests for component interactions
 - Minimal: Unit tests for complex transformation logic only
 
-**Low-Risk Strategy (Traditional Pyramid)**:
-- Primary: Unit tests for development velocity
-- Optional: Integration/E2E when convenient for debugging
+**Three-Tier Strategy**: Reference `../strategy/risk-based-testing.md` for complete strategy mapping:
+- **High-Risk**: Comprehensive testing (E2E primary, integration secondary, unit comprehensive)
+- **Complex**: Good unit coverage (all public methods, typical usage patterns, basic errors)
+- **Simple**: Smoke tests (component loads, basic functionality works)
 
 ### Mock Boundary Decisions
 
@@ -52,14 +60,10 @@ Apply external/internal boundary decisions per `../strategy/mock-boundaries.md` 
 ## Decision Rules
 
 ### Coverage Requirements
-- **High-risk scenarios**: Mandatory test coverage before production
-- **Low-risk scenarios**: Permitted but not required - developer convenience tool
-
-### Low-Risk Testing Enforcement
-- **No coverage metrics** that include low-risk areas
-- **No CI failures** for low-risk test gaps
-- **No code review requirements** for low-risk test coverage
-- **No refactor blockers** due to missing low-risk tests
+Reference `../strategy/risk-based-testing.md` for complete three-tier coverage standards:
+- **High-risk components** (5-10%): Mandatory comprehensive test coverage
+- **Complex components** (10-15%): Good unit coverage for confident refactoring
+- **Simple components** (75-85%): Smoke tests for breakage detection
 
 ### Uncertainty Handling
 If risk classification unclear, raise to user for clarification
