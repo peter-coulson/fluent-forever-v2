@@ -34,10 +34,10 @@
 **Organizational Structure**: Include high-level organization principles, exclude specific file structures
 **Risk Assessment Granularity**: Include component-level decisions, exclude method-level details
 
-## Relationship to TESTING_FRAMEWORK.md
+## Context Domain Scope
 
-**Context Domain Scope**: This testing context provides **application guidance** for TESTING_FRAMEWORK.md principles within the specific pipeline architecture, not duplication of core testing framework concepts.
+This testing context provides **application guidance** for Risk-Based Testing principles within the specific pipeline architecture, not duplication of core testing framework concepts.
 
 **Content Relationship**:
-- **Framework-stable content** derives from TESTING_FRAMEWORK.md principles
+- **Framework-stable content** derives from Risk-Based Testing principles
 - **Implementation-dynamic content** applies framework principles to pipeline components

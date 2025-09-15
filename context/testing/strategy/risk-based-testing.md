@@ -3,7 +3,7 @@
 ## Pipeline Architecture Risk Patterns
 
 ### Component Risk Assessment Framework
-Apply TESTING_FRAMEWORK.md risk assessment criteria and `meta/decision-framework.md` evaluation templates to pipeline components:
+Apply risk assessment criteria from `meta/decision-framework.md` evaluation templates to pipeline components:
 
 **Pipeline Level**: Sequential stage execution with context flow
 **Stage Level**: Individual processing units
@@ -13,20 +13,50 @@ Risk classification follows the **Impact + Detection Matrix** from decision fram
 
 ### Test Strategy Mapping
 
-Applies TESTING_FRAMEWORK.md tool-to-risk mapping patterns to pipeline components:
+Tool-to-risk mapping patterns for pipeline components:
 
-**High-Risk Strategy**: Follow inverted pyramid from TESTING_FRAMEWORK.md
-**Low-Risk Strategy**: Follow traditional pyramid from TESTING_FRAMEWORK.md
+**High-Risk Strategy**: Inverted pyramid - E2E primary, integration secondary, minimal unit
+**Low-Risk Strategy**: Traditional pyramid - unit primary, integration/E2E optional
 
-### Pipeline-Specific Risk Scenarios
+### Common Pipeline Risk Patterns
 
-**Vocabulary Pipeline**: Word → definition → audio → images → Anki cards
-- **High-Risk**: Source data corruption, Anki synchronization failures
-- **Medium-Risk**: Media generation, provider coordination
+**Data Processing Pipelines**: Input → transformation → output → storage
+- **High-Risk**: Source data corruption, synchronization failures, transformation logic errors
+- **Medium-Risk**: Media generation, external provider coordination, template processing
 
-**Conjugation Pipeline**: Verb forms → audio → practice cards
-- **High-Risk**: Form generation accuracy, database state management
-- **Medium-Risk**: Audio generation, card template processing
+**Sequential Processing**: Multi-stage workflows with state dependencies
+- **High-Risk**: State management between stages, dependency validation, error propagation
+- **Medium-Risk**: Stage coordination, resource allocation, performance optimization
+
+## Implementation Priorities
+
+### Testing Priorities Framework
+1. **Risk Assessment per Component**: Evaluate each stage using detection difficulty + impact + usage frequency
+2. **Graduated Testing Effort**: Match testing intensity to actual risk and development needs
+3. **Critical Workflow Focus**: Prioritize E2E testing for most common/valuable stage combinations
+4. **Context Integration**: Test stage-to-stage data passing for critical workflows
+5. **Component Boundaries**: Use real components for internal systems, mocks for external dependencies
+
+### Stage-Level Testing Guidelines
+
+**High-Risk Stages** (database writes, data transformation, critical business logic):
+- **Primary**: Integration tests mandatory
+- **Secondary**: E2E tests for workflow validation
+- **Minimal**: Unit tests for complex algorithms
+
+**Medium-Risk Stages** (media generation, API calls):
+- **Primary**: Unit tests preferred
+- **Optional**: Integration tests when convenient
+
+**Low-Risk Stages** (logging, simple utilities):
+- **Minimal**: Focus on development aids
+- **Optional**: Testing when useful for debugging
+
+### Workflow-Level Testing Strategy
+
+**Critical User Workflows**: E2E tests for most common/valuable stage combinations
+**Secondary Workflows**: E2E tests when convenient for debugging complex interactions
+**Ad-hoc Combinations**: No dedicated tests - rely on stage-level coverage
 
 ## Application Pattern
 

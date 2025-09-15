@@ -12,7 +12,7 @@ Self-documenting framework for testing context maintenance, decision criteria, a
 ## Content Categories
 
 ### Framework-Stable Content
-Derived from TESTING_FRAMEWORK.md principles - rarely changes:
+Derived from Risk-Based Testing principles - rarely changes:
 - Risk assessment criteria templates
 - Scaffolding lifecycle rules
 - Mock boundary decision frameworks

@@ -5,7 +5,7 @@ Strategic testing guidance framework implementing Risk-Based Testing principles 
 
 ## Domain Scope
 - **Risk assessment frameworks** for system components
-- **Strategic testing patterns** aligned with TESTING_FRAMEWORK.md principles
+- **Strategic testing patterns** aligned with Risk-Based Testing principles
 - **Scaffolding lifecycle management** for development → production transitions
 - **Organizational guidance** for test structure and maintenance
 

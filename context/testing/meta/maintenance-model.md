@@ -3,7 +3,7 @@
 ## Update Timing Strategy
 
 ### Framework-Stable Content (Rare Updates)
-**When**: TESTING_FRAMEWORK.md principles change or major architectural shifts
+**When**: Risk-Based Testing principles change or major architectural shifts
 **Content**: Risk assessment criteria, scaffolding lifecycle rules, mock boundary frameworks
 **Trigger**: Framework document updates, system architecture changes
 **Responsibility**: Context system maintainer
@@ -29,9 +29,22 @@
 
 ## Staleness Detection
 
-**Framework Misalignment**: Testing context contradicts TESTING_FRAMEWORK.md principles
+**Framework Misalignment**: Testing context contradicts Risk-Based Testing principles
 **Implementation Divergence**: Documented patterns don't match actual test structure
 **Risk Classification Drift**: Components classified differently than testing approach suggests
+
+## Testing Maintenance Approach
+
+### Long-term Maintenance Strategy
+- **Minimal test count** for long-term maintainability
+- **Regular audit** to ensure tests remain aligned with risk assessment
+- **Remove tests** that don't provide risk mitigation value
+- **Maintain only** essential risk-mitigation tests for long-term maintenance
+
+### Maintenance Decision Criteria
+**Keep**: Tests that mitigate identified high-risk scenarios
+**Remove**: Tests that provide development convenience but no risk mitigation
+**Audit**: Regular review of test value vs maintenance cost
 
 ## Content Lifecycle
 

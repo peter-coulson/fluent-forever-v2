@@ -1,7 +1,7 @@
 # Testing Strategy Overview
 
 ## Purpose
-Strategic testing patterns derived from TESTING_FRAMEWORK.md principles, applied to pipeline-based language learning system architecture.
+Strategic testing patterns for Risk-Based Testing applied to pipeline-based language learning system architecture.
 
 ## Strategy Pattern Categories
 
@@ -19,7 +19,7 @@ Strategic patterns for determining external vs internal testing boundaries withi
 
 ## Content Stability
 
-These strategy patterns are **framework-stable** - derived from TESTING_FRAMEWORK.md principles and rarely change. They provide **application templates** rather than specific implementation guidance.
+These strategy patterns are **framework-stable** - derived from Risk-Based Testing principles and rarely change. They provide **application templates** rather than specific implementation guidance.
 
 ## Navigation
 - **Risk-Based Framework**: `risk-based-testing.md` - applying RBT principles to pipeline components
