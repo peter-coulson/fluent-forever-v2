@@ -30,4 +30,21 @@
 - **Anki integration**: Verb conjugation note type
 - **CLI arguments**: Verb-specific parameters for conjugation practice
 
-See `context/workflows/extending.md` for pipeline implementation guidelines.
+## Testing Structure
+
+### Pipeline-Specific Testing Context
+When pipeline implementations exist, testing guidance follows system-level testing structure:
+
+**Testing Implementation Details** (`implementation/testing/`):
+- **Risk Mappings** (`risk-mappings.md`): Pipeline-specific component risk classifications
+- **Organization Patterns** (`organization-patterns.md`): Pipeline test structure patterns
+- **Workflow Approaches** (`workflow-approaches.md`): Pipeline-specific E2E and integration strategies
+
+**Required System Testing Context**: Before implementing pipeline testing, reference:
+- `context/testing/meta/decision-framework.md` - Risk classification criteria templates
+- `context/testing/strategy/risk-based-testing.md` - Risk assessment framework application
+- `context/testing/implementation/` - System-level risk mappings and patterns (populated during refactor)
+
+**Domain Boundary**: Pipeline testing context contains implementation-specific guidance while system-level testing framework provides strategic patterns and decision frameworks.
+
+See `context/workflows/extending.md` for pipeline implementation guidelines and `context/testing/overview.md` for system-level testing framework.

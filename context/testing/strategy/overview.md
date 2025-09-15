@@ -1,0 +1,31 @@
+# Testing Strategy Overview
+
+## Purpose
+Strategic testing patterns derived from TESTING_FRAMEWORK.md principles, applied to pipeline-based language learning system architecture.
+
+## Strategy Pattern Categories
+
+### Risk-Based Testing Application
+Framework application patterns for component risk assessment and test strategy selection within pipeline architecture.
+
+### Scaffolding Lifecycle Management
+Development → production transition strategies implementing "scaffolding test" approach for pipeline system development.
+
+### Mock Boundary Guidelines
+Strategic patterns for determining external vs internal testing boundaries within provider-based architecture.
+
+### Test Consolidation Patterns
+"One test, multiple risks" design strategies optimized for pipeline workflow validation.
+
+## Content Stability
+
+These strategy patterns are **framework-stable** - derived from TESTING_FRAMEWORK.md principles and rarely change. They provide **application templates** rather than specific implementation guidance.
+
+## Navigation
+- **Risk-Based Framework**: `risk-based-testing.md` - applying RBT principles to pipeline components
+- **Scaffolding Lifecycle**: `scaffolding-lifecycle.md` - development phase → production transition patterns
+- **Mock Boundaries**: `mock-boundaries.md` - external/internal testing decision frameworks
+- **Test Consolidation**: `test-consolidation.md` - multi-risk validation design patterns
+
+## Application Context
+Strategy patterns guide **decision-making during test refactor** rather than prescribing specific implementations.
