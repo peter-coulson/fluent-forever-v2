@@ -45,15 +45,9 @@ Apply Impact + Detection Matrix to each system component:
 
 ### Mock Boundary Decisions
 
-**Mock External/Uncontrolled**:
-- Provider APIs (Forvo, ElevenLabs, OpenAI)
-- Network dependencies
-- External file systems
-
-**Test Internal/Controlled**:
-- Pipeline execution logic
-- Configuration processing
-- Local data operations
+Apply external/internal boundary decisions per `../strategy/mock-boundaries.md` patterns:
+- **Mock**: External/uncontrolled dependencies (APIs, networks, external systems)
+- **Test**: Internal/controlled systems (pipeline logic, configuration, local operations)
 
 ## Decision Rules
 

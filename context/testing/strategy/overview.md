@@ -27,5 +27,13 @@ These strategy patterns are **framework-stable** - derived from Risk-Based Testi
 - **Mock Boundaries**: `mock-boundaries.md` - external/internal testing decision frameworks
 - **Test Consolidation**: `test-consolidation.md` - multi-risk validation design patterns
 
+## Architecture Implementation
+
+Strategy patterns are organized around system component risk assessment and testing approach selection:
+
+**Core System Components**: Pipeline engine, stage system, provider registry risk evaluation
+**Cross-cutting Concerns**: Configuration, logging, context management testing strategies
+**Component Integration**: Cross-component dependency testing and workflow validation
+
 ## Application Context
-Strategy patterns guide **decision-making during test refactor** rather than prescribing specific implementations.
+Strategy patterns guide **decision-making during test refactor** rather than prescribing specific implementations. Apply risk assessment **component-by-component** during development, not system-wide pre-classification.

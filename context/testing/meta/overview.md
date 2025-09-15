@@ -28,8 +28,20 @@ Populated during component development - evolves with system:
 - **Decision Criteria**: `decision-framework.md` - risk classification templates
 - **Content Boundaries**: `boundaries.md` - inclusion/exclusion rules for testing context
 
-## Implementation Structure Reference
-Testing context implementation details populated during refactor:
-- `../implementation/risk-mappings.md` - Component risk classifications
-- `../implementation/organization-patterns.md` - Test structure patterns
-- `../implementation/workflow-approaches.md` - System workflow testing strategies
+## Domain Boundaries
+
+### System-Level Testing Context (This Context)
+- **Risk-based testing framework** application to pipeline architecture
+- **Strategic testing patterns** for pipeline systems generally
+- **System component testing** (pipeline engine, stage system, provider registry)
+- **Cross-cutting concerns** (configuration, logging, context management)
+
+### Pipeline-Specific Testing Context (`context/modules/pipelines/`)
+- **Individual pipeline testing** approaches (vocabulary, conjugation)
+- **Pipeline implementation details** testing strategies
+- **Pipeline-specific risk mappings** and workflow approaches
+
+**Reference Flow**: Pipeline testing context references system testing framework (upward reference following context system principles).
+
+## Implementation Planning Reference
+**Temporary Guidance**: `../implementation-planning.md` contains abstract planning concepts for future implementation phase. This planning file will be deprecated once concrete implementation patterns emerge and actual testing directories are created.

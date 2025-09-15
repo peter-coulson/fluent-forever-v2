@@ -3,13 +3,13 @@
 ## Pipeline Architecture Risk Patterns
 
 ### Component Risk Assessment Framework
-Apply risk assessment criteria from `meta/decision-framework.md` evaluation templates to pipeline components:
+Apply `meta/decision-framework.md` evaluation templates to pipeline components:
 
 **Pipeline Level**: Sequential stage execution with context flow
 **Stage Level**: Individual processing units
 **Provider Level**: External service integrations
 
-Risk classification follows the **Impact + Detection Matrix** from decision framework, applied to pipeline-specific scenarios.
+Use **Impact + Detection Matrix** criteria from decision framework for pipeline-specific risk classification.
 
 ### Test Strategy Mapping
 
