@@ -1,6 +1,6 @@
-# Test Folder Structure
+# Test Organization Architecture
 
-Proposed test organization separating core infrastructure from pipeline-specific testing.
+Architectural test organization patterns separating core infrastructure from pipeline-specific testing. Shared organizational guidance for both core infrastructure and pipeline testing contexts.
 
 ## Structure Overview
 
@@ -105,9 +105,7 @@ tests/
 - Individual stage implementations and data transformation algorithms
 - Domain-specific business logic and validation rules
 
-**Example Stage Testing Areas**:
-- **Vocabulary**: Word frequency analysis, definition extraction, context selection, IPA parsing
-- **Conjugation**: Verb pattern recognition, tense transformation, irregular verb handling, rule application
+**Pipeline-Specific Areas**: Domain-specific business logic and validation rules for each pipeline's functional requirements
 
 **Infrastructure Coverage**: Pipeline tests validate core infrastructure components as primary testing strategy.
 

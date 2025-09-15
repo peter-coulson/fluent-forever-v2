@@ -26,6 +26,7 @@ These strategy patterns are **framework-stable** - derived from Risk-Based Testi
 - **Scaffolding Lifecycle**: `scaffolding-lifecycle.md` - development phase → production transition patterns
 - **Mock Boundaries**: `mock-boundaries.md` - external/internal testing decision frameworks
 - **Test Consolidation**: `test-consolidation.md` - multi-risk validation design patterns
+- **Test Organization**: `test-organization.md` - architectural patterns for test directory structure and component organization
 
 ## Architecture Implementation
 

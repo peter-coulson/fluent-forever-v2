@@ -44,11 +44,14 @@ Core testing is sufficient when:
 
 **Component Storage**: Reusable fixtures and mocks for consistent testing patterns
 
+## Organizational Architecture
+
+**Test Organization**: Reference `../strategy/test-organization.md` for shared architectural patterns covering both core infrastructure and pipeline testing structure.
+
 ## Expansion Structure
 
 As implementation develops, add specificity in this order:
 1. **Risk Assessment Detail** → `component-strategy.md` (component-specific patterns)
-2. **Test Structure** → `test-structure.md` (proposed test folder organization)
-3. **Component Fixtures** → Focus on reusable mocks and test data patterns
+2. **Component Fixtures** → Focus on reusable mocks and test data patterns
 
 **Reference Flow**: All expansion references strategic frameworks in `../strategy/` rather than duplicating content.

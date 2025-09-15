@@ -9,6 +9,12 @@
 - **Mock Boundary Frameworks**: What to mock vs test directly decision trees
 - **Test Consolidation Strategies**: "One test, multiple risks" design patterns
 
+### Architectural Organization (INCLUDE)
+- **Test directory architecture**: Foundational organizational patterns spanning domains
+- **Cross-domain structures**: Patterns shared between multiple modules/pipelines
+- **Component organization principles**: Fixture patterns, reuse strategies, mock boundaries
+- **Implementation sequencing**: Architectural dependency ordering and priority guidance
+
 ### Component Risk Mappings (INCLUDE - During Refactor)
 - **High/Low Risk Classifications**: Applied using decision framework criteria
 - **Workflow Criticality Assessment**: User workflow risk impact analysis
@@ -16,12 +22,12 @@
 
 ## Exclusion Rules
 
-### Tactical Implementation Details (EXCLUDE)
-- **Specific Test File Paths**: File names, directory structures, line numbers
+### Implementation Syntax (EXCLUDE)
 - **Test Method Signatures**: Function names, parameter lists, assertion patterns
-- **Framework Syntax**: Testing framework-specific code patterns
+- **Framework-Specific Syntax**: Testing framework code patterns (pytest/unittest specific)
+- **File Naming Conventions**: Specific filename patterns within architectural structure
+- **Line-Level Implementation**: Actual test code, assertions, and test data
 - **Coverage Metrics**: Test counts, percentage coverage, quantitative measures
-- **Individual Test Cases**: Specific test implementations or test data
 
 ### Maintenance Implementation (EXCLUDE)
 - **Test Execution Logs**: Runtime output, failure messages, debug information
@@ -30,8 +36,8 @@
 
 ## Gray Area Resolution
 
-**Test Utilities/Helpers**: Include strategic reusable patterns, exclude implementation details
-**Organizational Structure**: Include high-level organization principles, exclude specific file structures
+**Test Utilities/Helpers**: Include strategic reusable patterns, exclude implementation syntax
+**Architectural vs Implementation**: Include foundational organizational patterns, exclude framework-specific syntax
 **Risk Assessment Granularity**: Include component-level decisions, exclude method-level details
 
 ## Context Domain Scope
