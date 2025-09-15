@@ -11,7 +11,12 @@ from src.providers.base.sync_provider import SyncProvider
 class MockDataProvider(DataProvider):
     """Mock data provider for testing."""
 
-    def __init__(self, base_path: Path, read_only: bool = False, managed_files: list[str] | None = None):
+    def __init__(
+        self,
+        base_path: Path,
+        read_only: bool = False,
+        managed_files: list[str] | None = None,
+    ):
         super().__init__(base_path, read_only, managed_files)
         self._data: dict[str, Any] = {}
 
@@ -47,18 +52,29 @@ class MockAudioProvider(MediaProvider):
 
     async def get_audio_url(self, word: str, **kwargs: Any) -> str | None:
         """Return mock audio URL."""
-        self.api_calls.append({"method": "get_audio_url", "word": word, "kwargs": kwargs})
+        self.api_calls.append(
+            {"method": "get_audio_url", "word": word, "kwargs": kwargs}
+        )
         return f"https://mock-audio.com/{word}.mp3"
 
     async def download_audio(self, word: str, target_path: Path, **kwargs: Any) -> bool:
         """Mock audio download."""
-        self.api_calls.append({"method": "download_audio", "word": word, "target_path": str(target_path), "kwargs": kwargs})
+        self.api_calls.append(
+            {
+                "method": "download_audio",
+                "word": word,
+                "target_path": str(target_path),
+                "kwargs": kwargs,
+            }
+        )
         # Simulate file creation
         target_path.parent.mkdir(parents=True, exist_ok=True)
         target_path.write_text(f"mock audio data for {word}")
         return True
 
-    async def batch_download_audio(self, requests: list[dict[str, Any]]) -> dict[str, bool]:
+    async def batch_download_audio(
+        self, requests: list[dict[str, Any]]
+    ) -> dict[str, bool]:
         """Mock batch audio download."""
         self.api_calls.append({"method": "batch_download_audio", "requests": requests})
         results = {}
@@ -88,18 +104,31 @@ class MockImageProvider(MediaProvider):
 
     async def get_image_url(self, query: str, **kwargs: Any) -> str | None:
         """Return mock image URL."""
-        self.api_calls.append({"method": "get_image_url", "query": query, "kwargs": kwargs})
+        self.api_calls.append(
+            {"method": "get_image_url", "query": query, "kwargs": kwargs}
+        )
         return f"https://mock-images.com/{query.replace(' ', '_')}.jpg"
 
-    async def download_image(self, query: str, target_path: Path, **kwargs: Any) -> bool:
+    async def download_image(
+        self, query: str, target_path: Path, **kwargs: Any
+    ) -> bool:
         """Mock image download."""
-        self.api_calls.append({"method": "download_image", "query": query, "target_path": str(target_path), "kwargs": kwargs})
+        self.api_calls.append(
+            {
+                "method": "download_image",
+                "query": query,
+                "target_path": str(target_path),
+                "kwargs": kwargs,
+            }
+        )
         # Simulate file creation
         target_path.parent.mkdir(parents=True, exist_ok=True)
         target_path.write_text(f"mock image data for {query}")
         return True
 
-    async def batch_download_images(self, requests: list[dict[str, Any]]) -> dict[str, bool]:
+    async def batch_download_images(
+        self, requests: list[dict[str, Any]]
+    ) -> dict[str, bool]:
         """Mock batch image download."""
         self.api_calls.append({"method": "batch_download_images", "requests": requests})
         results = {}
@@ -193,7 +222,9 @@ class FailingProvider(MediaProvider):
     async def download_audio(self, word: str, target_path: Path, **kwargs: Any) -> bool:
         raise RuntimeError("Download failure")
 
-    async def batch_download_audio(self, requests: list[dict[str, Any]]) -> dict[str, bool]:
+    async def batch_download_audio(
+        self, requests: list[dict[str, Any]]
+    ) -> dict[str, bool]:
         raise RuntimeError("Batch download failure")
 
 
@@ -220,8 +251,12 @@ class ConfigurableProvider(MediaProvider):
         target_path.write_text(f"configurable audio for {word}")
         return True
 
-    async def batch_download_audio(self, requests: list[dict[str, Any]]) -> dict[str, bool]:
-        self.api_calls.append({"method": "batch_download_audio", "count": len(requests)})
+    async def batch_download_audio(
+        self, requests: list[dict[str, Any]]
+    ) -> dict[str, bool]:
+        self.api_calls.append(
+            {"method": "batch_download_audio", "count": len(requests)}
+        )
         results = {}
         for req in requests:
             word = req["word"]

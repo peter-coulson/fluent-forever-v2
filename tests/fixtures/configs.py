@@ -15,7 +15,7 @@ def create_base_config() -> dict[str, Any]:
                     "type": "json",
                     "pipelines": ["test_pipeline"],
                     "base_path": ".",
-                    "read_only": False
+                    "read_only": False,
                 }
             },
             "audio": {
@@ -23,7 +23,7 @@ def create_base_config() -> dict[str, Any]:
                     "type": "forvo",
                     "pipelines": ["test_pipeline"],
                     "api_key": "${FORVO_API_KEY:test_key}",
-                    "country_priorities": ["ES", "MX", "AR"]
+                    "country_priorities": ["ES", "MX", "AR"],
                 }
             },
             "image": {
@@ -31,21 +31,18 @@ def create_base_config() -> dict[str, Any]:
                     "type": "openai",
                     "pipelines": ["test_pipeline"],
                     "api_key": "${OPENAI_API_KEY:test_key}",
-                    "model": "dall-e-3"
+                    "model": "dall-e-3",
                 }
             },
             "sync": {
                 "test_sync": {
                     "type": "anki",
                     "pipelines": ["test_pipeline"],
-                    "anki_connect_url": "http://localhost:8765"
+                    "anki_connect_url": "http://localhost:8765",
                 }
-            }
+            },
         },
-        "system": {
-            "log_level": "INFO",
-            "max_retries": 3
-        }
+        "system": {"log_level": "INFO", "max_retries": 3},
     }
 
 
@@ -59,21 +56,21 @@ def create_complex_config() -> dict[str, Any]:
                     "pipelines": ["vocabulary"],
                     "base_path": "data",
                     "files": ["vocabulary.json"],
-                    "read_only": False
+                    "read_only": False,
                 },
                 "conjugation_data": {
                     "type": "json",
                     "pipelines": ["conjugation"],
                     "base_path": "data",
                     "files": ["conjugations.json"],
-                    "read_only": True
+                    "read_only": True,
                 },
                 "shared_data": {
                     "type": "json",
                     "pipelines": ["*"],
                     "base_path": "shared",
-                    "read_only": False
-                }
+                    "read_only": False,
+                },
             },
             "audio": {
                 "primary_audio": {
@@ -81,44 +78,44 @@ def create_complex_config() -> dict[str, Any]:
                     "pipelines": ["vocabulary", "conjugation"],
                     "api_key": "${FORVO_API_KEY:test_key}",
                     "language": "spanish",
-                    "country_priorities": ["ES", "MX", "AR"]
+                    "country_priorities": ["ES", "MX", "AR"],
                 },
                 "backup_audio": {
                     "type": "forvo",
                     "pipelines": ["vocabulary"],
                     "api_key": "${BACKUP_FORVO_KEY:backup_key}",
                     "language": "spanish",
-                    "country_priorities": ["ES", "MX", "AR"]
-                }
+                    "country_priorities": ["ES", "MX", "AR"],
+                },
             },
             "image": {
                 "openai_images": {
                     "type": "openai",
                     "pipelines": ["vocabulary"],
                     "api_key": "${OPENAI_API_KEY:test_key}",
-                    "model": "dall-e-3"
+                    "model": "dall-e-3",
                 },
                 "runware_images": {
                     "type": "runware",
                     "pipelines": ["vocabulary"],
-                    "api_key": "${RUNWARE_API_KEY:test_key}"
-                }
+                    "api_key": "${RUNWARE_API_KEY:test_key}",
+                },
             },
             "sync": {
                 "main_anki": {
                     "type": "anki",
                     "pipelines": ["*"],
                     "anki_connect_url": "http://localhost:8765",
-                    "deck_name": "Spanish Learning"
+                    "deck_name": "Spanish Learning",
                 }
-            }
+            },
         },
         "system": {
             "log_level": "DEBUG",
             "max_retries": 5,
             "timeout": 30,
-            "cache_enabled": True
-        }
+            "cache_enabled": True,
+        },
     }
 
 
@@ -131,7 +128,7 @@ def create_env_var_config() -> dict[str, Any]:
                     "type": "json",
                     "pipelines": ["test_pipeline"],
                     "base_path": "${DATA_PATH:./data}",
-                    "read_only": "${READ_ONLY:false}"
+                    "read_only": "${READ_ONLY:false}",
                 }
             },
             "audio": {
@@ -141,15 +138,15 @@ def create_env_var_config() -> dict[str, Any]:
                     "api_key": "${FORVO_API_KEY}",
                     "language": "${LANGUAGE:spanish}",
                     "country_priorities": ["ES", "MX", "AR"],
-                    "fallback_url": "${FALLBACK_URL:http://fallback.com}"
+                    "fallback_url": "${FALLBACK_URL:http://fallback.com}",
                 }
-            }
+            },
         },
         "system": {
             "log_level": "${LOG_LEVEL:INFO}",
             "debug_mode": "${DEBUG:false}",
-            "api_timeout": "${API_TIMEOUT:30}"
-        }
+            "api_timeout": "${API_TIMEOUT:30}",
+        },
     }
 
 
@@ -160,22 +157,22 @@ def create_invalid_config() -> dict[str, Any]:
             "data": {
                 "missing_pipelines": {
                     "type": "json",
-                    "base_path": "."
+                    "base_path": ".",
                     # Missing required 'pipelines' field
                 }
             },
             "audio": {
                 "unsupported_type": {
                     "type": "unsupported_audio_provider",
-                    "pipelines": ["test_pipeline"]
+                    "pipelines": ["test_pipeline"],
                 }
             },
             "image": {
                 "invalid_image": {
                     "type": "invalid_image_provider",
-                    "pipelines": ["test_pipeline"]
+                    "pipelines": ["test_pipeline"],
                 }
-            }
+            },
         }
     }
 
@@ -189,14 +186,14 @@ def create_file_conflict_config() -> dict[str, Any]:
                     "type": "json",
                     "pipelines": ["pipeline1"],
                     "files": ["shared_file.json", "provider1_file.json"],
-                    "base_path": "."
+                    "base_path": ".",
                 },
                 "provider2": {
                     "type": "json",
                     "pipelines": ["pipeline2"],
                     "files": ["shared_file.json", "provider2_file.json"],  # Conflict!
-                    "base_path": "."
-                }
+                    "base_path": ".",
+                },
             }
         }
     }
@@ -208,7 +205,7 @@ def create_old_format_config() -> dict[str, Any]:
         "providers": {
             "audio": {
                 "type": "forvo",  # Old format - should be under a named provider
-                "pipelines": ["test_pipeline"]
+                "pipelines": ["test_pipeline"],
             }
         }
     }
@@ -216,7 +213,7 @@ def create_old_format_config() -> dict[str, Any]:
 
 def create_config_file(config_data: dict[str, Any]) -> Path:
     """Create a temporary configuration file with given data."""
-    temp_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
+    temp_file = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
     json.dump(config_data, temp_file, indent=2)
     temp_file.close()
     return Path(temp_file.name)
@@ -224,7 +221,7 @@ def create_config_file(config_data: dict[str, Any]) -> Path:
 
 def create_invalid_json_file() -> Path:
     """Create a file with invalid JSON for testing error handling."""
-    temp_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
+    temp_file = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
     temp_file.write('{"invalid": json syntax}')  # Missing quotes around 'json'
     temp_file.close()
     return Path(temp_file.name)
@@ -264,12 +261,7 @@ def create_minimal_working_config() -> dict[str, Any]:
     """Create the most minimal configuration that should work."""
     return {
         "providers": {
-            "data": {
-                "test_data": {
-                    "type": "json",
-                    "pipelines": ["test_pipeline"]
-                }
-            }
+            "data": {"test_data": {"type": "json", "pipelines": ["test_pipeline"]}}
         }
     }
 
@@ -281,8 +273,4 @@ def create_empty_config() -> dict[str, Any]:
 
 def create_no_providers_config() -> dict[str, Any]:
     """Create configuration without providers section."""
-    return {
-        "system": {
-            "log_level": "INFO"
-        }
-    }
+    return {"system": {"log_level": "INFO"}}

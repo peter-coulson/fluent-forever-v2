@@ -118,13 +118,13 @@ def create_context_with_all_providers() -> PipelineContext:
 def create_performance_test_context() -> PipelineContext:
     """Create context with data for performance testing."""
     context = create_test_context("performance_test")
-    
+
     # Add large dataset for performance testing
     large_words = [f"word_{i}" for i in range(1000)]
     context.set("words", large_words)
     context.set("batch_size", 50)
     context.set("performance_monitoring", True)
-    
+
     return context
 
 
@@ -223,13 +223,13 @@ class ContextBuilder:
             config=self.config,
             args=self.args,
         )
-        
+
         # Apply completed stages
         for stage in self.completed_stages:
             context.mark_stage_complete(stage)
-        
+
         # Apply errors
         for error in self.errors:
             context.add_error(error)
-        
+
         return context
