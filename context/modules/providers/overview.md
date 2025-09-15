@@ -15,7 +15,7 @@ The provider system abstracts external service integrations using pluggable comp
 **Audio/image generation with configuration injection pattern**
 - **Configuration Injection**: Constructor-based config with fail-fast validation
 - **Batch Processing**: Sequential processing with configurable rate limiting
-- Text-to-speech services (Forvo, ElevenLabs, Azure)
+- Text-to-speech services (Forvo)
 - AI image generation (OpenAI, Runware)
 
 ### Sync Providers

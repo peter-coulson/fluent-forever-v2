@@ -13,7 +13,7 @@ Complete the missing concrete implementation patterns that bridge strategic fram
 **Goal**: Translate strategic mock boundary frameworks into concrete implementation decisions
 
 **Key Areas to Address**:
-- **External Service Boundaries**: Specific mocking patterns for Forvo, ElevenLabs, OpenAI, Runware, AnkiConnect
+- **External Service Boundaries**: Specific mocking patterns for Forvo, OpenAI, Runware, AnkiConnect
 - **File System Boundaries**: Concrete patterns for file operation mocking vs real file usage
 - **Environment Boundaries**: Specific environment variable mocking strategies
 - **Provider Integration Boundaries**: Where to mock provider interfaces vs full provider behavior

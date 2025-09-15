@@ -40,15 +40,6 @@ python -m src.cli.main validate-config config/pipeline.json
 3. Test connection: `curl http://localhost:8765`
 4. Verify `ANKI_CONNECT_URL` environment variable
 
-### Audio Provider API Errors
-**ElevenLabs Errors**:
-- `401 Unauthorized`: Check `ELEVENLABS_API_KEY`
-- `429 Rate Limited`: Implement retry logic
-- `400 Bad Request`: Verify audio generation parameters
-
-**Azure Speech Errors**:
-- `401`: Verify `AZURE_SPEECH_KEY` and `AZURE_SPEECH_REGION`
-- `403`: Check subscription and quota limits
 
 ### Image Generation Timeouts
 **Error**: `ImageGenerationTimeout: Request exceeded maximum time`

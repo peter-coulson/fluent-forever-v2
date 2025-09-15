@@ -5,7 +5,7 @@ Risk-based testing assignments for current system components (reference: `../str
 ## E2E Testing Components (High Risk - External Integration)
 
 **Provider System**
-- MediaProvider: Real API calls to Forvo, ElevenLabs, OpenAI, Runware
+- MediaProvider: Real API calls to Forvo, OpenAI, Runware
 - SyncProvider: Real Anki integration via AnkiConnect
 - External service authentication and error handling
 

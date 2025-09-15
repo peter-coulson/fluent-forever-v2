@@ -14,7 +14,7 @@ The system follows a **modular pipeline architecture** where learning workflows 
 
 ### External Integrations
 - **Anki**: Card creation and synchronization via AnkiConnect
-- **Audio Services**: Forvo pronunciation provider, ElevenLabs, Azure Speech
+- **Audio Services**: Forvo pronunciation provider
 - **Image Generation**: RunwareProvider, OpenAI image generation
 - **Data Storage**: JSON-based vocabulary/conjugation storage
 
