@@ -55,6 +55,3 @@ Risk-based testing application patterns, scaffolding lifecycle rules, and mock b
 - **Framework Foundations**: `meta/overview.md` → decision frameworks and maintenance models
 - **Testing Strategy**: `strategy/overview.md` → risk-based patterns and scaffolding lifecycle
 - **Implementation Details**: `implementation/` → system-level testing approaches (populated during refactor)
-
-## Relationship to TESTING_FRAMEWORK.md
-This context system provides **application guidance** for TESTING_FRAMEWORK.md principles within the specific pipeline architecture, not duplication of core testing framework concepts.

@@ -60,4 +60,13 @@ Implements the fundamental abstractions for the pipeline system: base classes fo
 - **Error handling**: Use `context.add_error()` for stage-level error accumulation
 - **Completion tracking**: Automatic via `context.mark_stage_complete()`
 
+## Testing Integration
+
+**Risk Assessment**: Core pipeline components require testing assessment using `context/testing/meta/decision-framework.md` criteria:
+- **Pipeline execution**: High-risk for context flow and stage orchestration
+- **Configuration system**: High-risk for validation and environment substitution
+- **Registry pattern**: Medium-risk for component discovery and registration
+
+**Testing Strategy**: Reference `context/testing/strategy/risk-based-testing.md` for core component testing approaches and `context/testing/strategy/mock-boundaries.md` for internal vs external testing boundaries.
+
 See `context/system/core-concepts.md` for component definitions and relationships.

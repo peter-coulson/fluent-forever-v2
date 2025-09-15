@@ -3,31 +3,20 @@
 ## Pipeline Architecture Risk Patterns
 
 ### Component Risk Assessment Framework
+Apply TESTING_FRAMEWORK.md risk assessment criteria and `meta/decision-framework.md` evaluation templates to pipeline components:
+
 **Pipeline Level**: Sequential stage execution with context flow
-- **High-Risk**: Database operations, configuration processing, cross-stage data validation
-- **Variable-Risk**: Stage-specific logic complexity and usage frequency
-- **Low-Risk**: Logging, simple utilities, immediate-feedback failures
-
 **Stage Level**: Individual processing units
-- **High-Risk**: Data transformation logic, validation bypass scenarios, silent failures
-- **Medium-Risk**: Media generation, external API orchestration
-- **Low-Risk**: Parameter validation, status reporting
-
 **Provider Level**: External service integrations
-- **High-Risk**: Configuration injection, authentication, data corruption paths
-- **Low-Risk**: Network failures, rate limiting, transient errors (immediate detection)
+
+Risk classification follows the **Impact + Detection Matrix** from decision framework, applied to pipeline-specific scenarios.
 
 ### Test Strategy Mapping
 
-**High-Risk Components (Inverted Pyramid)**:
-- **E2E Primary**: Full pipeline workflows with real data
-- **Integration Secondary**: Component interaction validation
-- **Unit Minimal**: Complex transformation logic only
+Applies TESTING_FRAMEWORK.md tool-to-risk mapping patterns to pipeline components:
 
-**Low-Risk Components (Traditional Pyramid)**:
-- **Unit Primary**: Development velocity, quick feedback
-- **Integration Optional**: Debugging convenience
-- **E2E Rare**: Only for critical user workflows
+**High-Risk Strategy**: Follow inverted pyramid from TESTING_FRAMEWORK.md
+**Low-Risk Strategy**: Follow traditional pyramid from TESTING_FRAMEWORK.md
 
 ### Pipeline-Specific Risk Scenarios
 

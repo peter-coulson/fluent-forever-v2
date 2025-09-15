@@ -44,4 +44,17 @@ Providers integrate seamlessly with the pipeline system:
 - **Type Safety**: Providers validate requests and return structured results
 - **Error Handling**: Graceful degradation when providers are unavailable or unauthorized
 
+## Testing Integration
+
+**Risk Assessment**: Provider components require risk assessment using `context/testing/meta/decision-framework.md` criteria:
+- **External API Integration**: High-risk for configuration injection and authentication
+- **Media Generation**: Medium-risk for data transformation and error handling
+- **Registry System**: Medium-risk for provider discovery and access control
+
+**Mock Boundaries**: Providers represent external dependencies requiring mocking strategies per `context/testing/strategy/mock-boundaries.md`:
+- **Mock External APIs**: Service endpoints, authentication, network calls
+- **Test Internal Logic**: Configuration processing, provider registry, access control
+
+**Testing Strategy**: Reference `context/testing/strategy/risk-based-testing.md` for provider-specific testing approaches and scaffolding patterns.
+
 See `context/modules/providers/` for implementation details and `context/workflows/extending-providers.md` for extension patterns.

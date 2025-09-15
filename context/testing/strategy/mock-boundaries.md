@@ -2,45 +2,39 @@
 
 ## External/Uncontrolled Dependencies (MOCK)
 
+Applies TESTING_FRAMEWORK.md mocking strategy to pipeline-specific external dependencies:
+
 ### Provider APIs
-**External Services**: Forvo, ElevenLabs, OpenAI, Azure Speech
-- **Rationale**: Uncontrolled, rate-limited, cost implications
-- **Mock Strategy**: Centralized provider mocks with realistic response patterns
-- **Test Focus**: Provider integration logic, error handling, configuration injection
+**Services**: Forvo, ElevenLabs, OpenAI, Azure Speech
+- **Application**: Follow TESTING_FRAMEWORK.md external mocking guidelines
+- **Pipeline Focus**: Provider integration logic, configuration injection, error handling
 
 ### Network Dependencies
-**External Calls**: HTTP requests, API authentication
-- **Rationale**: Network reliability outside system control
-- **Mock Strategy**: Network layer mocking with failure simulation
-- **Test Focus**: Retry logic, timeout handling, graceful degradation
+**Application**: Network calls follow TESTING_FRAMEWORK.md external mocking patterns
+- **Pipeline Focus**: API orchestration, retry logic, graceful degradation
 
 ### External File Systems
-**External Paths**: User-specified directories, temporary file creation
-- **Rationale**: Filesystem permissions, disk space outside system control
-- **Mock Strategy**: Filesystem abstraction layer mocking
-- **Test Focus**: Permission handling, error recovery, cleanup logic
+**Application**: External file systems follow TESTING_FRAMEWORK.md mocking guidelines
+- **Pipeline Focus**: Output path handling, cleanup logic, permission management
 
 ## Internal/Controlled Systems (TEST DIRECTLY)
 
+Applies TESTING_FRAMEWORK.md internal testing strategy to pipeline components:
+
 ### Pipeline Architecture
-**Core Components**: Pipeline execution, stage orchestration, context management
-- **Rationale**: Internal logic, controlled environment, core business logic
-- **Test Strategy**: Real component interaction testing
-- **Test Focus**: Execution flow, data transformation, error propagation
+**Application**: Internal pipeline logic follows TESTING_FRAMEWORK.md controlled system testing
+- **Pipeline Focus**: Stage execution, context flow, transformation logic
 
 ### Configuration System
-**Internal Config**: JSON loading, environment substitution, validation
-- **Rationale**: Internal logic, deterministic behavior
-- **Test Strategy**: Real configuration processing with controlled inputs
-- **Test Focus**: Parsing logic, validation rules, error handling
+**Application**: Configuration follows TESTING_FRAMEWORK.md internal testing guidelines
+- **Pipeline Focus**: Pipeline configuration, validation rules, environment handling
 
 ### Local Data Operations
-**Internal Storage**: JSON data files, local database operations
-- **Rationale**: Controlled environment, deterministic behavior
-- **Test Strategy**: Real file operations with test isolation
-- **Test Focus**: Data integrity, concurrency, backup/recovery
+**Application**: Local operations follow TESTING_FRAMEWORK.md controlled testing patterns
+- **Pipeline Focus**: Data integrity, JSON processing, state management
 
 ## Mock Implementation Patterns
 
-**Centralized Mocks**: Reusable provider mocks for common external services
-**Per-Test Mocks**: Specific scenario mocking for edge case testing
+Applies TESTING_FRAMEWORK.md reusability approach:
+- **Centralized Mocks**: Pipeline provider service patterns
+- **Per-Test Mocks**: Pipeline-specific scenario testing
