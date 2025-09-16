@@ -23,7 +23,7 @@ Level 1: CLAUDE.md (Entry point navigation)
 Level 2: system/overview.md (High-level architecture)
 Level 3: system/core-concepts.md (Component definitions)
 Level 4: modules/*/overview.md (Implementation details)
-Level 5: workflows/*.md (Practical procedures)
+Level 5: methodologies/*.md (Systematic frameworks)
 ```
 
 **Rules**:
@@ -46,4 +46,4 @@ Content organized by functional domain with minimal overlap:
 - **Provider**: External service integrations, registry patterns
 - **CLI**: Command-line interface, user interaction patterns
 - **Pipeline**: Workflow implementations, stage patterns
-- **Workflow**: Operations, troubleshooting, extension guides
+- **Methodology**: Systematic frameworks for task execution

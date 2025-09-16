@@ -47,4 +47,4 @@ When pipeline implementations exist, testing guidance follows system-level testi
 
 **Domain Boundary**: Pipeline testing context contains implementation-specific guidance while system-level testing framework provides strategic patterns and decision frameworks.
 
-See `context/workflows/extending.md` for pipeline implementation guidelines and `context/testing/overview.md` for system-level testing framework.
+See `context/testing/overview.md` for system-level testing framework.

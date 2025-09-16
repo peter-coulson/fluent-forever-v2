@@ -57,4 +57,4 @@ Providers integrate seamlessly with the pipeline system:
 
 **Testing Strategy**: Reference `context/testing/strategy/risk-based-testing.md` for provider-specific testing approaches and scaffolding patterns.
 
-See `context/modules/providers/` for implementation details and `context/workflows/extending-providers.md` for extension patterns.
+See `context/modules/providers/` for implementation details.

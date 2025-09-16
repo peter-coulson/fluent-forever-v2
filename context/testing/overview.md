@@ -14,8 +14,12 @@ Strategic testing guidance framework implementing Risk-Based Testing principles 
 - **Strategy Patterns** (`strategy/`): Risk-based testing application patterns and lifecycle management
 - **Core Infrastructure** (`core-infrastructure/`): Testing strategies for system components independent of pipeline implementations
 
+## Systematic Testing Methodologies
+For structured test planning and execution frameworks, see: `context/methodologies/testing/` - Sequential execution framework, risk assessment process, and critical test patterns.
+
 ## Navigation
 - **Framework Foundations**: `meta/overview.md` → decision frameworks and maintenance models
 - **Testing Strategy**: `strategy/overview.md` → risk-based patterns and scaffolding lifecycle
 - **Core Infrastructure**: `core-infrastructure/overview.md` → testing strategies for core system components
 - **Test Structure**: `strategy/test-organization.md` → proposed test folder organization
+- **Testing Methodologies**: `context/methodologies/testing/sequential-execution-framework.md` → systematic test planning frameworks

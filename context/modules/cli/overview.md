@@ -53,4 +53,4 @@ Universal command-line interface providing consistent access to all pipeline ope
 - **Verbose Mode**: Debug logging via `--verbose` or `FLUENT_FOREVER_DEBUG`
 - **Performance Tracking**: Execution timing when verbose enabled
 
-See `context/modules/cli/commands.md` for implementation details and `context/workflows/extending-cli.md` for extension patterns.
+See `context/modules/cli/commands.md` for implementation details.
