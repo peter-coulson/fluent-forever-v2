@@ -20,8 +20,13 @@ src/pipelines/vocabulary/stages/word_processing/
 #### WordProcessor (word_processor.py)
 ```python
 class WordProcessor:
-    def process_words(self, word_list: List[str]) -> ProcessingResult:
-        # Main orchestration logic
+    def __init__(self, spanish_dict_provider, vocabulary_provider, word_queue_provider):
+        self.spanish_dict_provider = spanish_dict_provider
+        self.vocabulary_provider = vocabulary_provider
+        self.word_queue_provider = word_queue_provider
+
+    def process_words(self, word_list: List[str], debug_level: str = "basic") -> ProcessingResult:
+        # Main orchestration logic using providers
     def _validate_inputs(self, word_list: List[str]) -> List[str]:
         # Input validation
     def _generate_debug_output(self, results: ProcessingResult) -> None:
@@ -31,8 +36,13 @@ class WordProcessor:
 #### DictionaryFetcher (dictionary_fetcher.py)
 ```python
 class DictionaryFetcher:
+    def __init__(self, jsonl_provider: JSONLDataProvider):
+        self.jsonl_provider = jsonl_provider
+
     def fetch_word_data(self, word: str) -> DictionaryEntry:
-        # Retrieve and validate word from spanish_dictionary.json
+        # Retrieve and validate word from Español.jsonl via provider
+    def fetch_words_batch(self, words: List[str]) -> Dict[str, DictionaryEntry]:
+        # Batch fetch using provider.get_words_batch() - see jsonl_provider_design.md
     def validate_entry(self, entry: dict) -> List[str]:
         # Validate required fields exist
 ```
@@ -62,17 +72,29 @@ class IPASelector:
 #### CardGenerator (card_generator.py)
 ```python
 class CardGenerator:
+    def __init__(self, vocabulary_provider, word_queue_provider):
+        self.vocabulary_provider = vocabulary_provider
+        self.word_queue_provider = word_queue_provider
+
     def generate_card_id(self, word: str, translations: List[str]) -> str:
         # Create unique CardID
     def filter_existing_cards(self, cards: List[dict]) -> List[dict]:
-        # Filter against vocabulary.json and current queue
+        # Filter against vocabulary.json and current queue via providers
+    def _load_existing_card_ids(self) -> Set[str]:
+        # Load existing CardIDs from both data sources via providers
 ```
 
 #### QueuePopulator (queue_populator.py)
 ```python
 class QueuePopulator:
+    def __init__(self, word_queue_provider, prompts_staging_provider):
+        self.word_queue_provider = word_queue_provider
+        self.prompts_staging_provider = prompts_staging_provider
+
     def populate_queue(self, processed_data: List[dict]) -> None:
-        # Add entries to word_queue.json
+        # Add entries to word_queue.json via provider
+    def update_prompts_staging(self, new_entries: List[dict]) -> None:
+        # Update prompts_staging.json via provider
     def validate_queue_entry(self, entry: dict) -> List[str]:
         # Validate complete queue entry
 ```
@@ -88,7 +110,7 @@ Stage 2 supports two launch methods:
 ### 2. Manual CLI Launch
 **Input**: Command-line interface with word list
 **Usage**: `python -m cli.pipeline run vocabulary --stage word_processing --words "word1,word2,word3"` or `--words-file path/to/words.txt`
-**CLI Options**:
+**CLI Options** (handled via pipeline `validate_cli_args()` and `populate_context_from_cli()`):
 - `--words`: Comma-separated list of Spanish words
 - `--words-file`: Path to file containing words (one per line)
 - `--debug-vocab-processing`: Enable detailed debug output
@@ -100,10 +122,10 @@ Stage 2 supports two launch methods:
 **Output**: Complete word_queue.json entries (without prompts)
 
 **Processing Flow**:
-1. **DictionaryFetcher**: Validate word exists, extract all required fields
+1. **DictionaryFetcher**: Batch fetch from Español.jsonl via JSONLDataProvider, validate entries
 2. **Sense Processor**: Apply sense grouping algorithm, IPA selection
 3. **CardID Generator**: Create unique CardID per selected sense
-4. **CardID Filtering**: Filter duplicate CardIDs against vocabulary.json and current queue
+4. **CardID Filtering**: Filter duplicate CardIDs against vocabulary.json and current queue via JSONDataProvider
 
 ## 1. Sense Grouping Algorithm
 
@@ -289,8 +311,10 @@ Required fields per sense:
 ### WordProcessingStage Implementation
 ```python
 # src/pipelines/vocabulary/stages/word_processing.py
-from core.stages import Stage, StageResult, StageStatus
-from core.context import PipelineContext
+from typing import List, Any
+from src.core.stages import Stage, StageResult
+from src.core.context import PipelineContext
+from src.core.exceptions import ValidationError
 from .word_processing.word_processor import WordProcessor
 
 class WordProcessingStage(Stage):
@@ -310,22 +334,48 @@ class WordProcessingStage(Stage):
 
     def validate_context(self, context: PipelineContext) -> List[str]:
         errors = []
+
+        # Validate input data
         selected_words = context.get("selected_words")
         if not selected_words:
             errors.append("No selected_words found in context")
         if not isinstance(selected_words, list):
             errors.append("selected_words must be a list")
+
+        # Validate provider access
+        providers = context.get("providers", {})
+        data_providers = providers.get("data", {})
+
+        if "spanish_dictionary" not in data_providers:
+            errors.append("spanish_dictionary provider not configured")
+        if "vocabulary_data" not in data_providers:
+            errors.append("vocabulary_data provider not configured")
+        if "word_queue_data" not in data_providers:
+            errors.append("word_queue_data provider not configured")
+
         return errors
 
-    def execute(self, context: PipelineContext) -> StageResult:
+    def _execute_impl(self, context: PipelineContext) -> StageResult:
         """Execute the complex Stage 2 word processing pipeline"""
         try:
-            # Get input from Stage 1
+            # Get providers from context (configured via registry)
+            providers = context.get("providers", {})
+            data_providers = providers.get("data", {})
+
+            spanish_dict_provider = data_providers["spanish_dictionary"]
+            vocabulary_provider = data_providers["vocabulary_data"]
+            word_queue_provider = data_providers["word_queue_data"]
+
+            # Get input from Stage 1 or CLI
             selected_words = context.get("selected_words", [])
             debug_level = context.get("debug_level", "basic")
 
-            # Initialize the complex word processor orchestrator
-            processor = WordProcessor()
+            # Initialize the complex word processor orchestrator with providers
+            processor = WordProcessor(
+                spanish_dict_provider=spanish_dict_provider,
+                vocabulary_provider=vocabulary_provider,
+                word_queue_provider=word_queue_provider
+            )
 
             # Execute the full Stage 2 pipeline
             result = processor.process_words(
@@ -333,19 +383,40 @@ class WordProcessingStage(Stage):
                 debug_level=debug_level
             )
 
+            # Handle partial failures
+            if result.errors and result.entries:
+                context.add_error(f"Partial processing: {len(result.errors)} words failed")
+
             # Update context for Stage 3
             context.set("processed_entries", result.entries)
             context.set("word_queue_updated", True)
             context.set("processing_stats", result.stats)
 
-            return StageResult.success(
-                f"Processed {len(result.entries)} word entries with {len(result.errors)} errors",
-                {
-                    "processed_entries": result.entries,
-                    "stats": result.stats,
-                    "warnings": result.warnings
-                }
-            )
+            # Return appropriate result based on success/partial/failure
+            if result.entries and not result.errors:
+                return StageResult.success_result(
+                    f"Successfully processed {len(result.entries)} word entries",
+                    {
+                        "processed_entries": result.entries,
+                        "stats": result.stats,
+                        "warnings": result.warnings
+                    }
+                )
+            elif result.entries and result.errors:
+                return StageResult.partial(
+                    f"Processed {len(result.entries)} entries with {len(result.errors)} errors",
+                    {
+                        "processed_entries": result.entries,
+                        "stats": result.stats,
+                        "warnings": result.warnings
+                    },
+                    result.errors
+                )
+            else:
+                return StageResult.failure(
+                    "No entries processed successfully",
+                    result.errors
+                )
 
         except ValidationError as e:
             return StageResult.failure(
@@ -353,7 +424,96 @@ class WordProcessingStage(Stage):
                 errors=e.errors
             )
         except Exception as e:
+            self.logger.exception("Unexpected error in word processing")
             return StageResult.failure(
                 f"Word processing failed: {str(e)}"
             )
+```
+
+### Pipeline-Level CLI Integration
+
+**Vocabulary Pipeline Class** (must be implemented):
+```python
+# src/pipelines/vocabulary/pipeline.py
+from typing import Any, List
+from src.core.pipeline import Pipeline
+from src.core.context import PipelineContext
+
+class VocabularyPipeline(Pipeline):
+    """Vocabulary card creation pipeline"""
+
+    def validate_cli_args(self, args: Any) -> List[str]:
+        """Validate CLI arguments for vocabulary pipeline"""
+        errors = []
+
+        # Validate word processing stage arguments
+        if hasattr(args, 'stage') and args.stage == 'word_processing':
+            if not hasattr(args, 'words') and not hasattr(args, 'words_file'):
+                errors.append("Either --words or --words-file required for word_processing stage")
+
+            if hasattr(args, 'words') and hasattr(args, 'words_file'):
+                if args.words and args.words_file:
+                    errors.append("Cannot specify both --words and --words-file")
+
+            if hasattr(args, 'words_file') and args.words_file:
+                from pathlib import Path
+                if not Path(args.words_file).exists():
+                    errors.append(f"Words file not found: {args.words_file}")
+
+        return errors
+
+    def populate_context_from_cli(self, context: PipelineContext, args: Any) -> None:
+        """Populate context with CLI arguments"""
+        # Handle word list input
+        if hasattr(args, 'words') and args.words:
+            selected_words = [w.strip() for w in args.words.split(',')]
+            context.set("selected_words", selected_words)
+
+        elif hasattr(args, 'words_file') and args.words_file:
+            from pathlib import Path
+            words_file = Path(args.words_file)
+            selected_words = [line.strip() for line in words_file.read_text().splitlines() if line.strip()]
+            context.set("selected_words", selected_words)
+
+        # Handle debug settings
+        if hasattr(args, 'debug_level'):
+            context.set("debug_level", args.debug_level)
+        elif hasattr(args, 'debug_vocab_processing') and args.debug_vocab_processing:
+            context.set("debug_level", "verbose")
+
+        if hasattr(args, 'debug_output') and args.debug_output:
+            context.set("debug_output_path", args.debug_output)
+```
+
+### Data Provider Configuration Integration
+
+**Required Configuration** (`config.json`):
+```json
+{
+  "providers": {
+    "data": {
+      "spanish_dictionary": {
+        "type": "jsonl",
+        "file_path": "data/Español.jsonl",
+        "pipelines": ["vocabulary"],
+        "read_only": true,
+        "build_index": true
+      },
+      "vocabulary_data": {
+        "type": "json",
+        "base_path": "data/",
+        "files": ["vocabulary"],
+        "pipelines": ["vocabulary"],
+        "read_only": false
+      },
+      "word_queue_data": {
+        "type": "json",
+        "base_path": "data/",
+        "files": ["word_queue", "prompts_staging"],
+        "pipelines": ["vocabulary"],
+        "read_only": false
+      }
+    }
+  }
+}
 ```
