@@ -334,7 +334,7 @@ class TestProviderRegistry:
                 "pipelines": ["vocabulary"],
             }
 
-            provider = registry._create_media_provider("audio", "forvo", config)
+            registry._create_media_provider("audio", "forvo", config)
 
             # Verify provider was called with extracted config (no metadata fields)
             expected_config = {
@@ -425,16 +425,16 @@ class TestProviderRegistry:
             }
         }
 
-        with patch.dict("os.environ", {"FORVO_API_KEY": "env_key_value"}):
-            with patch("builtins.open", mock_open(read_data='{"test": "data"}')):
-                with patch("json.load", return_value=config_data):
-                    config = Config()
-                    registry = ProviderRegistry.from_config(config)
+        with (
+            patch.dict("os.environ", {"FORVO_API_KEY": "env_key_value"}),
+            patch("builtins.open", mock_open(read_data='{"test": "data"}')),
+            patch("json.load", return_value=config_data),
+        ):
+            config = Config()
+            ProviderRegistry.from_config(config)
 
-                    # Environment substitution should have occurred in Config
-                    assert (
-                        config.get("providers.audio.forvo.api_key") == "env_key_value"
-                    )
+            # Environment substitution should have occurred in Config
+            assert config.get("providers.audio.forvo.api_key") == "env_key_value"
 
     def test_registry_state_isolation_between_tests(self):
         """Test that registry state is properly isolated between tests."""
@@ -516,23 +516,25 @@ class TestProviderRegistry:
             }
         }
 
-        with patch("builtins.open", mock_open()):
-            with patch("json.load", return_value=config_data):
-                config = Config()
+        with (
+            patch("builtins.open", mock_open()),
+            patch("json.load", return_value=config_data),
+        ):
+            config = Config()
 
-                with patch.object(
-                    ProviderRegistry, "_create_media_provider"
-                ) as mock_create:
-                    mock_audio_provider = MockAudioProvider()
-                    mock_create.return_value = mock_audio_provider
+            with patch.object(
+                ProviderRegistry, "_create_media_provider"
+            ) as mock_create:
+                mock_audio_provider = MockAudioProvider()
+                mock_create.return_value = mock_audio_provider
 
-                    registry = ProviderRegistry.from_config(config)
+                registry = ProviderRegistry.from_config(config)
 
-                    # Verify data provider was registered
-                    assert "main_data" in registry.list_data_providers()
+                # Verify data provider was registered
+                assert "main_data" in registry.list_data_providers()
 
-                    # Verify media provider creation was attempted
-                    mock_create.assert_called()
+                # Verify media provider creation was attempted
+                mock_create.assert_called()
 
     def test_unsupported_provider_type_error(self, registry):
         """Test error handling for unsupported provider types."""
@@ -566,14 +568,14 @@ class TestProviderRegistry:
             }
         }
 
-        with patch("builtins.open", mock_open()):
-            with patch("json.load", return_value=config_data):
-                config = Config()
+        with (
+            patch("builtins.open", mock_open()),
+            patch("json.load", return_value=config_data),
+        ):
+            config = Config()
 
-                with pytest.raises(
-                    ValueError, match="missing required 'pipelines' field"
-                ):
-                    ProviderRegistry.from_config(config)
+            with pytest.raises(ValueError, match="missing required 'pipelines' field"):
+                ProviderRegistry.from_config(config)
 
     def test_provider_creation_fallback_behavior(self, registry):
         """Test fallback behavior when provider constructor fails with config."""
