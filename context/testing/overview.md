@@ -14,7 +14,9 @@ Strategic testing guidance framework implementing Risk-Based Testing principles 
 - **Core Infrastructure** (`core-infrastructure/`): Testing strategies for system components independent of pipeline implementations
 
 ## Systematic Testing Methodologies
-For structured test planning and execution frameworks, see: `context/methodologies/testing/` - Sequential execution framework, risk assessment process, and critical test patterns.
+For structured test planning and execution frameworks, see: `context/methodologies/testing/` - Context discovery framework, sequential execution framework, risk assessment process, and critical test patterns.
+
+**MANDATORY PREREQUISITE**: `context/methodologies/testing/context-discovery-framework.md` - System understanding methodology required before applying any testing framework.
 
 ## Navigation
 - **Framework Foundations**: `meta/overview.md` → decision frameworks and maintenance models
