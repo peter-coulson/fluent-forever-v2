@@ -14,7 +14,6 @@ Self-documenting framework for testing context maintenance, decision criteria, a
 ### Framework-Stable Content
 Derived from Risk-Based Testing principles - rarely changes:
 - Risk assessment criteria templates
-- Scaffolding lifecycle rules
 - Mock boundary decision frameworks
 
 ### Implementation-Dynamic Content

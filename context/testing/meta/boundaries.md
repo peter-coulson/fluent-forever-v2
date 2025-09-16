@@ -5,7 +5,6 @@
 ### Strategic Testing Guidance (INCLUDE)
 - **Risk Classification Templates**: Criteria for assessing component risk levels
 - **Test Organization Patterns**: How tests should be structured by risk category
-- **Scaffolding Lifecycle Rules**: Development → production transition criteria
 - **Mock Boundary Frameworks**: What to mock vs test directly decision trees
 - **Test Consolidation Strategies**: "One test, multiple risks" design patterns
 

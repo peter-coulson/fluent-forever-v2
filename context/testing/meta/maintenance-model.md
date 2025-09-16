@@ -4,7 +4,7 @@
 
 ### Framework-Stable Content (Rare Updates)
 **When**: Risk-Based Testing principles change or major architectural shifts
-**Content**: Risk assessment criteria, scaffolding lifecycle rules, mock boundary frameworks
+**Content**: Risk assessment criteria, mock boundary frameworks
 **Trigger**: Framework document updates, system architecture changes
 **Responsibility**: Context system maintainer
 
@@ -20,7 +20,6 @@
 1. **Component Assessment**: Apply decision framework criteria to each component as encountered
 2. **Pattern Documentation**: Record test organization patterns that emerge
 3. **Risk Discovery**: Update risk mappings when new scenarios identified
-4. **Consolidation**: Document successful scaffolding → production transitions
 
 ### Post-Refactor Maintenance
 1. **Quarterly Reviews**: Validate risk mappings against system evolution
@@ -48,5 +47,5 @@
 
 ## Content Lifecycle
 
-**Development Phase**: Comprehensive documentation during scaffolding
+**Development Phase**: Comprehensive documentation during development
 **Production Phase**: Minimal essential guidance aligned with risk-based principles

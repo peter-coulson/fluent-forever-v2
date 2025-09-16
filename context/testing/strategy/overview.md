@@ -8,8 +8,6 @@ Strategic testing patterns for Risk-Based Testing applied to pipeline-based lang
 ### Risk-Based Testing Application
 Framework application patterns for component risk assessment and test strategy selection within pipeline architecture.
 
-### Scaffolding Lifecycle Management
-Development → production transition strategies implementing "scaffolding test" approach for pipeline system development.
 
 ### Mock Boundary Guidelines
 Strategic patterns for determining external vs internal testing boundaries within provider-based architecture.
@@ -23,7 +21,6 @@ These strategy patterns are **framework-stable** - derived from Risk-Based Testi
 
 ## Navigation
 - **Risk-Based Framework**: `risk-based-testing.md` - applying RBT principles to pipeline components
-- **Scaffolding Lifecycle**: `scaffolding-lifecycle.md` - development phase → production transition patterns
 - **Mock Boundaries**: `mock-boundaries.md` - external/internal testing decision frameworks
 - **Test Consolidation**: `test-consolidation.md` - multi-risk validation design patterns
 - **Test Organization**: `test-organization.md` - architectural patterns for test directory structure and component organization
