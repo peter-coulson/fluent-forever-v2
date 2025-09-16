@@ -60,7 +60,7 @@ Strategic framework for mock boundary decisions in infrastructure testing withou
 
 ## Infrastructure Risk Mitigation Strategy
 
-Reference: `../strategy/risk-assessment.md` for component risk classification framework.
+Reference: `component-strategy.md` for infrastructure component risk classification and `../strategy/risk-based-testing.md` for framework guidelines.
 
 ### High-Risk Component Mocking
 

@@ -21,20 +21,20 @@ Core infrastructure component classification using three-tier risk framework (re
 
 ## Complex Components (10-15% - Good Unit Coverage)
 
-**Core Business Logic**
-- Data transformation algorithms
-- Validation rule engines
-- Configuration parsing and resolution logic
+**Configuration System**:
+- Environment substitution and provider config validation
+- JSON processing and validation logic
+- Variable replacement and interpolation
+
+**Logging Infrastructure**:
+- Context-aware logging and performance monitoring
+- Structured logging and display coordination
 
 ## Simple Components (75-85% - Smoke Tests)
 
-**Basic Infrastructure**
-- MediaProvider: API calls to Forvo, OpenAI, Runware (failures are visible)
-- Registry systems: Dynamic loading and component discovery
-- Pipeline: Stage orchestration logic
-- Stage: Individual processing and context handling
-- Context Management: Inter-stage data flow and state handling
-- CLI Commands: Argument parsing and validation
+**Abstract Base Classes**: Pipeline, Stage interfaces
+**Utility Functions**: Error formatting, validation helpers
+**Basic Infrastructure**: Registry systems, individual stage processing
 
 ## Core Infrastructure Testing Approach
 
@@ -42,11 +42,9 @@ Core infrastructure component classification using three-tier risk framework (re
 
 **Integration Testing Decision**: Integration tests were evaluated and determined unnecessary for core infrastructure. The E2E approach adequately covers component coordination scenarios that integration tests would address, with better workflow realism and lower maintenance overhead.
 
-## Mock Boundaries
+**Mock Boundary Strategy**: Reference `mock-boundaries.md` for infrastructure-specific external/internal testing boundaries.
 
-**External Service Boundary**: Mock all external APIs for E2E infrastructure testing
-**File System Boundary**: Mock file operations for unit testing, use real files for E2E
-**Environment Boundary**: Mock environment variables for unit testing, use real environment for E2E
+**Validation Patterns**: Reference `e2e-validation-patterns.md` for comprehensive component coordination validation workflows.
 
 ---
-*Strategic foundation: Risk classification and mock boundary patterns from `../strategy/`*
+*Strategic foundation: Risk classification patterns from `../strategy/risk-based-testing.md`*

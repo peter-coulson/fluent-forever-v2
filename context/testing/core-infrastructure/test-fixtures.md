@@ -47,7 +47,7 @@ Reference: `../strategy/test-organization.md` for detailed scope management patt
 - Invalid configuration patterns for validation testing
 - Environment substitution patterns for variable replacement testing
 
-Reference: `../strategy/component-classification.md` for fixture categorization by risk level.
+Reference: `component-strategy.md` for fixture categorization by risk level.
 
 ## Fixture Organization Strategy
 
@@ -77,7 +77,7 @@ Reference: `../strategy/component-classification.md` for fixture categorization 
 
 ## Fixture Integration with Risk-Based Testing
 
-Reference: `../strategy/risk-assessment.md` for component risk classification framework.
+Reference: `component-strategy.md` for component risk classification and `../strategy/risk-based-testing.md` for framework guidelines.
 
 ### High-Risk Component Support
 
