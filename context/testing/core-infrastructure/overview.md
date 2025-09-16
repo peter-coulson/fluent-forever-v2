@@ -30,6 +30,7 @@ Core testing is sufficient when:
 
 ### Infrastructure-Specific Guidance
 - **Component Strategy**: `component-strategy.md` - risk-based component classification and testing approaches
+- **Implementation Status**: `implementation-status.md` - current unit testing implementation progress by risk tier
 - **E2E Validation Patterns**: `e2e-validation-patterns.md` - comprehensive component coordination validation through complete workflows
 - **Mock Boundaries**: `mock-boundaries.md` - infrastructure-specific mock decision patterns and provider system boundaries
 - **Test Fixtures**: `test-fixtures.md` - strategic fixture patterns for minimal infrastructure implementations
