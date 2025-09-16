@@ -10,6 +10,13 @@ Orchestrated process for applying risk-based testing principles to any implement
 
 ## Framework Process (Use TodoWrite for validation)
 
+### Step 0: Methodology Preparation
+**Framework Dependencies** (Apply before any analysis):
+1. **Read All Referenced Files**: Read sequential-execution-framework.md and all files it directly references
+2. **Follow One Level Deep**: Read any files referenced by those direct reference files (one level only)
+3. **Validate Complete Methodology**: Confirm all supporting documents loaded before proceeding
+4. **Document File Dependencies**: List all methodology files loaded for transparency
+
 ### Step 1: Boundary Validation
 **Critical Validation** (Apply `scope-boundary-rules.md`):
 1. **List External Components**: Identify all boundary components from user input
@@ -29,7 +36,8 @@ Orchestrated process for applying risk-based testing principles to any implement
 1. **Map Risk to Tests**: High-risk→E2E, Complex→Unit, Simple→Smoke
 2. **Interface Testing Only**: External components get interface testing only
 3. **Consolidate Tests**: Combine overlapping risk scenarios
-4. **Apply Test Exclusions**: Remove excluded test types from requirements
+4. **Resource Planning**: Map test requirements to concrete file paths, fixture reuse, and directory structure
+5. **Apply Test Exclusions**: Remove excluded test types from requirements
 
 ## Absolute Constraints
 

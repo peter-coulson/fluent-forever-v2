@@ -6,20 +6,20 @@ Map risk classifications to test requirements, enforcing absolute boundary respe
 ## Test Requirements by Risk Level
 
 ### High-Risk Components (Internal)
-**Reference**: `../strategy/risk-based-testing.md` comprehensive strategy
+**Reference**: `../../testing/strategy/risk-based-testing.md` comprehensive strategy
 - **E2E**: Complete workflow validation
 - **Integration**: Component interaction testing
 - **Unit**: All public methods and edge cases
 - **Focus**: Data corruption and silent failure prevention
 
 ### Complex Components (Internal)
-**Reference**: `../strategy/risk-based-testing.md` good unit coverage
+**Reference**: `../../testing/strategy/risk-based-testing.md` good unit coverage
 - **Unit**: All public methods with typical patterns and basic errors
 - **Integration**: Component interactions within scope
 - **Focus**: Algorithm edge cases and refactoring support
 
 ### Simple Components (Internal)
-**Reference**: `../strategy/risk-based-testing.md` smoke strategy
+**Reference**: `../../testing/strategy/risk-based-testing.md` smoke strategy
 - **Smoke**: Component loads and basic functionality works
 - **Focus**: Breakage detection with minimal maintenance
 
@@ -37,6 +37,17 @@ Map risk classifications to test requirements, enforcing absolute boundary respe
 **Workflow Validation**: E2E tests spanning multiple components
 **Interface Consolidation**: Combined boundary testing for related interfaces
 
+## Implementation Resources
+
+**Mock Strategy**: `../../testing/strategy/mock-boundaries.md` - External vs internal testing decisions
+**Test Organization**: `../../testing/strategy/test-organization.md` - Directory structure, available fixtures (`tests/fixtures/`)
+
+### Concrete File Specification Requirements
+**Exact File Paths**: Map each test requirement to specific file paths to create/modify
+**Fixture Reuse Mapping**: Identify which existing `tests/fixtures/` components to import vs create new
+**Test Function Naming**: Define specific test function names and organization within files
+**Directory Structure**: Specify complete folder hierarchy for new test files
+
 ## Framework References
-- **Risk Strategies**: `../strategy/risk-based-testing.md` - Three-tier approaches
-- **Test Consolidation**: `../strategy/test-consolidation.md` - Multi-risk patterns
+- **Risk Strategies**: `../../testing/strategy/risk-based-testing.md` - Three-tier approaches
+- **Test Consolidation**: `../../testing/strategy/test-consolidation.md` - Multi-risk patterns

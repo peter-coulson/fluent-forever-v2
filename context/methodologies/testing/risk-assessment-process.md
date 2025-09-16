@@ -5,10 +5,10 @@ Apply risk-based testing criteria to internal components only, excluding boundar
 
 ## Risk Classification (Internal Components Only)
 
-**Reference**: Apply `../strategy/risk-based-testing.md` three-tier framework:
+**Reference**: Apply `../../testing/strategy/risk-based-testing.md` three-tier framework:
 
 ### High-Risk Assessment
-Apply `../meta/decision-framework.md` criteria:
+Apply `../../testing/meta/decision-framework.md` criteria:
 - Data corruption or silent failure risk
 - Critical workflow dependency
 - Difficult-to-debug failure modes
@@ -39,5 +39,5 @@ Apply `../meta/decision-framework.md` criteria:
 **Boundary Interactions**: Interface risks between internal and external components
 
 ## Framework References
-- **Risk Criteria**: `../strategy/risk-based-testing.md` - Classification guidelines
-- **Decision Framework**: `../meta/decision-framework.md` - Assessment criteria
+- **Risk Criteria**: `../../testing/strategy/risk-based-testing.md` - Classification guidelines
+- **Decision Framework**: `../../testing/meta/decision-framework.md` - Assessment criteria
