@@ -7,146 +7,90 @@ Strategic patterns for test fixtures supporting infrastructure-only testing with
 ### Minimal Implementation Strategy
 
 **Infrastructure-Only Focus**:
-- **Abstract Interface Implementation**: Concrete classes implementing Pipeline and Stage interfaces
-- **Minimal Business Logic**: Test fixtures with just enough logic for infrastructure validation
-- **Configurable Behavior**: Fixtures supporting multiple test scenarios through configuration
-- **Reusable Patterns**: Common fixture patterns for consistent infrastructure testing
+- Concrete interface implementations with minimal business logic
+- Configurable behavior patterns for multiple test scenarios
+- Reusable fixture patterns for consistent infrastructure testing
+- Clear separation between infrastructure and business logic concerns
 
 ### Test Lifecycle Integration
 
 **Fixture Scope Management**:
-- **Session-Level**: Provider registries and configuration fixtures for test suite consistency
-- **Test-Level**: Pipeline and stage fixtures for isolated test scenarios
-- **Assertion-Level**: Context and data fixtures for granular validation points
+- **Session-Level**: Registry and configuration fixtures for test suite consistency
+- **Test-Level**: Component fixtures for isolated test scenarios
+- **Assertion-Level**: Data fixtures for granular validation points
 
-## Core Infrastructure Fixtures
+Reference: `../strategy/test-organization.md` for detailed scope management patterns.
 
-### Pipeline Test Fixtures
+## Strategic Fixture Categories
 
-**TestPipeline Implementation**:
-- **Purpose**: Concrete Pipeline implementation for infrastructure validation
-- **Capabilities**: Configurable stages, phases, and execution behavior
-- **Usage**: CLI integration testing, registry discovery, context flow validation
-- **Customization**: Success/failure scenarios, dependency simulation, timing validation
+### Infrastructure Component Fixtures
 
-**TestStage Variants**:
-- **SuccessStage**: Always returns success for happy path testing
-- **FailureStage**: Configurable failure scenarios for error handling validation
-- **ContextDependentStage**: Tests context validation and data flow requirements
-- **ProviderUsingStage**: Tests provider access and integration patterns
-- **TimingStage**: Performance and monitoring validation
+**Pipeline Infrastructure Testing**:
+- Minimal concrete Pipeline implementations for infrastructure validation
+- Configurable stage behavior supporting success/failure scenarios
+- Context flow validation supporting data transition testing
+- Registry integration supporting discovery and lookup validation
 
-### Provider Test Fixtures
+### Provider System Fixtures
 
-**MockProviderRegistry Strategy**:
-- **Purpose**: Pre-populated registry for consistent provider testing
-- **Configuration**: Multiple provider types with various pipeline assignments
-- **Behavior**: Dynamic loading simulation, configuration injection validation
-- **Error Scenarios**: Invalid provider configurations, loading failures, assignment conflicts
+**Registry Operation Testing**:
+- Pre-populated registries for consistent provider testing
+- Dynamic loading simulation for configuration injection validation
+- Pipeline assignment patterns for authorization testing
+- Error scenario coverage for configuration failure handling
 
-**Provider Mock Implementations**:
-- **MockMediaProvider**: Audio and image provider mock with configurable responses
-- **MockDataProvider**: Data source mock with file management simulation
-- **MockSyncProvider**: Sync operation mock with success/failure scenarios
-- **MockProviderFactory**: Centralized mock creation for consistent behavior
+### Configuration System Fixtures
 
-### Configuration Test Fixtures
+**Configuration Pattern Testing**:
+- Minimal valid configurations for infrastructure testing
+- Complex multi-component scenarios for integration testing
+- Invalid configuration patterns for validation testing
+- Environment substitution patterns for variable replacement testing
 
-**Configuration Fixture Patterns**:
-- **Base Configuration**: Minimal valid configuration for infrastructure testing
-- **Complex Configuration**: Multi-provider, multi-pipeline assignments for integration testing
-- **Invalid Configuration**: Various error scenarios for validation testing
-- **Environment Configuration**: Mock environment variables for substitution testing
+Reference: `../strategy/component-classification.md` for fixture categorization by risk level.
 
-**Configuration Validation Fixtures**:
-- **Provider Configuration Scenarios**: Valid and invalid provider setup patterns
-- **Pipeline Assignment Scenarios**: Authorization and filtering test patterns
-- **Environment Substitution Scenarios**: Variable replacement and validation patterns
+## Fixture Organization Strategy
 
-## Test Fixture Organization Strategy
+### Reusability Patterns
 
-### Fixture Reusability Patterns
-
-**Centralized Common Fixtures**:
-- **Base Infrastructure**: Core pipeline, stage, and provider fixtures used across multiple tests
-- **Configuration Sets**: Standard configuration patterns for common infrastructure scenarios
-- **Mock Factories**: Centralized creation patterns for consistent mock behavior
+**Centralized Infrastructure Fixtures**:
+- Base component fixtures used across multiple test scenarios
+- Standard configuration patterns for common infrastructure scenarios
+- Centralized creation patterns for consistent behavior across tests
 
 **Test-Specific Customization**:
-- **Error Scenario Fixtures**: Specific failure conditions for edge case testing
-- **Performance Test Fixtures**: Optimized fixtures for timing and monitoring validation
-- **Integration Scenario Fixtures**: Complex multi-component fixtures for workflow testing
+- Error scenario fixtures for edge case testing
+- Performance fixtures for timing and monitoring validation
+- Integration fixtures for complex multi-component workflow testing
 
-### Fixture Maintenance Strategy
+### Maintenance Strategy
 
 **Evolution Management**:
-- **Interface Alignment**: Fixture updates aligned with abstract interface changes
-- **Backward Compatibility**: Fixture versioning for test stability during infrastructure evolution
-- **Deprecation Strategy**: Fixture lifecycle management for obsolete test patterns
+- Fixture alignment with abstract interface changes
+- Versioning for test stability during infrastructure evolution
+- Lifecycle management for obsolete test patterns
 
 **Consistency Validation**:
-- **Mock Behavior Alignment**: Fixture behavior consistent with real infrastructure components
-- **Test Data Integrity**: Fixture data patterns reflecting realistic infrastructure scenarios
-- **Error Simulation Accuracy**: Fixture failure modes aligned with actual infrastructure failure patterns
-
-## Infrastructure-Specific Fixture Patterns
-
-### CLI Infrastructure Fixtures
-
-**Command Execution Fixtures**:
-- **Mock CLI Arguments**: Argument parsing and validation scenarios
-- **Command Result Fixtures**: Success and failure result patterns for output testing
-- **Pipeline Discovery Fixtures**: Registry lookup and pipeline metadata scenarios
-
-### Context Management Fixtures
-
-**Context Flow Fixtures**:
-- **Context Creation Patterns**: Context initialization and provider injection scenarios
-- **Stage Transition Fixtures**: Context state management between stage executions
-- **Error Propagation Fixtures**: Context error handling and accumulation patterns
-
-### Provider Registry Fixtures
-
-**Registry Operation Fixtures**:
-- **Dynamic Loading Scenarios**: Provider registration and discovery patterns
-- **Configuration Injection Fixtures**: Provider setup and validation scenarios
-- **Pipeline Assignment Fixtures**: Provider filtering and authorization patterns
+- Fixture behavior alignment with real infrastructure components
+- Test data patterns reflecting realistic infrastructure scenarios
+- Error simulation aligned with actual infrastructure failure patterns
 
 ## Fixture Integration with Risk-Based Testing
 
-### High-Risk Component Fixtures
+Reference: `../strategy/risk-assessment.md` for component risk classification framework.
 
-**Comprehensive Validation Support**:
-- **CLI Pipeline Integration**: Full workflow fixtures for end-to-end testing
-- **Provider Registry System**: Complete lifecycle fixtures for integration testing
-- **Context Management**: Data flow fixtures for state tracking validation
+### High-Risk Component Support
 
-### Complex Component Fixtures
+**Comprehensive Validation Fixtures**:
+- CLI integration workflow fixtures
+- Provider registry lifecycle fixtures
+- Context management data flow fixtures
 
-**Targeted Integration Support**:
-- **Configuration System**: Environment and validation fixtures for setup testing
-- **Logging Infrastructure**: Performance and monitoring fixtures for observability testing
+### Performance and Maintenance
 
-### Simple Component Fixtures
+**Optimization Principles**:
+- Lazy loading for efficient fixture creation
+- Resource management for cleanup and isolation
+- Minimal logic for reduced maintenance costs
 
-**Minimal Coverage Support**:
-- **Abstract Interface Fixtures**: Basic compliance fixtures for interface validation
-- **Utility Function Fixtures**: Simple data fixtures for helper method testing
-
-## Fixture Performance and Maintenance
-
-### Performance Optimization
-
-**Fixture Creation Efficiency**:
-- **Lazy Loading**: Fixture creation only when needed for test execution
-- **Resource Management**: Efficient fixture cleanup and resource release
-- **Test Isolation**: Fixture design preventing test interference and state bleeding
-
-### Maintenance Cost Reduction
-
-**Fixture Simplicity**:
-- **Minimal Logic**: Fixtures with just enough logic for infrastructure validation
-- **Clear Interfaces**: Well-defined fixture APIs for easy test integration
-- **Documentation Standards**: Fixture usage patterns and customization guidance
-
-This strategic fixture approach enables comprehensive infrastructure validation while maintaining low maintenance costs and high test reliability.
+This strategic fixture approach enables comprehensive infrastructure validation while maintaining clear boundaries between framework-stable patterns and implementation-dynamic content.

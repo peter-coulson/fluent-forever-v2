@@ -84,20 +84,19 @@ Core testing is sufficient when:
 
 ## Strategic Division
 
-**E2E Infrastructure Testing**: Complete shared component workflows with comprehensive validation:
-- **Provider Integration**: Full provider workflows with mocked external services
-- **CLI Infrastructure**: Command routing and core system orchestration with mock workflows
-
-**Integration Infrastructure Testing**: Component coordination with strategic mocking:
-- **Registry Systems**: Provider loading, discovery, and configuration injection
-- **Context Management**: Inter-stage data flow and state handling
-- **Configuration**: Environment resolution and variable substitution
-- **Pipeline Engine**: Stage coordination and execution flow
+**E2E Infrastructure Testing**: Primary validation approach for component coordination through complete workflows:
+- **CLI → Registry → Provider → Execution Flow**: Full command workflows with comprehensive validation checkpoints
+- **Provider Registry Integration**: Dynamic loading, configuration injection, and pipeline assignment validation
+- **Context Management Flow**: Inter-stage data flow, state tracking, and error accumulation through execution
+- **Configuration System**: Environment resolution, variable substitution, and provider configuration validation
+- **Error Handling Infrastructure**: Graceful failure handling and error propagation across component boundaries
 
 **Unit Infrastructure Testing**: Individual shared component validation:
 - **Provider Components**: Audio, image, sync, data provider logic with mocked externals
 - **Core Components**: Pipeline engine, stage system, registry mechanisms
 - **CLI Components**: Command parsing, routing, and infrastructure integration
+
+**Integration Testing Decision**: Integration tests were evaluated for core infrastructure and determined unnecessary. The E2E approach provides sufficient component coordination validation through realistic workflows while maintaining appropriate mock boundaries for external dependencies.
 
 **Shared Stage Testing**: Reusable stages (file I/O, validation, formatting)
 
@@ -110,6 +109,7 @@ Core testing is sufficient when:
 ## Strategic Documentation
 
 ### Infrastructure-Specific Guidance
+- **E2E Validation Patterns**: `e2e-validation-patterns.md` - strategic patterns for comprehensive component coordination validation through complete workflows
 - **Mock Boundaries**: `mock-boundaries.md` - infrastructure-specific mock decision patterns and provider system boundaries
 - **Test Fixtures**: `test-fixtures.md` - strategic fixture patterns for minimal infrastructure implementations
 
