@@ -8,21 +8,12 @@ Orchestrated process for applying risk-based testing principles to any implement
 2. **Boundary Component Definitions**: Components external to implementation scope
 3. **Test Type Exclusions**: Optional filter (e.g., "no unit tests")
 
-## Framework Process (SELECTIVE OPTIMIZATION)
+## Framework Process
 
-**TodoWrite Requirements:**
-1. **8-Step Setup**: After reading this methodology, create 8 todos (6 consolidated phases + 2 critical individual steps)
-2. **Critical Forcing Functions**: Steps 2 and 3 MUST be individual todos to ensure deep architectural understanding
-3. **Quality Gates**: Cannot proceed to next step until current step outcomes are achieved
-4. **Selective Optimization**: 70% token reduction while preserving accountability mechanisms that ensure quality
-
-**Optimization Principle:**
-- **PHASE**: Safe systematic work consolidated into single todos
-- **CRITICAL INDIVIDUAL STEPS**: Forcing functions that require separate accountability
-- **PROVEN EFFECTIVE**: Based on V4 vs V5 quality regression analysis
+**TodoWrite Requirements:** Create 8 todos (6 consolidated phases + 2 critical individual steps). Steps 2 and 3 MUST be individual todos to ensure deep architectural understanding. Quality gates prevent progression until outcomes are achieved.
 
 ### Step 1: Context Discovery Phase
-**Systematic Architectural Foundation** (Apply `context-discovery-framework.md`):
+**Systematic Architectural Foundation** (Apply `stages/1-context-discovery-framework.md`):
 - Map entire context system and identify implementation-relevant documentation
 - Read systematically through context/system/overview.md and all relevant files
 - Understand component roles, interactions, complexity distribution, data flow patterns
@@ -43,42 +34,41 @@ Orchestrated process for applying risk-based testing principles to any implement
 - **Gate**: Concrete method-level trace showing architectural understanding
 
 ### Step 4: Methodology Foundation Phase
-**Framework Dependencies**:
-- Read sequential-execution-framework.md and all directly referenced files
+**Framework Dependencies** (Apply `stages/4-methodology-foundation.md`):
+- Read supporting testing framework files from context/testing/strategy/
 - Follow one level deep for referenced documents and validate methodology completeness
 - **Gate**: All supporting frameworks understood before proceeding
 
 ### Step 5: Boundary & Scope Analysis Phase
-**Critical Validation** (Apply `scope-boundary-rules.md`):
+**Critical Validation** (Apply `stages/5-scope-boundary-rules.md`):
 - Identify external vs internal components from user specification
 - Validate interface contracts and confirm scope understanding
+- **CONSTRAINT**: Never test external component internals regardless of risk level
 - **Gate**: Clear boundary definition before risk assessment
 
 ### Step 6: Risk Assessment Phase
-**Component Analysis** (Apply `risk-assessment-process.md`):
+**Component Analysis** (Apply `stages/6-risk-assessment-process.md`):
 - Apply risk classification to internal components only (High-risk/Complex/Simple)
 - Document specific failure modes and interface interaction risks
+- **CONSTRAINT**: Validate scope before assessment, fail fast on unclear interface contracts
 - **Gate**: Complete risk mapping before test design
 
 ### Step 7: Test Design Phase
-**Test Requirements** (Apply `critical-test-patterns.md`):
+**Test Requirements** (Apply `stages/7-critical-test-patterns.md`):
 - Map risk classifications to test types (High-risk→E2E, Complex→Unit, Simple→Smoke)
 - Design interface testing, consolidate scenarios, create concrete file paths
 - **Gate**: Comprehensive test strategy before deliverable creation
 
 ### Step 8: Deliverable Creation Phase
-**Implementation Plan**:
+**Implementation Plan** (Apply `stages/8-deliverable-creation.md`):
 - Generate comprehensive testing_plan_v6.md with all step outcomes
 - Include component mappings, risk assessments, and concrete test specifications
 - **Gate**: Complete deliverable ready for implementation
 
-## Absolute Constraints
-
-**Never Test External Component Internals**: Regardless of risk level or test type
-**Validate Scope Before Assessment**: Must confirm boundary understanding first
-**Fail Fast on Invalid Boundaries**: Stop if interface contracts unclear
-
 ## Framework References
-- **Boundary Rules**: `scope-boundary-rules.md` - Scope definition and validation
-- **Risk Process**: `risk-assessment-process.md` - Internal component risk classification
-- **Test Patterns**: `critical-test-patterns.md` - Risk to test type mapping
+- **Context Discovery**: `stages/1-context-discovery-framework.md` - Systematic architectural foundation
+- **Methodology Foundation**: `stages/4-methodology-foundation.md` - Framework dependency validation
+- **Boundary Rules**: `stages/5-scope-boundary-rules.md` - Scope definition and validation
+- **Risk Process**: `stages/6-risk-assessment-process.md` - Internal component risk classification
+- **Test Patterns**: `stages/7-critical-test-patterns.md` - Risk to test type mapping
+- **Deliverable Creation**: `stages/8-deliverable-creation.md` - Implementation plan generation

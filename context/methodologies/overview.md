@@ -1,12 +1,22 @@
 # Methodologies Overview
 
-Structured frameworks for systematic execution of complex tasks.
+Systematic frameworks for complex task execution with structured processes, quality gates, and proven patterns.
+
+## Directory Structure
+
+```
+methodologies/
+├── [domain]/          # Methodology domain (e.g., testing, deployment, analysis)
+│   ├── method.md      # Main entry point for domain methodology
+│   └── [subdirs]/     # Supporting framework components and stages
+└── [domain]/          # Additional methodology domains
+```
 
 ## Available Methodologies
 
-### Testing
-- `testing/context-discovery-framework.md`
-- `testing/sequential-execution-framework.md`
-- `testing/risk-assessment-process.md`
-- `testing/critical-test-patterns.md`
-- `testing/scope-boundary-rules.md`
+### Testing Framework
+**Entry Point**: `testing/method.md` - Sequential test planning framework with risk-based testing principles
+
+**Purpose**: Orchestrated process for applying systematic testing to any implementation specification with absolute boundary respect
+
+**Structure**: 8-step framework with critical forcing functions, quality gates, and supporting stage documents
