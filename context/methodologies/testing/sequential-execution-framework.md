@@ -8,52 +8,69 @@ Orchestrated process for applying risk-based testing principles to any implement
 2. **Boundary Component Definitions**: Components external to implementation scope
 3. **Test Type Exclusions**: Optional filter (e.g., "no unit tests")
 
-## Framework Process (MANDATORY TodoWrite Usage)
+## Framework Process (SELECTIVE OPTIMIZATION)
 
 **TodoWrite Requirements:**
-1. **Step 0 Setup**: After reading this methodology, create comprehensive todo list with ALL framework steps and sub-tasks
-2. **Progress Tracking**: Mark each todo item as in_progress when starting, completed when finished
-3. **Validation Gates**: Cannot proceed to next major step until current step todos are completed
-4. **Systematic Execution**: Use todo list to ensure no steps are skipped or executed out of order
+1. **8-Step Setup**: After reading this methodology, create 8 todos (6 consolidated phases + 2 critical individual steps)
+2. **Critical Forcing Functions**: Steps 2 and 3 MUST be individual todos to ensure deep architectural understanding
+3. **Quality Gates**: Cannot proceed to next step until current step outcomes are achieved
+4. **Selective Optimization**: 70% token reduction while preserving accountability mechanisms that ensure quality
 
-**Step vs Subtask Definition:**
-- **STEP**: Major framework phase (e.g., "Step 2: Boundary Validation") - create ONE todo per step
-- **SUBTASK**: Individual activities within a step (e.g., "List External Components", "List Internal Components") - create ONE todo per subtask
-- **MANDATORY**: Every numbered subtask (1., 2., 3., etc.) within each step MUST become a separate todo item
+**Optimization Principle:**
+- **PHASE**: Safe systematic work consolidated into single todos
+- **CRITICAL INDIVIDUAL STEPS**: Forcing functions that require separate accountability
+- **PROVEN EFFECTIVE**: Based on V4 vs V5 quality regression analysis
 
-### Step 0: Context Discovery
-**Architectural Understanding** (Apply `context-discovery-framework.md` completely):
-- Must complete all success criteria before proceeding to any other step
-- Cannot proceed until all dependency understanding is confirmed
+### Step 1: Context Discovery Phase
+**Systematic Architectural Foundation** (Apply `context-discovery-framework.md`):
+- Map entire context system and identify implementation-relevant documentation
+- Read systematically through context/system/overview.md and all relevant files
+- Understand component roles, interactions, complexity distribution, data flow patterns
+- **Gate**: Complete architectural file reading and basic understanding confirmed
 
-### Step 1: Methodology Preparation
+### Step 2: Execution Pattern Analysis (CRITICAL INDIVIDUAL TODO)
+**Forced Deep Understanding** - CANNOT be consolidated:
+- **Understand execution pattern** - how components are actually called/invoked vs how workflow is described
+- **Contrast Reality vs Description**: Compare actual implementation patterns with user specification/README
+- **Focus**: Identify whether stages are independent calls or complex integrations
+- **Gate**: Must demonstrate clear understanding of actual vs described execution patterns
+
+### Step 3: Architectural Demonstration (CRITICAL INDIVIDUAL TODO)
+**Verification Forcing Function** - CANNOT be consolidated:
+- **DEMONSTRATE understanding** - provide one concrete example of actual method calls showing component interaction
+- **Method Call Trace**: Show actual pipeline.execute_stage() → stage.execute() → context operations
+- **Verify Internalization**: Prove concepts are understood, not just read
+- **Gate**: Concrete method-level trace showing architectural understanding
+
+### Step 4: Methodology Foundation Phase
 **Framework Dependencies**:
-1. **Read All Referenced Files**: Read sequential-execution-framework.md and all files it directly references
-2. **Follow One Level Deep**: Read any files referenced by those direct reference files (one level only)
-3. **Validate Complete Methodology**: Confirm all supporting documents loaded before proceeding
-4. **Document File Dependencies**: List all methodology files loaded for transparency
+- Read sequential-execution-framework.md and all directly referenced files
+- Follow one level deep for referenced documents and validate methodology completeness
+- **Gate**: All supporting frameworks understood before proceeding
 
-### Step 2: Boundary Validation
+### Step 5: Boundary & Scope Analysis Phase
 **Critical Validation** (Apply `scope-boundary-rules.md`):
-1. **List External Components**: Identify all boundary components from user input
-2. **List Internal Components**: Identify components within implementation scope
-3. **Validate Interface Contracts**: Confirm external components have clear interfaces
-4. **Confirm Scope Understanding**: Explicitly state what will/won't be tested
+- Identify external vs internal components from user specification
+- Validate interface contracts and confirm scope understanding
+- **Gate**: Clear boundary definition before risk assessment
 
-### Step 3: Risk Assessment
+### Step 6: Risk Assessment Phase
 **Component Analysis** (Apply `risk-assessment-process.md`):
-1. **Internal Components Only**: Apply risk classification to internal scope only
-2. **High-risk/Complex/Simple**: Categorize each internal component
-3. **Document Risk Scenarios**: Record specific failure modes per component
-4. **Interface Risk Analysis**: Identify boundary interaction risks
+- Apply risk classification to internal components only (High-risk/Complex/Simple)
+- Document specific failure modes and interface interaction risks
+- **Gate**: Complete risk mapping before test design
 
-### Step 4: Critical Test Design
+### Step 7: Test Design Phase
 **Test Requirements** (Apply `critical-test-patterns.md`):
-1. **Map Risk to Tests**: High-risk→E2E, Complex→Unit, Simple→Smoke
-2. **Interface Testing Only**: External components get interface testing only
-3. **Consolidate Tests**: Combine overlapping risk scenarios
-4. **Resource Planning**: Map test requirements to concrete file paths, fixture reuse, and directory structure
-5. **Apply Test Exclusions**: Remove excluded test types from requirements
+- Map risk classifications to test types (High-risk→E2E, Complex→Unit, Simple→Smoke)
+- Design interface testing, consolidate scenarios, create concrete file paths
+- **Gate**: Comprehensive test strategy before deliverable creation
+
+### Step 8: Deliverable Creation Phase
+**Implementation Plan**:
+- Generate comprehensive testing_plan_v6.md with all step outcomes
+- Include component mappings, risk assessments, and concrete test specifications
+- **Gate**: Complete deliverable ready for implementation
 
 ## Absolute Constraints
 
