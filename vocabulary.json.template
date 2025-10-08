@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "created": "YYYY-MM-DD",
+    "last_updated": "YYYY-MM-DDTHH:MM:SS.SSSSSS",
+    "total_words": 0,
+    "total_cards": 0,
+    "total_skipped": 0,
+    "source": "Your frequency dictionary or source",
+    "corpus_info": "Information about your corpus",
+    "reset_reason": "Initial setup"
+  },
+  "skipped_words": [
+    "example_word_1",
+    "example_word_2"
+  ],
+  "words": {
+    "example_word": {
+      "word": "example_word",
+      "processed_date": "YYYY-MM-DDTHH:MM:SS.SSSSSS",
+      "meanings": [
+        {
+          "CardID": "example_word_meaning1",
+          "SpanishWord": "example_word",
+          "IPA": "[ipa_pronunciation]",
+          "MeaningContext": "context/usage category",
+          "MonolingualDef": "Spanish definition of the word",
+          "ExampleSentenceES": "Example sentence in Spanish",
+          "ExampleSentenceEN": "Example sentence in English",
+          "Image": "[sound:example_word_meaning1.png]",
+          "Audio": "[sound:example_word.mp3]",
+          "Notes": "Additional notes or mnemonics"
+        }
+      ]
+    },
+    "another_example": {
+      "word": "another_example",
+      "processed_date": "YYYY-MM-DDTHH:MM:SS.SSSSSS",
+      "meanings": [
+        {
+          "CardID": "another_example_meaning1",
+          "SpanishWord": "another_example",
+          "IPA": "[ipa_pronunciation]",
+          "MeaningContext": "context/usage category",
+          "MonolingualDef": "Spanish definition",
+          "ExampleSentenceES": "Sentence in Spanish",
+          "ExampleSentenceEN": "Sentence in English",
+          "Image": "[sound:another_example_meaning1.png]",
+          "Audio": "[sound:another_example.mp3]",
+          "Notes": "Additional notes"
+        },
+        {
+          "CardID": "another_example_meaning2",
+          "SpanishWord": "another_example",
+          "IPA": "[ipa_pronunciation]",
+          "MeaningContext": "different context/usage",
+          "MonolingualDef": "Spanish definition for second meaning",
+          "ExampleSentenceES": "Different example sentence",
+          "ExampleSentenceEN": "Different example translation",
+          "Image": "[sound:another_example_meaning2.png]",
+          "Audio": "[sound:another_example.mp3]",
+          "Notes": "Notes for second meaning"
+        }
+      ]
+    }
+  }
+}
