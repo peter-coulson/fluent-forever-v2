@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "created": "2025-09-05T14:18:03.839064",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry). Add any words to skip to the 'skipped_words' array."
+  },
+  "words": [
+    "algo",
+    "volver"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "algo",
+      "MeaningID": "something",
+      "MeaningContext": "pronombre indefinido",
+      "MonolingualDef": "una cosa no especificada o desconocida",
+      "ExampleSentence": "El padre necesita algo de la ferretería.",
+      "GappedSentence": "El padre necesita _____ de la ferretería.",
+      "IPA": "[ˈal.go]",
+      "prompt": "A car outside of a hardware store with a blond boy waiting in the passenger whilst his father goes into the store"
+    },
+    {
+      "SpanishWord": "algo",
+      "MeaningID": "somewhat",
+      "MeaningContext": "adverbio de grado",
+      "MonolingualDef": "un poco, en cierto grado",
+      "ExampleSentence": "El niño está algo frío bajo la lluvia.",
+      "GappedSentence": "El niño está _____ frío bajo la lluvia.",
+      "IPA": "[ˈal.go]",
+      "prompt": "A blond boy on the side of a grass local football pitch in the rain in football kit in the rain (somewhat cold)"
+    },
+    {
+      "SpanishWord": "volver",
+      "MeaningID": "return",
+      "MeaningContext": "regresar a un lugar",
+      "MonolingualDef": "ir o venir de nuevo a un lugar donde se estuvo antes",
+      "ExampleSentence": "El niño vuelve a casa con sus maletas.",
+      "GappedSentence": "El niño _____ a casa con sus maletas.",
+      "IPA": "[bol.ˈβeɾ]",
+      "prompt": "A blond boy with many suitcases on the front step of a brick house in a street in england"
+    },
+    {
+      "SpanishWord": "volver",
+      "MeaningID": "repeat",
+      "MeaningContext": "hacer de nuevo",
+      "MonolingualDef": "hacer otra vez una acción (volver a + infinitivo)",
+      "ExampleSentence": "El niño va a volver a intentar el salto.",
+      "GappedSentence": "El niño va a _____ a intentar el salto.",
+      "IPA": "[bol.ˈβeɾ]",
+      "prompt": "A boy with skis fallen over at the bottom of a ski jump in the mountains"
+    }
+  ],
+  "skipped_words": ["no"]
+}

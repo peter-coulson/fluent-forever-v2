@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "created": "2025-08-25T11:22:23.637373",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "cosa",
+    "tanto",
+    "parecer",
+    "nuestro",
+    "tan"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "cosa",
+      "MeaningID": "thing_object",
+      "MeaningContext": "General term for any thing, object, or matter",
+      "MonolingualDef": "Objeto, asunto o materia de la que se habla o trata",
+      "ExampleSentence": "El niño rubio señala una extraña cosa esculpida en el museo de arte moderno",
+      "GappedSentence": "El niño rubio señala una extraña _____ esculpida en el museo de arte moderno",
+      "IPA": "[ˈko.sa]",
+      "prompt": "A blonde boy in a modern art museum pointing to a blob sculpture"
+    },
+    {
+      "SpanishWord": "tanto",
+      "MeaningID": "so_much_many",
+      "MeaningContext": "Expresses large quantity or high degree",
+      "MonolingualDef": "Una cantidad o grado muy grande",
+      "ExampleSentence": "Hay tanta gente en el cruce de Shibuya que el hombre calvo con gafas redondas apenas puede moverse",
+      "GappedSentence": "Hay _____ gente en el cruce de Shibuya que el hombre calvo con gafas redondas apenas puede moverse",
+      "IPA": "[ˈtan.to]",
+      "prompt": "A group of 5 friends, one bald with blue eyes and small round glasses at shibuya crossing"
+    },
+    {
+      "SpanishWord": "parecer",
+      "MeaningID": "to_seem_appear",
+      "MeaningContext": "To give the impression of being something",
+      "MonolingualDef": "Dar la impresión de tener cierta cualidad o característica",
+      "ExampleSentence": "La clase parece aburrida cuando el niño rubio pone la cabeza sobre el escritorio en el aula galesa",
+      "GappedSentence": "La clase _____ aburrida cuando el niño rubio pone la cabeza sobre el escritorio en el aula galesa",
+      "IPA": "[pa.ɾeˈseɾ]",
+      "prompt": "A blond boy in a welsh class at school with his head on the desk and a very bored classroom"
+    },
+    {
+      "SpanishWord": "nuestro",
+      "MeaningID": "our_ours",
+      "MeaningContext": "Possessive showing ownership by we/us",
+      "MonolingualDef": "Que nos pertenece a nosotros",
+      "ExampleSentence": "Nuestro grupo de amigos maneja por el desierto de California en un viejo Peugeot",
+      "GappedSentence": "_____ grupo de amigos maneja por el desierto de California en un viejo Peugeot",
+      "IPA": "[ˈnwes.tɾo]",
+      "prompt": "A group of 4 boys driving in california desert with an old peurgot"
+    },
+    {
+      "SpanishWord": "tan",
+      "MeaningID": "so_such_degree",
+      "MeaningContext": "Intensifies adjectives and adverbs to show high degree",
+      "MonolingualDef": "Indica un grado alto o intenso de una cualidad",
+      "ExampleSentence": "Felipe es tan agradable cuando toca la batería con tanto ruido",
+      "GappedSentence": "Felipe es _____ agradable cuando toca la batería con tanto ruido",
+      "IPA": "[tan]",
+      "prompt": "A short guy with brown hair playing the drums loudly"
+    }
+  ]
+}

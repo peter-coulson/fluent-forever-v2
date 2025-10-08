@@ -1,0 +1,64 @@
+{
+  "metadata": {
+    "created": "2025-08-28T10:14:34.709111",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "hablar",
+    "cada",
+    "menos"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "hablar",
+      "MeaningID": "speech_communication",
+      "MeaningContext": "Speech/Communication",
+      "MonolingualDef": "Expresar pensamientos mediante palabras habladas",
+      "ExampleSentence": "Los dos chicos rubios y el chico moreno hablan en la casa desordenada",
+      "GappedSentence": "Los dos chicos rubios y el chico moreno _____ en la casa desordenada",
+      "IPA": "[a.ˈβlaɾ]",
+      "prompt": "A conversation between two blond, and a brown haired guy in a messy house"
+    },
+    {
+      "SpanishWord": "cada",
+      "MeaningID": "individual_distribution",
+      "MeaningContext": "Individual Distribution",
+      "MonolingualDef": "Se refiere a todos los individuos de un grupo por separado",
+      "ExampleSentence": "Cada animal asoma por las ventanas del arca de Noé mientras llega la inundación",
+      "GappedSentence": "_____ animal asoma por las ventanas del arca de Noé mientras llega la inundación",
+      "IPA": "[ˈka.ða]",
+      "prompt": "Noah and his ark as the floods come with every animal poking out of the windows"
+    },
+    {
+      "SpanishWord": "menos",
+      "MeaningID": "comparative_degree",
+      "MeaningContext": "Comparative Degree",
+      "MonolingualDef": "Indica menor grado o cantidad en comparaciones",
+      "ExampleSentence": "El chico moreno tiene menos dinero que el chico calvo feliz con gafas redondas",
+      "GappedSentence": "El chico moreno tiene _____ dinero que el chico calvo feliz con gafas redondas",
+      "IPA": "[ˈme.nos]",
+      "prompt": "A happy bald guy of 20 with small round glasses holding lots of money next to a sad brown haired guy holding very little money"
+    },
+    {
+      "SpanishWord": "menos",
+      "MeaningID": "exception",
+      "MeaningContext": "Exception/Except",
+      "MonolingualDef": "Excluye algo de un grupo o declaración",
+      "ExampleSentence": "Todos los bailarines danzan en el jardín menos el chico calvo con gafas que se sienta afuera",
+      "GappedSentence": "Todos los bailarines danzan en el jardín _____ el chico calvo con gafas que se sienta afuera",
+      "IPA": "[ˈme.nos]",
+      "prompt": "A circle of dancers in a garden for a folk dance. One bald guy of 20 with small round glasses sitting on the outside"
+    },
+    {
+      "SpanishWord": "menos",
+      "MeaningID": "mathematical_subtraction",
+      "MeaningContext": "Mathematical Subtraction",
+      "MonolingualDef": "Operación aritmética de sustracción o resta",
+      "ExampleSentence": "El profesor escribe el signo menos en la pizarra del aula de matemáticas",
+      "GappedSentence": "El profesor escribe el signo _____ en la pizarra del aula de matemáticas",
+      "IPA": "[ˈme.nos]",
+      "prompt": "A large minus sign on the chalkboard in a maths classroom"
+    }
+  ]
+}

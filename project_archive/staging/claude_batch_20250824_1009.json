@@ -1,0 +1,53 @@
+{
+  "metadata": {
+    "created": "2025-08-24T10:09:44.139609",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "hasta",
+    "también"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "hasta",
+      "MeaningID": "temporal_limit",
+      "MeaningContext": "Time boundary or deadline",
+      "MonolingualDef": "Preposición que expresa límite temporal o plazo",
+      "ExampleSentence": "El hombre estudia hasta terminar las cartas",
+      "GappedSentence": "El hombre estudia _____ terminar las cartas",
+      "IPA": "[ˈas.ta]",
+      "prompt": "A bald young man with small round glasses studying flashcards"
+    },
+    {
+      "SpanishWord": "hasta",
+      "MeaningID": "spatial_limit",
+      "MeaningContext": "Physical boundary or destination",
+      "MonolingualDef": "Preposición que indica límite físico o destino",
+      "ExampleSentence": "La familia viaja hasta la frontera entre países",
+      "GappedSentence": "La familia viaja _____ la frontera entre países",
+      "IPA": "[ˈas.ta]",
+      "prompt": "A family of 4 with a blond boy and ginger girl in the car approaching a large bridge over a river"
+    },
+    {
+      "SpanishWord": "hasta",
+      "MeaningID": "extent_degree",
+      "MeaningContext": "Extreme degree, even/including",
+      "MonolingualDef": "Adverbio que enfatiza inclusión inesperada o grado extremo",
+      "ExampleSentence": "El hombre durmió hasta en el tren",
+      "GappedSentence": "El hombre durmió _____ en el tren",
+      "IPA": "[ˈas.ta]",
+      "prompt": "A bald young man with blue eyes and small round glasses crammed under a bed bunk sleeping in a rail car"
+    },
+    {
+      "SpanishWord": "también",
+      "MeaningID": "addition",
+      "MeaningContext": "Addition, inclusion, also/too",
+      "MonolingualDef": "Adverbio que expresa adición o inclusión",
+      "ExampleSentence": "El niño de pelo castaño también quiere venir",
+      "GappedSentence": "El niño de pelo castaño _____ quiere venir",
+      "IPA": "[tamˈbi.en]",
+      "prompt": "A blonde boy leaving his house with friends when a boy with brown hair calls towards him"
+    }
+  ]
+}

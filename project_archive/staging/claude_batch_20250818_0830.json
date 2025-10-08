@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "created": "2025-08-18T08:30:28.858599",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "mas",
+    "hacer"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "más",
+      "MeaningID": "comparative_degree",
+      "MeaningContext": "comparative_degree",
+      "MonolingualDef": "Adverbio comparativo que indica mayor grado, cantidad o intensidad",
+      "ExampleSentence": "La niña pelirroja es más alta que el niño rubio.",
+      "GappedSentence": "La niña pelirroja es _____ alta que el niño rubio.",
+      "IPA": "[ˈmas]",
+      "prompt": "A ginger girl with her hand on the top of the head of a shorter blond boy sticking her tongue out at him."
+    },
+    {
+      "SpanishWord": "más",
+      "MeaningID": "additional_quantity",
+      "MeaningContext": "additional_quantity",
+      "MonolingualDef": "Indica cantidad adicional o mayor de algo",
+      "ExampleSentence": "El hombre rubio quiere más hamburguesas.",
+      "GappedSentence": "El hombre rubio quiere _____ hamburguesas.",
+      "IPA": "[ˈmas]",
+      "prompt": "A blond man in his early twenties eating big macs from macdonalds whilst ordering more."
+    },
+    {
+      "SpanishWord": "hacer",
+      "MeaningID": "perform_actions",
+      "MeaningContext": "perform_actions",
+      "MonolingualDef": "Realizar una actividad, tarea o acción específica",
+      "ExampleSentence": "El hombre calvo hace ejercicios por la mañana.",
+      "GappedSentence": "El hombre calvo _____ ejercicios por la mañana.",
+      "IPA": "[a.ˈseɾ]",
+      "prompt": "A bald man in early twenties with round glasses doing his morning push-ups."
+    },
+    {
+      "SpanishWord": "hacer",
+      "MeaningID": "make_create",
+      "MeaningContext": "make_create",
+      "MonolingualDef": "Crear, fabricar o producir algo con las manos o herramientas",
+      "ExampleSentence": "El niño rubio hace una maceta pequeña en el torno.",
+      "GappedSentence": "El niño rubio _____ una maceta pequeña en el torno.",
+      "IPA": "[a.ˈseɾ]",
+      "prompt": "A young blond boy on a pottery wheel in kindergarden making a very small flower pot."
+    },
+    {
+      "SpanishWord": "hacer",
+      "MeaningID": "weather_expressions",
+      "MeaningContext": "weather_expressions",
+      "MonolingualDef": "Se usa en expresiones impersonales del clima y tiempo atmosférico",
+      "ExampleSentence": "Hace lluvia torrencial en el parque de flores.",
+      "GappedSentence": "_____ lluvia torrencial en el parque de flores.",
+      "IPA": "[a.ˈse]",
+      "prompt": "A bald man in his early twenties with a chineese girl in a flower park getting soaked with torrential rain."
+    }
+  ]
+}

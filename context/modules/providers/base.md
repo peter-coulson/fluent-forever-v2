@@ -1,0 +1,72 @@
+# Provider Base Classes
+
+## Abstract Interfaces
+
+### DataProvider (`src/providers/base/data_provider.py:13`)
+
+Core interface for data persistence with permission system:
+- `load_data(identifier: str) -> dict[str, Any]` - Load by key/filename (`src/providers/base/data_provider.py:21`)
+- `save_data(identifier: str, data: dict) -> bool` - Persist data (`src/providers/base/data_provider.py:52`)
+- `exists(identifier: str) -> bool` - Check data availability
+- `list_identifiers() -> list[str]` - Enumerate available data
+- `backup_data(identifier: str) -> str | None` - Optional backup creation
+
+**Permission System:**
+- `is_read_only: bool` - Property to check write protection status
+- `managed_files: list[str]` - Property for file-specific access control
+- `set_read_only(read_only: bool)` - Configure write protection
+- `set_managed_files(files: list[str])` - Set file access restrictions
+- `validate_file_access(identifier: str)` - Validate file access permissions (`src/providers/base/data_provider.py:145`)
+- `_check_write_permission(identifier: str)` - Internal write permission validation (`src/providers/base/data_provider.py:160`)
+
+### MediaProvider (`src/providers/base/media_provider.py:46`)
+
+Configuration injection pattern for media generation:
+- `__init__(config: dict | None)` - Constructor with configuration injection and fail-fast validation
+- `validate_config(config: dict) -> None` - Abstract configuration validation (fail-fast pattern)
+- `_setup_from_config() -> None` - Provider initialization from validated configuration
+- `supported_types: list[str]` - Media types ("audio", "image")
+- `generate_media(request: MediaRequest) -> MediaResult` - Core generation method
+- `generate_image(prompt: str, output_path: Path) -> MediaResult` - Image generation convenience method
+- `generate_audio(text: str, output_path: Path) -> MediaResult` - Audio generation convenience method
+- `generate_batch(requests: list) -> list[MediaResult]` - Batch processing with rate limiting
+- `get_cost_estimate(requests: list) -> dict` - Batch cost calculation
+
+**Request/Result Types:**
+- `MediaRequest` (`src/providers/base/media_provider.py:16`) - Type, content, params, **mandatory output_path**
+- `MediaResult` (`src/providers/base/media_provider.py:33`) - Success flag, file path, metadata, error
+
+### SyncProvider (`src/providers/base/sync_provider.py:49`)
+
+Interface for external system synchronization:
+- `test_connection() -> bool` - Verify target availability
+- `sync_cards(cards: list[dict]) -> SyncResult` - Bulk card sync
+- `sync_templates(note_type: str, templates: list) -> SyncResult` - Template sync
+- `sync_media(media_files: list[Path]) -> SyncResult` - Media file sync
+- `list_existing(note_type: str) -> list[dict]` - Query existing data
+
+**Request/Result Types:**
+- `SyncRequest` (`src/providers/base/sync_provider.py:14`) - Target, data, parameters
+- `SyncResult` (`src/providers/base/sync_provider.py:32`) - Success status, processed count, metadata
+
+## Base Infrastructure
+
+### BaseAPIClient (`src/providers/base/api_client.py:48`)
+
+Shared HTTP client infrastructure:
+- **Configuration**: Shared config loading and session setup (`src/providers/base/api_client.py:54`)
+- **Authentication**: Environment-based API key loading (`src/providers/base/api_client.py:100`)
+- **Retry Logic**: Exponential backoff with rate limiting (`src/providers/base/api_client.py:109`)
+- **Error Handling**: Structured APIResponse and APIError types (`src/providers/base/api_client.py:24`)
+
+Abstract methods providers must implement:
+- `test_connection() -> bool` - Service health check
+- `get_service_info() -> dict` - Service metadata/capabilities
+
+## Provider Lifecycle
+
+1. **Initialization**: Load configuration and authenticate
+2. **Registration**: Add to appropriate registry category
+3. **Validation**: Implement required abstract methods
+4. **Runtime**: Process requests through interface methods
+5. **Error Handling**: Return structured error responses vs exceptions

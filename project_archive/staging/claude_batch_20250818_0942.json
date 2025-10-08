@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "created": "2025-08-18T09:42:29.500180",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "ver",
+    "porque",
+    "dar",
+    "cuando",
+    "muy"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "ver",
+      "MeaningID": "visual_perception",
+      "MeaningContext": "Using eyes to perceive something",
+      "MonolingualDef": "Percibir algo con los ojos, tener la capacidad de visión",
+      "ExampleSentence": "El hombre ve la isla desde la colina",
+      "GappedSentence": "El hombre _____ la isla desde la colina",
+      "IPA": "[ˈbeɾ]",
+      "prompt": "A bald young man with blue eyes and small round glasses at the top of a hill with his two friends looking out over the sea at an island in the distance"
+    },
+    {
+      "SpanishWord": "porque",
+      "MeaningID": "causal_explanation",
+      "MeaningContext": "Expressing reason or cause",
+      "MonolingualDef": "Conjunción que indica la causa o razón de algo",
+      "ExampleSentence": "El niño llora porque se lastimó",
+      "GappedSentence": "El niño llora _____ se lastimó",
+      "IPA": "[ˈpoɾ.ke]",
+      "prompt": "A little blond boy crying with his mother trying to comfort him and his ginger sister sitting nearby"
+    },
+    {
+      "SpanishWord": "dar",
+      "MeaningID": "transfer_grant",
+      "MeaningContext": "Giving something to someone",
+      "MonolingualDef": "Entregar o ceder algo a otra persona voluntariamente",
+      "ExampleSentence": "El hombre da el dispositivo a su amigo",
+      "GappedSentence": "El hombre _____ el dispositivo a su amigo",
+      "IPA": "[ˈdaɾ]",
+      "prompt": "A bald young man with blue eyes and small round glasses giving a usb stick to his athletic friend with glasses"
+    },
+    {
+      "SpanishWord": "cuando",
+      "MeaningID": "temporal_reference",
+      "MeaningContext": "Referring to time or moment",
+      "MonolingualDef": "Adverbio interrogativo que se refiere al tiempo en que sucede algo",
+      "ExampleSentence": "Los niños preguntan cuándo llegan",
+      "GappedSentence": "Los niños preguntan _____ llegan",
+      "IPA": "[ˈkwan.do]",
+      "prompt": "A family of four, the dad driving, the mother with short black hair, a blond boy and a ginger girl in a car. The kids look very unhappy"
+    },
+    {
+      "SpanishWord": "muy",
+      "MeaningID": "intensifier",
+      "MeaningContext": "Intensifier for adjectives/adverbs",
+      "MonolingualDef": "Adverbio que intensifica el significado de adjetivos y adverbios",
+      "ExampleSentence": "El chocolate está muy caliente",
+      "GappedSentence": "El chocolate está _____ caliente",
+      "IPA": "[muj]",
+      "prompt": "A blond boy sipping a mug of hot chocolate and burning his mouth"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "created": "2025-08-14T14:50:49.701468",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "tener"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "tener",
+      "MeaningID": "possession",
+      "MeaningContext": "possession",
+      "MonolingualDef": "poseer algo físicamente, ser el propietario de un objeto",
+      "ExampleSentence": "El niño rubio tiene un perro de peluche especial",
+      "GappedSentence": "El niño rubio _____ un perro de peluche especial",
+      "IPA": "[teˈner]",
+      "prompt": "A blond boy with a black, white, and orange dog cuddly toy"
+    },
+    {
+      "SpanishWord": "tener",
+      "MeaningID": "age",
+      "MeaningContext": "age",
+      "MonolingualDef": "expresar la edad de una persona en años cumplidos",
+      "ExampleSentence": "El niño rubio tiene diez años en su fiesta de cumpleaños",
+      "GappedSentence": "El niño rubio _____ diez años en su fiesta de cumpleaños",
+      "IPA": "[teˈner]",
+      "prompt": "A blond boy with blue eyes at a birthday party surrounded by family and friends"
+    },
+    {
+      "SpanishWord": "tener",
+      "MeaningID": "physical_sensations",
+      "MeaningContext": "physical_sensations",
+      "MonolingualDef": "experimentar sensaciones corporales como hambre, sed, frío, calor",
+      "ExampleSentence": "El niño rubio tiene mucho frío mientras navega en kayak",
+      "GappedSentence": "El niño rubio _____ mucho frío mientras navega en kayak",
+      "IPA": "[teˈner]",
+      "prompt": "A blond boy in a surf kayak in the sea on a cold winter day"
+    },
+    {
+      "SpanishWord": "tener",
+      "MeaningID": "emotional_states",
+      "MeaningContext": "emotional_states",
+      "MonolingualDef": "sentir emociones como miedo, vergüenza, suerte, ira",
+      "ExampleSentence": "El hombre joven tiene miedo perdido en el bosque himalayo",
+      "GappedSentence": "El hombre joven _____ miedo perdido en el bosque himalayo",
+      "IPA": "[teˈner]",
+      "prompt": "In the forest in the himalayas, a worried bald man of 22 with round glasses alone trying to find his way"
+    },
+    {
+      "SpanishWord": "tener",
+      "MeaningID": "obligation",
+      "MeaningContext": "obligation",
+      "MonolingualDef": "expresar necesidad u obligación de realizar una acción (con 'que')",
+      "ExampleSentence": "Los dos chicos tienen que llamar a sus amigos por teléfono",
+      "GappedSentence": "Los dos chicos _____ que llamar a sus amigos por teléfono",
+      "IPA": "[teˈner ke]",
+      "prompt": "Two boys on the phone texting eachother looking sad. One french with dark hair and one with blond hair"
+    }
+  ]
+}

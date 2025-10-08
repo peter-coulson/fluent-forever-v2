@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "created": "2025-08-25T10:44:57.947738",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry)."
+  },
+  "words": [
+    "pasar"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "pasar",
+      "MeaningID": "physical_movement_through_space",
+      "MeaningContext": "physical_movement_through_space",
+      "MonolingualDef": "Moverse de un lugar a otro, atravesar o ir por un sitio",
+      "ExampleSentence": "Pasamos por el restaurante francés antes de ir a casa",
+      "GappedSentence": "_____ por el restaurante francés antes de ir a casa",
+      "IPA": "[pa.ˈsaɾ]",
+      "prompt": "A bald young man with blue eyes and small round glasses with his blond friend eating steak at a french restaurant"
+    },
+    {
+      "SpanishWord": "pasar",
+      "MeaningID": "time_passage_elapse",
+      "MeaningContext": "time_passage_elapse",
+      "MonolingualDef": "Transcurrir el tiempo, irse las horas o los días",
+      "ExampleSentence": "Pasaron las horas mientras tocaba la guitarra en las vías",
+      "GappedSentence": "_____ las horas mientras tocaba la guitarra en las vías",
+      "IPA": "[pa.ˈsaɾ]",
+      "prompt": "A young man with brown long hair sitting playing guitar on railway tracks"
+    },
+    {
+      "SpanishWord": "pasar",
+      "MeaningID": "transition_become",
+      "MeaningContext": "transition_become",
+      "MonolingualDef": "Cambiar de un estado o condición a otro",
+      "ExampleSentence": "El agua pasa de líquido a vapor cuando hierve",
+      "GappedSentence": "El agua _____ de líquido a vapor cuando hierve",
+      "IPA": "[pa.ˈsaɾ]",
+      "prompt": "A kindergarden class where the teacher is boiling water on a small stove infront of the children"
+    },
+    {
+      "SpanishWord": "pasar",
+      "MeaningID": "experience_undergo",
+      "MeaningContext": "experience_undergo",
+      "MonolingualDef": "Experimentar o sufrir algo, vivir una situación",
+      "ExampleSentence": "Pasó una enfermedad difícil con el apoyo de sus padres",
+      "GappedSentence": "_____ una enfermedad difícil con el apoyo de sus padres",
+      "IPA": "[pa.ˈsaɾ]",
+      "prompt": "A bald young man with blue eyes in bed sick with both of his parents with him"
+    },
+    {
+      "SpanishWord": "pasar",
+      "MeaningID": "transfer_hand_over",
+      "MeaningContext": "transfer_hand_over",
+      "MonolingualDef": "Dar o entregar algo a otra persona",
+      "ExampleSentence": "Le pasó el collar con el anillo a su mejor amigo",
+      "GappedSentence": "Le _____ el collar con el anillo a su mejor amigo",
+      "IPA": "[pa.ˈsaɾ]",
+      "prompt": "A bald young man with blue eyes handing over a neckless with a ring to his friend with brown long hair"
+    }
+  ]
+}

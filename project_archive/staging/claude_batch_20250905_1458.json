@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "created": "2025-09-05T14:58:14.804282",
+    "source": "claude-staging",
+    "instructions": "Claude: enumerate distinct meanings for each word, and fill the 'meanings' array below with entries conforming to the schema in CLAUDE.md and config.json (meaning_entry). Add any words to skip to the 'skipped_words' array."
+  },
+  "words": [
+    "conocer",
+    "aquel",
+    "aquí",
+    "aunque"
+  ],
+  "meanings": [
+    {
+      "SpanishWord": "conocer",
+      "MeaningID": "know_people_places",
+      "MeaningContext": "familiaridad con personas/lugares",
+      "MonolingualDef": "tener familiaridad con una persona, lugar o cosa por experiencia",
+      "ExampleSentence": "Conozco a la doctora María en el club de golf.",
+      "GappedSentence": "_____ a la doctora María en el club de golf.",
+      "IPA": "[ko.no.ˈseɾ]",
+      "prompt": "A very muscular young guy on a pristine golf course with Harry Styles"
+    },
+    {
+      "SpanishWord": "conocer",
+      "MeaningID": "meet_first_time",
+      "MeaningContext": "conocer por primera vez",
+      "MonolingualDef": "el acto de encontrarse o llegar a conocer a alguien nuevo",
+      "ExampleSentence": "Quiero conocer a los dos chicos rubios en el café.",
+      "GappedSentence": "Quiero _____ a los dos chicos rubios en el café.",
+      "IPA": "[ko.no.ˈseɾ]",
+      "prompt": "Looking in from the terrace on two blond guys in a packed cafe in the afternoon"
+    },
+    {
+      "SpanishWord": "aunque",
+      "MeaningID": "although_contrast",
+      "MeaningContext": "contraste/concesión",
+      "MonolingualDef": "conjunción que expresa contraste o concesión",
+      "ExampleSentence": "Aunque llueve mucho, los chicos juegan al fútbol.",
+      "GappedSentence": "_____ llueve mucho, los chicos juegan al fútbol.",
+      "IPA": "[auŋ.ke]",
+      "prompt": "A group of boys playing football on an astro turf in torrential rain"
+    }
+  ],
+  "skipped_words": ["aquel", "aquí"]
+}

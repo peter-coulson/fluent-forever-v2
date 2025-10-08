@@ -1,4 +1,39 @@
 {
+  "system": {
+    "log_level": "INFO",
+    "cache_enabled": true,
+    "max_concurrent_requests": 5,
+    "timeout_seconds": 300,
+    "backup_before_changes": true,
+    "validate_before_execution": true
+  },
+  "providers": {
+    "data": {
+      "default": {
+        "type": "json",
+        "base_path": ".",
+        "pipelines": ["*"]
+      }
+    },
+    "audio": {
+      "default": {
+        "type": "forvo",
+        "pipelines": ["*"]
+      }
+    },
+    "image": {
+      "default": {
+        "type": "runware",
+        "pipelines": ["*"]
+      }
+    },
+    "sync": {
+      "default": {
+        "type": "anki",
+        "pipelines": ["*"]
+      }
+    }
+  },
   "apis": {
     "base": {
       "user_agent": "FluentForever-v2/1.0",
@@ -6,39 +41,58 @@
       "max_retries": 3
     },
     "openai": {
-      "api_key": "",
-      "env_var": "OPENAI_API_KEY",
+      "api_key": "${OPENAI_API_KEY}",
       "enabled": true,
       "model": "dall-e-3",
       "base_url": "https://api.openai.com/v1",
       "timeout": 60,
-      "cost_per_image": 0.040
+      "cost_per_image": 0.040,
+      "cost_limits": {
+        "daily_limit_usd": 10.0,
+        "warn_threshold_usd": 5.0,
+        "track_usage": true
+      }
     },
     "forvo": {
-      "api_key": "",
-      "env_var": "FORVO_API_KEY",
+      "api_key": "${FORVO_API_KEY}",
       "enabled": true,
       "base_url": "https://apifree.forvo.com",
+      "timeout": 30,
+      "max_retries": 3,
       "country_priorities": ["CO", "MX", "PE", "VE", "AR", "EC", "UY", "CR", "ES"],
       "priority_groups": [
         ["MX", "CO"],
         ["PE", "VE", "AR", "EC", "UY", "CR"],
         ["ES"]
-      ]
+      ],
+      "audio_format": "mp3",
+      "audio_quality": "high"
     },
     "anki": {
       "url": "http://localhost:8765",
+      "timeout": 30,
+      "max_retries": 3,
       "deck_name": "Latin Spanish::1. Vocabulary",
       "note_type": "Fluent Forever",
-      "launch_wait_time": 8
+      "launch_wait_time": 8,
+      "allow_duplicates": false,
+      "update_existing": true,
+      "backup_before_sync": true,
+      "update_templates": true,
+      "validate_fields": true
     },
     "runware": {
-      "api_key": "",
-      "env_var": "RUNWARE_API_KEY",
+      "api_key": "${RUNWARE_API_KEY}",
       "enabled": true,
       "base_url": "https://api.runware.ai",
       "timeout": 60,
-      "cost_per_image": 0.01
+      "max_retries": 3,
+      "cost_per_image": 0.01,
+      "cost_limits": {
+        "daily_limit_usd": 5.0,
+        "warn_threshold_usd": 2.0,
+        "track_usage": true
+      }
     }
   },
   "image_generation": {
@@ -75,12 +129,35 @@
     "media_folder": "media",
     "vocabulary_db": "vocabulary.json",
     "word_queue": "word_queue.txt",
-    "downloads": "/Users/peter_coulson/Downloads"
+    "downloads": "${HOME}/Downloads"
   },
   "media_generation": {
     "max_new_items": 10,
     "default_timeout": 60,
     "retry_attempts": 3
+  },
+  "cli": {
+    "output_format": "table",
+    "show_progress": true,
+    "confirm_destructive": true,
+    "default_dry_run": false,
+    "use_colors": true,
+    "verbose": false
+  },
+  "output_formats": {
+    "table": {
+      "use_colors": true,
+      "max_width": 120,
+      "truncate_long_fields": true
+    },
+    "json": {
+      "pretty_print": true,
+      "indent": 2
+    },
+    "csv": {
+      "include_headers": true,
+      "delimiter": ","
+    }
   },
   "preferences": {
     "batch_size": 5,
@@ -100,7 +177,7 @@
       "meaning_entry": {
         "required_fields": [
           "CardID",
-          "SpanishWord", 
+          "SpanishWord",
           "IPA",
           "MeaningContext",
           "MonolingualDef",
