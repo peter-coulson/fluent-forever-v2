@@ -14,3 +14,7 @@ __pycache__/
 
 # Large Files
 Español.jsonl
+
+# Personal data - not for public repo
+vocabulary.json
+media/
