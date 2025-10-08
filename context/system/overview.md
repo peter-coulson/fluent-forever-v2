@@ -34,4 +34,3 @@ Universal command-line interface supporting:
 - **Core Concepts**: `context/system/core-concepts.md` - Component definitions and relationships
 - **Data Flow**: `context/system/data-flow.md` - Execution patterns and state management
 - **Module Details**: `context/modules/[core|providers|cli]/overview.md` - Implementation specifics
-- **Methodologies**: `context/methodologies/overview.md` - Systematic execution frameworks

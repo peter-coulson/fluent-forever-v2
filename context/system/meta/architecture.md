@@ -14,12 +14,6 @@
 - **Content**: Class structures, method signatures, implementation patterns
 - **References**: References system layer for component definitions
 
-### Methodology Layer (`context/methodologies/`)
-- **Purpose**: Structured frameworks for systematic task execution
-- **Scope**: LLM-optimized processes and domain-specific methodologies
-- **Content**: Sequential frameworks with inputs, steps, constraints, and outputs
-- **References**: Self-contained with clear execution patterns
-
 ### Meta Layer (`context/system/meta/`)
 - **Purpose**: Context system self-documentation
 - **Scope**: Documentation principles, architecture, and maintenance
